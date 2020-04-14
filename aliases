@@ -1,0 +1,8 @@
+# vim: set filetype=sh :
+
+# Make Docker compose easier to use
+alias dc='docker-compose'
+
+# Don't want to accidentally use old `vi` or `vim` commands
+alias vi='nvim'
+alias vim='nvim'

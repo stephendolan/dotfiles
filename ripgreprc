@@ -1,0 +1,13 @@
+# Why would you want dumb search
+--smart-case
+
+# Search hidden files
+--hidden
+
+# Show some context before and after each match
+--before-context=1
+--after-context=3
+
+# Don't let ripgrep vomit really long lines to my terminal, and show a preview.
+--max-columns=150
+--max-columns-preview

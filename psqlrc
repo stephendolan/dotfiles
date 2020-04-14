@@ -1,0 +1,45 @@
+-- Don't display the "helpful" message on startup.
+\set QUIET 1
+
+-- Wrap content so that it fits terminal width
+\pset format wrapped
+
+-- Display the word '(null)' instead of nothing
+\pset null '[NULL]'
+
+-- Use PGDG as the pager
+\setenv PAGER pspg
+\pset linestyle unicode
+\pset border 2
+
+-- Use Neovim as the PSQL editor
+\setenv PSQL_EDITOR nvim
+
+-- Display how long each SQL statement takes in milliseconds
+\timing on
+
+-- Roll back transactions on errors if piping commands in (e.g. -f filename),
+-- but not if running them interactively at the psql prompt.
+\set ON_ERROR_ROLLBACK interactive
+
+-- Stop processing immediately on error
+\set ON_ERROR_STOP on
+
+-- Normal prompt for issuing commands
+\set PROMPT1 '%n@%[%033[1m%]%m%[%033[0m%]:%[%033[1m%]%/%[%033[0m%]%R%x%# '
+\set PROMPT2 '[more] %R > '
+\set PROMPT3 '%n@%[%033[1m%]%m%[%033[0m%]:%[%033[1m%]%/%[%033[0m%]%R%x%# '
+
+-- Use best available output format
+\x auto
+\set VERBOSITY verbose
+\set HISTFILE ~/.psql_history- :DBNAME
+\set HISTSIZE 10000
+\set HISTCONTROL ignoredups
+\set COMP_KEYWORD_CASE upper
+
+-- Clean up before giving prompt back
+\unset QUIET
+
+-- Load any local settings. Can't check if file exists
+\i ~/.psqlrc.local

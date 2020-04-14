@@ -1,0 +1,8 @@
+# vim: set filetype=sh :
+
+# User PATH configuration to put homebrew first on Mac
+export PATH="/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:$HOME/.bin"
+
+# Turn off Homebrew analytics
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_UPGRADE_CLEANUP=1

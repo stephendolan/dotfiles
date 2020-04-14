@@ -1,0 +1,56 @@
+# vim: set filetype=gitconfig :
+
+[init]
+  templatedir = ~/.git_template
+
+[push]
+  default = current
+
+[core]
+  autocrlf = input
+  excludesfile = ~/.gitignore
+
+[user]
+  name = Stephen Dolan
+  email = dolan.stephen1@gmail.com
+
+[alias]
+  ci = commit
+  co = checkout
+  st = status
+  stat = status
+  diff = difftool
+  undo-commit = reset --soft HEAD^
+  squash = rebase -i master
+  sq = squash
+
+[color]
+  diff = auto
+  ui = auto
+
+[push]
+  default = simple
+
+[branch]
+  autosetuprebase = always
+
+[commit]
+  cleanup = scissors
+
+[rebase]
+  autosquash = true
+
+[fetch]
+  prune = true
+
+[mergetool "fugitive"]
+  cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
+
+[merge]
+  tool = fugitive
+
+[diff]
+  colorMoved = zebra
+
+[includeIf "gitdir:@neadwerx/**/"]
+  path = ~/.gitconfig-neadwerx

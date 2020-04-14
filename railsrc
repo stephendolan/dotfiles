@@ -1,0 +1,5 @@
+--database=postgresql # Use Postgres as the default database
+--skip-coffee         # Use TypeScript instead
+--skip-test           # Use RSpec instead of the default MiniTest
+--webpack=stimulus    # Use StimulusJS for JavaScript sprinkles
+--webpack=typescript  # Use TypeScript
