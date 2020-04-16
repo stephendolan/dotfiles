@@ -13,6 +13,7 @@
     ~/.gitconfig-neadwerx: gitconfig/neadwerx
     ~/.config/nvim/init.vim: vimrc
     ~/.tmux.conf:
+    ~/.default-gems:
     ~/.aliases:
     ~/.psqlrc:
     ~/.pspgconf:
@@ -24,12 +25,14 @@
       path: zsh/config/*
 
 - shell:
-    - curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    - nvim +PlugUpgrade         +qall
-    - nvim +PlugInstall         +qall
-    - nvim +PlugUpdate          +qall
-    - nvim +UpdateRemotePlugins +qall
-    - nvim +PlugClean!          +qall
+    - [
+        curl -sfLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim,
+        "Downloading and Installing Vim-Plug...",
+      ]
+    - [
+        nvim +PlugUpgrade +PlugInstall +PlugUpdate +UpdateRemotePlugins +PlugClean! +qall,
+        "Installing and Updating Plugins...",
+      ]
 
 - create:
     - ~/.psqlrc.local
