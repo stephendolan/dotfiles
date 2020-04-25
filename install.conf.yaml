@@ -15,6 +15,7 @@
     ~/.tmux.conf:
     ~/.default-gems:
     ~/.aliases:
+    ~/.asdfrc:
     ~/.psqlrc:
     ~/.pspgconf:
     ~/.ripgreprc:
