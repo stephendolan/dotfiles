@@ -31,19 +31,14 @@ export EDITOR=$VISUAL
 export MANPAGER="nvim -c 'set ft=man' -"
 
 # Add some plugins
-plugins=(git gitfast ssh-agent vi-mode sudo ripgrep bundler asdf)
+plugins=(git gitfast ssh-agent vi-mode sudo ripgrep bundler asdf fzf)
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # Aliases
 [[ -e $HOME/.aliases ]] && source $HOME/.aliases
 
 # Load up specific configurations
-# [[ -e $HOME/.zsh/config/mac ]] && source $HOME/.zsh/config/mac
-# [[ -e $HOME/.zsh/config/linux ]] && source $HOME/.zsh/config/linux
-# [[ -e $HOME/.zsh/config/fzf ]] && source $HOME/.zsh/config/fzf
-# [[ -e $HOME/.zsh/config/yarn ]] && source $HOME/.zsh/config/yarn
 for file in $HOME/.zsh/config/**/*; do
-  echo "Sourcing $file"
   source "$file"
 done
 

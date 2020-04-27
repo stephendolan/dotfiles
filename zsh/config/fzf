@@ -1,19 +1,5 @@
 # vim: set filetype=zsh :
 
-# Setup fzf
-# ---------
-if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
-  export PATH="${PATH:+${PATH}:}/usr/local/opt/fzf/bin"
-fi
-
-# Auto-completion
-# ---------------
-[[ $- == *i* ]] && source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
-
-# Key bindings
-# ------------
-source "/usr/local/opt/fzf/shell/key-bindings.zsh"
-
 # Set up a preview pane for file searches
 export BAT_THEME="TwoDark"
 export FZF_COMPLETION_OPTS="--preview '(bat --color=always --style=numbers {} || cat {} || tree -C {}) 2> /dev/null | head -200'"
@@ -22,6 +8,3 @@ export FZF_CTRL_T_OPTS="$FZF_COMPLETION_OPTS"
 # Use Ripgrep for searching
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!node_modules/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-# Easier searching for files to immediately open with vim
-bindkey -s '^v' 'vim ^t'
