@@ -21,9 +21,14 @@
     ~/.ripgreprc:
     ~/.railsrc:
     ~/.zshrc:
-    ~/.zsh/config/:
-      glob: true
-      path: zsh/config/*
+    ~/.zsh/config/fzf: zsh/config/fzf
+    ~/.zsh/config/mac:
+      if: '[ `uname` = Darwin ]'
+      path: zsh/config/mac
+    ~/.zsh/config/linux:
+      if: '[ `uname` = Linux ]'
+      path: zsh/config/linux
+    ~/.zsh/config/yarn: zsh/config/yarn
 
 - shell:
     - [

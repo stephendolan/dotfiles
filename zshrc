@@ -35,12 +35,17 @@ plugins=(git gitfast ssh-agent vi-mode sudo ripgrep bundler asdf)
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # Aliases
-[[ -f $HOME/.aliases ]] && source $HOME/.aliases
+[[ -e $HOME/.aliases ]] && source $HOME/.aliases
 
 # Load up specific configurations
-[[ -f $HOME/.zsh/config/mac ]] && source $HOME/.zsh/config/mac
-[[ -f $HOME/.zsh/config/linux ]] && source $HOME/.zsh/config/linux
-[[ -f $HOME/.zsh/config/fzf ]] && source $HOME/.zsh/config/fzf
+# [[ -e $HOME/.zsh/config/mac ]] && source $HOME/.zsh/config/mac
+# [[ -e $HOME/.zsh/config/linux ]] && source $HOME/.zsh/config/linux
+# [[ -e $HOME/.zsh/config/fzf ]] && source $HOME/.zsh/config/fzf
+# [[ -e $HOME/.zsh/config/yarn ]] && source $HOME/.zsh/config/yarn
+for file in $HOME/.zsh/config/**/*; do
+  echo "Sourcing $file"
+  source "$file"
+done
 
 # Load local machine settings
 [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local

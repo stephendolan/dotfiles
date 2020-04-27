@@ -1,7 +1,18 @@
-# vim: set filetype=sh :
+# vim: set filetype=zsh :
 
-# Load up the FZF zsh files
-[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+# Setup fzf
+# ---------
+if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
+  export PATH="${PATH:+${PATH}:}/usr/local/opt/fzf/bin"
+fi
+
+# Auto-completion
+# ---------------
+[[ $- == *i* ]] && source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
+
+# Key bindings
+# ------------
+source "/usr/local/opt/fzf/shell/key-bindings.zsh"
 
 # Set up a preview pane for file searches
 export BAT_THEME="TwoDark"
