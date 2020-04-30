@@ -190,7 +190,7 @@ let g:ale_linters = {
   \ 'yaml':     ['yamllint'],
   \ 'vue':      ['eslint'],
   \ 'markdown': ['mdl'],
-  \ 'ruby':     ['rubocop'],
+  \ 'ruby':     ['standardrb'],
   \ 'crystal':  ['crystal'],
 \ }
 let g:ale_fixers_explicit = 1
@@ -203,7 +203,7 @@ let g:ale_fixers = {
   \ 'yaml':       ['prettier'],
   \ 'json':       ['prettier'],
   \ 'markdown':   ['prettier'],
-  \ 'ruby':       ['rubocop'],
+  \ 'ruby':       ['standardrb'],
 \ }
 
 " UltiSnips
