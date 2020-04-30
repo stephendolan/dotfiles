@@ -39,6 +39,7 @@
         nvim +PlugUpgrade +PlugInstall +PlugUpdate +UpdateRemotePlugins +PlugClean! +qall,
         "Installing and Updating Plugins...",
       ]
-
-- create:
-    - ~/.psqlrc.local
+    - [
+        touch ~/.psqlrc.local,
+        "Creating empty psqlrc.local file",
+      ]
