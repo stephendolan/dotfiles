@@ -1,0 +1,20 @@
+---
+
+name: rails
+root: ~/repos/<%= @args[0] %>
+
+# Kill any active Docker containers on start to guarantee that we
+# can start up any related Docker Compose containers for this project.
+on_project_start: docker kill $(docker ps -q) > /dev/null 2>&1
+
+# Layout
+windows:
+  - editor:
+      layout: even-horizontal
+      panes:
+        - clear
+        - clear
+  - server:
+      layout: even-horizontal
+      panes:
+        - overmind start
