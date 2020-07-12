@@ -26,14 +26,15 @@ Plug 'itchyny/lightline.vim'           " Simple status bar
 Plug 'w0rp/ale'                        " Asynchronous linting/fixing
 
 " LANGUAGE-SPECIFIC PLUGINS
-Plug 'sheerun/vim-polyglot'                                              " Language-specific syntax and helpers
-Plug 'alexbel/vim-rubygems', { 'for': 'gemfile.ruby' }                   " Gemfile helpers
-Plug 'mattn/webapi-vim',     { 'for': 'gemfile.ruby' }                   " Required for Vim-Rubygems
-Plug 'tpope/vim-bundler',    { 'for': ['gemfile.ruby', 'ruby'] }         " Helpers for ruby Gemfiles
-Plug 'thoughtbot/vim-rspec', { 'for': 'rspec.ruby' }                     " Run RSpec tests from Tmux
-Plug 'mattn/emmet-vim',      { 'for': ['html', 'eruby', 'vue' , 'css'] } " HTML autocompletion
-Plug 'alvan/vim-closetag',   { 'for': ['html', 'eruby', 'vue'] }         " HTML tag autoclose
-Plug 'tpope/vim-rails'                                                   " File identification and Rails helpers
+Plug 'sheerun/vim-polyglot'                                                 " Language-specific syntax and helpers
+Plug 'alexbel/vim-rubygems',    { 'for': 'gemfile.ruby' }                   " Gemfile helpers
+Plug 'mattn/webapi-vim',        { 'for': 'gemfile.ruby' }                   " Required for Vim-Rubygems
+Plug 'tpope/vim-bundler',       { 'for': ['gemfile.ruby', 'ruby'] }         " Helpers for ruby Gemfiles
+Plug 'thoughtbot/vim-rspec',    { 'for': 'rspec.ruby' }                     " Run RSpec tests from Tmux
+Plug 'vim-crystal/vim-crystal', { 'for': 'crystal' }                        " Crystal syntax and helpers
+Plug 'mattn/emmet-vim',         { 'for': ['html', 'eruby', 'vue' , 'css'] } " HTML autocompletion
+Plug 'alvan/vim-closetag',      { 'for': ['html', 'eruby', 'vue'] }         " HTML tag autoclose
+Plug 'tpope/vim-rails'                                                      " File identification and Rails helpers
 
 call plug#end()
 
