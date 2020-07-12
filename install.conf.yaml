@@ -33,6 +33,7 @@
       if: '[ `uname` = Linux ]'
       path: zsh/config/linux
     ~/.zsh/config/yarn: zsh/config/yarn
+    ~/.zsh/config/docker: zsh/config/docker
 
 - shell:
     - [

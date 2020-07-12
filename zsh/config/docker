@@ -1,0 +1,7 @@
+# vim: set filetype=zsh :
+
+# Function to get out of any tmux sessions and Docker containers
+function muxkill () {
+  tmux kill-session -t $(tmux display-message -p '#S')
+  docker kill $(docker ps -q) > /dev/null 2>&1
+}
