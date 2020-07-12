@@ -17,5 +17,5 @@ windows:
   - server:
       layout: even-horizontal
       panes:
-        - bundle exec rails server
-        - bundle exec guard
+        - docker-compose up
+        - lucky dev
