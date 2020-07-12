@@ -1,8 +1,10 @@
 # vim: set filetype=sh :
 
-# Make Docker compose easier to use
+# Shorthand calls
 alias dc='docker-compose'
+alias mux='tmuxinator'
 
 # Don't want to accidentally use old `vi` or `vim` commands
 alias vi='nvim'
 alias vim='nvim'
+
