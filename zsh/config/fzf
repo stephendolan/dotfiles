@@ -6,5 +6,5 @@ export FZF_COMPLETION_OPTS="--preview '(bat --color=always --style=numbers {} ||
 export FZF_CTRL_T_OPTS="$FZF_COMPLETION_OPTS"
 
 # Use Ripgrep for searching
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!node_modules/*"'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"

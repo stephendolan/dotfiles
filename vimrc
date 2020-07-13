@@ -31,6 +31,7 @@ Plug 'alexbel/vim-rubygems',    { 'for': 'gemfile.ruby' }                   " Ge
 Plug 'mattn/webapi-vim',        { 'for': 'gemfile.ruby' }                   " Required for Vim-Rubygems
 Plug 'tpope/vim-bundler',       { 'for': ['gemfile.ruby', 'ruby'] }         " Helpers for ruby Gemfiles
 Plug 'thoughtbot/vim-rspec',    { 'for': 'rspec.ruby' }                     " Run RSpec tests from Tmux
+Plug 'vim-syntastic/syntastic', { 'for': 'crystal' }                        " Crystal linting/fixing support, since Ale doesn't
 Plug 'vim-crystal/vim-crystal', { 'for': 'crystal' }                        " Crystal syntax and helpers
 Plug 'mattn/emmet-vim',         { 'for': ['html', 'eruby', 'vue' , 'css'] } " HTML autocompletion
 Plug 'alvan/vim-closetag',      { 'for': ['html', 'eruby', 'vue'] }         " HTML tag autoclose
@@ -192,7 +193,6 @@ let g:ale_linters = {
   \ 'vue':      ['eslint'],
   \ 'markdown': ['mdl'],
   \ 'ruby':     ['standardrb'],
-  \ 'crystal':  ['crystal'],
 \ }
 let g:ale_fixers_explicit = 1
 let g:ale_fixers = {
