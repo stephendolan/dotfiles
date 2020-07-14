@@ -14,8 +14,8 @@ windows:
   - editor:
       layout: even-horizontal
       panes:
-        - clear
-        - clear
+        - clear && vim
+        - clear && vim
   - server:
       layout: even-horizontal
       panes:
