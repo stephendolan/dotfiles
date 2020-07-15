@@ -250,6 +250,9 @@ vmap <Enter> <Plug>(EasyAlign)
 " Git Gutter
 set updatetime=100
 
+" Vim Crystal, for some reason not working at the moment
+let g:crystal_auto_format = 1
+
 " FZF
 let $BAT_THEME = 'TwoDark'
 command! -bang -nargs=* Rg

@@ -4,5 +4,4 @@
 function muxkill () {
   tmux kill-session -t $(tmux display-message -p '#S')
   docker kill $(docker ps -q) > /dev/null 2>&1
-  pkill -f overmind # Sometimes overmind lingers on TMUX SegTerm
 }

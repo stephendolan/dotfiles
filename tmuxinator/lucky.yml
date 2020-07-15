@@ -7,6 +7,9 @@ root: ~/repos/@personal/<%= @args[0] %>
 # can start up any related Docker Compose containers for this project.
 on_project_start: docker kill $(docker ps -q) > /dev/null 2>&1
 
+# Remove the Lucky Overmind process socket file
+on_project_stop: rm .overmind.sock
+
 socket_name: <%= @args[0].split("/").last %>
 
 # Layout
