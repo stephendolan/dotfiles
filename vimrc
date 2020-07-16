@@ -258,12 +258,12 @@ let $BAT_THEME = 'TwoDark'
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep('rg --column --no-heading --line-number --color=always '.shellescape(<q-args>),
       \ 1,
-      \ fzf#vim#with_preview(),
+      \ fzf#vim#with_preview({'options': ['--color', $FZF_COLORS]}),
       \ <bang>0)
 
 command! -bang -nargs=? -complete=dir Files
       \ call fzf#vim#files(<q-args>,
-      \ fzf#vim#with_preview(),
+      \ fzf#vim#with_preview({'options': ['--color', $FZF_COLORS]}),
       \ <bang>0)
 
 nnoremap <leader>f :Files<CR>
