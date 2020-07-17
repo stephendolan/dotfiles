@@ -37,3 +37,54 @@ endsnippet
 snippet form.date "Lucky - Date Field" b
 m Shared::Field, op.${1:model_field}, "${2:Input label}", &.date_input
 endsnippet
+
+snippet col.model "Lucky - Model Column" b
+column ${1:field_name} : ${2:FieldType}
+endsnippet
+
+snippet belongs.model "Lucky - Model Belongs To" b
+belongs_to ${1:field_name} : ${2:BelongsToModel}
+endsnippet
+
+snippet col.migration "Lucky - Migration Column" b
+add ${1:field_name} : ${2:FieldType}
+endsnippet
+
+snippet col.unique.migration "Lucky - Migration Column" b
+add ${1:field_name} : ${2:FieldType}, unique: true${3:, index: true}
+endsnippet
+
+snippet col.fill.migraiton "Lucky - Migration with Fill" b
+add ${1:field_name} : ${2:FieldType}, fill_existing_with: ${3:"Value", 123, true, etc.}
+endsnippet
+
+snippet belongs.migration "Lucky - Migration Belongs To" b
+add_belongs_to ${1:field_name} : ${2:BelongsToModel}, on_delete: ${3::cascade}
+endsnippet
+
+snippet belongs.uuid.migration "Lucky - Migration Belongs To with UUID" b
+add_belongs_to ${1:field_name} : ${2:BelongsToModel}, on_delete: ${3::cascade}, foreign_key_type: UUID
+endsnippet
+
+snippet execute.migration "Lucky - Migration Execute" b
+execute "${1:SQL}"
+endsnippet
+
+snippet extension.migration "Lucky - Migration Add Extension" b
+execute "CREATE EXTENSION IF NOT EXISTS ${1:extension_name}"
+endsnippet
+
+snippet index.migration "Lucky - Migration Index" b
+create_index ${1:users (table name)}, [:${2:author_id (column)}]${3:, unique: true}
+endsnippet
+
+snippet tag.page "Lucky - Single Line Tag" b
+${1:tag} ${2:"Content"}
+endsnippet
+
+snippet tagl.page "Lucky - Multiline Tag" b
+${1:tag} ${2} do
+	${3}
+end
+${0}
+endsnippet
