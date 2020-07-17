@@ -1,0 +1,83 @@
+extends html, ruby
+
+snippet link_to "create link_to" i
+<%= link_to '${1:Text}', ${2:some_path}, class: 'button is-primary' %>
+endsnippet
+
+snippet form "form_with" i
+<%= form_with model: @${1:model_instance} do |form| %>
+	${0}
+<% end %>
+endsnippet
+
+snippet each "each" b
+<% @${1:item}.each do |${2:local}| %>
+	${0}
+<% end %>
+endsnippet
+
+snippet flash "re-render flash messages in JavaScript" b
+<%= render 'shared/flash_message_refresh' %>
+endsnippet
+
+snippet icon "FontAwesome icon" i
+<%= icon('${1:fas}', '${2:icon-name}') %>
+endsnippet
+
+snippet cache "create a cached block" i
+<% cache ${1:object} do %>
+	${0}
+<% end %>
+endsnippet
+
+snippet title "Generate a title yield" i
+<% content_for :title, '${1:Title}' %>
+endsnippet
+
+snippet domid "Generate a dom_id tag" i
+id="<%= dom_id ${1:object} %>"$0
+endsnippet
+
+snippet = "generate in-line ruby code" i
+<%= ${1} %>
+endsnippet
+
+snippet % "generate in-line ruby code" i
+<% ${1} %>
+endsnippet
+
+snippet if "if block" b
+<% if ${1:condition} %>
+	${0}
+<% end %>
+endsnippet
+
+snippet ife "if else block" b
+<% if ${1:condition} %>
+	${0}
+<% else %>
+<% end %>
+endsnippet
+
+snippet else "else block" b
+<% else %>
+	${0}
+endsnippet
+
+snippet end "generate an end tag" b
+<% end %>
+endsnippet
+
+snippet render "generate a partial render" i
+<%= render ${1:partial} %>
+endsnippet
+
+snippet collection_select "form.collection_select" b
+<%= form.collection_select :${1:method},
+	policy_scope(${2:Collection}),
+	:${3:value_method},
+	:${4:text_method},
+	${5:\{\}},
+	${6:html_options}
+%>
+endsnippet

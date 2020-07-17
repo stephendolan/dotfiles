@@ -1,0 +1,73 @@
+extends ruby
+
+snippet av "Add validation" b
+remove_index :${1:table}, :${2:column}
+add_index    :$1, "lower($2)", unique: true
+endsnippet
+
+snippet rv "Remove validation" b
+remove_index :${1:table}, "lower(${2:column}::text)"
+add_index    :$1, :$2
+endsnippet
+
+snippet respond "Create a respond_to block" b
+respond_to do |format|
+	format.${1:html} { ${2:Content} }
+end
+endsnippet
+
+snippet logger "Print to Rails logger" b
+Rails.logger.debug( "\n\n\n" )
+Rails.logger.debug( ${0} )
+Rails.logger.debug( "\n\n\n" )
+endsnippet
+
+snippet val "Validates field" b
+validates :${1:field},
+	${0}
+endsnippet
+
+snippet vp "Validates presence" b
+validates :${1:column}, presence: true
+endsnippet
+
+snippet vb "Validates boolean" b
+validates :${1:column}, inclusion: { in: [true, false] }
+endsnippet
+
+snippet vu "Validates uniqueness" b
+validates :${1:column}, uniqueness: ${2:{ case_sensitive: ${3:false} }}
+endsnippet
+
+snippet vf "Validates format" b
+validates :${1:column}, format: { with: /\A${2:regex}\z/ }
+endsnippet
+
+snippet vn "Validates numericality" b
+validates :${1:column}, numericality: $0
+endsnippet
+
+snippet hm "Has many" b
+has_many :${1:associated_objects},
+	inverse_of: :${2:association_name_on_other_model},
+	${3:class_name: ${4:ActualModelName},}
+	${5:foreign_key: ${6:foreign_key_id},}
+	dependent: :${6:restrict_with_error}
+endsnippet
+
+snippet bt "Belongs to" b
+belongs_to :${1:associated_object}, optional: ${2:false}
+endsnippet
+
+snippet scope "Model scope" b
+scope :${1:scope_name}, ->${2:(${3:parameter})} { ${4:where(${5:column}: ${6:value})} }
+endsnippet
+
+snippet controller "Controller file" b
+# frozen_string_literal: true
+
+# ${2:Description of the controller}
+class ${1:NameOf}Controller < ApplicationController
+	${0}
+end
+endsnippet

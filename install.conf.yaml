@@ -23,6 +23,9 @@
     ~/.railsrc:
     ~/.zshrc:
     ~/Brewfile: Brewfile
+    ~/.config/nvim/snippets:
+      glob: true
+      path: vim/vim_snippets/*
     ~/.config/tmuxinator/:
       glob: true
       path: tmuxinator/*

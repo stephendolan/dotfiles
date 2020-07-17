@@ -21,9 +21,18 @@ Plug 'tpope/vim-surround'              " Change surrounding characters
 Plug 'tpope/vim-abolish'               " Advanced subsitution functionality
 Plug 'Yggdroot/indentLine'             " Indent guides
 Plug 'ywjno/vim-tomorrow-theme'        " Best colorscheme NA
-Plug 'SirVer/ultisnips'                " Snippets
 Plug 'itchyny/lightline.vim'           " Simple status bar
 Plug 'w0rp/ale'                        " Asynchronous linting/fixing
+
+" Auto-completion and Snippets
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-ultisnips'
+Plug 'SirVer/ultisnips'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'wellle/tmux-complete.vim'
+
 
 " LANGUAGE-SPECIFIC PLUGINS
 Plug 'sheerun/vim-polyglot'                                                 " Language-specific syntax and helpers
@@ -44,7 +53,7 @@ call plug#end()
 set t_Co=256                          " Allow vim to use 256 colors for colorschemes
 set scrolloff=4                       " Keep X lines when scrolling
 set formatoptions=tcqnj               " See :help fo-table for more information
-set completeopt+=preview              " Show preview windows
+set completeopt=noinsert,menuone,noselect,preview
 set pastetoggle=<F6>                  " Toggle paste mode
 set vb                                " Set visual bell
 set foldnestmax=10                    " Deepest fold is 10 levels
@@ -210,13 +219,30 @@ let g:ale_fixers = {
   \ 'ruby':       ['standardrb'],
 \ }
 
-" UltiSnips
-let g:UltiSnipsUsePythonVersion    = 3
-let g:UltiSnipsSnippetDirectories  = [$HOME . '/.config/nvim/UltiSnips']
-let g:UltiSnipsExpandTrigger       = '<c-k>'
-let g:UltiSnipsJumpForwardTrigger  = '<c-k>'
-let g:UltiSnipsJumpBackwardTrigger = '<c-j>'
-let g:UltiSnipsEditSplit           = 'tabdo'
+" Autocomplete & UltiSnips
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+inoremap <c-c> <ESC>
+
+" When the <Enter> key is pressed while the popup menu is visible, it only
+" hides the menu. Use this mapping to close the menu and also start a new line.
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+" Press enter key to trigger expansion
+autocmd BufNewFile,BufRead * inoremap <silent> <buffer> <expr> <cr> ncm2_ultisnips#expand_or("\<CR>", 'n')
+
+" Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+let g:UltiSnipsUsePythonVersion         = 3
+let g:UltiSnipsSnippetDirectories       = [$HOME . '/.config/nvim/snippets']
+let g:UltiSnipsExpandTrigger            = "<Plug>(ultisnips_expand)"
+let g:UltiSnipsJumpForwardTrigger       = '<c-k>'
+let g:UltiSnipsJumpBackwardTrigger      = '<c-j>'
+let g:UltiSnipsEditSplit                = 'tabdo'
+let g:UltiSnipsRemoveSelectModeMappings = 0
 nnoremap <leader>ue :UltiSnipsEdit <CR>
 
 " GitGutter

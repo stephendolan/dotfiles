@@ -1,0 +1,52 @@
+# A collection of snippets for the StimulusJS library
+# @see https://github.com/stimulusjs/stimulus
+
+priority 1
+
+snippet controller "StimulusJS Controller" b
+import { Controller } from 'stimulus';
+
+// TODO describe (concisely) what the purpose of this controller is.
+//
+// @variable [Type] variableName describe variables initialized in _setControllerVariables().
+//
+// @data [Type] dataAttributeName describe any data attributes that can be passed in with the controller.
+//
+// @target [Element] targetName describe any targets that the controller utilizes.
+//
+// @example
+//   Show an example of HTML using the controller
+export default class extends Controller {
+	static targets = [];
+
+	_setControllerVariables() {
+	}
+
+	initialize() {
+		this._setControllerVariables();
+	}
+}
+endsnippet
+
+snippet each-target "For each target" b
+this.${1:targetName}Targets.forEach((element) => {
+	${0}
+});
+endsnippet
+
+snippet has-target "Check if target is present" w
+this.has${1:TargetName}Target
+endsnippet
+
+snippet target "Get target" w
+this.${1:targetName}Target
+endsnippet
+
+snippet get-data "Fetch controller data" w
+this.data.get('${1:dataAttribute}')
+
+endsnippet
+
+snippet has-data "Check for presence of controller data" w
+this.data.has('${1:dataAttribute}')
+endsnippet

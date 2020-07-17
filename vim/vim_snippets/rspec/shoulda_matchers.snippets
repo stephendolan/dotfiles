@@ -1,0 +1,36 @@
+# A collection of matcher snippets for the Shoulda Matchers gem
+# @see https://github.com/thoughtbot/shoulda-matchers
+
+priority 1
+
+snippet vp "Should validate presence" b
+it { is_expected.to validate_presence_of(:${1:column}) }
+endsnippet
+
+snippet vu "Should validate uniqueness" b
+it { is_expected.to validate_uniqueness_of(:${1:column})${2:.case_insensitive} }
+endsnippet
+
+snippet vn "Should validate numericality" b
+it { is_expected.to validate_numericality_of(:${1:column}) }
+endsnippet
+
+snippet vb "Should validate boolean inclusion" b
+it { is_expected.not_to allow_value(nil).for(:${1:column}) }
+endsnippet
+
+snippet bt "Should belong to" b
+it { is_expected.to belong_to(:${1:association}) }
+endsnippet
+
+snippet hm "Should have many" b
+it { is_expected.to have_many(:${1:association}).dependent(:${2:restrict_with_error}) }
+endsnippet
+
+snippet col "Has column" b
+it { is_expected.to have_db_column(:${1:column}) }
+endsnippet
+
+snippet idx "Has index" b
+it { is_expected.to have_db_index(:${1:column})${2:.unique(${3:true})} }
+endsnippet

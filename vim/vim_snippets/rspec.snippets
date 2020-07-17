@@ -1,0 +1,88 @@
+# init.vim defines a custom filtype, rspec, for files ending with _spec.rb
+
+# Ensure that these get used first, if a file is both Ruby and RSpec
+priority 1
+
+snippet spec "Create a new RSpec file" b
+# frozen_string_literal: true
+
+require "rails_helper"
+
+RSpec.describe ${1:Thing}${2:, type: :${3:type}} do
+	${0}
+end
+endsnippet
+
+snippet service_spec "Create a new app/services spec" b
+# frozen_string_literal: true
+
+require "rails_helper"
+
+RSpec.describe ${1:ServiceClass}, type: :service do
+	${0}
+end
+endsnippet
+
+snippet lib_spec "Create a new app/lib spec" b
+# frozen_string_literal: true
+
+require "rails_helper"
+
+RSpec.describe ${1:LibraryClass}, type: :library do
+	${0}
+end
+endsnippet
+
+snippet model_spec "Create a new app/models spec" b
+# frozen_string_literal: true
+
+require "rails_helper"
+
+RSpec.describe ${1:ModelClass}, type: :model do
+	subject { build(:${2:factory_name}) }
+
+	it { is_expected.to be_valid }
+
+	${0}
+end
+endsnippet
+
+snippet before "create an rspec before block" b
+before do
+	${1}
+end
+endsnippet
+
+snippet subject "Define the test subject" b
+subject${1:(:${2:optional_name})} { ${3:value} }
+endsnippet
+
+snippet let "Define an RSpec variable" b
+let(:${1:variable}) { ${2:value} }
+endsnippet
+
+snippet equal "Expect to be equal" b
+expect(${1:value}).${2:}to eq(${3:value})
+endsnippet
+
+snippet error "Expect to raise an error" b
+expect { ${1:statement} }.${2:}to raise_error ${3:message}
+endsnippet
+
+snippet describe "Describe block" b
+describe '${1:thing}' do
+	${0:body}
+end
+endsnippet
+
+snippet context "Context block" b
+context '${1:state}' do
+	${0:body}
+end
+endsnippet
+
+snippet it "Example block" b
+it '${1:behaves in a certain way}' do
+	${0:body}
+end
+endsnippet
