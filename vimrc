@@ -237,7 +237,7 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 let g:UltiSnipsUsePythonVersion         = 3
-let g:UltiSnipsSnippetDirectories       = [$HOME . '/.config/nvim/snippets']
+let g:UltiSnipsSnippetDirectories       = [$HOME . '/.config/nvim/UltiSnips']
 let g:UltiSnipsExpandTrigger            = "<Plug>(ultisnips_expand)"
 let g:UltiSnipsJumpForwardTrigger       = '<c-k>'
 let g:UltiSnipsJumpBackwardTrigger      = '<c-j>'
