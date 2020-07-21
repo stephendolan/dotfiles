@@ -88,3 +88,42 @@ ${1:tag} ${2} do
 end
 ${0}
 endsnippet
+
+snippet action.edit "Lucky - Browser Edit Action" b
+${1:object} = ${2:Object}Query.find($1_id)
+html $2s::EditPage, save_$1: Save$2.new($1)
+endsnippet
+
+snippet action.update "Lucky - Browser Update Action" b
+${1:object} = ${2:Object}Query.find($1_id)
+Save$2.update($1, params) do |operation, updated_$1|
+	if operation.saved?
+		flash.success = "$2 updated"
+		redirect to: $2s::Show.with($1)
+	else
+		flash.failure = "Failed to update $2"
+		html $2s::EditPage, save_$1: operation
+	end
+end
+endsnippet
+
+snippet action.index "Lucky - Browser Index Action" b
+${1:object} = ${2:Object}Query.new.created_at.desc_order
+html $2s::IndexPage, $1s: $1s
+endsnippet
+
+snippet action.show "Lucky - Browser Show Action" b
+${1:object} = ${2:Object}Query.new.find($1_id)
+html $2s::ShowPage, $1: $1
+endsnippet
+
+snippet action.delete "Lucky - Browser Delete Action" b
+${1:object} = ${2:Object}Query.find($1_id)
+$1.delete
+flash.success = "$2 deleted"
+redirect $2s::Index
+endsnippet
+
+snippet picnic "Lucky - Import Picnic CSS" b
+css_link href: "https://cdn.jsdelivr.net/npm/picnic", data_turbolinks_track: "reload"
+endsnippet

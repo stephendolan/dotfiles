@@ -36,14 +36,15 @@ Plug 'wellle/tmux-complete.vim'
 
 " LANGUAGE-SPECIFIC PLUGINS
 Plug 'sheerun/vim-polyglot'                                                 " Language-specific syntax and helpers
-Plug 'alexbel/vim-rubygems',    { 'for': 'gemfile.ruby' }                   " Gemfile helpers
-Plug 'mattn/webapi-vim',        { 'for': 'gemfile.ruby' }                   " Required for Vim-Rubygems
-Plug 'tpope/vim-bundler',       { 'for': ['gemfile.ruby', 'ruby'] }         " Helpers for ruby Gemfiles
-Plug 'thoughtbot/vim-rspec',    { 'for': 'rspec.ruby' }                     " Run RSpec tests from Tmux
-Plug 'vim-syntastic/syntastic', { 'for': 'crystal' }                        " Crystal linting/fixing support, since Ale doesn't
-Plug 'vim-crystal/vim-crystal', { 'for': 'crystal' }                        " Crystal syntax and helpers
-Plug 'mattn/emmet-vim',         { 'for': ['html', 'eruby', 'vue' , 'css'] } " HTML autocompletion
-Plug 'alvan/vim-closetag',      { 'for': ['html', 'eruby', 'vue'] }         " HTML tag autoclose
+Plug 'alexbel/vim-rubygems',         { 'for': 'gemfile.ruby' }                   " Gemfile helpers
+Plug 'mattn/webapi-vim',             { 'for': 'gemfile.ruby' }                   " Required for Vim-Rubygems
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }          " Preview Markdown
+Plug 'tpope/vim-bundler',            { 'for': ['gemfile.ruby', 'ruby'] }         " Helpers for ruby Gemfiles
+Plug 'thoughtbot/vim-rspec',         { 'for': 'rspec.ruby' }                     " Run RSpec tests from Tmux
+Plug 'vim-syntastic/syntastic',      { 'for': 'crystal' }                        " Crystal linting/fixing support, since Ale doesn't
+Plug 'vim-crystal/vim-crystal',      { 'for': 'crystal' }                        " Crystal syntax and helpers
+Plug 'mattn/emmet-vim',              { 'for': ['html', 'eruby', 'vue' , 'css'] } " HTML autocompletion
+Plug 'alvan/vim-closetag',           { 'for': ['html', 'eruby', 'vue'] }         " HTML tag autoclose
 Plug 'tpope/vim-rails'                                                      " File identification and Rails helpers
 
 call plug#end()
@@ -250,12 +251,16 @@ let g:gitgutter_grep = 'rg'
 
 " Indent Guides
 let g:indentLine_char = '|'
+let g:indentLine_fileTypeExclude = ['markdown', 'json']
 
 " Vim JSON
 let g:vim_json_syntax_conceal = 0
 
 " Vim RubyGems
 nnoremap <leader><leader>g :RubygemsAppendVersion<cr>
+
+" Markdown Preview
+nnoremap <leader><leader>mp :MarkdownPreview<cr>
 
 " Vim RSpec
 let g:rspec_command = "call VtrSendCommand('rspec {spec}', 1)"
