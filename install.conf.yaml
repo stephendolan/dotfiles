@@ -38,6 +38,7 @@
       path: zsh/config/linux
     ~/.zsh/config/yarn: zsh/config/yarn
     ~/.zsh/config/docker: zsh/config/docker
+    ~/.zsh/config/ripgrep: zsh/config/ripgrep
 
 - shell:
     - [

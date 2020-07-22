@@ -1,0 +1,3 @@
+# vim: set filetype=zsh :
+
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
