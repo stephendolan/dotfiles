@@ -20,7 +20,7 @@ Plug 'tpope/vim-repeat'                " Allow more repeats
 Plug 'tpope/vim-surround'              " Change surrounding characters
 Plug 'tpope/vim-abolish'               " Advanced subsitution functionality
 Plug 'Yggdroot/indentLine'             " Indent guides
-Plug 'ywjno/vim-tomorrow-theme'        " Best colorscheme NA
+Plug 'morhetz/gruvbox'                 " Nice dark colorscheme
 Plug 'itchyny/lightline.vim'           " Simple status bar
 Plug 'w0rp/ale'                        " Asynchronous linting/fixing
 
@@ -30,12 +30,8 @@ Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-ultisnips'
 Plug 'SirVer/ultisnips'
 Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
-Plug 'wellle/tmux-complete.vim'
-
 
 " LANGUAGE-SPECIFIC PLUGINS
-Plug 'sheerun/vim-polyglot'                                                 " Language-specific syntax and helpers
 Plug 'alexbel/vim-rubygems',         { 'for': 'gemfile.ruby' }                   " Gemfile helpers
 Plug 'mattn/webapi-vim',             { 'for': 'gemfile.ruby' }                   " Required for Vim-Rubygems
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }          " Preview Markdown
@@ -56,6 +52,7 @@ set scrolloff=4                       " Keep X lines when scrolling
 set formatoptions=tcqnj               " See :help fo-table for more information
 set completeopt=noinsert,menuone,noselect,preview
 set pastetoggle=<F6>                  " Toggle paste mode
+set termguicolors                     " Enable true color terminal
 set vb                                " Set visual bell
 set foldnestmax=10                    " Deepest fold is 10 levels
 set nofoldenable                      " Do not fold by default on file open
@@ -87,8 +84,7 @@ set shiftwidth=2                      " How many columns to use with indent oper
 set shell=/bin/bash                   " Use bash as the shell, regardless of what launched vim
 
 syntax enable
-let g:solarized_termcolors=256
-colorscheme Tomorrow-Night
+autocmd vimenter * colorscheme gruvbox
 
 " Set up Neovim Python sources
 let g:loaded_python_provider = 1 " Disable python 2 interface
@@ -189,18 +185,18 @@ let g:lightline = {
   \ 'colorscheme': 'wombat',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
-  \ },
-  \ 'component_function': {
-  \   'cocstatus': 'coc#status'
+  \             [ 'readonly', 'filename', 'modified' ] ],
+  \   'right': [ [ 'lineinfo' ],
+  \              [ 'percent' ],
+  \              [ 'fileformat', 'fileencoding', 'filetype', 'charvaluehex' ] ]
   \ },
 \ }
 
 " ALE
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
-let g:ale_linters_explicit = 1
 let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
+let g:ale_ruby_standardrb_executable = 'bundle'
 let g:ale_linters = {
   \ 'yaml':     ['yamllint'],
   \ 'vue':      ['eslint'],

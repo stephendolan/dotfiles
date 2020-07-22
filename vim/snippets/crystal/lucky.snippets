@@ -1,41 +1,59 @@
+snippet form.create "Lucky - Create Form" b
+form_for ${2:Object}s::Create do
+	${0:# Fields}
+	div do
+		submit "Save ${1:object}"
+	end
+end
+endsnippet
+
+snippet form.update "Lucky - Update Form" b
+form_for ${2:Object}s::Update.with(${1:object}) do
+	${0:# Fields}
+	div do
+		submit "Update $1"
+	end
+end
+endsnippet
+
 snippet form.text "Lucky - Text Field" b
-m Shared::Field, op.${1:model_field}, "${2:Input label}", &.text_input
+m Shared::Field, operation.${2:model_field}, "${3:Input label}", &.text_input
 endsnippet
 
 snippet form.textarea "Lucky - Text Area" b
-m Shared::Field, op.${1:model_field}, "${2:Input label}", &.textarea
+m Shared::Field, operation.${2:model_field}, "${3:Input label}", &.textarea
 endsnippet
 
 snippet form.password "Lucky - Password Field" b
-m Shared::Field, op.${1:model_field}, "${2:Input label}", &.password_input
+m Shared::Field, ${1:operation}.${2:model_field}, "${3:Input label}", &.password_input
 endsnippet
 
 snippet form.email "Lucky - Email Field" b
-m Shared::Field, op.${1:model_field}, "${2:Input label}", &.email_input
+m Shared::Field, ${1:operation}.${2:model_field}, "${3:Input label}", &.email_input
 endsnippet
 
 snippet form.hidden "Lucky - Hidden Field" b
-m Shared::Field, op.${1:model_field}, "${2:Input label}", &.hidden_input
+m Shared::Field, ${1:operation}.${2:model_field}, "${3:Input label}", &.hidden_input
 endsnippet
 
 snippet form.hidden "Lucky - Hidden Field" b
-m Shared::Field, op.${1:model_field}, "${2:Input label}", &.hidden_input
+m Shared::Field, ${1:operation}.${2:model_field}, "${3:Input label}", &.hidden_input
 endsnippet
 
 snippet form.url "Lucky - URL Field" b
-m Shared::Field, op.${1:model_field}, "${2:Input label}", &.url_input
+m Shared::Field, ${1:operation}.${2:model_field}, "${3:Input label}", &.url_input
 endsnippet
 
 snippet form.search "Lucky - Search Field" b
-m Shared::Field, op.${1:model_field}, "${2:Input label}", &.search_input
+m Shared::Field, ${1:operation}.${2:model_field}, "${3:Input label}", &.search_input
 endsnippet
 
 snippet form.telephone "Lucky - Telephone Field" b
-m Shared::Field, op.${1:model_field}, "${2:Input label}", &.telephone_input
+m Shared::Field, ${1:operation}.${2:model_field}, "${3:Input label}", &.telephone_input
 endsnippet
 
 snippet form.date "Lucky - Date Field" b
-m Shared::Field, op.${1:model_field}, "${2:Input label}", &.date_input
+m Shared::Field, ${1:operation}.${2:model_field}, "${3:Input label}", &.date_input
 endsnippet
 
 snippet col.model "Lucky - Model Column" b
@@ -91,7 +109,7 @@ endsnippet
 
 snippet action.edit "Lucky - Browser Edit Action" b
 ${1:object} = ${2:Object}Query.find($1_id)
-html $2s::EditPage, save_$1: Save$2.new($1)
+html $2s::EditPage, save_$1: Save$2.new($1), $1: $1
 endsnippet
 
 snippet action.update "Lucky - Browser Update Action" b
@@ -102,14 +120,30 @@ Save$2.update($1, params) do |operation, updated_$1|
 		redirect to: $2s::Show.with($1)
 	else
 		flash.failure = "Failed to update $2"
-		html $2s::EditPage, save_$1: operation
+		html $2s::EditPage, save_$1: operation, $1: $1
+	end
+end
+endsnippet
+
+snippet action.new "Lucky - Browser New Action" b
+html ${2:Object}s::NewPage, save_${1:object}: Save$2.new
+endsnippet
+
+snippet action.create "Lucky - Browser Create Action" b
+Save${2:Object}.create(params) do |operation, ${1:object}|
+	if $1
+		flash.success = "$2 created"
+		redirect to: $2s::Index
+	else
+		flash.failure = "Failed to create $2"
+		html $2s::NewPage, save_$1: operation
 	end
 end
 endsnippet
 
 snippet action.index "Lucky - Browser Index Action" b
 ${1:object} = ${2:Object}Query.new.created_at.desc_order
-html $2s::IndexPage, $1s: $1s
+html $2s::IndexPage, $1: $1
 endsnippet
 
 snippet action.show "Lucky - Browser Show Action" b
