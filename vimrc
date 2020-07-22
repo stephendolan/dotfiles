@@ -19,9 +19,9 @@ Plug 'tpope/vim-fugitive'              " Git
 Plug 'tpope/vim-repeat'                " Allow more repeats
 Plug 'tpope/vim-surround'              " Change surrounding characters
 Plug 'tpope/vim-abolish'               " Advanced subsitution functionality
-Plug 'Yggdroot/indentLine'             " Indent guides
 Plug 'morhetz/gruvbox'                 " Nice dark colorscheme
 Plug 'itchyny/lightline.vim'           " Simple status bar
+Plug 'shinchu/lightline-gruvbox.vim'   " Add gruvbox to lightling
 Plug 'w0rp/ale'                        " Asynchronous linting/fixing
 
 " Auto-completion and Snippets
@@ -32,6 +32,7 @@ Plug 'SirVer/ultisnips'
 Plug 'ncm2/ncm2-bufword'
 
 " LANGUAGE-SPECIFIC PLUGINS
+Plug 'sheerun/vim-polyglot'
 Plug 'alexbel/vim-rubygems',         { 'for': 'gemfile.ruby' }                   " Gemfile helpers
 Plug 'mattn/webapi-vim',             { 'for': 'gemfile.ruby' }                   " Required for Vim-Rubygems
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }          " Preview Markdown
@@ -125,7 +126,6 @@ vnoremap ; :
 " Toggle gutter junk with F4
 noremap <F4> :set invnumber invrelativenumber<CR>
       \ :GitGutterToggle<CR>
-      \ :IndentLinesToggle<CR>
       \ :ALEHover<CR>
 
 " Set leader
@@ -182,7 +182,7 @@ command! Wq wq
 
 " LightLine
 let g:lightline = {
-  \ 'colorscheme': 'wombat',
+  \ 'colorscheme': 'gruvbox',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ],
   \             [ 'readonly', 'filename', 'modified' ] ],
@@ -195,6 +195,7 @@ let g:lightline = {
 " ALE
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
+let g:ale_linters_explicit = 1
 let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
 let g:ale_ruby_standardrb_executable = 'bundle'
 let g:ale_linters = {
@@ -244,10 +245,6 @@ nnoremap <leader>ue :UltiSnipsEdit <CR>
 
 " GitGutter
 let g:gitgutter_grep = 'rg'
-
-" Indent Guides
-let g:indentLine_char = '|'
-let g:indentLine_fileTypeExclude = ['markdown', 'json']
 
 " Vim JSON
 let g:vim_json_syntax_conceal = 0
@@ -302,3 +299,6 @@ let g:fzf_action = { 'return': 'e', 'ctrl-t': 'tabe' }
 " Emmet
 let g:user_emmet_install_global = 0
 autocmd FileType html,css,vue,eruby EmmetInstall
+
+" Crystal
+let g:crystal_define_mappings = 0
