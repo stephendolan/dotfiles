@@ -15,10 +15,16 @@ socket_name: <%= @args[0].split("/").last %>
 # Layout
 windows:
   - editor:
-      layout: even-horizontal
+      layout: 34ec,272x81,0,0{135x81,0,0[135x65,0,0,0,135x15,0,66,3],136x81,136,0,2}
       panes:
-        - clear && vim
-        - clear && vim
+        - vim_one:
+          - clear
+          - vim
+        - terminal:
+          - clear
+        - vim_two:
+          - clear
+          - vim
   - server:
       layout: even-horizontal
       panes:
