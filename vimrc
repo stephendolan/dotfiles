@@ -202,10 +202,14 @@ let g:ale_linters_explicit = 1
 let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
 let g:ale_ruby_standardrb_executable = 'bundle'
 let g:ale_linters = {
-  \ 'yaml':     ['yamllint'],
-  \ 'vue':      ['eslint'],
-  \ 'markdown': ['mdl'],
-  \ 'ruby':     ['standardrb'],
+  \ 'yaml':       ['yamllint'],
+  \ 'vue':        ['eslint'],
+  \ 'javascript': ['prettier'],
+  \ 'typescript': ['prettier'],
+  \ 'css':        ['prettier'],
+  \ 'scss':       ['prettier'],
+  \ 'markdown':   ['mdl'],
+  \ 'ruby':       ['standardrb'],
 \ }
 let g:ale_fixers_explicit = 1
 let g:ale_fixers = {
