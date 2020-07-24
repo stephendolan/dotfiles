@@ -202,12 +202,12 @@ let g:ale_linters_explicit = 1
 let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
 let g:ale_ruby_standardrb_executable = 'bundle'
 let g:ale_linters = {
-  \ 'yaml':       ['yamllint'],
   \ 'vue':        ['eslint'],
   \ 'javascript': ['prettier'],
   \ 'typescript': ['prettier'],
   \ 'css':        ['prettier'],
   \ 'scss':       ['prettier'],
+  \ 'yaml':       ['prettier'],
   \ 'markdown':   ['mdl'],
   \ 'ruby':       ['standardrb'],
 \ }
