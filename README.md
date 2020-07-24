@@ -1,6 +1,6 @@
 # Dotfiles
 
-![CI](https://github.com/stephendolan/dotfiles/workflows/CI/badge.svg)
+![Linters](https://github.com/stephendolan/dotfiles/workflows/Linters/badge.svg)
 
 This repository leverages [DotBot](https://github.com/anishathalye/dotbot) to build out a new or existing system in a consistent way.
 
