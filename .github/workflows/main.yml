@@ -19,6 +19,9 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+    
+    - name: Setup Python
+      uses: actions/setup-python@v2
 
     - name: Prettier Action
       uses: creyD/prettier_action@v3.0
