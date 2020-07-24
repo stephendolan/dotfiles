@@ -20,7 +20,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: YAML Lint
-      uses: ibiqlik/action-yamllint@v1.0.0
+    - name: Prettier Action
+      uses: creyD/prettier_action@v3.0
       with:
-        file_or_dir: install.conf.yaml
+        prettier_options: "--write install.conf.yaml"
