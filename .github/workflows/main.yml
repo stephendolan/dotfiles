@@ -1,4 +1,4 @@
-name: CI
+name: Linters
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -35,3 +35,8 @@ jobs:
         
     - name: Vint Linter
       run: "vint vimrc"
+    
+    - name: sh-checker
+      uses: luizm/action-sh-checker@v0.1.6
+      with:
+        sh_checker_shellcheck_disable: true
