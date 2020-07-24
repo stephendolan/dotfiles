@@ -54,11 +54,11 @@ set formatoptions=tcqnj               " See :help fo-table for more information
 set completeopt=noinsert,menuone,noselect,preview
 set pastetoggle=<F6>                  " Toggle paste mode
 set termguicolors                     " Enable true color terminal
-set vb                                " Set visual bell
+set visualbell                        " Set visual bell
 set foldnestmax=10                    " Deepest fold is 10 levels
 set nofoldenable                      " Do not fold by default on file open
 set noerrorbells                      " Don't make noise
-set ls=2                              " Always show the status line
+set laststatus=2                      " Always show the status line
 set incsearch                         " Search as you type
 set hlsearch                          " Highlight as you type
 set ruler                             " Show cursor position
@@ -85,7 +85,6 @@ set shiftwidth=2                      " How many columns to use with indent oper
 set shell=/bin/bash                   " Use bash as the shell, regardless of what launched vim
 
 syntax enable
-autocmd vimenter * colorscheme gruvbox
 
 " Set up Neovim Python sources
 let g:loaded_python_provider = 1 " Disable python 2 interface
@@ -102,17 +101,8 @@ let g:netrw_winsize = 20
 let g:netrw_altv = 1
 let g:netrw_browse_split = 4
 
-" Add some custom filetypes
-au BufRead,BufNewFile *.prawn      set filetype=ruby
-au BufRead,BufNewFile *.vue        set filetype=vue
-au BufRead,BufNewFile *_spec.rb    set filetype=rspec.ruby
-au BufRead,BufNewFile Gemfile      set filetype=gemfile.ruby
-au BufRead,BufNewFile .applescript set filetype=applescript
-
-" Automatically set quickfix window height
-au FileType qf call AdjustWindowHeight(3, 20)
 function! AdjustWindowHeight(minheight, maxheight)
-  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+  exe max([min([line('$'), a:maxheight]), a:minheight]) . 'wincmd _'
 endfunction
 
 " Turn off F1 for help
@@ -129,36 +119,48 @@ noremap <F4> :set invnumber invrelativenumber<CR>
       \ :ALEHover<CR>
 
 " Set leader
-let mapleader = " "
-let localleader = "\\"
-
-" Disable paste mode when leaving insert
-au InsertLeave * set nopaste
+let mapleader = ' '
+let localleader = '\\'
 
 " Persist undos across sessions
-if has("persistent_undo")
+if has('persistent_undo')
   set undodir=~/.config/nvim/_undo/
   set undofile
 endif
 
-" Return to last edit position when opening files
-autocmd BufReadPost *
-      \ if line("'\"") > 0 && line("'\"") <= line("$") |
-      \   exe "normal! g`\"" |
-      \ endif
+augroup custom
+  " Set the theme
+  autocmd vimenter * colorscheme gruvbox
+
+  " Add some custom filetypes
+  au BufRead,BufNewFile *.prawn      set filetype=ruby
+  au BufRead,BufNewFile *.vue        set filetype=vue
+  au BufRead,BufNewFile *_spec.rb    set filetype=rspec.ruby
+  au BufRead,BufNewFile Gemfile      set filetype=gemfile.ruby
+  au BufRead,BufNewFile .applescript set filetype=applescript
+
+  " Return to last edit position when opening files
+  autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal! g`\"" |
+        \ endif
+
+  " Disable paste mode when leaving insert
+  au InsertLeave * set nopaste
+
+  " Automatically set quickfix window height
+  au FileType qf call AdjustWindowHeight(3, 20)
+
+  " Remove tabs and substitute for the correct number of spaces on write
+  autocmd BufWritePre * :retab
+augroup END
 
 " Wrapper function for deleting whitespace while saving cursor position
 function! Delete_whitespace()
-  let save_pos = getpos(".")
+  let save_pos = getpos('.')
   :StripWhitespace
-  call setpos(".", save_pos)
+  call setpos('.', save_pos)
 endfunction
-
-" Remove bad whitespace on write
-autocmd BufWritePre * call Delete_whitespace()
-
-" Remove tabs and substitute for the correct number of spaces on write
-autocmd BufWritePre * :retab
 
 " Disable 'Entering Ex mode. Type 'visual' to go to Normal mode.'
 map Q <Nop>
@@ -179,6 +181,17 @@ command! W w
 command! Wq wq
 
 " PLUGIN CONFIG
+
+augroup custom_plugins
+  " Autocomplete & UltiSnips
+  autocmd BufEnter * call ncm2#enable_for_buffer()
+
+  " Press enter key to trigger expansion
+  autocmd BufNewFile,BufRead * inoremap <silent> <buffer> <expr> <cr> ncm2_ultisnips#expand_or("\<CR>", 'n')
+
+  " Remove bad whitespace on write
+  autocmd BufWritePre * call Delete_whitespace()
+augroup END
 
 " LightLine
 let g:lightline = {
@@ -205,6 +218,7 @@ let g:ale_linters = {
   \ 'vue':        ['eslint'],
   \ 'javascript': ['prettier'],
   \ 'typescript': ['prettier'],
+  \ 'vim':        ['vint'],
   \ 'css':        ['prettier'],
   \ 'scss':       ['prettier'],
   \ 'yaml':       ['prettier'],
@@ -224,9 +238,6 @@ let g:ale_fixers = {
   \ 'ruby':       ['standardrb'],
 \ }
 
-" Autocomplete & UltiSnips
-autocmd BufEnter * call ncm2#enable_for_buffer()
-
 " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
 inoremap <c-c> <ESC>
 
@@ -234,16 +245,13 @@ inoremap <c-c> <ESC>
 " hides the menu. Use this mapping to close the menu and also start a new line.
 inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
-" Press enter key to trigger expansion
-autocmd BufNewFile,BufRead * inoremap <silent> <buffer> <expr> <cr> ncm2_ultisnips#expand_or("\<CR>", 'n')
-
 " Use <TAB> to select the popup menu:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 let g:UltiSnipsUsePythonVersion         = 3
 let g:UltiSnipsSnippetDirectories       = [$HOME . '/.config/nvim/UltiSnips']
-let g:UltiSnipsExpandTrigger            = "<Plug>(ultisnips_expand)"
+let g:UltiSnipsExpandTrigger            = '<Plug>(ultisnips_expand)'
 let g:UltiSnipsJumpForwardTrigger       = '<c-k>'
 let g:UltiSnipsJumpBackwardTrigger      = '<c-j>'
 let g:UltiSnipsEditSplit                = 'tabdo'
@@ -302,10 +310,6 @@ nnoremap <leader>r :Rg<CR>
 nnoremap <leader>h :History<CR>
 nnoremap <leader>l :Lines<CR>
 let g:fzf_action = { 'return': 'e', 'ctrl-t': 'tabe' }
-
-" Emmet
-let g:user_emmet_install_global = 0
-autocmd FileType html,css,vue,eruby EmmetInstall
 
 " Crystal
 let g:crystal_define_mappings = 0
