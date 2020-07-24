@@ -31,10 +31,10 @@
       path: tmuxinator/*
     ~/.zsh/config/fzf: zsh/config/fzf
     ~/.zsh/config/mac:
-      if: '[ `uname` = Darwin ]'
+      if: "[ `uname` = Darwin ]"
       path: zsh/config/mac
     ~/.zsh/config/linux:
-      if: '[ `uname` = Linux ]'
+      if: "[ `uname` = Linux ]"
       path: zsh/config/linux
     ~/.zsh/config/yarn: zsh/config/yarn
     ~/.zsh/config/docker: zsh/config/docker
@@ -53,7 +53,4 @@
         nvim +PlugUpgrade +PlugInstall +PlugUpdate +UpdateRemotePlugins +PlugClean! +qall,
         "Installing and Updating Plugins...",
       ]
-    - [
-        touch ~/.psqlrc.local,
-        "Creating empty psqlrc.local file",
-      ]
+    - [touch ~/.psqlrc.local, "Creating empty psqlrc.local file"]
