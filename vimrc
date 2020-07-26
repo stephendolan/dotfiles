@@ -209,7 +209,7 @@ map <leader>t :NERDTreeToggle<CR>
 
 " Check if NERDTree is open
 function! s:isNERDTreeOpen()
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+  return exists('t:NERDTreeBufName') && (bufwinnr(t:NERDTreeBufName) != -1)
 endfunction
 
 " Sync NerdTree with currently open file
