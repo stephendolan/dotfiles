@@ -26,9 +26,9 @@
     ~/.config/nvim/UltiSnips:
       glob: true
       path: vim/snippets/*
-    ~/.config/tmuxinator/:
+    ~/.tmuxp/:
       glob: true
-      path: tmuxinator/*
+      path: tmuxp/*
     ~/.zsh/config/fzf: zsh/config/fzf
     ~/.zsh/config/mac:
       if: "[ `uname` = Darwin ]"

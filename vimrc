@@ -23,6 +23,7 @@ Plug 'morhetz/gruvbox'                 " Nice dark colorscheme
 Plug 'itchyny/lightline.vim'           " Simple status bar
 Plug 'shinchu/lightline-gruvbox.vim'   " Add gruvbox to lightling
 Plug 'w0rp/ale'                        " Asynchronous linting/fixing
+Plug 'preservim/nerdtree'              " Pretty file explorer
 
 " Auto-completion and Snippets
 Plug 'ncm2/ncm2'
@@ -37,7 +38,6 @@ Plug 'alexbel/vim-rubygems',         { 'for': 'gemfile.ruby' }                  
 Plug 'mattn/webapi-vim',             { 'for': 'gemfile.ruby' }                   " Required for Vim-Rubygems
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }          " Preview Markdown
 Plug 'tpope/vim-bundler',            { 'for': ['gemfile.ruby', 'ruby'] }         " Helpers for ruby Gemfiles
-Plug 'thoughtbot/vim-rspec',         { 'for': 'rspec.ruby' }                     " Run RSpec tests from Tmux
 Plug 'vim-syntastic/syntastic',      { 'for': 'crystal' }                        " Crystal linting/fixing support, since Ale doesn't
 Plug 'vim-crystal/vim-crystal',      { 'for': 'crystal' }                        " Crystal syntax and helpers
 Plug 'mattn/emmet-vim',              { 'for': ['html', 'eruby', 'vue' , 'css'] } " HTML autocompletion
@@ -97,9 +97,6 @@ set clipboard=unnamedplus
 " Make the netrw file tree browser a bit prettier
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
-let g:netrw_winsize = 20
-let g:netrw_altv = 1
-let g:netrw_browse_split = 4
 
 function! AdjustWindowHeight(minheight, maxheight)
   exe max([min([line('$'), a:maxheight]), a:minheight]) . 'wincmd _'
@@ -191,7 +188,45 @@ augroup custom_plugins
 
   " Remove bad whitespace on write
   autocmd BufWritePre * call Delete_whitespace()
+
+  " Auto-start NerdTree if no files are specified
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+  " Auto-start NerdTree if a directory is specified
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+
+  " Close NERDTree if it's the only window left
+  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+  " Sync NERDTree with current file
+  autocmd BufEnter * silent! call s:syncTree()
 augroup END
+
+" NERDTree
+map <leader>t :NERDTreeToggle<CR>
+
+" Check if NERDTree is open
+function! s:isNERDTreeOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+" Sync NerdTree with currently open file
+" Exclude diff files and NERDTree files
+function! s:syncTree()
+  if &modifiable && s:isNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff && bufname('%') !~# 'NERD_tree'
+    try
+      NERDTree
+      wincmd p
+      NERDTreeFind
+      if bufname('%') =~# 'NERD_tree'
+        setlocal cursorline
+        wincmd p
+      endif
+    endtry
+  endif
+endfunction
 
 " LightLine
 let g:lightline = {
@@ -277,6 +312,7 @@ nnoremap <leader>vn :call RunNearestSpec()<cr>
 nnoremap <leader>vc :VtrOpenRunner<cr>:call VtrSendCommand('bundle exec rails console')<cr>
 
 " Vim Tmux Runner
+nnoremap <leader>va :VtrAttachToPane<cr>
 nnoremap <leader>vo :VtrOpenRunner<cr>
 nnoremap <leader>vf :VtrFocusRunner<cr>
 nnoremap <leader>vk :VtrKillRunner<cr>
@@ -305,10 +341,10 @@ command! -bang -nargs=? -complete=dir Files
       \ fzf#vim#with_preview({'options': ['--color', $FZF_COLORS]}),
       \ <bang>0)
 
-nnoremap <leader>f :Files<CR>
-nnoremap <leader>r :Rg<CR>
-nnoremap <leader>h :History<CR>
-nnoremap <leader>l :Lines<CR>
+nnoremap <silent> <expr> <leader>f (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":GFiles\<CR>"
+nnoremap <silent> <expr> <leader>r (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Rg\<CR>"
+nnoremap <silent> <expr> <leader>h (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":History\<CR>"
+nnoremap <silent> <expr> <leader>l (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Lines\<CR>"
 let g:fzf_action = { 'return': 'e', 'ctrl-t': 'tabe' }
 
 " Crystal
