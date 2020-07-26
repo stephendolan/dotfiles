@@ -2,3 +2,7 @@
 
 # Better path for linux environments
 export PATH="$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
+
+# Turn off Homebrew analytics
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_UPGRADE_CLEANUP=1
