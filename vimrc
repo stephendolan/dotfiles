@@ -37,6 +37,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'alexbel/vim-rubygems',         { 'for': 'gemfile.ruby' }                   " Gemfile helpers
 Plug 'mattn/webapi-vim',             { 'for': 'gemfile.ruby' }                   " Required for Vim-Rubygems
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }          " Preview Markdown
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'mhartington/nvim-typescript',  { 'do': './install.sh' }
 Plug 'tpope/vim-bundler',            { 'for': ['gemfile.ruby', 'ruby'] }         " Helpers for ruby Gemfiles
 Plug 'vim-syntastic/syntastic',      { 'for': 'crystal' }                        " Crystal linting/fixing support, since Ale doesn't
 Plug 'vim-crystal/vim-crystal',      { 'for': 'crystal' }                        " Crystal syntax and helpers
@@ -252,9 +254,10 @@ let g:ale_ruby_standardrb_executable = 'bundle'
 let g:ale_linters = {
   \ 'vue':        ['eslint'],
   \ 'javascript': ['prettier'],
-  \ 'typescript': ['prettier'],
+  \ 'typescript': ['prettier', 'eslint'],
   \ 'vim':        ['vint'],
   \ 'css':        ['prettier'],
+  \ 'crystal':    ['ameba'],
   \ 'scss':       ['prettier'],
   \ 'yaml':       ['prettier'],
   \ 'markdown':   ['mdl'],
@@ -263,7 +266,7 @@ let g:ale_linters = {
 let g:ale_fixers_explicit = 1
 let g:ale_fixers = {
   \ 'javascript': ['prettier'],
-  \ 'typescript': ['prettier'],
+  \ 'typescript': ['prettier', 'eslint'],
   \ 'vue':        ['prettier'],
   \ 'css':        ['prettier'],
   \ 'scss':       ['prettier'],
