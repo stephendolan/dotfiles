@@ -5,11 +5,11 @@ function! DoRemote(arg)
 endfunction
 
 " GENERAL PLUGINS
-Plug '/usr/local/opt/fzf'              " Use local install of fuzzy search engine
 Plug 'airblade/vim-gitgutter'          " Show Git statuses in left gutter
 Plug 'christoomey/vim-tmux-navigator'  " Make vim and Tmux navigation consistent
 Plug 'christoomey/vim-tmux-runner'     " Run commands in Tmux splits
 Plug 'EinfachToll/DidYouMean'          " Open multiple matching files intelligently
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'                " Add FZF vim stuff
 Plug 'junegunn/vim-easy-align'         " Make alignment easy
 Plug 'ntpeters/vim-better-whitespace'  " Better whitespace
