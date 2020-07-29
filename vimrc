@@ -42,7 +42,7 @@ Plug 'mhartington/nvim-typescript',  { 'do': './install.sh' }
 Plug 'tpope/vim-bundler',            { 'for': ['gemfile.ruby', 'ruby'] }         " Helpers for ruby Gemfiles
 Plug 'vim-syntastic/syntastic',      { 'for': 'crystal' }                        " Crystal linting/fixing support, since Ale doesn't
 Plug 'vim-crystal/vim-crystal',      { 'for': 'crystal' }                        " Crystal syntax and helpers
-Plug 'donRaphaco/neotex',            { 'for': 'tex' }
+Plug 'lervag/vimtex',                { 'for': 'tex' }
 Plug 'mattn/emmet-vim',              { 'for': ['html', 'eruby', 'vue' , 'css'] } " HTML autocompletion
 Plug 'alvan/vim-closetag',           { 'for': ['html', 'eruby', 'vue'] }         " HTML tag autoclose
 Plug 'tpope/vim-rails'                                                      " File identification and Rails helpers
@@ -263,6 +263,7 @@ let g:ale_linters = {
   \ 'yaml':       ['prettier'],
   \ 'markdown':   ['mdl'],
   \ 'ruby':       ['standardrb'],
+  \ 'tex':        ['chktex', 'lacheck', 'latexindent'],
 \ }
 let g:ale_fixers_explicit = 1
 let g:ale_fixers = {
@@ -275,6 +276,7 @@ let g:ale_fixers = {
   \ 'json':       ['prettier'],
   \ 'markdown':   ['prettier'],
   \ 'ruby':       ['standardrb'],
+  \ 'tex':        ['latexindent'],
 \ }
 
 " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
@@ -351,8 +353,9 @@ nnoremap <silent> <expr> <leader>h (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" 
 nnoremap <silent> <expr> <leader>l (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Lines\<CR>"
 let g:fzf_action = { 'return': 'e', 'ctrl-t': 'tabe' }
 
-" NeoTex
+" VimTex
 let g:neotex_enabled = 2
+let g:tex_flavor = 'latex'
 
 " Crystal
 let g:crystal_define_mappings = 0
