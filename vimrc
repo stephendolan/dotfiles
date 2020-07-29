@@ -351,5 +351,8 @@ nnoremap <silent> <expr> <leader>h (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" 
 nnoremap <silent> <expr> <leader>l (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Lines\<CR>"
 let g:fzf_action = { 'return': 'e', 'ctrl-t': 'tabe' }
 
+" NeoTex
+let g:neotex_enabled = 2
+
 " Crystal
 let g:crystal_define_mappings = 0
