@@ -42,6 +42,7 @@ Plug 'mhartington/nvim-typescript',  { 'do': './install.sh' }
 Plug 'tpope/vim-bundler',            { 'for': ['gemfile.ruby', 'ruby'] }         " Helpers for ruby Gemfiles
 Plug 'vim-syntastic/syntastic',      { 'for': 'crystal' }                        " Crystal linting/fixing support, since Ale doesn't
 Plug 'vim-crystal/vim-crystal',      { 'for': 'crystal' }                        " Crystal syntax and helpers
+Plug 'donRaphaco/neotex',            { 'for': 'tex' }
 Plug 'mattn/emmet-vim',              { 'for': ['html', 'eruby', 'vue' , 'css'] } " HTML autocompletion
 Plug 'alvan/vim-closetag',           { 'for': ['html', 'eruby', 'vue'] }         " HTML tag autoclose
 Plug 'tpope/vim-rails'                                                      " File identification and Rails helpers
