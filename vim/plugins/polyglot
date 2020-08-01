@@ -2,4 +2,7 @@
 
 Plug 'sheerun/vim-polyglot'
 
+let g:crystal_auto_format = 1
+let g:crystal_define_mappings = 0
+
 " vim:ft=vim

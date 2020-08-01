@@ -1,5 +1,3 @@
-set nocompatible
-
 " Set leader
 let mapleader = ' '
 
