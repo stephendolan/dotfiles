@@ -1,0 +1,7 @@
+" Repository Link: https://github.com/HerringtonDarkholme/yats.vim
+" Repository Link: https://github.com/mhartington/nvim-typescript
+
+Plug 'HerringtonDarkholme/yats.vim', { 'for': 'typescript' }
+Plug 'mhartington/nvim-typescript',  { 'for': 'typescript', 'do': './install.sh' }
+
+" vim:ft=vim

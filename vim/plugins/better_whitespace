@@ -1,0 +1,16 @@
+" Repository Link: https://github.com/ntpeters/vim-better-whitespace
+
+Plug 'ntpeters/vim-better-whitespace'
+
+augroup whitespace_custom
+  autocmd BufWritePre * call Delete_whitespace()
+augroup END
+
+" Wrapper function for deleting whitespace while saving cursor position
+function! Delete_whitespace()
+  let save_pos = getpos('.')
+  :StripWhitespace
+  call setpos('.', save_pos)
+endfunction
+
+" vim:ft=vim

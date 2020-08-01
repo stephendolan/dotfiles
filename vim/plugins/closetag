@@ -1,0 +1,5 @@
+" Repository Link: https://github.com/alvan/vim-closetag
+
+Plug 'alvan/vim-closetag', { 'for': ['html', 'eruby', 'vue'] }
+
+" vim:ft=vim

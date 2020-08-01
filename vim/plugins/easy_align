@@ -1,0 +1,7 @@
+" https://github.com/junegunn/vim-easy-align
+
+Plug 'junegunn/vim-easy-align'
+
+vmap <Enter> <Plug>(EasyAlign)
+
+" vim:ft=vim

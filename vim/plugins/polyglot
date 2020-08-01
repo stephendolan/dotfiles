@@ -1,0 +1,5 @@
+" Repository Link: https://github.com/sheerun/vim-polyglot
+
+Plug 'sheerun/vim-polyglot'
+
+" vim:ft=vim

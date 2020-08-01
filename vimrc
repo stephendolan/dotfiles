@@ -1,55 +1,22 @@
-call plug#begin( '$HOME/.local/share/nvim/plugged' )
+set nocompatible
 
-function! DoRemote(arg)
-  UpdateRemotePlugins
+" Set leader
+let mapleader = ' '
+
+function! s:SourceConfigFilesIn(directory)
+  let directory_splat = '~/.config/nvim/' . a:directory . '/*'
+  for config_file in split(glob(directory_splat), '\n')
+    if filereadable(config_file)
+      execute 'source' config_file
+    endif
+  endfor
 endfunction
 
-" GENERAL PLUGINS
-Plug 'airblade/vim-gitgutter'          " Show Git statuses in left gutter
-Plug 'christoomey/vim-tmux-navigator'  " Make vim and Tmux navigation consistent
-Plug 'christoomey/vim-tmux-runner'     " Run commands in Tmux splits
-Plug 'EinfachToll/DidYouMean'          " Open multiple matching files intelligently
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'                " Add FZF vim stuff
-Plug 'junegunn/vim-easy-align'         " Make alignment easy
-Plug 'ntpeters/vim-better-whitespace'  " Better whitespace
-Plug 'tpope/vim-commentary'            " Make commenting easier
-Plug 'tpope/vim-endwise'               " Ruby / Vimscript Smart Endings
-Plug 'tpope/vim-fugitive'              " Git
-Plug 'tpope/vim-repeat'                " Allow more repeats
-Plug 'tpope/vim-surround'              " Change surrounding characters
-Plug 'tpope/vim-abolish'               " Advanced subsitution functionality
-Plug 'morhetz/gruvbox'                 " Nice dark colorscheme
-Plug 'itchyny/lightline.vim'           " Simple status bar
-Plug 'shinchu/lightline-gruvbox.vim'   " Add gruvbox to lightling
-Plug 'w0rp/ale'                        " Asynchronous linting/fixing
-Plug 'preservim/nerdtree'              " Pretty file explorer
-
-" Auto-completion and Snippets
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2-ultisnips'
-Plug 'SirVer/ultisnips'
-Plug 'ncm2/ncm2-bufword'
-
-" LANGUAGE-SPECIFIC PLUGINS
-Plug 'sheerun/vim-polyglot'
-Plug 'alexbel/vim-rubygems',         { 'for': 'gemfile.ruby' }                   " Gemfile helpers
-Plug 'mattn/webapi-vim',             { 'for': 'gemfile.ruby' }                   " Required for Vim-Rubygems
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }          " Preview Markdown
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript',  { 'do': './install.sh' }
-Plug 'tpope/vim-bundler',            { 'for': ['gemfile.ruby', 'ruby'] }         " Helpers for ruby Gemfiles
-Plug 'vim-syntastic/syntastic',      { 'for': 'crystal' }                        " Crystal linting/fixing support, since Ale doesn't
-Plug 'vim-crystal/vim-crystal',      { 'for': 'crystal' }                        " Crystal syntax and helpers
-Plug 'lervag/vimtex',                { 'for': 'tex' }
-Plug 'mattn/emmet-vim',              { 'for': ['html', 'eruby', 'vue' , 'css'] } " HTML autocompletion
-Plug 'alvan/vim-closetag',           { 'for': ['html', 'eruby', 'vue'] }         " HTML tag autoclose
-Plug 'tpope/vim-rails'                                                      " File identification and Rails helpers
-
+call plug#begin( '$HOME/.local/share/nvim/plugged' )
+call s:SourceConfigFilesIn('vim_plugins')
 call plug#end()
 
-" END PLUGINS
+call s:SourceConfigFilesIn('vim_rc')
 
 set t_Co=256                          " Allow vim to use 256 colors for colorschemes
 set scrolloff=4                       " Keep X lines when scrolling
@@ -89,6 +56,10 @@ set shell=/bin/bash                   " Use bash as the shell, regardless of wha
 
 syntax enable
 
+highlight VertSplit guibg=NONE
+highlight NormalFloat guifg=#999999 guibg=#222222
+hi Pmenu guibg=#222222 guifg=#999999
+
 " Set up Neovim Python sources
 let g:loaded_python_provider = 1 " Disable python 2 interface
 let g:python_host_skip_check = 1 " Skip python 2 host check
@@ -109,18 +80,10 @@ endfunction
 map  <F1> <Esc>
 imap <F1> <Esc>
 
-" Use semicolon for commands in visual/normal mode
-nnoremap ; :
-vnoremap ; :
-
 " Toggle gutter junk with F4
 noremap <F4> :set invnumber invrelativenumber<CR>
       \ :GitGutterToggle<CR>
       \ :ALEHover<CR>
-
-" Set leader
-let mapleader = ' '
-let localleader = '\\'
 
 " Persist undos across sessions
 if has('persistent_undo')
@@ -129,9 +92,6 @@ if has('persistent_undo')
 endif
 
 augroup custom
-  " Set the theme
-  autocmd vimenter * colorscheme gruvbox
-
   " Add some custom filetypes
   au BufRead,BufNewFile *.prawn      set filetype=ruby
   au BufRead,BufNewFile *.vue        set filetype=vue
@@ -155,13 +115,6 @@ augroup custom
   autocmd BufWritePre * :retab
 augroup END
 
-" Wrapper function for deleting whitespace while saving cursor position
-function! Delete_whitespace()
-  let save_pos = getpos('.')
-  :StripWhitespace
-  call setpos('.', save_pos)
-endfunction
-
 " Disable 'Entering Ex mode. Type 'visual' to go to Normal mode.'
 map Q <Nop>
 
@@ -181,70 +134,6 @@ command! W w
 command! Wq wq
 
 " PLUGIN CONFIG
-
-augroup custom_plugins
-  " Autocomplete & UltiSnips
-  autocmd BufEnter * call ncm2#enable_for_buffer()
-
-  " Press enter key to trigger expansion
-  autocmd BufNewFile,BufRead * inoremap <silent> <buffer> <expr> <cr> ncm2_ultisnips#expand_or("\<CR>", 'n')
-
-  " Remove bad whitespace on write
-  autocmd BufWritePre * call Delete_whitespace()
-
-  " Auto-start NerdTree if no files are specified
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-  " Auto-start NerdTree if a directory is specified
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-
-  " Close NERDTree if it's the only window left
-  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-  " Sync NERDTree with current file
-  autocmd BufEnter * silent! call s:syncTree()
-augroup END
-
-" NERDTree
-map <leader>t :NERDTreeToggle<CR>
-
-" Check if NERDTree is open
-function! s:isNERDTreeOpen()
-  return exists('t:NERDTreeBufName') && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
-
-" Sync NerdTree with currently open file
-" Exclude diff files and NERDTree files
-function! s:syncTree()
-  if &modifiable && s:isNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff && bufname('%') !~# 'NERD_tree'
-    try
-      NERDTree
-      wincmd p
-      NERDTreeFind
-      if bufname('%') =~# 'NERD_tree'
-        setlocal cursorline
-        wincmd p
-      endif
-    endtry
-  endif
-endfunction
-
-" LightLine
-let g:lightline = {
-  \ 'colorscheme': 'gruvbox',
-  \ 'active': {
-  \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
-  \   'right': [ [ 'lineinfo' ],
-  \              [ 'percent' ],
-  \              [ 'fileformat', 'fileencoding', 'filetype', 'charvaluehex' ] ]
-  \ },
-  \ 'component_function': {
-  \   'gitbranch': 'FugitiveHead'
-  \ },
-\ }
 
 " ALE
 let g:ale_fix_on_save = 1
@@ -278,84 +167,3 @@ let g:ale_fixers = {
   \ 'ruby':       ['standardrb'],
   \ 'tex':        ['latexindent'],
 \ }
-
-" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
-inoremap <c-c> <ESC>
-
-" When the <Enter> key is pressed while the popup menu is visible, it only
-" hides the menu. Use this mapping to close the menu and also start a new line.
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-
-" Use <TAB> to select the popup menu:
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-let g:UltiSnipsUsePythonVersion         = 3
-let g:UltiSnipsSnippetDirectories       = [$HOME . '/.config/nvim/UltiSnips']
-let g:UltiSnipsExpandTrigger            = '<Plug>(ultisnips_expand)'
-let g:UltiSnipsJumpForwardTrigger       = '<c-k>'
-let g:UltiSnipsJumpBackwardTrigger      = '<c-j>'
-let g:UltiSnipsEditSplit                = 'tabdo'
-let g:UltiSnipsRemoveSelectModeMappings = 0
-nnoremap <leader>ue :UltiSnipsEdit <CR>
-
-" GitGutter
-let g:gitgutter_grep = 'rg'
-
-" Vim JSON
-let g:vim_json_syntax_conceal = 0
-
-" Vim RubyGems
-nnoremap <leader><leader>g :RubygemsAppendVersion<cr>
-
-" Markdown Preview
-nnoremap <leader><leader>mp :MarkdownPreview<cr>
-
-" Vim RSpec
-let g:rspec_command = "call VtrSendCommand('rspec {spec}', 1)"
-nnoremap <leader>vr :call RunCurrentSpecFile()<cr>
-nnoremap <leader>vn :call RunNearestSpec()<cr>
-nnoremap <leader>vc :VtrOpenRunner<cr>:call VtrSendCommand('bundle exec rails console')<cr>
-
-" Vim Tmux Runner
-nnoremap <leader>va :VtrAttachToPane<cr>
-nnoremap <leader>vo :VtrOpenRunner<cr>
-nnoremap <leader>vf :VtrFocusRunner<cr>
-nnoremap <leader>vk :VtrKillRunner<cr>
-nnoremap <leader>vs :VtrSendLinesToRunner<cr>
-nnoremap <leader>vd :VtrSendCtrlD<cr>
-
-" Vim Easy Align
-vmap <Enter> <Plug>(EasyAlign)
-
-" Git Gutter
-set updatetime=100
-
-" Vim Crystal, for some reason not working at the moment
-let g:crystal_auto_format = 1
-
-" FZF
-let $BAT_THEME = 'TwoDark'
-command! -bang -nargs=* Rg
-      \ call fzf#vim#grep('rg --column --no-heading --line-number --color=always '.shellescape(<q-args>),
-      \ 1,
-      \ fzf#vim#with_preview({'options': ['--color', $FZF_COLORS]}),
-      \ <bang>0)
-
-command! -bang -nargs=? -complete=dir Files
-      \ call fzf#vim#files(<q-args>,
-      \ fzf#vim#with_preview({'options': ['--color', $FZF_COLORS]}),
-      \ <bang>0)
-
-nnoremap <silent> <expr> <leader>f (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":GFiles\<CR>"
-nnoremap <silent> <expr> <leader>r (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Rg\<CR>"
-nnoremap <silent> <expr> <leader>h (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":History\<CR>"
-nnoremap <silent> <expr> <leader>l (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Lines\<CR>"
-let g:fzf_action = { 'return': 'e', 'ctrl-t': 'tabe' }
-
-" VimTex
-let g:neotex_enabled = 2
-let g:tex_flavor = 'latex'
-
-" Crystal
-let g:crystal_define_mappings = 0

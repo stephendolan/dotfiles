@@ -1,0 +1,15 @@
+" Repository Link: https://github.com/christoomey/vim-tmux-navigator
+" Repository Link: https://github.com/christoomey/vim-tmux-runner
+
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-runner'
+
+" Set up some Runner shortcuts
+nnoremap <leader>va :VtrAttachToPane<cr>
+nnoremap <leader>vo :VtrOpenRunner<cr>
+nnoremap <leader>vf :VtrFocusRunner<cr>
+nnoremap <leader>vk :VtrKillRunner<cr>
+nnoremap <leader>vs :VtrSendLinesToRunner<cr>
+nnoremap <leader>vd :VtrSendCtrlD<cr>
+
+" vim:ft=vim
