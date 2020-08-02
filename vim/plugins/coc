@@ -9,7 +9,7 @@ Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-solargraph'
+Plug 'neoclide/coc-solargraph', {'do': 'yarn install --frozen-lockfile'}
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
