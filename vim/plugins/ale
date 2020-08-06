@@ -2,6 +2,7 @@
 
 Plug 'dense-analysis/ale'
 
+" Turn on linting
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters_explicit = 1
 let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
@@ -21,6 +22,7 @@ let g:ale_linters = {
   \ 'tex':        ['chktex', 'lacheck', 'latexindent'],
 \ }
 
+" Turn on fixing
 let g:ale_fix_on_save = 1
 let g:ale_fixers_explicit = 1
 let g:ale_fixers = {
@@ -36,5 +38,11 @@ let g:ale_fixers = {
   \ 'crystal':    ['crystal'],
   \ 'tex':        ['latexindent'],
 \ }
+
+" Turn off everything else and leave it to CoC
+let g:ale_completion_enabled = 0
+let g:ale_hover_cursor = 0
+let g:ale_hover_to_preview = 0
+let g:ale_history_enabled = 0
 
 " vim:ft=vim
