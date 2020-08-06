@@ -6,7 +6,7 @@ windows:
     panes:
       - vim
   - window_name: server
-    layout: even-vertical
+    layout: even-horizontal
     panes:
       - docker-compose up
       - overmind start

@@ -130,38 +130,3 @@ nnoremap <leader>p :tabp<cr>
 command! Q q
 command! W w
 command! Wq wq
-
-" PLUGIN CONFIG
-
-" ALE
-let g:ale_fix_on_save = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_linters_explicit = 1
-let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
-let g:ale_ruby_standardrb_executable = 'bundle'
-let g:ale_linters = {
-  \ 'vue':        ['eslint'],
-  \ 'javascript': ['prettier'],
-  \ 'typescript': ['prettier', 'eslint'],
-  \ 'vim':        ['vint'],
-  \ 'css':        ['prettier'],
-  \ 'crystal':    ['ameba'],
-  \ 'scss':       ['prettier'],
-  \ 'yaml':       ['prettier'],
-  \ 'markdown':   ['mdl'],
-  \ 'ruby':       ['standardrb'],
-  \ 'tex':        ['chktex', 'lacheck', 'latexindent'],
-\ }
-let g:ale_fixers_explicit = 1
-let g:ale_fixers = {
-  \ 'javascript': ['prettier'],
-  \ 'typescript': ['prettier', 'eslint'],
-  \ 'vue':        ['prettier'],
-  \ 'css':        ['prettier'],
-  \ 'scss':       ['prettier'],
-  \ 'yaml':       ['prettier'],
-  \ 'json':       ['prettier'],
-  \ 'markdown':   ['prettier'],
-  \ 'ruby':       ['standardrb'],
-  \ 'tex':        ['latexindent'],
-\ }
