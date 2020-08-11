@@ -28,9 +28,6 @@
   diff = auto
   ui = auto
 
-[push]
-  default = simple
-
 [branch]
   autosetuprebase = always
 
