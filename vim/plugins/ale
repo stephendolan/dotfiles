@@ -11,7 +11,8 @@ let g:ale_ruby_standardrb_executable = 'bundle'
 let g:ale_linters = {
   \ 'vue':        ['eslint'],
   \ 'javascript': ['prettier'],
-  \ 'typescript': ['prettier', 'eslint'],
+  \ 'typescript': ['prettier', 'eslint', 'tslint'],
+  \ 'lua':        ['luac'],
   \ 'vim':        ['vint'],
   \ 'css':        ['prettier'],
   \ 'crystal':    ['ameba'],
@@ -27,7 +28,7 @@ let g:ale_fix_on_save = 1
 let g:ale_fixers_explicit = 1
 let g:ale_fixers = {
   \ 'javascript': ['prettier'],
-  \ 'typescript': ['prettier', 'eslint'],
+  \ 'typescript': ['prettier', 'eslint', 'tslint'],
   \ 'vue':        ['prettier'],
   \ 'css':        ['prettier'],
   \ 'scss':       ['prettier'],

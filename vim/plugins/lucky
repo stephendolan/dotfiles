@@ -1,0 +1,5 @@
+" Repository Link: https://github.com/stephendolan/neovim-lucky
+
+Plug 'stephendolan/neovim-lucky', { 'for': 'crystal' }
+
+" vim:ft=vim

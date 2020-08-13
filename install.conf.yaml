@@ -23,7 +23,6 @@
     ~/.railsrc:
     ~/.zshrc:
     ~/Brewfile: Brewfile
-    ~/.config/nvim/coc-settings.json: coc-settings.json
     ~/.config/nvim/UltiSnips:
       glob: true
       path: vim/snippets/*
