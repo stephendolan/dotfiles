@@ -3,6 +3,7 @@
 Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-ultisnips'
+Plug 'ncm2/ncm2-bufword'
 Plug 'SirVer/ultisnips'
 
 " When the <Enter> key is pressed while the popup menu is visible, it only

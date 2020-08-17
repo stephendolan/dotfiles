@@ -4,7 +4,7 @@ windows:
   - window_name: editor
     layout: tiled
     panes:
-      - vim
+      - nvim +VtrOpenRunner
   - window_name: server
     layout: even-horizontal
     panes:

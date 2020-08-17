@@ -17,15 +17,17 @@ call plug#end()
 call s:SourceConfigFilesIn('vim_rc')
 
 set t_Co=256                          " Allow vim to use 256 colors for colorschemes
+set termguicolors                     " Enable true color terminal
+
 set scrolloff=4                       " Keep X lines when scrolling
 set formatoptions=tcqnj               " See :help fo-table for more information
 set completeopt=noinsert,menuone,noselect,preview
 set pastetoggle=<F6>                  " Toggle paste mode
-set termguicolors                     " Enable true color terminal
 set visualbell                        " Set visual bell
-set foldnestmax=10                    " Deepest fold is 10 levels
-set nofoldenable                      " Do not fold by default on file open
 set noerrorbells                      " Don't make noise
+set foldmethod=syntax
+set foldlevelstart=2
+set foldnestmax=4
 set laststatus=2                      " Always show the status line
 set incsearch                         " Search as you type
 set hlsearch                          " Highlight as you type
@@ -38,7 +40,7 @@ set ignorecase                        " Ignore case only when searching all lowe
 set smartcase
 set showcmd                           " Show the commands being typed
 set shortmess+=c                      " Suppress 'pattern not found' messages
-set history=1000                      " Sets how many lines of history VIM has to remember
+set history=100                       " Sets how many lines of history VIM has to remember
 set backspace=indent,eol,start        " Make backspace more flexible
 set background=dark                   " Set a dark background
 set showmode                          " Show what mode you are in (Insert, Visual, etc.)
@@ -52,8 +54,6 @@ set tabstop=2                         " Set how many columns a tab counts for
 set shiftwidth=2                      " How many columns to use with indent operators (>>, <<)
 set shell=/bin/bash                   " Use bash as the shell, regardless of what launched vim
 
-syntax enable
-
 highlight VertSplit guibg=NONE
 highlight NormalFloat guifg=#999999 guibg=#222222
 hi Pmenu guibg=#222222 guifg=#999999
@@ -65,10 +65,6 @@ let g:python3_host_prog = expand('~/.asdf/shims/python3')
 
 " Ensure that Neovim will copy to system clipboard
 set clipboard=unnamedplus
-
-" Make the netrw file tree browser a bit prettier
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
 
 function! AdjustWindowHeight(minheight, maxheight)
   exe max([min([line('$'), a:maxheight]), a:minheight]) . 'wincmd _'
@@ -90,13 +86,6 @@ if has('persistent_undo')
 endif
 
 augroup custom
-  " Add some custom filetypes
-  au BufRead,BufNewFile *.prawn      set filetype=ruby
-  au BufRead,BufNewFile *.vue        set filetype=vue
-  au BufRead,BufNewFile *_spec.rb    set filetype=rspec.ruby
-  au BufRead,BufNewFile Gemfile      set filetype=gemfile.ruby
-  au BufRead,BufNewFile .applescript set filetype=applescript
-
   " Return to last edit position when opening files
   autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |

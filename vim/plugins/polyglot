@@ -2,7 +2,11 @@
 
 Plug 'sheerun/vim-polyglot'
 
-let g:crystal_auto_format = 1
-let g:crystal_define_mappings = 0
+augroup custom_crystal
+  let g:crystal_auto_format = 0
+  let g:crystal_define_mappings = 0
+
+  autocmd BufNewFile,BufEnter,BufRead *_page.cr nnoremap <leader><leader>f :CrystalFormat<cr>
+augroup END
 
 " vim:ft=vim
