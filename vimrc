@@ -10,9 +10,11 @@ function! s:SourceConfigFilesIn(directory)
   endfor
 endfunction
 
-call plug#begin( '$HOME/.local/share/nvim/plugged' )
-call s:SourceConfigFilesIn('vim_plugins')
-call plug#end()
+if !exists('g:vscode')
+  call plug#begin( '$HOME/.local/share/nvim/plugged' )
+  call s:SourceConfigFilesIn('vim_plugins')
+  call plug#end()
+endif
 
 call s:SourceConfigFilesIn('vim_rc')
 
@@ -35,6 +37,7 @@ set ruler                             " Show cursor position
 set autoindent                        " Smart indenting
 set lazyredraw                        " Redraw the screen lazily
 set smarttab
+set smartindent
 set showmatch                         " Highlight pairs of {} [] ()
 set ignorecase                        " Ignore case only when searching all lowercase
 set smartcase
