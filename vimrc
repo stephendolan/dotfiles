@@ -10,11 +10,16 @@ function! s:SourceConfigFilesIn(directory)
   endfor
 endfunction
 
+call plug#begin( '$HOME/.local/share/nvim/plugged' )
+
+" Always load a set of plugins that work in both terminal and VSCode
+call s:SourceConfigFilesIn('vim_plugins_all')
 if !exists('g:vscode')
-  call plug#begin( '$HOME/.local/share/nvim/plugged' )
-  call s:SourceConfigFilesIn('vim_plugins')
-  call plug#end()
+  " If we aren't in VSCode, load more GUI helper plugins
+  call s:SourceConfigFilesIn('vim_plugins_term')
 endif
+
+call plug#end()
 
 call s:SourceConfigFilesIn('vim_rc')
 

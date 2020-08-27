@@ -26,9 +26,12 @@
     ~/.config/nvim/UltiSnips:
       glob: true
       path: vim/snippets/*
-    ~/.config/nvim/vim_plugins:
+    ~/.config/nvim/vim_plugins_term:
       glob: true
-      path: vim/plugins/*
+      path: vim/plugins_term/*
+    ~/.config/nvim/vim_plugins_all:
+      glob: true
+      path: vim/plugins_all/*
     ~/.tmuxp/:
       glob: true
       path: tmuxp/*
