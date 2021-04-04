@@ -1,0 +1,7 @@
+---
+session_name: shard
+windows:
+  - window_name: editor
+    layout: tiled
+    panes:
+      - nvim +VtrOpenRunner

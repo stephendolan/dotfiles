@@ -1,7 +1,7 @@
 # vim: set filetype=gitconfig :
 
 [init]
-  templatedir = ~/.git_template
+  defaultBranch = main
 
 [push]
   default = current
@@ -51,3 +51,8 @@
 
 [includeIf "gitdir:@neadwerx/**/"]
   path = ~/.gitconfig-neadwerx
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process

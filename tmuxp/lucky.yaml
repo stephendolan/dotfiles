@@ -8,5 +8,4 @@ windows:
   - window_name: server
     layout: even-horizontal
     panes:
-      - docker-compose up
       - pkill -f overmind; rm .overmind.sock; lucky dev
