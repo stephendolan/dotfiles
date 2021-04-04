@@ -33,8 +33,6 @@ set completeopt=noinsert,menuone,noselect,preview
 set pastetoggle=<F6>                  " Toggle paste mode
 set visualbell                        " Set visual bell
 set noerrorbells                      " Don't make noise
-set foldmethod=syntax
-set foldlevelstart=2
 set foldnestmax=4
 set laststatus=2                      " Always show the status line
 set incsearch                         " Search as you type
