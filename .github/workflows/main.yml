@@ -37,6 +37,6 @@ jobs:
         run: "vint vimrc"
 
       - name: sh-checker
-        uses: luizm/action-sh-checker@v0.1.6
+        uses: luizm/action-sh-checker@master
         with:
           sh_checker_shellcheck_disable: true
