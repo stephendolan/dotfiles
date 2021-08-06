@@ -2,7 +2,6 @@
 
 # Shorthand calls
 alias dc='docker-compose'
-alias mux='tmuxinator'
 
 # Don't want to accidentally use old `vi` or `vim` commands
 alias vi='nvim'
