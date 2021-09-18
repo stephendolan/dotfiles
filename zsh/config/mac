@@ -1,18 +1,18 @@
 # vim: set filetype=zsh :
 
-# Ensure that compilers can find OpenSSL
-export PATH="/opt/homebrew/opt/openssl/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/openssl/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/openssl/include"
-export LIBRARY_PATH="$LIBRARY_PATH:/opt/homebrew/opt/openssl/lib"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl/lib/pkgconfig"
+export PATH="/usr/local/bin:$PATH"
+
+# Add Intel homebrew to PATH
+export PATH="/usr/local/homebrew/bin:$PATH"
+alias ibrew='arch -x86_64 /usr/local/homebrew/bin/brew'
 
 # Add M1 homebrew to PATH
 export PATH="/opt/homebrew/bin:$PATH"
 
-# Add Intel homebrew to PATH
-export PATH="/usr/local/bin:$PATH"
-alias ibrew='arch -x86_64 /usr/local/homebrew/bin/brew'
+# Use the Intel OpenSSL version
+export LDFLAGS="-L/usr/local/homebrew/opt/openssl@1.1/lib"
+export CPPFLAGS="-I/usr/local/homebrew/opt/openssl@1.1/include"
+export PKG_CONFIG_PATH="/usr/local/homebrew/opt/openssl@1.1/lib/pkgconfig"
 
 # Turn off Homebrew analytics
 export HOMEBREW_NO_ANALYTICS=1

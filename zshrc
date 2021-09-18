@@ -2,7 +2,7 @@
 export ZSH=$HOME/.oh-my-zsh
 
 # THEME
-ZSH_THEME="af-magic"
+ZSH_THEME=""
 
 # HISTORY
 setopt hist_ignore_all_dups inc_append_history
@@ -31,7 +31,7 @@ export EDITOR=$VISUAL
 export MANPAGER="nvim -c 'set ft=man' -"
 
 # Add some plugins
-plugins=(git gitfast ssh-agent vi-mode sudo ripgrep bundler asdf fzf)
+plugins=(git gitfast ssh-agent sudo ripgrep bundler asdf fzf)
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 # Aliases
@@ -44,5 +44,9 @@ done
 
 # Load local machine settings
 [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
+
+# Use the Pure prompt
+autoload -U promptinit; promptinit
+prompt pure
 
 source $ZSH/oh-my-zsh.sh

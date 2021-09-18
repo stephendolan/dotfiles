@@ -20,6 +20,7 @@ brew "neovim"
 brew "overmind"
 brew "postgresql", restart_service: true
 brew "pspg"
+brew "pure"
 brew "redis"
 brew "ripgrep"
 brew "stripe/stripe-cli/stripe"
