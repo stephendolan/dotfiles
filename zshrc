@@ -45,8 +45,12 @@ done
 # Load local machine settings
 [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
 
+# Load Oh My Zsh
+source $ZSH/oh-my-zsh.sh
+
+fpath+=('/opt/homebrew/share/zsh/site-functions')
+
 # Use the Pure prompt
 autoload -U promptinit; promptinit
 prompt pure
 
-source $ZSH/oh-my-zsh.sh
