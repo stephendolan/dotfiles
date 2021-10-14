@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>customSites</key>
+	<dict>
+		<key>21AAE37D-5A92-4EDB-88AB-4711CAEF9715</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>tup</string>
+			<key>text</key>
+			<string>Tuple Team Search</string>
+			<key>url</key>
+			<string>https://production.tuple.app/teams?search={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>26D28CC8-C73A-43C5-808F-7EF6AC9A240A</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>tuple</string>
+			<key>text</key>
+			<string>Tuple Team Search</string>
+			<key>url</key>
+			<string>https://production.tuple.app/teams?search={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>3379D253-5DBB-44E3-AC18-CA061E260C87</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>lin</string>
+			<key>text</key>
+			<string>Linear</string>
+			<key>url</key>
+			<string>https://linear.app/tuple/issue/{query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>4F165FF2-4C5A-43B2-AF11-10D52874FDCB</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>hs</string>
+			<key>text</key>
+			<string>Help Scout</string>
+			<key>url</key>
+			<string>https://secure.helpscout.net/search/?query=customer%3A{query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>5415F6BB-0366-4FC9-A4EC-A25BB3B00984</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>stripe</string>
+			<key>text</key>
+			<string>Stripe Dashboard Search</string>
+			<key>url</key>
+			<string>https://dashboard.stripe.com/search?query={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>6FE83AB0-056A-4734-958A-0C7622447CF2</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>ms</string>
+			<key>text</key>
+			<string>Microsoft Office 365</string>
+			<key>url</key>
+			<string>https://office.com/launch/{query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>onlyShowEnabledInPrefs</key>
+	<true/>
+</dict>
+</plist>

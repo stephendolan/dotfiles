@@ -22,6 +22,7 @@
     ~/.rgignore:
     ~/.railsrc:
     ~/.zshrc:
+    ~/.config/alfred: alfred
     ~/Brewfile: Brewfile
     ~/.config/nvim/UltiSnips:
       glob: true
