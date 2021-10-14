@@ -53,4 +53,3 @@ fpath+=('/opt/homebrew/share/zsh/site-functions')
 # Use the Pure prompt
 autoload -U promptinit; promptinit
 prompt pure
-
