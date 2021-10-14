@@ -25,11 +25,11 @@
 	<key>createdby</key>
 	<string>Stephen Dolan</string>
 	<key>description</key>
-	<string>Generate Shopify Discount Codes</string>
+	<string>Open Shopify Admin</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Discount Code Generator</string>
+	<string>Shopify Discount Codes</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -40,9 +40,9 @@
 				<key>keyword</key>
 				<string>swag</string>
 				<key>subtext</key>
-				<string>Generate a Shopify discount code for free Tuple gear.</string>
+				<string>Generate a discount code</string>
 				<key>text</key>
-				<string>Generate a Tuple store discount code</string>
+				<string>Open Shopify admin</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
