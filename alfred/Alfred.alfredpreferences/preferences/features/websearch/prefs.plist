@@ -69,16 +69,16 @@
 			<key>utf8</key>
 			<true/>
 		</dict>
-		<key>6FE83AB0-056A-4734-958A-0C7622447CF2</key>
+		<key>D9C55015-F709-4177-A699-640FEDF8BF94</key>
 		<dict>
 			<key>enabled</key>
 			<true/>
 			<key>keyword</key>
-			<string>ms</string>
+			<string>free</string>
 			<key>text</key>
-			<string>Microsoft Office 365</string>
+			<string>Tuple Trial</string>
 			<key>url</key>
-			<string>https://office.com/launch/{query}</string>
+			<string>https://production.tuple.app/free_teams/new</string>
 			<key>utf8</key>
 			<true/>
 		</dict>
