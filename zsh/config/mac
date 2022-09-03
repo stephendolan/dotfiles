@@ -2,17 +2,10 @@
 
 export PATH="/usr/local/bin:$PATH"
 
-# Add Intel homebrew to PATH
-# export PATH="/usr/local/homebrew/bin:$PATH"
-# alias ibrew='arch -x86_64 /usr/local/homebrew/bin/brew'
-# Need to remove this at some point
-# rm -rf /usr/local/homebrew/bin/brew
-
-# Add M1 homebrew to PATH
+# Add homebrew to PATH
 export PATH="/opt/homebrew/bin:$PATH"
 
-# Make M1 OpenSSL available for Crystal
-export CRYSTAL_LIBRARY_PATH=$(brew --prefix)/lib
+# Make OpenSSL available for Crystal
 export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig"
@@ -21,3 +14,5 @@ export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
 # Turn off Homebrew analytics
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_UPGRADE_CLEANUP=1
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+export HOMEBREW_NO_ENV_HINTS=1

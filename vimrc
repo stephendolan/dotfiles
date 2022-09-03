@@ -70,6 +70,9 @@ let g:loaded_python_provider = 1 " Disable python 2 interface
 let g:python_host_skip_check = 1 " Skip python 2 host check
 let g:python3_host_prog = expand('~/.asdf/shims/python3')
 
+" Disable Neovim Perl sources
+let g:loaded_perl_provider = 0
+
 " Ensure that Neovim will copy to system clipboard
 set clipboard=unnamedplus
 

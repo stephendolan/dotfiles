@@ -37,6 +37,7 @@ export MANPAGER="nvim -c 'set ft=man' -"
 # Add some plugins
 plugins=(git gitfast ssh-agent sudo ripgrep bundler asdf fzf)
 zstyle :omz:plugins:ssh-agent agent-forwarding on
+zstyle :omz:plugins:ssh-agent identities id_rsa
 
 # Aliases
 [[ -e $HOME/.aliases ]] && source $HOME/.aliases
