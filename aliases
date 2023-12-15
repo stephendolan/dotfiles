@@ -7,3 +7,6 @@ alias dc='docker-compose'
 alias vi='nvim'
 alias vim='nvim'
 
+# Use VSCode Insiders
+alias code='code-insiders'
+
