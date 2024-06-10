@@ -1,6 +1,3 @@
 --database=postgresql
---skip-coffee
 --skip-test
---skip-action-text
---skip-active-storage
---webpack=typescript
+--css=tailwind

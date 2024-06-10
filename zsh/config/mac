@@ -8,11 +8,11 @@ export PATH="/opt/homebrew/bin:$PATH"
 # Add Docker to PATH
 export PATH="$HOME/.docker/bin:$PATH"
 
-# Make OpenSSL available for Crystal
-export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig"
-export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
+# Make libpq available
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/libpq/lib/pkgconfig"
 
 # Turn off Homebrew analytics
 export HOMEBREW_NO_ANALYTICS=1

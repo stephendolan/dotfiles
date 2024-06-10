@@ -1,5 +1,8 @@
 # vim: set filetype=sh :
 
+# Always use fancy ls
+alias ls='ls -al'
+
 # Shorthand calls
 alias dc='docker-compose'
 
@@ -8,5 +11,5 @@ alias vi='nvim'
 alias vim='nvim'
 
 # Use VSCode Insiders
-alias code='code-insiders'
+alias code='cursor'
 
