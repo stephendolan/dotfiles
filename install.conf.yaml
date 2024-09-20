@@ -15,6 +15,7 @@
     ~/.psqlrc:
     ~/.pspgconf:
     ~/.ripgreprc:
+    ~/.p10k.zsh:
     ~/.rgignore:
     ~/.railsrc:
     ~/.zshrc:
