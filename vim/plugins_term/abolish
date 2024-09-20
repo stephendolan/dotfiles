@@ -1,5 +1,0 @@
-" Repository Link: https://github.com/tpope/vim-abolish
-
-Plug 'tpope/vim-abolish'
-
-" vim:ft=vim

@@ -1,5 +1,0 @@
-" Repository Link: https://github.com/tpope/vim-endwise
-
-Plug 'tpope/vim-endwise'
-
-" vim:ft=vim

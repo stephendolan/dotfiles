@@ -1,7 +1,0 @@
-" Repository Link: https://github.com/EinfachToll/DidYouMean
-
-Plug 'EinfachToll/DidYouMean'
-
-let g:dym_use_fzf = 1
-
-" vim:ft=vim

@@ -9,11 +9,7 @@
       quiet: true
 
 - link:
-    ~/.gitconfig: gitconfig/common
-    ~/.gitconfig-neadwerx: gitconfig/neadwerx
-    ~/.config/nvim/init.vim: vimrc
-    ~/.tmux.conf:
-    ~/.default-gems:
+    ~/.gitconfig:
     ~/.aliases:
     ~/.asdfrc:
     ~/.psqlrc:
@@ -22,20 +18,8 @@
     ~/.rgignore:
     ~/.railsrc:
     ~/.zshrc:
-    ~/.config/alfred: alfred
+    ~/.config/alacritty.toml: alacritty.toml
     ~/Brewfile: Brewfile
-    ~/.config/nvim/UltiSnips:
-      glob: true
-      path: vim/snippets/*
-    ~/.config/nvim/vim_plugins_term:
-      glob: true
-      path: vim/plugins_term/*
-    ~/.config/nvim/vim_plugins_all:
-      glob: true
-      path: vim/plugins_all/*
-    ~/.tmuxp/:
-      glob: true
-      path: tmuxp/*
     ~/.zsh/config/fzf: zsh/config/fzf
     ~/.zsh/config/mac:
       if: "[ `uname` = Darwin ]"
@@ -43,21 +27,11 @@
     ~/.zsh/config/linux:
       if: "[ `uname` = Linux ]"
       path: zsh/config/linux
-    ~/.zsh/config/yarn: zsh/config/yarn
-    ~/.zsh/config/tmux: zsh/config/tmux
     ~/.zsh/config/ripgrep: zsh/config/ripgrep
 
 - shell:
     - [
         which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)",
         "Checking for HomeBrew and installing if necessary...",
-      ]
-    - [
-        curl -sfLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim,
-        "Downloading and Installing Vim-Plug...",
-      ]
-    - [
-        nvim +PlugUpgrade +PlugInstall +PlugUpdate +UpdateRemotePlugins +PlugClean! +qall,
-        "Installing and Updating Plugins...",
       ]
     - [touch ~/.psqlrc.local, "Creating empty psqlrc.local file"]

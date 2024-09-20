@@ -1,5 +1,0 @@
-" Repository Link: https://github.com/mattn/emmet-vim
-
-Plug 'mattn/emmet-vim', { 'for': ['html', 'eruby', 'vue' , 'css'] }
-
-" vim:ft=vim

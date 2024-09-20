@@ -1,5 +1,0 @@
-" Repository Link: https://github.com/tpope/vim-repeat
-
-Plug 'tpope/vim-repeat'
-
-" vim:ft=vim

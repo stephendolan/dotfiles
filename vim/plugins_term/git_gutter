@@ -1,8 +1,0 @@
-" Repository Link: https://github.com/airblade/vim-gitgutter
-
-" Plug 'airblade/vim-gitgutter'
-
-" Use RipGrep for a faster search
-" let g:gitgutter_grep = 'rg'
-
-" vim:ft=vim

@@ -1,0 +1,3 @@
+[shell]
+program = "/bin/zsh"
+# args = ["zellij"]
