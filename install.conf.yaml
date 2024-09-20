@@ -36,3 +36,5 @@
         "Checking for HomeBrew and installing if necessary...",
       ]
     - [touch ~/.psqlrc.local, "Creating empty psqlrc.local file"]
+    - [git submodule update --init --recursive, Installing submodules]
+
