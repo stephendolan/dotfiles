@@ -19,6 +19,9 @@
     ~/.rgignore:
     ~/.railsrc:
     ~/.zshrc:
+    ~/.oh-my-zsh/custom/plugins/:
+      glob: true
+      path: oh-my-zsh/custom/plugins/*
     ~/.config/alacritty.toml: alacritty.toml
     ~/Brewfile: Brewfile
     ~/.zsh/config/fzf: zsh/config/fzf
