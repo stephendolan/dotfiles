@@ -17,7 +17,6 @@
     ~/.ripgreprc:
     ~/.p10k.zsh:
     ~/.rgignore:
-    ~/.railsrc:
     ~/.zshrc:
     ~/.oh-my-zsh/custom/plugins/:
       glob: true
@@ -38,6 +37,5 @@
         which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)",
         "Checking for HomeBrew and installing if necessary...",
       ]
-    - [touch ~/.psqlrc.local, "Creating empty psqlrc.local file"]
     - [git submodule update --init --recursive, Installing submodules]
 
