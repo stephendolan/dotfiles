@@ -27,3 +27,6 @@ alias dc='docker-compose'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+
+# CLAUDE
+alias claude='/Users/stephen/.claude/local/claude'

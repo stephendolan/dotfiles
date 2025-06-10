@@ -1,0 +1,14 @@
+Please analyze and plan for the implementation of this Linear project: $ARGUMENTS.
+
+Follow these steps:
+
+1. Use the Linear MCP to get the project details
+2. Understand the problem described in the project overview and any related documents or attachments
+3. Ask clarifying questions about edge cases, rabbit holes, risks, and assumptions
+4. Search the codebase for relevant files
+5. Plan the implementation steps needed to bring the project to completion
+6. Determine whether or not the current set of project milestones and issues encompass the scope of the project responsibly, or if more need to be created or some need to be updated
+7. Update the project, milestones, and issues as needed
+
+Remember to use the GitHub CLI (`gh`) for any GitHub-related tasks.
+If you can use principles from Shape Up, please do so.
