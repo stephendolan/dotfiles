@@ -19,39 +19,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Based on codebase cleanup experience, these are the most common low-value comments to avoid:
 
-1. **tRPC Procedure Comments** - Never comment obvious API operations:
-
-   ```typescript
-   // L Bad
-   // Create a new task
-   create: protectedProcedure.input(...)
-
-   //  Good - procedure name is self-explanatory
-   create: protectedProcedure.input(...)
-   ```
-
-2. **JSX Layout Comments** - Never comment obvious DOM structure:
-
-   ```tsx
-   // L Bad
-   {/* Header */}
-   <header className="border-b">
-
-   //  Good - semantic HTML is self-documenting
-   <header className="border-b">
-   ```
-
-3. **Type Definition Comments** - TypeScript is self-documenting:
-
-   ```typescript
-   // L Bad
-   // Interface for user data from API
-   interface UserData {
-
-   //  Good - interface name explains purpose
-   interface UserData {
-   ```
-
 4. **Process Step Comments** - Extract to named functions instead:
 
    ```typescript
@@ -153,3 +120,9 @@ completed: input.completed ? 1 : 0
 **Target: 80-90% fewer comments than typical codebases.** If you find yourself writing many comments, step back and improve the code structure instead.
 
 **Rule of thumb**: If a comment can be replaced by better naming or code organization, always choose the refactor.
+
+## Code Quality Standards
+
+- Ensure all tests pass before committing
+- Ensure all linters pass before committing, handling both errors and warnings
+- Always handle errors explicitly, never ignore them

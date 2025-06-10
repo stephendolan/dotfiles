@@ -20,8 +20,6 @@ return {
         },
         menu = {
           auto_show = true, -- Show completions
-          max_items = 5, -- Show fewer items
-          auto_show_delay_ms = 250, -- Add small delay before showing
         },
         documentation = {
           auto_show = false, -- Don't auto-show large doc popups
