@@ -43,10 +43,12 @@
       "Bash(zoxide:*)",
       "WebFetch(domain:clerk.com)",
       "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:docs.sentry.io)",
       "WebFetch(domain:github.com)",
       "mcp__Sentry__find_errors",
       "mcp__Sentry__get_issue_details",
       "mcp__linear__get_issue",
+      "mcp__linear__list_issues",
       "mcp__linear__list_comments"
     ],
     "deny": []
