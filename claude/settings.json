@@ -1,5 +1,4 @@
 {
-  "model": "Sonnet",
   "permissions": {
     "allow": [
       "Bash(bat:*)",
