@@ -60,7 +60,8 @@ build/
 *.tgz
 
 # Dotfiles-specific local files
-Brewfile.lock.json
+.ruby-lsp/
+
+# AI local configuration
 .claude/settings.local.json
 CLAUDE.local.md
-.ruby-lsp/
