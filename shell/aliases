@@ -1,0 +1,29 @@
+# vim: set filetype=sh :
+
+# MODERN TOOL REPLACEMENTS
+alias cat='bat'
+alias ls='eza --long --all --group-directories-first'
+alias ll='eza --long --group-directories-first'
+alias la='eza --long --all --group-directories-first'
+alias tree='eza --tree'
+alias find='fd'
+alias grep='rg'
+
+# EDITOR
+alias vi='nvim'
+alias vim='nvim'
+
+# GIT
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git pull'
+alias gd='git diff'
+
+# SHORTCUTS
+alias dc='docker-compose'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'

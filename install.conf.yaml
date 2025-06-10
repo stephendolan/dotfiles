@@ -9,35 +9,51 @@
       quiet: true
 
 - link:
-    ~/.gitconfig:
-    ~/.aliases:
-    ~/.asdfrc:
-    ~/.psqlrc:
-    ~/.claude/settings.json: claude/settings.json
-    ~/.claude/CLAUDE.md: claude/CLAUDE.md
-    ~/.pspgconf:
-    ~/.ripgreprc:
-    ~/.p10k.zsh:
-    ~/.rgignore:
-    ~/.zshrc:
-    ~/.oh-my-zsh/custom/plugins/:
-      glob: true
-      path: oh-my-zsh/custom/plugins/*
-    ~/.config/alacritty.toml: alacritty.toml
-    ~/Brewfile: Brewfile
-    ~/.zsh/config/fzf: zsh/config/fzf
+    # Git configuration
+    ~/.gitconfig: git/config
+    ~/.gitignore_global: git/ignore_global
+
+    # Shell configuration
+    ~/.zshrc: shell/config
+    ~/.aliases: shell/aliases
+    ~/.zsh/config/fzf: shell/zsh/fzf
     ~/.zsh/config/mac:
       if: "[ `uname` = Darwin ]"
-      path: zsh/config/mac
+      path: shell/zsh/mac
     ~/.zsh/config/linux:
       if: "[ `uname` = Linux ]"
-      path: zsh/config/linux
-    ~/.zsh/config/ripgrep: zsh/config/ripgrep
+      path: shell/zsh/linux
+    ~/.zsh/config/ripgrep: shell/zsh/ripgrep
+
+    # XDG-compatible applications
+    ~/.config/nvim:
+      path: nvim
+      force: true
+    ~/.config/starship.toml: starship/config.toml
+    ~/.config/alacritty.toml: alacritty/config.toml
+    ~/.config/mcfly/config.toml: mcfly/config.toml
+
+    # Database tools
+    ~/.psqlrc: psql/config
+    ~/.pspgconf: pspg/config
+
+    # Development tools
+    ~/.asdfrc: asdf/config
+    ~/.tool-versions: asdf/tool-versions
+    ~/.railsrc: rails/default_flags
+
+    # Search tools
+    ~/.ripgreprc: ripgrep/config
+    ~/.rgignore: ripgrep/ignore
+
+    # Claude configuration
+    ~/.claude/settings.json: claude/settings.json
+    ~/.claude/CLAUDE.md: claude/CLAUDE.md
+
+    # Project files
+    ~/Brewfile: homebrew/Brewfile
 
 - shell:
-    - [
-        which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)",
-        "Checking for HomeBrew and installing if necessary...",
-      ]
-    - [git submodule update --init --recursive, Installing submodules]
-
+    - [./scripts/dotbot-setup.sh, Setting up DotBot]
+    - [./scripts/brew-setup.sh, Setting up Homebrew and packages]
+    - [./scripts/asdf-setup.sh, Setting up ASDF plugins and versions]

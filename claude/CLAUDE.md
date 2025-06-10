@@ -102,7 +102,9 @@ Comments that explain WHY something is done or provide critical context:
 
    ```typescript
    // Sort mentions in reverse order to avoid index shifting during removal
-   const sortedMentions = [...mentions].sort((a, b) => b.startIndex - a.startIndex);
+   const sortedMentions = [...mentions].sort(
+     (a, b) => b.startIndex - a.startIndex,
+   );
    ```
 
 4. **Performance Optimizations**:

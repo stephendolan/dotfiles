@@ -1,0 +1,10 @@
+[interface]
+color_scheme = "dark"
+show_directory_context = true
+show_preview = true
+max_results = 15
+
+[behavior]
+fuzzy_mode = true
+delete_duplicates = true
+append_to_histfile = true

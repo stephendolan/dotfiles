@@ -1,0 +1,38 @@
+tap "homebrew/bundle"
+tap "homebrew/services"
+
+# Core tools
+brew "asdf"
+brew "bat"
+brew "htop"
+brew "neovim"
+brew "postgresql@17", restart_service: true
+brew "pspg"
+brew "redis", restart_service: true
+brew "ripgrep"
+brew "wget"
+
+# Modern CLI tools
+brew "starship"          # Modern prompt
+brew "gh"               # GitHub CLI
+brew "jq"               # JSON processor
+brew "fd"               # Better find
+brew "eza"              # Better ls
+brew "delta"            # Better git diff
+brew "direnv"           # Directory environments
+brew "tree"             # Directory tree viewer
+brew "fzf"              # Fuzzy finder
+brew "tmux"             # Terminal multiplexer
+brew "glow"             # Markdown renderer
+brew "zoxide"           # Smarter cd command
+brew "just"             # Command runner
+brew "lazygit"          # Git TUI
+brew "mcfly"            # Better shell history
+
+# Development tools
+brew "shellcheck"       # Shell script linter
+brew "yamllint"         # YAML linter
+
+# Zsh plugins
+brew "zsh-syntax-highlighting"
+brew "zsh-autosuggestions"

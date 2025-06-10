@@ -1,0 +1,16 @@
+# vim: set filetype=zsh :
+
+# Set up a preview pane for file searches
+export BAT_THEME="TwoDark"
+export FZF_COMPLETION_OPTS="--preview '(bat --theme=$BAT_THEME --color=always --style=numbers {} || cat {} || tree -C {}) 2> /dev/null | head -200'"
+export FZF_CTRL_T_OPTS="$FZF_COMPLETION_OPTS"
+
+# Use Ripgrep for searching
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_COLORS="fg:-1,bg:-1,hl:230,fg+:3,bg+:233,hl+:229,info:150,prompt:110,spinner:150,pointer:167,marker:174"
+export FZF_DEFAULT_OPTS="--color=$FZF_COLORS --height=40% --layout=reverse --border --bind='ctrl-/:toggle-preview'"
+
+# Key bindings and completion
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-/:toggle-preview'"
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"

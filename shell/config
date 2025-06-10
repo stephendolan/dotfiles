@@ -1,0 +1,66 @@
+
+# HISTORY
+setopt hist_ignore_all_dups inc_append_history
+HIST_STAMPS="yyyy-mm-dd"
+HISTFILE=~/.zhistory
+HISTSIZE=4096
+SAVEHIST=4096
+export ERL_AFLAGS="-kernel shell_history enabled"
+
+# CD BEHAVIOR
+setopt auto_cd auto_pushd pushd_minus pushd_silent pushd_to_home cdable_vars
+DIRSTACKSIZE=5
+
+# GLOBBING
+setopt extended_glob
+unsetopt no_match
+
+# COMPLETION
+autoload -U compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# EDITOR
+export VISUAL=nvim
+export EDITOR=$VISUAL
+export MANPAGER="nvim -c 'set ft=man' -"
+
+# HOMEBREW ZSH PLUGINS
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# ALIASES
+[[ -e $HOME/.aliases ]] && source $HOME/.aliases
+
+# PLATFORM-SPECIFIC CONFIG
+[[ -f $HOME/.zsh/config/mac ]] && source $HOME/.zsh/config/mac
+[[ -f $HOME/.zsh/config/linux ]] && source $HOME/.zsh/config/linux
+[[ -f $HOME/.zsh/config/fzf ]] && source $HOME/.zsh/config/fzf
+[[ -f $HOME/.zsh/config/ripgrep ]] && source $HOME/.zsh/config/ripgrep
+
+# ASDF
+source /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+# FZF
+source <(fzf --zsh)
+
+# Override default Ctrl+T behavior to open in editor
+export FZF_CTRL_T_OPTS="--bind 'enter:execute($EDITOR {})+abort'"
+
+# MCFLY (better history)
+export MCFLY_KEY_SCHEME=vim
+export MCFLY_FUZZY=0
+export MCFLY_RESULTS=15
+export MCFLY_DELETE_WITHOUT_CONFIRM=true
+eval "$(mcfly init zsh)"
+
+# STARSHIP PROMPT
+eval "$(starship init zsh)"
+
+# DIRENV
+eval "$(direnv hook zsh)"
+
+# PATHS
+export PATH="$PATH:/Users/stephen/.cache/lm-studio/bin"
+
+# LOAD LOCAL SETTINGS
+[[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
