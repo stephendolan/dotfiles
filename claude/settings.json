@@ -48,6 +48,8 @@
       "mcp__Sentry__find_errors",
       "mcp__Sentry__get_issue_details",
       "mcp__linear__get_issue",
+      "mcp__linear__get_project",
+      "mcp__linear__list_project",
       "mcp__linear__list_issues",
       "mcp__linear__list_comments"
     ],

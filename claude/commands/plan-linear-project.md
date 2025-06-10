@@ -1,5 +1,7 @@
 Please analyze and plan for the implementation of this Linear project: $ARGUMENTS.
 
+If $ARGUMENTS doesn't look like a UUID, ask the user to get the project UUID by going to the project page and using CMD+K, then "Copy Model UUID".
+
 Follow these steps:
 
 1. Use the Linear MCP to get the project details
