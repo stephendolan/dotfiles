@@ -71,3 +71,6 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Load fish-like syntax highlights
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/stephen/.cache/lm-studio/bin"

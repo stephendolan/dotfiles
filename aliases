@@ -9,7 +9,3 @@ alias dc='docker-compose'
 # Don't want to accidentally use old `vi` or `vim` commands
 alias vi='nvim'
 alias vim='nvim'
-
-# Use VSCode Insiders
-alias code='cursor'
-

@@ -13,6 +13,8 @@
     ~/.aliases:
     ~/.asdfrc:
     ~/.psqlrc:
+    ~/.claude/settings.json: claude/settings.json
+    ~/.claude/CLAUDE.md: claude/CLAUDE.md
     ~/.pspgconf:
     ~/.ripgreprc:
     ~/.p10k.zsh:
