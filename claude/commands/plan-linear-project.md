@@ -10,7 +10,7 @@ Follow these steps:
 4. Search the codebase for relevant files
 5. Plan the implementation steps needed to bring the project to completion
 6. Determine whether or not the current set of project milestones and issues encompass the scope of the project responsibly, or if more need to be created or some need to be updated
-7. Update the project, creating milestones and issues as needed. 
+7. Update the project, creating milestones and issues as needed.
 
 When creating issues, they should be created in the "Backlog" status.
 When referencing issues in the project description, actually link to them.
