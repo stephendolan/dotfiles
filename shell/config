@@ -60,26 +60,7 @@ eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 
 # AI ASSISTANT
-ai() {
-  printf "🤔 Thinking..." >&2
-  local cmd=$(claude -p "First read ~/Brewfile to see what tools are available, then return only the command to: $*. No explanation, no backticks, no formatting. Just the raw command ready to execute using the best available tools. If the command produces output, include flags for the prettiest, most human-readable formatting (colors, headers, etc.)." --model sonnet)
-  printf "\r\e[2K" >&2
-  print -z "$cmd"
-}
-
-explain() {
-  printf "🤔 Thinking..." >&2
-  local explanation=$(claude -p "Explain this command: $*. Be concise and clear." --model sonnet)
-  printf "\r\e[2K" >&2
-  echo "$explanation"
-}
-
-gci() {
-  printf "🤔 Analyzing changes..." >&2
-  local commit_msg=$(claude -p "Read the output of 'git diff --cached' and 'git status --porcelain' to understand what changes are staged. Generate a concise, clear git commit message following conventional commit standards. Return only the complete git commit command with the -m flag and message in quotes. No explanation, no backticks, no formatting. Just the raw command ready to execute." --model sonnet)
-  printf "\r\e[2K" >&2
-  print -z "$commit_msg"
-}
+[[ -f $HOME/.zsh/functions/ai ]] && source $HOME/.zsh/functions/ai
 
 # PATHS
 export PATH="$PATH:/Users/stephen/.cache/lm-studio/bin"

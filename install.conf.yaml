@@ -24,6 +24,7 @@
       if: "[ `uname` = Linux ]"
       path: shell/zsh/linux
     ~/.zsh/config/ripgrep: shell/zsh/ripgrep
+    ~/.zsh/functions/ai: shell/functions/ai
 
     # XDG-compatible applications
     ~/.config/nvim:
