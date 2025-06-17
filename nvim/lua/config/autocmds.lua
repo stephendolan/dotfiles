@@ -67,3 +67,16 @@ autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
+
+-- Auto-detect Ruby formatter based on project config files
+autocmd("BufReadPre", {
+  group = vim.api.nvim_create_augroup("ruby_formatter_detection", {}),
+  callback = function()
+    local root = vim.fn.getcwd()
+    if vim.fn.filereadable(root .. "/.standard.yml") == 1 then
+      vim.g.lazyvim_ruby_formatter = "standardrb"
+    elseif vim.fn.filereadable(root .. "/.rubocop.yml") == 1 then
+      vim.g.lazyvim_ruby_formatter = "rubocop"
+    end
+  end,
+})

@@ -17,7 +17,9 @@ unsetopt no_match
 
 # COMPLETION
 autoload -U compinit && compinit
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+setopt COMPLETE_IN_WORD
+setopt ALWAYS_TO_END
 
 # EDITOR
 export VISUAL=nvim
