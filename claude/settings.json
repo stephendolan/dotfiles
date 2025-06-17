@@ -2,6 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(bat:*)",
+      "Bash(cp:*)",
       "Bash(bin/rails:*)",
       "Bash(bundle:*)",
       "Bash(cat:*)",
@@ -45,6 +46,7 @@
       "WebFetch(domain:docs.sentry.io)",
       "WebFetch(domain:github.com)",
       "mcp__ChartMogul",
+      "mcp__MixPanel",
       "mcp__Sentry__find_errors",
       "mcp__Sentry__get_issue_details",
       "mcp__linear__get_issue",
