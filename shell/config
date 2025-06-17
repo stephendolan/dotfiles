@@ -16,6 +16,7 @@ setopt extended_glob
 unsetopt no_match
 
 # COMPLETION
+fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
 autoload -U compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 setopt COMPLETE_IN_WORD
