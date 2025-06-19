@@ -129,5 +129,25 @@ completed: input.completed ? 1 : 0
 
 ## Tooling preferences
 
-- You run in an environment where `ast-grep` is available; whenever a search requires syntax-aware or structural matching, default to `ast-grep --lang {lang} -p '<pattern>'` (or set `--lang` appropriately) and avoid falling back to text-only tools like `rg` or `grep` unless I explicitly request a plain-text search.
+### Modern Tool Usage
+
+- **For file searching**: Use `fd` instead of `find`. It's faster, has better defaults (respects .gitignore), and simpler syntax:
+  - `fd pattern` instead of `find . -name "*pattern*"`
+  - `fd -e py` to find Python files instead of `find . -name "*.py"`
+
+- **For text searching**: Use `rg` (ripgrep) instead of `grep`. It's significantly faster, respects .gitignore, and has better defaults:
+  - `rg pattern` instead of `grep -r pattern .`
+  - `rg -t py pattern` to search only Python files
+  - Built-in support for multiline search, context lines, and smart case sensitivity
+
+- **For syntax-aware searching**: Use `ast-grep` when you need structural code search:
+  - `ast-grep --lang python -p 'def $FUNC($$$)'` to find function definitions
+  - Better than regex for finding code patterns that span multiple lines or have complex nesting
+
+### Tool Hierarchy
+
+1. **ast-grep** - For syntax-aware structural searches in code
+2. **ripgrep (rg)** - For fast text searches across files
+3. **fd** - For finding files by name or pattern
+4. Only fall back to traditional `grep` or `find` if explicitly requested or if the modern tools are unavailable
 
