@@ -1,12 +1,13 @@
 {
   "permissions": {
     "allow": [
+      "Bash(ast-grep:*)",
       "Bash(bat:*)",
-      "Bash(cp:*)",
       "Bash(bin/rails:*)",
       "Bash(bundle:*)",
       "Bash(cat:*)",
       "Bash(chmod:*)",
+      "Bash(cp:*)",
       "Bash(delta:*)",
       "Bash(echo:*)",
       "Bash(eza:*)",
@@ -35,8 +36,8 @@
       "Bash(shellcheck:*)",
       "Bash(tmux:*)",
       "Bash(tree:*)",
-      "Bash(tsc --noEmit)",
       "Bash(true)",
+      "Bash(tsc:*)",
       "Bash(wget:*)",
       "Bash(yamllint:*)",
       "Bash(yarn:*)",
@@ -49,13 +50,13 @@
       "mcp__MixPanel",
       "mcp__Sentry__find_errors",
       "mcp__Sentry__get_issue_details",
+      "mcp__linear__get_document",
       "mcp__linear__get_issue",
       "mcp__linear__get_project",
-      "mcp__linear__list_project",
-      "mcp__linear__list_issues",
+      "mcp__linear__list_comments",
       "mcp__linear__list_documents",
-      "mcp__linear__get_document",
-      "mcp__linear__list_comments"
+      "mcp__linear__list_issues",
+      "mcp__linear__list_project"
     ],
     "deny": []
   },

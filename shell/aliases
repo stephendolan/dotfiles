@@ -6,8 +6,6 @@ alias ls='eza --long --all --group-directories-first'
 alias ll='eza --long --group-directories-first'
 alias la='eza --long --all --group-directories-first'
 alias tree='eza --tree'
-alias find='fd'
-alias grep='rg'
 
 # EDITOR
 alias vi='nvim'
