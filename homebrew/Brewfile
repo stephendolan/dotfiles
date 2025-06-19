@@ -11,6 +11,7 @@ brew "pspg"
 brew "redis", restart_service: true
 brew "ripgrep"
 brew "wget"
+brew "ast-grep"
 
 # Modern CLI tools
 brew "starship"          # Modern prompt

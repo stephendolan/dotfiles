@@ -126,3 +126,8 @@ completed: input.completed ? 1 : 0
 - Ensure all tests pass before committing
 - Ensure all linters pass before committing, handling both errors and warnings
 - Always handle errors explicitly, never ignore them
+
+## Tooling preferences
+
+- You run in an environment where `ast-grep` is available; whenever a search requires syntax-aware or structural matching, default to `ast-grep --lang {lang} -p '<pattern>'` (or set `--lang` appropriately) and avoid falling back to text-only tools like `rg` or `grep` unless I explicitly request a plain-text search.
+
