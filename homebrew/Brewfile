@@ -3,6 +3,7 @@ tap "homebrew/services"
 
 # Core tools
 brew "asdf"
+brew "ast-grep"
 brew "bat"
 brew "htop"
 brew "neovim"
@@ -10,30 +11,30 @@ brew "postgresql@17", restart_service: true
 brew "pspg"
 brew "redis", restart_service: true
 brew "ripgrep"
+brew "uv"
 brew "wget"
-brew "ast-grep"
 
 # Modern CLI tools
-brew "starship"          # Modern prompt
-brew "gh"               # GitHub CLI
-brew "jq"               # JSON processor
-brew "fd"               # Better find
-brew "eza"              # Better ls
 brew "delta"            # Better git diff
 brew "direnv"           # Directory environments
-brew "tree"             # Directory tree viewer
+brew "eza"              # Better ls
+brew "fd"               # Better find
 brew "fzf"              # Fuzzy finder
-brew "tmux"             # Terminal multiplexer
+brew "gh"               # GitHub CLI
 brew "glow"             # Markdown renderer
-brew "zoxide"           # Smarter cd command
+brew "jq"               # JSON processor
 brew "just"             # Command runner
 brew "lazygit"          # Git TUI
 brew "mcfly"            # Better shell history
+brew "starship"          # Modern prompt
+brew "tmux"             # Terminal multiplexer
+brew "tree"             # Directory tree viewer
+brew "zoxide"           # Smarter cd command
 
 # Development tools
 brew "shellcheck"       # Shell script linter
 brew "yamllint"         # YAML linter
 
 # Zsh plugins
-brew "zsh-syntax-highlighting"
 brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
