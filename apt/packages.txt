@@ -52,3 +52,6 @@ software-properties-common
 gnupg
 lsb-release
 ca-certificates
+
+# Docker dependencies
+apt-transport-https
