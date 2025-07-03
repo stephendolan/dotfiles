@@ -27,4 +27,4 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # CLAUDE
-alias claude='/Users/stephen/.claude/local/claude'
+alias claude='$HOME/.claude/local/claude'

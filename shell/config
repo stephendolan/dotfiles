@@ -16,7 +16,11 @@ setopt extended_glob
 unsetopt no_match
 
 # COMPLETION
-fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
+if [[ -d /opt/homebrew/share/zsh/site-functions ]]; then
+    fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
+elif [[ -d /home/linuxbrew/.linuxbrew/share/zsh/site-functions ]]; then
+    fpath=(/home/linuxbrew/.linuxbrew/share/zsh/site-functions $fpath)
+fi
 autoload -U compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 setopt COMPLETE_IN_WORD
@@ -28,8 +32,17 @@ export EDITOR=$VISUAL
 export MANPAGER="nvim -c 'set ft=man' -"
 
 # HOMEBREW ZSH PLUGINS
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+elif [[ -f /home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source /home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+if [[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif [[ -f /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
 
 # ALIASES
 [[ -e $HOME/.aliases ]] && source $HOME/.aliases
@@ -41,7 +54,11 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 [[ -f $HOME/.zsh/config/ripgrep ]] && source $HOME/.zsh/config/ripgrep
 
 # ASDF
-source /opt/homebrew/opt/asdf/libexec/asdf.sh
+if [[ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ]]; then
+    source /opt/homebrew/opt/asdf/libexec/asdf.sh
+elif [[ -f /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh ]]; then
+    source /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
+fi
 
 # FZF
 source <(fzf --zsh)
@@ -64,9 +81,6 @@ eval "$(direnv hook zsh)"
 
 # AI ASSISTANT
 [[ -f $HOME/.zsh/functions/ai ]] && source $HOME/.zsh/functions/ai
-
-# PATHS
-export PATH="$PATH:/Users/stephen/.cache/lm-studio/bin"
 
 # LOAD LOCAL SETTINGS
 [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
