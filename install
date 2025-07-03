@@ -12,4 +12,11 @@ cd "${BASEDIR}"
 git -C "${DOTBOT_DIR}" submodule sync --quiet --recursive
 git submodule update --init --recursive "${DOTBOT_DIR}"
 
+# Set up platform-specific Brewfile symlink
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    ln -sf "${BASEDIR}/homebrew/Brewfile.mac" "${BASEDIR}/homebrew/Brewfile"
+else
+    ln -sf "${BASEDIR}/homebrew/Brewfile.linux" "${BASEDIR}/homebrew/Brewfile"
+fi
+
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
