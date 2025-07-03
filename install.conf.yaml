@@ -58,5 +58,10 @@
 
 - shell:
     - [./scripts/dotbot-setup.sh, Setting up DotBot]
+    - command: ./scripts/apt-install.sh
+      description: Installing apt packages
+      stdin: true
+      stdout: true
+      if: "[ `uname` = Linux ]"
     - [./scripts/brew-setup.sh, Setting up Homebrew and packages]
     - [./scripts/asdf-setup.sh, Setting up ASDF plugins and versions]
