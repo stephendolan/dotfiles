@@ -20,7 +20,12 @@ echo "Updating Homebrew..."
 brew update
 
 echo "Installing packages from Brewfile..."
-brew bundle --file=~/Brewfile
+if [[ $(uname) == "Darwin" ]]; then
+    BREWFILE="${HOME}/.dotfiles/homebrew/Brewfile.mac"
+else
+    BREWFILE="${HOME}/.dotfiles/homebrew/Brewfile.linux"
+fi
+brew bundle --file="$BREWFILE"
 
 echo "Upgrading outdated packages..."
 brew upgrade

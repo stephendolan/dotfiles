@@ -30,6 +30,7 @@ brew "zoxide"           # Smarter cd command
 brew "shellcheck"       # Shell script linter
 brew "yamllint"         # YAML linter
 
-# Zsh plugins
+# Shell and plugins
+brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"

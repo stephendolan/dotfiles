@@ -51,10 +51,13 @@
     ~/.claude/settings.json: claude/settings.json
     ~/.claude/CLAUDE.md: claude/CLAUDE.md
     ~/.claude/commands: claude/commands
-    ~/Library/Application Support/Claude/claude_desktop_config.json : claude/desktop_config.json
+    ~/Library/Application Support/Claude/claude_desktop_config.json:
+      if: "[ `uname` = Darwin ]"
+      path: claude/desktop_config.json
+    ~/.config/Claude/claude_desktop_config.json:
+      if: "[ `uname` = Linux ]"
+      path: claude/desktop_config.json
 
-    # Project files
-    ~/Brewfile: homebrew/Brewfile
 
 - shell:
     - [./scripts/dotbot-setup.sh, Setting up DotBot]
@@ -64,4 +67,5 @@
       stdout: true
       if: "[ `uname` = Linux ]"
     - [./scripts/brew-setup.sh, Setting up Homebrew and packages]
+    - [./scripts/shell-setup.sh, Setting up default shell]
     - [./scripts/asdf-setup.sh, Setting up ASDF plugins and versions]
