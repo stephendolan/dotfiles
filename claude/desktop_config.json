@@ -17,6 +17,15 @@
         "https://mcp.sentry.dev/mcp"
       ]
     },
+    "mixpanel": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.mixpanel.com/sse",
+        "--allow-http"
+      ]
+    },
     "context-7": {
       "command": "npx",
       "args": [
