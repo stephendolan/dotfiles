@@ -53,6 +53,12 @@
         "mcp-server-time",
         "--local-timezone=America/New_York"
       ]
+    },
+    "betterstack-clickhouse": {
+      "command": "node",
+      "args": [
+        "/Users/stephen/Repos/betterstack-mcp/dist/index.js"
+      ]
     }
   }
 }
