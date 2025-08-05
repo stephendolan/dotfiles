@@ -61,5 +61,9 @@
     ],
     "deny": []
   },
-  "enableAllProjectMcpServers": false
+  "enableAllProjectMcpServers": false,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754059139990
+  },
+  "$schema": "https://json.schemastore.org/claude-code-settings.json"
 }
