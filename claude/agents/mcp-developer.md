@@ -50,36 +50,43 @@ When creating or reviewing MCP servers:
 ## Code Patterns
 
 ### Server Initialization
+
 ```typescript
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
-const server = new Server({
-  name: "example-server",
-  version: "1.0.0",
-}, {
-  capabilities: {
-    tools: {},
-    resources: {},
-    prompts: {}
-  }
-});
+const server = new Server(
+  {
+    name: "example-server",
+    version: "1.0.0",
+  },
+  {
+    capabilities: {
+      tools: {},
+      resources: {},
+      prompts: {},
+    },
+  },
+);
 ```
 
 ### Tool Implementation
+
 ```typescript
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: [{
-    name: "example_tool",
-    description: "Clear description of what this tool does",
-    inputSchema: {
-      type: "object",
-      properties: {
-        param: { type: "string", description: "Parameter description" }
+  tools: [
+    {
+      name: "example_tool",
+      description: "Clear description of what this tool does",
+      inputSchema: {
+        type: "object",
+        properties: {
+          param: { type: "string", description: "Parameter description" },
+        },
+        required: ["param"],
       },
-      required: ["param"]
-    }
-  }]
+    },
+  ],
 }));
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
@@ -90,10 +97,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const result = await performOperation(args.param);
       return { content: [{ type: "text", text: JSON.stringify(result) }] };
     } catch (error) {
-      throw new McpError(ErrorCode.InternalError, `Operation failed: ${error.message}`);
+      throw new McpError(
+        ErrorCode.InternalError,
+        `Operation failed: ${error.message}`,
+      );
     }
   }
-  throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${request.params.name}`);
+  throw new McpError(
+    ErrorCode.MethodNotFound,
+    `Unknown tool: ${request.params.name}`,
+  );
 });
 ```
 
@@ -131,6 +144,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 ## Resources
 
 When needed, fetch latest information from:
+
 - TypeScript SDK: https://github.com/modelcontextprotocol/typescript-sdk
 - MCP Specification: https://modelcontextprotocol.io/llms-full.txt
 - Example servers for reference patterns

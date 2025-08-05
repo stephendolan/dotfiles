@@ -150,4 +150,3 @@ completed: input.completed ? 1 : 0
 2. **ripgrep (rg)** - For fast text searches across files
 3. **fd** - For finding files by name or pattern
 4. Only fall back to traditional `grep` or `find` if explicitly requested or if the modern tools are unavailable
-

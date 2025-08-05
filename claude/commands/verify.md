@@ -5,14 +5,14 @@ Perform a comprehensive verification of the repository to ensure it's ready to p
 ## Verification Steps
 
 1. **Discover Project Type and Tools**
-   
+
    **TypeScript/JavaScript Projects:**
    - Check for package.json and lock files (package-lock.json, yarn.lock, pnpm-lock.yaml)
    - Identify package manager (npm, yarn, pnpm)
    - Check for tsconfig.json (TypeScript)
    - Check for .eslintrc*, .prettierrc*, biome.json
-   - Check for jest.config.*, vitest.config.*, or test scripts
-   
+   - Check for jest.config._, vitest.config._, or test scripts
+
    **Ruby Projects:**
    - Check for Gemfile and Gemfile.lock
    - Check for .rubocop.yml, .reek.yml, .fasterer.yml
@@ -21,13 +21,13 @@ Perform a comprehensive verification of the repository to ensure it's ready to p
    - Check for .rspec or test/test_helper.rb
 
 2. **Run Tests**
-   
+
    **TypeScript/JavaScript:**
    - npm/yarn/pnpm test
    - npm/yarn/pnpm test:unit and test:integration if available
    - npm/yarn/pnpm test:e2e if available
    - Check coverage thresholds if configured
-   
+
    **Ruby:**
    - bundle exec rspec
    - bundle exec rake test or rake spec
@@ -35,24 +35,24 @@ Perform a comprehensive verification of the repository to ensure it's ready to p
    - bundle exec minitest if using Minitest
 
 3. **Run Build/Compile**
-   
+
    **TypeScript/JavaScript:**
    - npm/yarn/pnpm build
    - npm/yarn/pnpm compile if available
    - tsc --noEmit for type checking only
-   
+
    **Ruby:**
    - bundle exec rake assets:precompile (Rails)
    - Check for any custom build tasks in Rakefile
 
 4. **Run Linters and Formatters**
-   
+
    **TypeScript/JavaScript:**
    - npm/yarn/pnpm lint
    - npx eslint . --fix (if no lint script)
    - npx prettier --check . (if configured)
    - npx biome check (if using Biome)
-   
+
    **Ruby:**
    - bundle exec rubocop
    - bundle exec rubocop -a (auto-fix safe issues)
@@ -61,12 +61,12 @@ Perform a comprehensive verification of the repository to ensure it's ready to p
    - bundle exec fasterer if configured
 
 5. **Check Type Safety**
-   
+
    **TypeScript:**
    - npm/yarn/pnpm typecheck or tsc
    - tsc --noEmit if no typecheck script
    - Check for @ts-ignore or @ts-expect-error comments
-   
+
    **Ruby:**
    - bundle exec srb tc (if using Sorbet)
    - bundle exec steep check (if using Steep)
@@ -83,7 +83,7 @@ Perform a comprehensive verification of the repository to ensure it's ready to p
    - Check for circular dependencies if configured
 
 8. **Examine CI/CD Configuration**
-   - Check .github/workflows/*.yml for GitHub Actions
+   - Check .github/workflows/\*.yml for GitHub Actions
    - Check .gitlab-ci.yml for GitLab CI
    - Check .circleci/config.yml for CircleCI
    - Extract and run all verification commands found in CI files
@@ -135,6 +135,7 @@ Perform a comprehensive verification of the repository to ensure it's ready to p
 ## Common Scripts to Check
 
 **TypeScript/JavaScript package.json:**
+
 ```json
 "test", "test:unit", "test:integration", "test:e2e",
 "lint", "lint:fix", "format", "format:check",
@@ -143,6 +144,7 @@ Perform a comprehensive verification of the repository to ensure it's ready to p
 ```
 
 **Ruby Rakefile tasks:**
+
 ```ruby
 rake -T | grep -E "(spec|test|rubocop|lint|audit)"
 ```
@@ -150,6 +152,7 @@ rake -T | grep -E "(spec|test|rubocop|lint|audit)"
 ## Success Criteria
 
 The repository is ready to push when:
+
 - All tests pass (including coverage thresholds if set)
 - All builds complete successfully
 - All linters pass with no errors (warnings are acceptable but should be noted)
@@ -161,6 +164,7 @@ The repository is ready to push when:
 ## Failure Handling
 
 When a check fails:
+
 1. Report the specific failure with context
 2. Offer to fix auto-fixable issues (formatting, safe rubocop fixes)
 3. For test failures, offer to investigate the specific failing tests

@@ -20,6 +20,7 @@ Follow these steps:
 ## Primary Review Focus: Strategic & Architectural
 
 ### Analytics Events (Core Responsibility)
+
 - Are all user actions properly tracked with analytics events?
 - Do events follow our established naming conventions and schema?
 - Are event properties complete and well-structured?
@@ -28,33 +29,39 @@ Follow these steps:
 - Do events support our product analytics goals?
 
 ### High-Level Approach
+
 - Is this the right solution to the problem?
 - Are there more maintainable or scalable alternatives?
 - Does this align with long-term product direction?
 - Will this approach handle future requirements?
 
 ### Design & Abstractions
+
 - Are abstractions at the right level?
 - Is complexity justified by the requirements?
 - Does it follow existing patterns in the codebase?
 - Is the solution over-engineered or under-engineered?
 
 ### Performance & Scalability
+
 - Will this scale if usage grows 10x or 100x?
 - Are there potential bottlenecks?
 - Is caching strategy appropriate?
 
 ### Security & Data
+
 - Are there security implications?
 - Is sensitive data handled appropriately?
 - Are proper validations in place?
 
 ## Secondary Review Focus: Code Quality
+
 - Flag only significant code quality issues
 - Focus on systemic problems over isolated style issues
 - Mention testing coverage if notably lacking
 
 Output format:
+
 ```
 ## Strategic Review: PR #[NUMBER] - [TITLE]
 

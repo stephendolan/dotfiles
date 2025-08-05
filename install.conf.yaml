@@ -59,7 +59,6 @@
       if: "[ `uname` = Linux ]"
       path: claude/desktop_config.json
 
-
 - shell:
     - [./scripts/dotbot-setup.sh, Setting up DotBot]
     - command: ./scripts/apt-install.sh
