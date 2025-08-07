@@ -46,6 +46,7 @@
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:docs.sentry.io)",
       "WebFetch(domain:docs.tuple.app)",
+      "WebFetch(domain:docs.github.com)",
       "WebFetch(domain:github.com)",
       "mcp__ChartMogul",
       "mcp__MixPanel",
