@@ -1,3 +1,28 @@
 [terminal.shell]
 program = "/opt/homebrew/bin/tmux"
 args = ["new-session", "-A", "-D", "-s", "🏡 Home"]
+
+[[keyboard.bindings]]
+key = "S"
+mods = "Command"
+chars = "\u0001s"  # Ctrl-A then 's' for left/right split
+
+[[keyboard.bindings]]
+key = "S"
+mods = "Command|Shift"
+chars = "\u0001S"  # Ctrl-A then 'S' for top/bottom split
+
+[[keyboard.bindings]]
+key = "T"
+mods = "Command"
+chars = "\u0001t"  # Ctrl-A then 't' for new tab/window
+
+[[keyboard.bindings]]
+key = "]"
+mods = "Command"
+chars = "\u0001]"  # Ctrl-A then ']' for next tab
+
+[[keyboard.bindings]]
+key = "["
+mods = "Command"
+chars = "\u0001["  # Ctrl-A then '[' for previous tab
