@@ -26,3 +26,48 @@ chars = "\u0001]"  # Ctrl-A then ']' for next tab
 key = "["
 mods = "Command"
 chars = "\u0001["  # Ctrl-A then '[' for previous tab
+
+[[keyboard.bindings]]
+key = "1"
+mods = "Command"
+chars = "\u00011"  # Ctrl-A then '1' for window 1
+
+[[keyboard.bindings]]
+key = "2"
+mods = "Command"
+chars = "\u00012"  # Ctrl-A then '2' for window 2
+
+[[keyboard.bindings]]
+key = "3"
+mods = "Command"
+chars = "\u00013"  # Ctrl-A then '3' for window 3
+
+[[keyboard.bindings]]
+key = "4"
+mods = "Command"
+chars = "\u00014"  # Ctrl-A then '4' for window 4
+
+[[keyboard.bindings]]
+key = "5"
+mods = "Command"
+chars = "\u00015"  # Ctrl-A then '5' for window 5
+
+[[keyboard.bindings]]
+key = "6"
+mods = "Command"
+chars = "\u00016"  # Ctrl-A then '6' for window 6
+
+[[keyboard.bindings]]
+key = "7"
+mods = "Command"
+chars = "\u00017"  # Ctrl-A then '7' for window 7
+
+[[keyboard.bindings]]
+key = "8"
+mods = "Command"
+chars = "\u00018"  # Ctrl-A then '8' for window 8
+
+[[keyboard.bindings]]
+key = "9"
+mods = "Command"
+chars = "\u00019"  # Ctrl-A then '9' for window 9

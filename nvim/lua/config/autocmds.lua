@@ -80,3 +80,12 @@ autocmd("BufReadPre", {
     end
   end,
 })
+
+-- Disable diagnostics for .env files
+autocmd({ "BufRead", "BufNewFile" }, {
+  group = vim.api.nvim_create_augroup("disable_env_diagnostics", {}),
+  pattern = { "*.env", ".env", ".env.*" },
+  callback = function()
+    vim.diagnostic.enable(false, { bufnr = 0 })
+  end,
+})
