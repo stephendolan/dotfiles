@@ -32,7 +32,6 @@
       path: nvim
       force: true
     ~/.config/starship.toml: starship/config.toml
-    ~/.config/alacritty.toml: alacritty/config.toml
     ~/.config/mcfly/config.toml: mcfly/config.toml
 
     # Database tools
