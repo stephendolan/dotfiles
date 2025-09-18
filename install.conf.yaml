@@ -47,6 +47,11 @@
     ~/.ripgreprc: ripgrep/config
     ~/.rgignore: ripgrep/ignore
 
+    # LaunchD agents (macOS)
+    ~/Library/LaunchAgents/com.lazyvim.update.plist:
+      if: "[ `uname` = Darwin ]"
+      path: nvim/lazyvim/com.lazyvim.update.plist
+
     # Claude configuration
     ~/.claude/settings.json: claude/settings.json
     ~/.claude/CLAUDE.md: claude/CLAUDE.md
