@@ -40,6 +40,12 @@
         "@modelcontextprotocol/server-sequential-thinking"
       ]
     },
+    "browsermcp": {
+      "command": "npx",
+      "args": [
+        "@browsermcp/mcp@latest"
+      ]
+    },
     "memory": {
       "command": "npx",
       "args": [
