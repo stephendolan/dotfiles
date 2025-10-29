@@ -1,7 +1,3 @@
--- LazyVim configuration for Neovim
--- This file bootstraps LazyVim and loads the configuration
-
--- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -15,37 +11,19 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Make sure to set `mapleader` before lazy so your mappings are correct
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- Setup lazy.nvim
-require("lazy").setup({
-  spec = {
-    -- Import LazyVim and its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- Import any extras you want to use
-    { import = "lazyvim.plugins.extras.lang.typescript" },
-    { import = "lazyvim.plugins.extras.lang.json" },
-    { import = "lazyvim.plugins.extras.lang.python" },
-    { import = "lazyvim.plugins.extras.lang.ruby" },
-    { import = "lazyvim.plugins.extras.lang.go" },
-    { import = "lazyvim.plugins.extras.lang.rust" },
-    { import = "lazyvim.plugins.extras.ai.copilot" },
-    { import = "lazyvim.plugins.extras.editor.telescope" },
-    { import = "lazyvim.plugins.extras.ui.mini-starter" },
-    -- Import your custom plugins
-    { import = "plugins" },
-  },
+require("config.options")
+require("config.keymaps")
+require("lazy").setup("plugins", {
   defaults = {
     lazy = false,
-    version = false, -- Always use the latest git commit
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
-  checker = { enabled = true }, -- Automatically check for plugin updates
+  install = { colorscheme = { "tokyonight" } },
+  checker = { enabled = false },
   performance = {
     rtp = {
-      -- Disable some rtp plugins
       disabled_plugins = {
         "gzip",
         "matchit",
@@ -59,8 +37,3 @@ require("lazy").setup({
     },
   },
 })
-
--- Load custom configuration
-require("config.autocmds")
-require("config.keymaps")
-require("config.options")

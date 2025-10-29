@@ -1,9 +1,5 @@
--- Autocmds are automatically loaded on the VeryLazy event
--- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
-
 local autocmd = vim.api.nvim_create_autocmd
 
--- Highlight on yank
 autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("highlight_yank", {}),
   callback = function()
@@ -11,8 +7,7 @@ autocmd("TextYankPost", {
   end,
 })
 
--- Resize splits if window got resized
-autocmd({ "VimResized" }, {
+autocmd("VimResized", {
   group = vim.api.nvim_create_augroup("resize_splits", {}),
   callback = function()
     local current_tab = vim.fn.tabpagenr()
@@ -21,7 +16,6 @@ autocmd({ "VimResized" }, {
   end,
 })
 
--- Close some filetypes with <q>
 autocmd("FileType", {
   group = vim.api.nvim_create_augroup("close_with_q", {}),
   pattern = {
@@ -46,7 +40,6 @@ autocmd("FileType", {
   end,
 })
 
--- Wrap and check for spell in text filetypes
 autocmd("FileType", {
   group = vim.api.nvim_create_augroup("wrap_spell", {}),
   pattern = { "gitcommit", "markdown" },
@@ -56,8 +49,7 @@ autocmd("FileType", {
   end,
 })
 
--- Auto create dir when saving a file, in case some intermediate directory does not exist
-autocmd({ "BufWritePre" }, {
+autocmd("BufWritePre", {
   group = vim.api.nvim_create_augroup("auto_create_dir", {}),
   callback = function(event)
     if event.match:match("^%w%w+://") then
@@ -68,20 +60,6 @@ autocmd({ "BufWritePre" }, {
   end,
 })
 
--- Auto-detect Ruby formatter based on project config files
-autocmd("BufReadPre", {
-  group = vim.api.nvim_create_augroup("ruby_formatter_detection", {}),
-  callback = function()
-    local root = vim.fn.getcwd()
-    if vim.fn.filereadable(root .. "/.standard.yml") == 1 then
-      vim.g.lazyvim_ruby_formatter = "standardrb"
-    elseif vim.fn.filereadable(root .. "/.rubocop.yml") == 1 then
-      vim.g.lazyvim_ruby_formatter = "rubocop"
-    end
-  end,
-})
-
--- Disable diagnostics for .env files
 autocmd({ "BufRead", "BufNewFile" }, {
   group = vim.api.nvim_create_augroup("disable_env_diagnostics", {}),
   pattern = { "*.env", ".env", ".env.*" },
