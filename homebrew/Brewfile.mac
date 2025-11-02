@@ -38,3 +38,6 @@ brew "yamllint"         # YAML linter
 # Zsh plugins
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
+
+# Applications
+cask "claude-code"
