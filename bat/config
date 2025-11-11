@@ -1,0 +1,8 @@
+# Bat configuration
+# https://github.com/sharkdp/bat
+
+# Style configuration (disable line numbers for easier copy-paste)
+--style="header,grid"
+
+# Set theme (can be overridden by BAT_THEME environment variable)
+--theme="TwoDark"

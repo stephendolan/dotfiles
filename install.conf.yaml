@@ -33,6 +33,7 @@
       force: true
     ~/.config/starship.toml: starship/config.toml
     ~/.config/mcfly/config.toml: mcfly/config.toml
+    ~/.config/bat/config: bat/config
 
     # Database tools
     ~/.psqlrc: psql/config
