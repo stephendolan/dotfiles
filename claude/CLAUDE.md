@@ -144,6 +144,10 @@ completed: input.completed ? 1 : 0
   - `ast-grep --lang python -p 'def $FUNC($$$)'` to find function definitions
   - Better than regex for finding code patterns that span multiple lines or have complex nesting
 
+- **For viewing files**: `bat` is available as an enhanced alternative to `cat`. It provides syntax highlighting, line numbers, and git integration for better readability when viewing file contents.
+
+- **For directory listings**: `eza` is available as a modern alternative to `ls` and `tree`. It provides colorized output, git status integration, and tree views with better formatting.
+
 ### Tool Hierarchy
 
 1. **ast-grep** - For syntax-aware structural searches in code

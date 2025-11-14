@@ -1,11 +1,8 @@
 # vim: set filetype=sh :
 
 # MODERN TOOL REPLACEMENTS
-alias cat='bat'
-alias ls='eza --long --all --group-directories-first'
-alias ll='eza --long --group-directories-first'
+alias ll='eza --long --all --group-directories-first'
 alias la='eza --long --all --group-directories-first'
-alias tree='eza --tree'
 
 # EDITOR
 alias vi='nvim'
