@@ -1,6 +1,7 @@
 ---
 name: documentation-standards
 description: Best practices for project documentation including README, CONTRIBUTING, CHANGELOG, and Markdown files. Use when updating documentation, writing README sections, or maintaining project docs. Covers Markdown formatting, documentation structure, common sections, consistency patterns, and technical writing clarity.
+allowed-tools: Read, Grep, Glob
 ---
 
 This skill provides standards for creating and maintaining clear, consistent project documentation.

@@ -1,6 +1,7 @@
 ---
 name: mcp-server-development
 description: Expert guidance for building MCP (Model Context Protocol) servers using the TypeScript SDK. Use when developing MCP servers, implementing tools/resources/prompts, or working with the @modelcontextprotocol/sdk package. Covers server initialization, request handlers, zod schemas, error handling, and JSON-RPC patterns.
+allowed-tools: Read, Grep, Glob, WebFetch
 ---
 
 This skill provides expert guidance for developing MCP servers using the TypeScript SDK, following protocol specifications and best practices.

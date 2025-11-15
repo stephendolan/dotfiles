@@ -1,6 +1,7 @@
 ---
 name: elegant-implementation
 description: Build features with radical simplicity and intentional design. Use when developing new functionality to ensure minimal, maintainable, and elegant solutions from the start.
+allowed-tools: Read, Grep, Glob
 ---
 
 This skill guides feature development with simplicity-first thinking. Before writing code, think deeply about the problem. During implementation, challenge every abstraction. After completion, refine ruthlessly.
