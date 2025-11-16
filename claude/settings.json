@@ -77,17 +77,6 @@
           }
         ]
       }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "TASK: Decide whether to trigger automatic code refinement.\n\nDEFAULT: Return {\"decision\": \"approve\", \"reason\": \"Insufficient context\"}\n\nOnly block (trigger refinement) if ALL of the following are CLEARLY true:\n1. stop_hook_active is NOT true in context\n2. You have EXPLICIT evidence of completed implementation\n3. You have EXPLICIT evidence of substantial code changes\n\nAvailable context: $ARGUMENTS\n\nIf $ARGUMENTS is empty, missing key information, or you're uncertain: USE DEFAULT.\n\nResponse format (ALWAYS return valid JSON):\n{\n  \"decision\": \"approve\",\n  \"reason\": \"Brief explanation\"\n}\n\nOR if ALL criteria clearly met:\n{\n  \"decision\": \"block\",\n  \"reason\": \"Brief explanation\",\n  \"continue\": \"/refine-implementation\"\n}",
-            "timeout": 30
-          }
-        ]
-      }
     ]
   },
   "statusLine": {
