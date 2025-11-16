@@ -1,37 +1,50 @@
-Examine the current changes in the git working tree and coordinate parallel code-refiner agents to ensure a robust, simple, elegant, maintainable, and minimal implementation.
+Iteratively refine current changes using parallel code-refiner agents, with plan-refiner validation between iterations.
 
-Follow these steps:
+## Process
 
-1. **Analyze Current Changes**
-   - Run `git status` to see modified, staged, and untracked files
-   - Run `git diff` to examine the actual changes in the working tree
-   - Run `git diff --staged` to see staged changes if any
+### 1. Understand Current State
+Run in parallel:
+- `git status`
+- `git diff`
+- `git diff --staged`
 
-2. **Identify Focus Areas**
-   - Analyze the changes to identify distinct areas of functionality, core components, or logical groupings
-   - Group related changes together (e.g., API layer, UI components, database layer, business logic, tests, configuration)
-   - Determine the minimal set of distinct areas that need refinement
+### 2. Refine (Max 3 Iterations)
 
-3. **Coordinate Parallel Refinement**
-   - For each identified area, launch a code-refiner agent in parallel
-   - Each agent should focus on their specific area with the mandate to:
-     - Reduce unnecessary complexity
-     - Improve code clarity and maintainability
-     - Remove redundant or excessive documentation
-     - Ensure adherence to project conventions
-     - Simplify logic without changing behavior
-     - Eliminate any over-engineering
+Each iteration:
 
-4. **Agent Instructions**
-   - Provide each code-refiner agent with:
-     - The specific files or components they should review
-     - Context about what changes were made and why
-     - Instructions to proactively refine the code without asking for permission
-     - Focus on simplicity, elegance, and minimal viable implementation
+**Identify areas** - Group changes by functional area (API, UI, database, tests, etc). Stop if nothing to refine.
 
-5. **Synthesis**
-   - After all agents complete, review their recommendations
-   - Identify any conflicts or overlapping changes
-   - Provide a summary of refinements made
+**Launch code-refiner agents in parallel** - One per area with:
+- Context from git diff
+- Instructions to proactively edit code
+- Focus: simplicity, remove over-engineering, self-documenting code
 
-Remember: The goal is to ship simple, maintainable code that solves the problem without unnecessary complexity. Be aggressive about removing complexity, reducing comment noise, and ensuring the implementation is as minimal as possible while remaining robust.
+**Validate with plan-refiner** - Evaluate all refinements:
+- Are changes genuinely valuable?
+- Is functionality preserved?
+- Continue iterating or stop?
+
+**Stop if**:
+- Plan-refiner says stop
+- No changes made
+- 3 iterations reached
+
+### 3. Report Results
+
+Summary across all iterations:
+- Iterations completed
+- Files modified
+- Lines removed
+- Key improvements
+- Trade-offs made
+
+## Guardrails
+
+- Max 3 iterations
+- Plan-refiner gates each iteration
+- Parallel execution within iterations
+- Preserve functionality always
+
+## Philosophy
+
+Ship simple, maintainable code. Remove complexity, over-engineering, and comment noise. But trust plan-refiner to prevent over-simplification.
