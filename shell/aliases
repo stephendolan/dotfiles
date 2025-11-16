@@ -18,6 +18,7 @@ alias gl='git pull'
 alias gd='git diff'
 
 # SHORTCUTS
+alias c='claude'
 alias dc='docker-compose'
 alias ..='cd ..'
 alias ...='cd ../..'
