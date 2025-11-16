@@ -19,10 +19,11 @@ Each iteration:
 - Instructions to proactively edit code
 - Focus: simplicity, remove over-engineering, self-documenting code
 
-**Validate with plan-refiner** - Evaluate all refinements:
-- Are changes genuinely valuable?
+**Validate with plan-refiner** - Plan-refiner has final authority:
+- Are changes valuable?
 - Is functionality preserved?
-- Continue iterating or stop?
+- Can spawn code-refiners to undo over-simplifications
+- Continue or stop?
 
 **Stop if**:
 - Plan-refiner says stop
@@ -47,4 +48,4 @@ Summary across all iterations:
 
 ## Philosophy
 
-Ship simple, maintainable code. Remove complexity, over-engineering, and comment noise. But trust plan-refiner to prevent over-simplification.
+Ship simple, maintainable code. Remove complexity, over-engineering, and comment noise. Plan-refiner prevents over-simplification.
