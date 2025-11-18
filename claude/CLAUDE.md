@@ -121,6 +121,50 @@ completed: input.completed ? 1 : 0
 
 **Rule of thumb**: If a comment can be replaced by better naming or code organization, always choose the refactor.
 
+## Development Workflow
+
+**Every stage must be refined before proceeding. No exceptions.**
+
+Complete development lifecycle with quality gates:
+
+### Quality Gates
+
+- **Plan** → plan-refiner approves → **Implement**
+- **Code** → code-refiner approves → **Commit**
+- **Commits** → commit-refiner approves → **Continue/PR**
+- **PR draft** → pr-refiner approves → **Create PR**
+
+### 1. Planning
+
+1. Understand requirements and create implementation plan
+2. Launch `plan-refiner` agent to validate approach
+3. Proceed only after plan is approved
+
+Plan-refiner has final authority on approach and can suggest radical simplifications.
+
+### 2. Implementation
+
+1. Implement according to approved plan
+2. At checkpoints (feature complete, bug fixed, before feedback, at milestones), launch `code-refiner` to remove over-engineering, eliminate comments via better naming, simplify logic, remove just-in-case code
+3. Proceed to commit only after code is refined
+
+### 3. Committing
+
+1. Draft message with `git-committer` agent or `conventional-commits` skill
+2. Launch `commit-refiner` agent to polish
+3. Commit only after message is refined
+
+Format: `type(scope): summary` in imperative mood, under 72 chars, accurate to changes.
+
+### 4. Pull Requests
+
+1. Review `git diff main...HEAD` and commit history
+2. Draft description with `pull-request` skill (Summary + Problem, rarely Core Changes)
+3. Launch `pr-refiner` agent to polish
+4. Create PR with `gh pr create` only after refined
+
+Format: 2-3 sentence summary, 1-2 sentence problem statement, no verbose sections.
+
 ## Code Quality Standards
 
 - Ensure all tests pass before committing
