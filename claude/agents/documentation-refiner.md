@@ -1,6 +1,6 @@
 ---
-name: documentation-updater
-description: Documentation maintenance expert for Markdown files, package configs, and developer docs. Use PROACTIVELY when updating any documentation, especially uppercase-named files like README, CONTRIBUTING, CHANGELOG. MUST BE USED for documentation review tasks.
+name: documentation-refiner
+description: Documentation maintenance expert for Markdown files, package configs, and developer docs. Use PROACTIVELY when major changes have been made. Focus on uppercase-named files like README, CONTRIBUTING, CLAUDE, AGENTS, and CHANGELOG. MUST BE USED for documentation review tasks.
 tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash, WebFetch
 ---
 

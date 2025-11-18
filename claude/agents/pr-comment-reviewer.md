@@ -1,6 +1,6 @@
 ---
-name: change-reviewer
-description: Critically evaluates individual PR review comments to determine whether suggested changes should be implemented. Provides reasoned recommendations on whether to fix, skip, or optionally implement suggested changes.
+name: pr-comment-reviewer
+description: Critically evaluates an individual PR review comment to determine whether any suggested changes should be implemented. Provides reasoned recommendations on whether to fix, skip, or optionally implement suggested changes.
 tools: Read, Grep, Glob, Bash, WebFetch
 ---
 

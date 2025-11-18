@@ -1,5 +1,5 @@
 ---
-name: pull-request
+name: writing-pull-requests
 description: Generate concise pull request descriptions with summary and problem statement only. Avoids verbose sections like technical details, testing notes, before/after comparisons, and implementation specifics. Use when creating GitHub pull requests with gh pr create.
 allowed-tools: Bash, Read, Grep, Glob
 ---

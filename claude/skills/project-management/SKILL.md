@@ -1,5 +1,5 @@
 ---
-name: personal-action-clarity
+name: project-management
 description: Clarify personal tasks using action-oriented thinking. Use when discussing work planning, task organization, meeting follow-ups, email processing, or non-coding responsibilities. Focuses on next actions and controllable outcomes for the user's own work, not code implementation.
 allowed-tools: Read, Grep, Glob
 ---

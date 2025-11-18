@@ -1,5 +1,5 @@
 ---
-name: elegant-implementation
+name: code-architecture
 description: Build features with radical simplicity and intentional design. Use when developing new functionality to ensure minimal, maintainable, and elegant solutions from the start.
 allowed-tools: Read, Grep, Glob
 ---

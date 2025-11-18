@@ -1,5 +1,5 @@
 ---
-name: writing-skills
+name: writing-claude-skills
 description: Expert guidance for creating effective Claude skills. Use when creating new skills, reviewing existing skills, or improving skill descriptions. Covers naming, descriptions, structure, and activation patterns based on Anthropic best practices.
 allowed-tools: Read, Grep, Glob
 ---

@@ -1,5 +1,5 @@
 ---
-name: architect
+name: code-architect
 description: Architecture evaluation specialist for identifying brittleness, complexity, and coupling in existing codebases. Analyzes structure without making changes.
 tools: Read, Grep, Glob, Bash
 ---

@@ -1,5 +1,5 @@
 ---
-name: git-committer
+name: git-commit-generator
 description: Specialized agent for generating git commit messages from staged changes. Analyzes git diff and status to create conventional commits.
 tools: Bash
 ---
