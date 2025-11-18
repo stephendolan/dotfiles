@@ -3,14 +3,12 @@ Examine codebase architecture using parallel architect agents, then validate top
 ## Workflow
 
 **Phase 1: Discovery**
+
 1. Identify 4-8 architectural surfaces (vertical flows, horizontal layers, cross-cutting concerns, structural patterns)
 2. Launch parallel architect agents, one per surface
 3. Aggregate findings and rank by severity/effort
 
-**Phase 2: Validation**
-4. Take top 3-5 findings to plan-refiner
-5. Filter out findings where solution path is unclear
-6. Present prioritized, validated opportunities
+**Phase 2: Validation** 4. Take top 3-5 findings to plan-refiner 5. Filter out findings where solution path is unclear 6. Present prioritized, validated opportunities
 
 ## Architectural Surfaces
 

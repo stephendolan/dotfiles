@@ -47,11 +47,13 @@ Focus on:
 At each checkpoint, ask:
 
 **After initial implementation**:
+
 - Could this be simpler and still work?
 - What did I add that wasn't requested?
 - What abstractions have only one use?
 
 **Before completion**:
+
 - Is this code consistent with existing patterns?
 - Have I normalized all duplication?
 - Can someone unfamiliar understand this in 2 minutes?

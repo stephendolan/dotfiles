@@ -13,11 +13,13 @@ Generate focused, concise pull request descriptions that communicate essential i
 **Brevity over completeness.** Most pull requests don't need extensive documentation:
 
 ✅ **Include:**
+
 - Summary (2-3 sentences max)
 - Problem statement (verify with user if uncertain)
 - Core changes (ONLY for major architectural changes)
 
 ❌ **Exclude:**
+
 - Technical details sections
 - Testing sections (CI handles verification)
 - Manual testing notes
@@ -75,6 +77,7 @@ git log main..HEAD --oneline
 If the problem isn't immediately clear from code changes:
 
 **Ask the user directly** using AskUserQuestion:
+
 - "What problem does this PR solve?"
 - "What was the user-facing issue or business need?"
 
@@ -83,6 +86,7 @@ Never guess or infer when uncertain.
 ### 3. Draft Description
 
 Write 2-3 sentence summary covering:
+
 - What changed
 - Why it changed
 - High-level impact
@@ -112,6 +116,7 @@ EOF
 ### Example 1: Simple Bug Fix
 
 **Good (Concise):**
+
 ```markdown
 ## Summary
 
@@ -123,28 +128,36 @@ Users with emails containing '+' or '.' characters couldn't log in, causing supp
 ```
 
 **Too Verbose:**
+
 ```markdown
 ## Summary
+
 [same as above]
 
 ## Problem
+
 [same as above]
 
 ## Solution
+
 - Moved validation logic to shared module
 - Added URL encoding utility function
 - Updated 3 authentication endpoints
 
 ## Technical Details
+
 **Files modified:**
+
 - app/auth/validators.rb
 - lib/utils/encoding.rb
 
 ## Testing
+
 ✅ 107 tests passing
 ✅ Manual testing completed
 
 ## Verification Steps
+
 1. Test with emails containing special characters
 2. Verify existing users still work
 ```
@@ -152,6 +165,7 @@ Users with emails containing '+' or '.' characters couldn't log in, causing supp
 ### Example 2: Feature with Architecture Change
 
 **Good (Concise):**
+
 ```markdown
 ## Summary
 
@@ -169,11 +183,14 @@ Users had to refresh the page to see new activity, creating poor collaborative e
 ```
 
 **Too Verbose:**
+
 ```markdown
 ## Summary
+
 [same]
 
 ## User-Facing Changes
+
 - ✅ Real-time updates without refresh
 - ✅ Notification badge shows unread count
 - ✅ Faster perceived performance
@@ -181,20 +198,25 @@ Users had to refresh the page to see new activity, creating poor collaborative e
 ## Technical Details
 
 ### New Services
+
 Created 3 new services following existing patterns...
 
 ### Database Schema
+
 Added notifications table with proper indexes...
 
 ### Client Integration
+
 - New WebSocket client with auto-reconnect
 - Fallback to polling for unsupported browsers
 
 ### Comprehensive Changes
+
 - ✅ Updated 12 controllers
 - ✅ Added WebSocket middleware
 
 ## Testing
+
 - ✅ All feature tests passing
 - ✅ Load tested with 1000 concurrent connections
 ```
@@ -202,6 +224,7 @@ Added notifications table with proper indexes...
 ### Example 3: Simple Refactoring
 
 **Good (Concise):**
+
 ```markdown
 ## Summary
 
@@ -213,31 +236,39 @@ Profile validation logic was scattered across multiple files with inconsistent e
 ```
 
 **Too Verbose:**
+
 ```markdown
 ## Summary
+
 [same]
 
 ## Changes
 
 ### Code Organization
+
 - Extracted validation to shared module
 - Created reusable schema definitions
 
 ### Benefits
+
 - Improved maintainability
 - Better error messages
 - Consistent validation across endpoints
 
 ## Technical Details
+
 **Refactoring approach:**
+
 - Used existing schema library
 - Maintained backward compatibility
 
 **Code Quality:**
+
 - Reduced duplication by 45%
 - Improved test coverage
 
 ## Testing
+
 - Updated tests to use new schemas
 - ✅ All tests passing
 - ✅ No regressions found

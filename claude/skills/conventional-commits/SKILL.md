@@ -43,11 +43,13 @@ refactor(database): normalize user schema
 ```
 
 **When to include scope**:
+
 - ✅ Changes focus on specific module/feature
 - ✅ Helps narrow down what changed
 - ✅ Codebase has clear module boundaries
 
 **When to skip scope**:
+
 - Changes span multiple areas
 - Scope is obvious from summary
 - Small codebases where scope adds no value
@@ -55,6 +57,7 @@ refactor(database): normalize user schema
 ## Summary Line
 
 **Rules**:
+
 - Use imperative mood ("add feature" not "added feature" or "adds feature")
 - Start with lowercase (after the type)
 - No period at the end
@@ -62,6 +65,7 @@ refactor(database): normalize user schema
 - Be specific but concise
 
 **Good examples**:
+
 ```
 feat(auth): add two-factor authentication
 fix(parser): handle escaped quotes in strings
@@ -71,6 +75,7 @@ chore(deps): upgrade React to v18.3.0
 ```
 
 **Bad examples**:
+
 ```
 feat: updates         ❌ Vague, past tense
 fix: fixed bug       ❌ Redundant, past tense
@@ -91,11 +96,13 @@ Think: "This commit will..."
 ## Body (Optional)
 
 Add a body when:
+
 - Why the change was made needs explanation
 - The approach isn't obvious from the diff
 - Breaking changes or important context exists
 
 **Format**:
+
 - Blank line after summary
 - Wrap at 72 characters
 - Use bullet points for multiple points
@@ -112,6 +119,7 @@ and makes the validation logic easier to test in isolation.
 ## Footer (Optional)
 
 Use for:
+
 - **Breaking changes**: `BREAKING CHANGE: describe what broke`
 - **Issue references**: `Fixes #123`, `Closes #456`, `Relates to #789`
 - **Co-authors**: `Co-Authored-By: Name <email>`
@@ -127,6 +135,7 @@ Fixes #234
 ## Examples by Type
 
 **feat** - New functionality:
+
 ```
 feat(notifications): add real-time updates via WebSocket
 feat(export): support CSV and JSON formats
@@ -134,6 +143,7 @@ feat(search): implement fuzzy matching
 ```
 
 **fix** - Bug fixes:
+
 ```
 fix(validation): prevent email addresses with spaces
 fix(calendar): correct timezone offset calculation
@@ -141,6 +151,7 @@ fix(upload): handle files larger than 10MB
 ```
 
 **refactor** - Code improvements without behavior change:
+
 ```
 refactor(user): extract profile validation to schema
 refactor(api): consolidate error handling middleware
@@ -148,6 +159,7 @@ refactor(database): normalize contact information
 ```
 
 **docs** - Documentation:
+
 ```
 docs(readme): add troubleshooting section
 docs(api): update endpoint authentication requirements
@@ -155,6 +167,7 @@ docs(contributing): clarify PR review process
 ```
 
 **chore** - Maintenance:
+
 ```
 chore(deps): update dependencies to latest versions
 chore(build): optimize webpack configuration
@@ -166,12 +179,14 @@ chore(lint): fix TypeScript warnings
 When changes span multiple areas:
 
 **Option 1**: Use general scope or no scope:
+
 ```
 feat(api): add user profile endpoints
 refactor: normalize validation logic across services
 ```
 
 **Option 2**: List primary area in scope:
+
 ```
 feat(auth): implement OAuth2 flow
 // Even if it touches other files for integration
@@ -182,6 +197,7 @@ feat(auth): implement OAuth2 flow
 ## Complex Changes
 
 For large refactors or multi-part changes, prefer:
+
 1. **Multiple focused commits** over one large commit
 2. **Descriptive body** explaining the overall approach
 3. **Issue references** linking to detailed discussion
@@ -191,11 +207,13 @@ For large refactors or multi-part changes, prefer:
 ## Repository-Specific Patterns
 
 Always check recent commits to match established patterns:
+
 ```bash
 git log --oneline -10
 ```
 
 Look for:
+
 - Emoji usage (some repos prefix with 🎨, 🐛, etc.)
 - Scope conventions (specific module names)
 - Footer formats (ticket references, sign-offs)
@@ -204,17 +222,17 @@ Look for:
 
 ## Quick Reference
 
-| Type | When to Use |
-|------|-------------|
-| feat | New feature, new capability |
-| fix | Bug fix, error correction |
-| refactor | Code cleanup, restructuring |
-| docs | Documentation changes only |
-| chore | Dependencies, build config, tooling |
-| test | Test additions or fixes |
-| perf | Performance optimization |
-| style | Formatting, whitespace |
-| ci | CI/CD pipeline changes |
+| Type     | When to Use                         |
+| -------- | ----------------------------------- |
+| feat     | New feature, new capability         |
+| fix      | Bug fix, error correction           |
+| refactor | Code cleanup, restructuring         |
+| docs     | Documentation changes only          |
+| chore    | Dependencies, build config, tooling |
+| test     | Test additions or fixes             |
+| perf     | Performance optimization            |
+| style    | Formatting, whitespace              |
+| ci       | CI/CD pipeline changes              |
 
 ## Remember
 

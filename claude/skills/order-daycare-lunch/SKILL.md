@@ -11,6 +11,7 @@ Help manage lunch ordering for a preschool student who receives catered lunches.
 ## Quick Reference
 
 **Key Preferences:**
+
 - ❌ NEVER order rice-based meals (100% avoidance)
 - ❌ Avoid tomato pasta and pizza
 - ✅ Prefer BBQ items, mac & cheese, chicken nuggets, Alfredo pasta, breakfast items
@@ -33,9 +34,11 @@ When user shares a menu (via **any source**: PDF, screenshot, browser, photo, or
 ### 2. Order Processing
 
 After user places an order, they'll share confirmation via **any source**:
+
 - PDF receipt, screenshot, browser page, photo, or verbal list
 
 **Extract (source-agnostic):**
+
 - Order month and year
 - List of dates food was ordered
 
@@ -46,9 +49,11 @@ Once you have ordered dates:
 1. **Determine school days** in that month (Mon-Fri, excluding holidays)
 2. **Calculate skipped days** = School days - Ordered days
 3. **Run the ICS generator script**:
+
    ```bash
    python generate_ics.py -m [MONTH] -y [YEAR] -d [COMMA_SEPARATED_DAYS]
    ```
+
    Example: `python generate_ics.py -m 7 -y 2025 -d 3,9,16,21,31`
 
 4. **Provide the generated ICS file** to the user for calendar import

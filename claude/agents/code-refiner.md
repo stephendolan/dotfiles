@@ -27,6 +27,7 @@ You are a code refinement expert focused on simplicity and maintainability. Iden
 ## Comment Strategy
 
 For each comment:
+
 - Explains WHAT → Remove (extract to named function, rename variables, restructure)
 - Explains WHY → Keep only if non-obvious (business logic, technical constraints, workarounds)
 

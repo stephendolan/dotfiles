@@ -23,17 +23,20 @@ This skill provides standards for creating and maintaining clear, consistent pro
 5. **License** - License type and link
 
 **Optional sections** (only if valuable):
+
 - Contributing (link to CONTRIBUTING.md)
 - API Reference (or link to docs)
 - Troubleshooting (only common issues)
 
 **Avoid**:
+
 - Lengthy introductions
 - Obvious explanations ("This section explains installation")
 - Feature lists that duplicate code
 - Badges without purpose
 
 **Example structure**:
+
 ```markdown
 # Project Name
 
@@ -70,6 +73,7 @@ MIT
 4. **Pull Request Process** - What makes a good PR
 
 **Keep it practical**:
+
 ```markdown
 ## Development Setup
 
@@ -104,17 +108,21 @@ All tests must pass before merging.
 ## [Unreleased]
 
 ### Added
+
 - New feature description
 
 ### Changed
+
 - Modified behavior description
 
 ### Fixed
+
 - Bug fix description
 
 ## [1.0.0] - 2025-01-15
 
 ### Added
+
 - Initial release
 ```
 
@@ -133,11 +141,15 @@ All tests must pass before merging.
 
 ```markdown
 # Title ✅
+
 ## Installation ✅
+
 ### Prerequisites ✅
 
 # Title. ❌ (no period)
+
 # Title! ❌ (no exclamation)
+
 ### Skipped H2 ❌ (hierarchy broken)
 ```
 
@@ -156,6 +168,7 @@ npm install
 ```
 
 **Inline code** for:
+
 - File names: `package.json`
 - Commands: `npm install`
 - Variable names: `userId`
@@ -164,18 +177,22 @@ npm install
 ### Lists
 
 **Consistent bullet style**:
+
 - Use `-` for unordered lists
 - Use `1.` for ordered lists
 - Indent with 2 spaces for nested items
 
 **Parallel structure** - Start all items with same grammar:
+
 ```markdown
 ✅ Good:
+
 - Install dependencies
 - Run the server
 - Open browser
 
 ❌ Bad:
+
 - Installing dependencies
 - Run the server
 - You should open a browser
@@ -184,12 +201,14 @@ npm install
 ### Links
 
 **Descriptive link text** - Never "click here":
+
 ```markdown
 ✅ See [installation guide](link)
 ❌ Click [here](link) for installation
 ```
 
 **Relative links** for internal docs:
+
 ```markdown
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup.
 ```
@@ -215,21 +234,24 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup.
 ### Concise Sentences
 
 **Cut filler words**:
+
 - ❌ "In order to" → ✅ "To"
 - ❌ "It is important to note that" → ✅ (delete entirely)
 - ❌ "This section will explain" → ✅ (delete entirely)
 
 **One idea per sentence**:
+
 ```markdown
 ✅ Install Node.js 18 or higher. Then run npm install.
 
 ❌ You need to install Node.js version 18 or higher, and after that's
-   done, you can proceed to run the npm install command.
+done, you can proceed to run the npm install command.
 ```
 
 ## Code Examples
 
 **Make examples runnable**:
+
 - Complete, not fragments
 - Use realistic variable names
 - Show expected output when helpful
@@ -240,8 +262,8 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup.
 import { createUser } from './api';
 
 const user = await createUser({
-  email: 'user@example.com',
-  name: 'Jane Smith'
+email: 'user@example.com',
+name: 'Jane Smith'
 });
 // Returns: { id: '123', email: 'user@example.com', name: 'Jane Smith' }
 \`\`\`
@@ -260,8 +282,8 @@ createUser(...)
 ✅ Good:
 \`\`\`json
 {
-  "timeout": 5000,  // Request timeout in milliseconds
-  "retries": 3      // Number of retry attempts
+"timeout": 5000, // Request timeout in milliseconds
+"retries": 3 // Number of retry attempts
 }
 \`\`\`
 
@@ -274,6 +296,7 @@ The default value is 5000 milliseconds.
 ## Common Documentation Issues
 
 **Missing prerequisites**:
+
 ```markdown
 ❌ Run npm install
 ✅ Requires Node.js 18+
@@ -282,16 +305,19 @@ The default value is 5000 milliseconds.
 ```
 
 **Outdated examples**:
+
 - Verify code examples actually work
 - Update when APIs change
 - Test commands in fresh environment
 
 **Broken links**:
+
 - Check internal links exist
 - Verify external links are current
 - Use relative paths for project files
 
 **Inconsistent formatting**:
+
 - Pick one style for code blocks, lists, headers
 - Use consistent terminology throughout
 - Match existing project documentation style
@@ -306,6 +332,7 @@ The default value is 5000 milliseconds.
 Brief description of what it does.
 
 **Parameters:**
+
 - `param1` (string) - Description
 - `param2` (number, optional) - Description
 
@@ -334,12 +361,14 @@ When updating documentation:
 ## When to Launch documentation-updater Agent
 
 Use the agent for:
+
 - Comprehensive documentation audits across multiple files
 - Large-scale consistency updates
 - Cross-reference verification
 - Package documentation synchronization
 
 Use this skill for:
+
 - Single file updates
 - Adding new sections to existing docs
 - Fixing typos or broken links

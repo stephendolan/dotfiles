@@ -100,6 +100,7 @@ Found {N} unresolved comments. Here's the evaluation:
 ---
 
 ## Comment 1: {Short description}
+
 **File**: {path}:{line}
 **Verdict**: {Should Fix / Optional / Skip}
 

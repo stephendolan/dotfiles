@@ -27,6 +27,7 @@ Effective skills are:
 **Format**: Lowercase letters, numbers, hyphens only (max 64 characters)
 
 **Specificity Over Generality**:
+
 - ✅ `conventional-commits` - Clear, specific domain
 - ✅ `frontend-design` - Obvious what it covers
 - ✅ `documentation-standards` - Specific to documentation
@@ -37,6 +38,7 @@ Effective skills are:
 **Discoverability Rule**: The name should make it obvious when to use the skill. If someone sees the skill name in a list, they should immediately know what it does and when it's relevant.
 
 **Domain Clarity**: Include the domain in the name when the capability could apply to multiple areas:
+
 - `mcp-server-development` not `server-development`
 - `react-component-design` not `component-design`
 - `rails-api-standards` not `api-standards`
@@ -54,21 +56,25 @@ Effective skills are:
 **Examples**:
 
 ✅ **Good** - Specific with triggers:
+
 ```yaml
 description: Create distinctive, production-grade frontend interfaces with high design quality. Use when building web components, pages, or applications. Guides typography choices, color schemes, animations, and spatial composition. Covers React, Vue, HTML/CSS implementations.
 ```
 
 ❌ **Too vague** - Missing triggers:
+
 ```yaml
 description: Helps with frontend work and design decisions.
 ```
 
 ✅ **Good** - Clear domain and activation:
+
 ```yaml
 description: Generate conventional commit messages following industry standards. Use when committing code, writing commit messages, or analyzing git diffs. Covers commit types (feat, fix, refactor), scope determination, and imperative mood formatting.
 ```
 
 ❌ **Missing trigger words**:
+
 ```yaml
 description: Handles git commits using best practices.
 ```
@@ -80,25 +86,32 @@ description: Handles git commits using best practices.
 Based on successful skills like `frontend-design` and `elegant-implementation`:
 
 ### 1. Opening Context
+
 Brief paragraph explaining the skill's purpose and when it's used.
 
 ### 2. Philosophy/Thinking Section
+
 Guide decision-making BEFORE prescriptive rules:
+
 - Key questions to ask
 - Mental framework
 - Core principles
 
 ### 3. Guidelines Section
+
 Focused, actionable guidance:
+
 - Bold statements for emphasis
 - "NEVER" / "ALWAYS" for critical rules
 - Concrete examples
 - Bullet lists for scannability
 
 ### 4. Anti-patterns (when applicable)
+
 What to avoid, with specific examples
 
 ### 5. Remember/Principles Summary
+
 Closing reminders of core philosophy
 
 **Length target**: 40-150 lines for most skills. Concise beats comprehensive.
@@ -119,15 +132,16 @@ Closing reminders of core philosophy
 
 ## Skills vs Agents Decision Matrix
 
-| Scenario | Use Skill | Use Agent |
-|----------|-----------|-----------|
-| Guidance during work | ✅ | ❌ |
-| Simple, frequent tasks | ✅ | ❌ |
-| Complex autonomous tasks | ❌ | ✅ |
-| Multi-step orchestration | ❌ | ✅ |
-| Pattern enforcement | ✅ | ❌ |
+| Scenario                 | Use Skill | Use Agent |
+| ------------------------ | --------- | --------- |
+| Guidance during work     | ✅        | ❌        |
+| Simple, frequent tasks   | ✅        | ❌        |
+| Complex autonomous tasks | ❌        | ✅        |
+| Multi-step orchestration | ❌        | ✅        |
+| Pattern enforcement      | ✅        | ❌        |
 
 **Hybrid approach**: Create BOTH when tasks range from simple to complex:
+
 - Skill guides main agent for 80% of cases
 - Agent handles complex 20% requiring deep analysis
 - Agent can use skill for standards/patterns
@@ -137,6 +151,7 @@ Closing reminders of core philosophy
 ## Supporting Files
 
 Skills can include adjacent files:
+
 - `/examples/` - Reference implementations
 - `/templates/` - Starter code or structures
 - `/scripts/` - Executable utilities
@@ -147,40 +162,49 @@ Skills can include adjacent files:
 ## Testing Your Skill
 
 **Activation test**: Does the skill load for relevant tasks?
+
 - Use trigger words in requests
 - Verify it doesn't activate for unrelated work
 
 **Clarity test**: Can someone unfamiliar understand when to use it?
+
 - Show the name and description to a teammate
 - Ask: "When would you use this?"
 
 **Effectiveness test**: Does it improve outputs?
+
 - Compare results with and without the skill
 - Check for reduced generic/boilerplate responses
 
 **Token test**: Is the guidance concise?
+
 - Every line should justify its token cost
 - Cut anything that doesn't change behavior
 
 ## Common Mistakes
 
 **Overly broad scope**:
+
 - ❌ One skill covering frontend, backend, and database
 - ✅ Separate skills for each domain
 
 **Vague descriptions**:
+
 - ❌ "Helps with code quality"
 - ✅ "Enforces linting standards, type safety, and test coverage for TypeScript projects"
 
 **Missing activation triggers**:
+
 - ❌ Description doesn't mention when to use it
 - ✅ Includes specific scenarios and keywords
 
 **Too prescriptive without philosophy**:
+
 - ❌ Just a list of rules without context
 - ✅ Explains WHY before HOW
 
 **Redundant with existing tools**:
+
 - ❌ Skill that just runs ESLint (use MCP/bash)
 - ✅ Skill that guides code style decisions
 

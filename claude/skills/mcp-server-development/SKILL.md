@@ -26,9 +26,9 @@ const server = new Server(
   },
   {
     capabilities: {
-      tools: {},      // If implementing tools
-      resources: {},  // If implementing resources
-      prompts: {},    // If implementing prompts
+      tools: {}, // If implementing tools
+      resources: {}, // If implementing resources
+      prompts: {}, // If implementing prompts
     },
   },
 );
@@ -51,7 +51,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
         properties: {
           param: {
             type: "string",
-            description: "Specific parameter description"
+            description: "Specific parameter description",
           },
         },
         required: ["param"],
@@ -71,19 +71,19 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     try {
       const result = await performOperation(args.param);
       return {
-        content: [{ type: "text", text: JSON.stringify(result) }]
+        content: [{ type: "text", text: JSON.stringify(result) }],
       };
     } catch (error) {
       throw new McpError(
         ErrorCode.InternalError,
-        `Operation failed: ${error.message}`
+        `Operation failed: ${error.message}`,
       );
     }
   }
 
   throw new McpError(
     ErrorCode.MethodNotFound,
-    `Unknown tool: ${request.params.name}`
+    `Unknown tool: ${request.params.name}`,
   );
 });
 ```
@@ -96,10 +96,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 import { McpError, ErrorCode } from "@modelcontextprotocol/sdk/types.js";
 
 // Common error codes:
-ErrorCode.InvalidRequest    // Malformed request
-ErrorCode.MethodNotFound    // Unknown tool/resource/prompt
-ErrorCode.InvalidParams     // Bad parameters
-ErrorCode.InternalError     // Server-side failures
+ErrorCode.InvalidRequest; // Malformed request
+ErrorCode.MethodNotFound; // Unknown tool/resource/prompt
+ErrorCode.InvalidParams; // Bad parameters
+ErrorCode.InternalError; // Server-side failures
 ```
 
 **Never let exceptions bubble** - catch and convert to McpError with meaningful messages.
@@ -140,18 +140,17 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
   if (uri === "resource://path/to/resource") {
     const data = await fetchResourceData();
     return {
-      contents: [{
-        uri,
-        mimeType: "application/json",
-        text: JSON.stringify(data),
-      }],
+      contents: [
+        {
+          uri,
+          mimeType: "application/json",
+          text: JSON.stringify(data),
+        },
+      ],
     };
   }
 
-  throw new McpError(
-    ErrorCode.InvalidParams,
-    `Unknown resource: ${uri}`
-  );
+  throw new McpError(ErrorCode.InvalidParams, `Unknown resource: ${uri}`);
 });
 ```
 
@@ -173,29 +172,34 @@ main().catch((error) => {
 ## Best Practices
 
 **Tool Descriptions**:
+
 - Be specific and actionable
 - Explain what the tool does, not how it works
 - Include example use cases in documentation
 
 **Parameter Schemas**:
+
 - Use descriptive property names
 - Always include descriptions for parameters
 - Mark optional parameters explicitly
 - Validate thoroughly with zod
 
 **Error Messages**:
+
 - Provide actionable feedback
 - Include context about what went wrong
 - Never expose sensitive information
 - Log errors server-side for debugging
 
 **Performance**:
+
 - Cache expensive operations when possible
 - Use streaming for large responses
 - Keep tool execution fast (< 1s ideal)
 - Handle timeouts gracefully
 
 **Type Safety**:
+
 - Enable TypeScript strict mode
 - Define proper types for all arguments
 - Use zod schemas for runtime validation
@@ -211,17 +215,21 @@ main().catch((error) => {
 ## Common Patterns
 
 **Multiple Tools**:
+
 ```typescript
 const tools = ["tool1", "tool2", "tool3"] as const;
-type ToolName = typeof tools[number];
+type ToolName = (typeof tools)[number];
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const name = request.params.name as ToolName;
 
   switch (name) {
-    case "tool1": return handleTool1(request.params.arguments);
-    case "tool2": return handleTool2(request.params.arguments);
-    case "tool3": return handleTool3(request.params.arguments);
+    case "tool1":
+      return handleTool1(request.params.arguments);
+    case "tool2":
+      return handleTool2(request.params.arguments);
+    case "tool3":
+      return handleTool3(request.params.arguments);
     default:
       throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
   }
@@ -229,15 +237,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 ```
 
 **Async Operations**:
+
 ```typescript
 // Always await async operations:
 const result = await apiClient.fetch();
 
 // Handle timeouts:
-const result = await Promise.race([
-  operation(),
-  timeout(5000),
-]);
+const result = await Promise.race([operation(), timeout(5000)]);
 ```
 
 ## Configuration Example

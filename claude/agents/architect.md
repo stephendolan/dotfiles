@@ -16,24 +16,28 @@ Identify structural weaknesses in existing codebases. Focus on architecture patt
 ## What to Look For
 
 **Brittleness:**
+
 - Cascading changes across components
 - Duplicated business logic
 - Hard-coded dependencies
 - Circular dependencies
 
 **Complexity:**
+
 - Deep inheritance hierarchies
 - God classes/modules
 - Unclear layer boundaries
 - Multiple responsibilities per component
 
 **Coupling:**
+
 - Direct concrete implementation references
 - Shared mutable state
 - Implicit initialization order dependencies
 - Technology lock-in
 
 **Abstraction Issues:**
+
 - Repeated patterns without abstraction
 - Scattered business logic
 - Missing domain model
@@ -77,18 +81,21 @@ Strengths:
 ## Severity Guidelines
 
 **Critical:**
+
 - Circular dependencies
 - Business logic in presentation layer
 - Shared mutable global state
 - No error handling strategy
 
 **Medium:**
+
 - Duplicate code across modules
 - Missing domain models
 - Unclear boundaries
 - Inconsistent patterns
 
 **Low:**
+
 - Deep nesting
 - Poor naming
 - Minor related-module coupling
