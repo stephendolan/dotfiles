@@ -150,8 +150,8 @@ Plan-refiner has final authority on approach and can suggest radical simplificat
 
 ### 3. Committing
 
-1. Draft message with `git-committer` agent or `conventional-commits` skill
-2. Launch `commit-refiner` agent to polish
+1. Draft message with `writing-git-commits` skill
+2. Launch `git-commit-refiner` agent to polish
 3. Commit only after message is refined
 
 Format: `type(scope): summary` in imperative mood, under 72 chars, accurate to changes.

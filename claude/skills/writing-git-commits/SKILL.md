@@ -1,6 +1,6 @@
 ---
-name: conventional-commits
-description: Generate conventional commit messages following industry standards. Use when writing commit messages, staging changes, or analyzing git diffs for commits. Covers commit types (feat, fix, refactor, docs, chore), scope determination, imperative mood formatting, and summary line best practices.
+name: writing-git-commits
+description: Draft initial commit messages. Use BEFORE git-commit-refiner agent. Covers commit types (feat, fix, refactor, docs, chore), scope determination, imperative mood formatting, and summary line best practices.
 allowed-tools: Read, Bash, Grep, Glob
 ---
 
