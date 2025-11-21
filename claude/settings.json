@@ -61,7 +61,13 @@
       "mcp__linear__list_comments",
       "mcp__linear__list_documents",
       "mcp__linear__list_issues",
-      "mcp__linear__list_project"
+      "mcp__linear__list_project",
+      "Skill(frontend-design)",
+      "Skill(project-management)",
+      "Skill(writing-claude-skills)",
+      "Skill(writing-documentation)",
+      "Skill(writing-git-commits)",
+      "Skill(writing-pull-requests)"
     ],
     "deny": []
   },
