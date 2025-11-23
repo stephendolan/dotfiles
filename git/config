@@ -6,6 +6,15 @@
 [push]
   default = current
 
+[pull]
+  rebase = true
+
+[column]
+  ui = auto
+
+[rerere]
+  enabled = true
+
 [core]
   autocrlf = input
   excludesfile = ~/.gitignore_global
@@ -30,6 +39,7 @@
 
 [branch]
   autosetuprebase = always
+  sort = -committerdate
 
 [commit]
   cleanup = scissors
@@ -45,9 +55,11 @@
 
 [merge]
   tool = fugitive
+  conflictstyle = zdiff3
 
 [diff]
   colorMoved = zebra
+  algorithm = histogram
 
 [core]
   pager = delta
