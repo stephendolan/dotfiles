@@ -2,6 +2,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code across all projects.
 
+## Claude 4.5 Model Configuration
+
+**Context window management**: Your context window will be automatically compacted as it approaches its limit, allowing you to continue working indefinitely. Do not stop tasks early due to token budget concerns.
+
+## Action Orientation
+
+**Default to implementation over suggestion**: Unless the intent is unclear, implement changes directly rather than only suggesting them. When requirements are ambiguous, infer the most likely useful action or ask clarifying questions.
+
+**Reflect after tool use**: After receiving tool results, reflect on their quality and completeness before proceeding. Consider whether additional steps are required.
+
+**Maximize parallel tool calls**: When calling multiple tools with no dependencies between them, make all independent tool calls simultaneously in a single response. This significantly improves efficiency with Claude 4.5.
+
 ## Comment Philosophy
 
 **Write self-documenting code that rarely needs comments.** Comments should be the exception, not the rule.
@@ -134,6 +146,14 @@ Complete development lifecycle with quality gates:
 - **Commits** → commit-refiner approves → **Continue/PR**
 - **PR draft** → pr-refiner approves → **Create PR**
 
+### State Management for Long Tasks
+
+For complex work spanning multiple sessions:
+
+- Use structured formats (JSON) for test results and task status
+- Create setup scripts (`init.sh`) for graceful restarts across sessions
+- Track progress in files and review filesystem state when resuming, rather than relying on conversation history
+
 ### 1. Planning
 
 1. Understand requirements and create implementation plan
@@ -170,6 +190,8 @@ Format: 2-3 sentence summary, 1-2 sentence problem statement, no verbose section
 - Ensure all tests pass before committing
 - Ensure all linters pass before committing, handling both errors and warnings
 - Always handle errors explicitly, never ignore them
+- **Never speculate about code you haven't read**: Always read files before answering questions or making changes. Never guess at implementation details or API signatures.
+- **Write general-purpose solutions**: Implement logic that solves problems generally. Never hard-code values from test cases or examples - build solutions that work for all valid inputs.
 
 ## Tooling preferences
 
