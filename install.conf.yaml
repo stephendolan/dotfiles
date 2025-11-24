@@ -74,5 +74,6 @@
       stdout: true
       if: "[ `uname` = Linux ]"
     - [./scripts/brew-setup.sh, Setting up Homebrew and packages]
+    - [./scripts/claude-code-setup.sh, Setting up Claude Code]
     - [./scripts/shell-setup.sh, Setting up default shell]
     - [./scripts/asdf-setup.sh, Setting up ASDF plugins and versions]
