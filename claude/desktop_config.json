@@ -3,44 +3,39 @@
   "mcpServers": {
     "linear": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.linear.app/sse"]
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.linear.app/sse"
+      ]
     },
     "sentry": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.sentry.dev/mcp"]
-    },
-    "mixpanel": {
       "command": "npx",
       "args": [
         "-y",
         "mcp-remote",
-        "https://mcp.mixpanel.com/sse",
-        "--allow-http"
+        "https://mcp.sentry.dev/mcp"
       ]
-    },
-    "context-7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"]
     },
     "sequential-thinking": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
     },
     "browsermcp": {
       "command": "npx",
-      "args": ["@browsermcp/mcp@latest"]
+      "args": [
+        "@browsermcp/mcp@latest"
+      ]
     },
     "memory": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-memory"]
-    },
-    "time": {
-      "command": "uvx",
-      "args": ["mcp-server-time", "--local-timezone=America/New_York"]
-    },
-    "betterstack-clickhouse": {
-      "command": "node",
-      "args": ["/Users/stephen/Repos/betterstack-mcp/dist/index.js"]
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
     }
   }
 }
