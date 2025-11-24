@@ -205,6 +205,11 @@ Format: 2-3 sentence summary, 1-2 sentence problem statement, no verbose section
   - `rg pattern` instead of `grep -r pattern .`
   - `rg -t py pattern` to search only Python files
   - Built-in support for multiline search, context lines, and smart case sensitivity
+  - **IMPORTANT**: Use full language names with `--type`, not extensions:
+    - ✅ `--type ruby` (not `--type rb`)
+    - ✅ `--type crystal` (not `--type cr`)
+    - ✅ `--type python` (not `--type py`)
+    - Run `rg --type-list` to see all available type names
 
 - **For syntax-aware searching**: Use `ast-grep` when you need structural code search:
   - `ast-grep --lang python -p 'def $FUNC($$$)'` to find function definitions
