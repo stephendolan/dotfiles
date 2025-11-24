@@ -133,6 +133,37 @@ completed: input.completed ? 1 : 0
 
 **Rule of thumb**: If a comment can be replaced by better naming or code organization, always choose the refactor.
 
+## Documentation Standards
+
+**Write timeless documentation.** Describe what IS, not what WAS.
+
+### Avoid Temporal References
+
+- **Comparisons**: "vs previous", "used to be X", "now uses Y"
+- **Historical context**: "Before we did X"
+- **Evolution narratives**: "This is better than the old way"
+- **Version markers**: "The new approach"
+
+### Examples
+
+```markdown
+❌ Bad
+**Total agents**: 6-10 (vs previous 7-13)
+
+✅ Good
+**Total agents**: 6-10
+
+❌ Bad
+Now uses three-phase workflow instead of two-phase.
+
+✅ Good
+Uses three-phase workflow.
+```
+
+**Test**: If unclear in 6 months, remove it.
+
+**Exception**: CHANGELOG.md documents changes over time.
+
 ## Development Workflow
 
 **Every stage must be refined before proceeding. No exceptions.**

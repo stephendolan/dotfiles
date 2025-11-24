@@ -1,14 +1,23 @@
-Examine codebase architecture using parallel architect agents, then validate top findings with plan-refiner.
+Examine codebase architecture using parallel surface architects, consolidate with meta-architect, then validate plans with plan-refiner.
 
 ## Workflow
 
 **Phase 1: Discovery**
 
-1. Identify 4-8 architectural surfaces (vertical flows, horizontal layers, cross-cutting concerns, structural patterns)
+1. Identify 4-8 architectural surfaces
 2. Launch parallel architect agents, one per surface
-3. Aggregate findings and rank by severity/effort
+3. Each agent outputs findings with severity/effort/approach
 
-**Phase 2: Validation** 4. Take top 3-5 findings to plan-refiner 5. Filter out findings where solution path is unclear 6. Present prioritized, validated opportunities
+**Phase 2: Consolidation**
+
+4. Launch meta-architect to review all surface findings
+5. Merge overlapping findings, identify root causes, create implementation plans
+
+**Phase 3: Validation**
+
+6. Launch plan-refiner to review implementation plans
+7. Eliminate over-engineering, validate tractability, suggest simplifications
+8. Present validated fixes with implementation plans
 
 ## Architectural Surfaces
 
@@ -19,17 +28,19 @@ Examine codebase architecture using parallel architect agents, then validate top
 
 Choose surfaces based on project size, recent activity, pain points, and tech stack.
 
-## Ranking Criteria
+## Meta-Architect
 
-1. **High**: High/Critical severity + Low/Medium effort
-2. **Medium**: Medium severity + Low effort, OR High severity + High effort
-3. **Lower**: All other findings
+- Merge overlapping findings across surfaces
+- Identify root causes spanning multiple areas
+- Prioritize by impact with full codebase view
+- Create step-by-step implementation plans
 
-## Validation Question
+## Plan-Refiner
 
-"If we wanted to address this architectural issue, is there a clear, simple path to improvement?"
-
-Keep only findings where both problem AND solution are tractable.
+- Eliminate over-engineering
+- Validate tractability
+- Suggest simpler approaches
+- Prioritize by simplicity × impact
 
 ## Output Format
 
@@ -37,28 +48,37 @@ Keep only findings where both problem AND solution are tractable.
 ARCHITECTURE EXAMINATION COMPLETE
 
 Surfaces examined: X
-Findings identified: Y
-High-confidence improvements: Z
+Raw findings: Y
+Consolidated issues: Z
+Validated fixes: N
 
-TOP OPPORTUNITIES (validated):
+ACTIONABLE FIXES (ready to implement):
 
-1. [Finding Title] - Severity: X | Effort: Y | Files: Z
-   Issue: [Description]
+1. [Issue Title] - Severity: X | Effort: Y | Files: Z
+
+   Problem: [What's architecturally wrong]
    Impact: [What's hard because of this]
-   Approach: [High-level fix strategy]
-   Validation: [Plan-refiner assessment]
+   Root cause: [Why this exists across surfaces]
+
+   Implementation Plan:
+   1. [Step with file references]
+   2. [Step with file references]
+   3. [...]
+
+   Plan-refiner notes: [Simplifications applied, validation]
 
 2. [...]
 
-ADDITIONAL FINDINGS (not validated):
+DEFERRED:
 
-- [Finding] - Severity/Effort
+- [Issue] - Why: [Too complex / Low impact / Library handles this]
 - [...]
-
-NEXT STEPS:
-Select a finding to address, or run /refine-implementation on specific area.
 ```
 
 ## Execution
 
-Phase 1 runs architect agents in parallel (4-8 surfaces). Phase 2 validates top 3-5 findings sequentially with plan-refiner. Only recommend issues that are both important AND fixable.
+**Phase 1**: Launch 4-8 surface architect agents in parallel
+
+**Phase 2**: Launch meta-architect with all surface findings
+
+**Phase 3**: Launch plan-refiner with all implementation plans

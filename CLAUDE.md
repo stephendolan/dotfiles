@@ -13,6 +13,7 @@ The repository follows a consistent pattern where each tool gets its own directo
 ```
 alacritty/          # Terminal emulator configuration
 asdf/               # Version manager configuration
+claude/             # Claude Code configuration (agents, commands, skills)
 git/                # Git configuration
 homebrew/           # Homebrew package management
 mcfly/              # History tool configuration
@@ -75,6 +76,20 @@ When adding new tools:
 ### Local Overrides
 
 The system supports local configuration overrides through `.zshrc.local`, which is sourced at the end of `.zshrc` if it exists. This allows machine-specific customizations without modifying the repository.
+
+### Claude Code Configuration
+
+The `claude/` directory contains executable definitions for Claude Code:
+
+- `claude/agents/*.md` - Agent prompts that define specialized behavior
+- `claude/commands/*.md` - Slash command prompts that define workflows
+- `claude/skills/*.md` - Skill prompts that define domain expertise
+
+**Important**: These .md files are executable code, not documentation. They define agent behavior and should be treated like source code when reviewing or refining:
+
+- Use `code-refiner` for logic, clarity, and removing over-engineering
+- Use `documentation-refiner` for structure, formatting, and readability
+- Both refiners should review these files as they serve dual purposes
 
 ## Development Notes
 

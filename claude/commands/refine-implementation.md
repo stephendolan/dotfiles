@@ -1,57 +1,41 @@
-Iteratively refine current changes using parallel code-refiner agents, with plan-refiner validation between iterations.
+Iteratively refine uncommitted changes using specialized refiner agents.
 
 ## Process
 
-### 1. Understand Current State
+### 1. Check for Changes
 
-Run in parallel:
+```bash
+git status && git diff && git diff --staged
+```
 
-- `git status`
-- `git diff`
-- `git diff --staged`
+Stop if working tree is clean.
 
 ### 2. Refine (Max 3 Iterations)
 
 Each iteration:
 
-**Identify areas** - Group changes by functional area (API, UI, database, tests, etc). Stop if nothing to refine.
+1. **Group changes by functional area** (API, UI, database, tests, documentation)
 
-**Launch code-refiner agents in parallel** - One per area with:
+2. **Launch refiner agents in parallel** (one per area):
+   - Documentation (`*.md`) → `documentation-refiner`
+   - Code (`*.ts`, `*.py`, etc.) → `code-refiner`
 
-- Context from git diff
-- Instructions to proactively edit code
-- Focus: simplicity, remove over-engineering, self-documenting code
+3. **Validate with `plan-refiner`**:
+   - Reviews all changes from this iteration
+   - Decides: continue, stop, or spawn refiners to undo over-simplifications
+   - Has final authority
 
-**Validate with plan-refiner** - Plan-refiner has final authority:
+Stop when plan-refiner approves OR no changes made OR 3 iterations completed.
 
-- Are changes valuable?
-- Is functionality preserved?
-- Can spawn code-refiners to undo over-simplifications
-- Continue or stop?
-
-**Stop if**:
-
-- Plan-refiner says stop
-- No changes made
-- 3 iterations reached
-
-### 3. Report Results
-
-Summary across all iterations:
+### 3. Report
 
 - Iterations completed
 - Files modified
 - Lines removed
 - Key improvements
-- Trade-offs made
 
-## Guardrails
+## Constraints
 
-- Max 3 iterations
-- Plan-refiner gates each iteration
-- Parallel execution within iterations
+- Maximum 3 iterations
+- Plan-refiner validates each iteration
 - Preserve functionality always
-
-## Philosophy
-
-Ship simple, maintainable code. Remove complexity, over-engineering, and comment noise. Plan-refiner prevents over-simplification.
