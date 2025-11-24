@@ -22,12 +22,6 @@ for plugin in "${!PLUGINS[@]}"; do
     fi
 done
 
-# Install Node.js plugin keyring (required for verification)
-if asdf plugin list | grep -q "^nodejs$"; then
-    echo "Setting up Node.js keyring..."
-    bash -c '${ASDF_DATA_DIR:=$HOME/.asdf}/plugins/nodejs/bin/import-release-team-keyring' || true
-fi
-
 # Install versions from .tool-versions if they exist
 if [[ -f ~/.tool-versions ]]; then
     echo "Installing versions from .tool-versions..."
