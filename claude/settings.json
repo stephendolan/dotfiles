@@ -4,7 +4,7 @@
     "allow": [
       "Bash(ast-grep:*)",
       "Bash(bat:*)",
-      "Bash(bin/rails:*)",
+      "Bash(./bin/*:*)",
       "Bash(bundle:*)",
       "Bash(cat:*)",
       "Bash(chmod:*)",
@@ -95,5 +95,6 @@
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990
-  }
+  },
+  "model": "opus"
 }
