@@ -1,13 +1,13 @@
 # vim: set filetype=zsh :
 
-# Add Linuxbrew to PATH
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-export PATH="/home/linuxbrew/.linuxbrew/sbin:$PATH"
+typeset -U path
+path=(
+  "$HOME/.local/bin"
+  "/home/linuxbrew/.linuxbrew/bin"
+  "/home/linuxbrew/.linuxbrew/sbin"
+  $path
+)
 
-# Add local bin to PATH (for user-installed tools like pipx, pip --user)
-export PATH="$HOME/.local/bin:$PATH"
-
-# Homebrew environment variables
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_UPGRADE_CLEANUP=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1

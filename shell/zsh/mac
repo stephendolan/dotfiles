@@ -1,21 +1,19 @@
 # vim: set filetype=zsh :
 
-export PATH="/usr/local/bin:$PATH"
+typeset -U path
+path=(
+  "$HOME/.docker/bin"
+  "/opt/homebrew/opt/libpq/bin"
+  "/opt/homebrew/bin"
+  "/opt/homebrew/sbin"
+  "/usr/local/bin"
+  $path
+)
 
-# Add homebrew to PATH
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/sbin:$PATH"
-
-# Add Docker to PATH
-export PATH="$HOME/.docker/bin:$PATH"
-
-# Make libpq available
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/libpq/lib/pkgconfig"
 
-# Turn off Homebrew analytics
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_UPGRADE_CLEANUP=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1

@@ -10,6 +10,7 @@ declare -A PLUGINS=(
     ["ruby"]="https://github.com/asdf-vm/asdf-ruby.git"
     ["golang"]="https://github.com/kennyp/asdf-golang.git"
     ["rust"]="https://github.com/code-lever/asdf-rust.git"
+    ["crystal"]="https://github.com/asdf-community/asdf-crystal.git"
 )
 
 for plugin in "${!PLUGINS[@]}"; do

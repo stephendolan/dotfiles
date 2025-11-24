@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 CONFIG="install.conf.yaml"
 DOTBOT_DIR="dotbot"
@@ -8,8 +8,17 @@ DOTBOT_DIR="dotbot"
 DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-cd "${BASEDIR}"
+cd "${BASEDIR}" || exit 1
 git -C "${DOTBOT_DIR}" submodule sync --quiet --recursive
 git submodule update --init --recursive "${DOTBOT_DIR}"
 
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+
+# Verify critical tools are available
+echo ""
+echo "Verifying critical tools..."
+command -v git &>/dev/null || { echo "ERROR: git not found"; exit 1; }
+command -v zsh &>/dev/null || { echo "ERROR: zsh not found"; exit 1; }
+command -v nvim &>/dev/null || { echo "ERROR: nvim not found"; exit 1; }
+command -v brew &>/dev/null || { echo "ERROR: brew not found"; exit 1; }
+echo "✅ Installation complete!"

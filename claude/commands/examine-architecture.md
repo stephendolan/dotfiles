@@ -1,4 +1,4 @@
-Examine codebase architecture using parallel surface architects, consolidate with meta-architect, then validate plans with plan-refiner.
+Examine codebase architecture using parallel surface architects, consolidate with code-architect agent, then validate plans with plan-refiner.
 
 ## Workflow
 
@@ -10,7 +10,7 @@ Examine codebase architecture using parallel surface architects, consolidate wit
 
 **Phase 2: Consolidation**
 
-4. Launch meta-architect to review all surface findings
+4. Launch code-architect agent to consolidate all surface findings
 5. Merge overlapping findings, identify root causes, create implementation plans
 
 **Phase 3: Validation**
@@ -28,12 +28,13 @@ Examine codebase architecture using parallel surface architects, consolidate wit
 
 Choose surfaces based on project size, recent activity, pain points, and tech stack.
 
-## Meta-Architect
+## Consolidation Phase
 
-- Merge overlapping findings across surfaces
-- Identify root causes spanning multiple areas
-- Prioritize by impact with full codebase view
-- Create step-by-step implementation plans
+The code-architect agent in consolidation mode:
+- Merges overlapping findings across surfaces
+- Identifies root causes spanning multiple areas
+- Prioritizes by impact with full codebase view
+- Creates step-by-step implementation plans
 
 ## Plan-Refiner
 
@@ -77,8 +78,8 @@ DEFERRED:
 
 ## Execution
 
-**Phase 1**: Launch 4-8 surface architect agents in parallel
+**Phase 1**: Launch 4-8 code-architect agents in parallel (one per surface)
 
-**Phase 2**: Launch meta-architect with all surface findings
+**Phase 2**: Launch code-architect agent to consolidate all surface findings
 
-**Phase 3**: Launch plan-refiner with all implementation plans
+**Phase 3**: Launch plan-refiner agent to validate implementation plans

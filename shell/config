@@ -61,23 +61,28 @@ elif [[ -f /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh ]]; then
 fi
 
 # FZF
-source <(fzf --zsh)
+if command -v fzf &> /dev/null; then
+  source <(fzf --zsh)
+  export FZF_CTRL_T_OPTS="--bind 'enter:execute($EDITOR {})+abort'"
+fi
 
-# Override default Ctrl+T behavior to open in editor
-export FZF_CTRL_T_OPTS="--bind 'enter:execute($EDITOR {})+abort'"
+# MCFLY
+if command -v mcfly &> /dev/null; then
+  export MCFLY_KEY_SCHEME=vim
+  export MCFLY_FUZZY=0
+  export MCFLY_RESULTS=15
+  export MCFLY_DELETE_WITHOUT_CONFIRM=true
+  eval "$(mcfly init zsh)"
+fi
 
-# MCFLY (better history)
-export MCFLY_KEY_SCHEME=vim
-export MCFLY_FUZZY=0
-export MCFLY_RESULTS=15
-export MCFLY_DELETE_WITHOUT_CONFIRM=true
-eval "$(mcfly init zsh)"
-
-# STARSHIP PROMPT
-eval "$(starship init zsh)"
+# STARSHIP
+command -v starship &> /dev/null && eval "$(starship init zsh)"
 
 # DIRENV
-eval "$(direnv hook zsh)"
+command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
+
+# ZOXIDE
+command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"
 
 # AI ASSISTANT
 [[ -f $HOME/.zsh/functions/ai ]] && source $HOME/.zsh/functions/ai
