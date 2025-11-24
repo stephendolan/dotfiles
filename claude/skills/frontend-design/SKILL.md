@@ -4,13 +4,11 @@ description: Create distinctive, production-grade frontend interfaces with high 
 license: Complete terms in LICENSE.txt
 ---
 
-This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.
+This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics.
 
-The user provides frontend requirements: a component, page, application, or interface to build. They may include context about the purpose, audience, or technical constraints.
+**Always implement, never just suggest**: Create complete, working code with full styling, animations, and interactions. If the purpose or aesthetic direction is unclear, use AskUserQuestion to clarify before proceeding.
 
-## Design Thinking
-
-Before coding, understand the context and commit to a BOLD aesthetic direction:
+Before coding, commit to a BOLD aesthetic direction:
 
 - **Purpose**: What problem does this interface solve? Who uses it?
 - **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazine, brutalist/raw, art deco/geometric, soft/pastel, industrial/utilitarian, etc. There are so many flavors to choose from. Use these for inspiration but design one that is true to the aesthetic direction.

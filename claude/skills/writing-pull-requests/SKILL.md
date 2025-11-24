@@ -4,8 +4,6 @@ description: Generate concise pull request descriptions with summary and problem
 allowed-tools: Bash, Read, Grep, Glob
 ---
 
-# Pull Request Description Generator
-
 Generate focused, concise pull request descriptions that communicate essential information without overwhelming verbosity.
 
 ## Core Philosophy
