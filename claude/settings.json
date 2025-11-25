@@ -100,7 +100,7 @@
     "type": "command",
     "command": "~/.dotfiles/claude/statusline.sh"
   },
-  "alwaysThinkingEnabled": false,
+  "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990
   }
