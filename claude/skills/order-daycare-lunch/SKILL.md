@@ -13,8 +13,8 @@ Help manage lunch ordering for a preschool student who receives catered lunches.
 **Key Preferences:**
 
 - ❌ NEVER order rice-based meals (100% avoidance)
-- ❌ Avoid tomato pasta and pizza
-- ✅ Prefer BBQ items, mac & cheese, chicken nuggets, Alfredo pasta, breakfast items
+- ❌ Avoid pasta dishes (except mac & cheese and Alfredo)
+- ✅ Prefer BBQ items, mac & cheese, chicken nuggets, Alfredo pasta, pizza, breakfast items
 
 For complete preferences, see [PREFERENCES.md](PREFERENCES.md).
 
@@ -26,10 +26,22 @@ When user shares a menu (via **any source**: PDF, screenshot, browser, photo, or
 
 1. Identify meals to **skip** based on preferences
 2. Highlight **recommended** meals
-3. Flag new items that might contain rice or tomato
+3. Flag new items that might contain rice
 4. Note when favorite items appear
 
 **Proactively warn** about rice-based meals - this is the #1 rule.
+
+**Output as a full-month table** showing every school day with action (ORDER/PACK/CLOSED) and menu item:
+
+```
+| Date | Day | Action | Menu Item |
+|------|-----|--------|-----------|
+| Dec 1 | Mon | ✅ ORDER | Mac 'n Cheese |
+| Dec 2 | Tue | 🍱 PACK | Rice dish (avoid) |
+| Dec 3 | Wed | 🚫 CLOSED | Holiday |
+```
+
+This format makes it easy to order and audit the full month at a glance.
 
 ### 2. Order Processing
 

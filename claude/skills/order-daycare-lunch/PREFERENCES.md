@@ -16,16 +16,17 @@ This document contains detailed meal preferences for lunch orders.
 
 ## STRONGLY AVOID
 
-### Tomato-Based Pasta Dishes
+### Pasta Dishes (except mac & cheese and Alfredo)
+
+Pasta dishes aren't his favorite - he usually doesn't eat them. This applies to:
 
 - Cheesy Tomato Pasta
 - Turkey Meat Sauce Pasta
-- Italian Chicken Pasta (when marinara-based)
+- Italian Chicken Pasta
 
-### Pizza Items (Frequently Skipped)
-
-- Cheese Pizza Dippers
-- Personal Cheese Pizza / Tony's Pizza Day
+**Exceptions that ARE ordered:**
+- Mac & cheese variations (see Preferred)
+- Alfredo pasta (see Preferred)
 
 ## CAUTIOUSLY APPROACH
 
@@ -73,12 +74,18 @@ Sometimes skipped due to suspected rice component:
 - Chicken Quesadilla
 - Bean & Cheese Quesadilla
 
+### Pizza ✅
+
+- Cheese Pizza Dippers
+- Personal Cheese Pizza / Tony's Pizza Day
+
 ## Preference Patterns
 
-- **American comfort food** over Italian dishes
-- **BBQ and cheese-based sauces** over tomato-based
-- **Cream-based pasta** (Alfredo) over marinara
+- **American comfort food** (burgers, nuggets, quesadillas)
+- **Mac & cheese and Alfredo** are the only pasta dishes he reliably eats
+- **BBQ items** are favorites
 - **Breakfast items** are well-received
+- **Pizza** is fine (pizza dippers, Tony's pizza day)
 
 ## Historical Data
 
@@ -86,5 +93,4 @@ Based on analysis of July-November 2025 orders:
 
 - Total meals analyzed: 77
 - Rice dishes avoided: 8/8 times (100%)
-- Tomato pasta avoided: 6/7 times (86%)
-- Pizza items avoided: 5/8 times (63%)
+- Pasta dishes (non-mac/Alfredo) avoided: 6/7 times (86%)
