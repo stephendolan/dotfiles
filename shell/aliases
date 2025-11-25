@@ -21,6 +21,16 @@ alias gd='git diff'
 alias c='claude'
 alias s='scry'
 alias dc='docker-compose'
+alias lg='lazygit'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+
+# Smart zoxide: z with args jumps, z without args opens interactive picker
+z() {
+  if [[ $# -eq 0 ]]; then
+    __zoxide_zi
+  else
+    __zoxide_z "$@"
+  fi
+}
