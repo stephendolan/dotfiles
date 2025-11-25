@@ -1,41 +1,36 @@
-Iteratively refine uncommitted changes using specialized refiner agents.
+Review and refine implementation changes for elegance, maintainability, and simplicity.
 
-## Process
+## Scope
 
-### 1. Check for Changes
+Determine what to review based on the current state:
 
-```bash
-git status && git diff && git diff --staged
-```
+- **Dirty working tree**: Review uncommitted changes (`git diff` and `git diff --staged`)
+- **Clean working tree**: Review branch changes since divergence from main (`git diff main...HEAD`)
+- **User-specified scope**: Honor any explicit constraints provided
 
-Stop if working tree is clean.
+## Available Agents
 
-### 2. Refine (Max 3 Iterations)
+Use these agents in parallel where independent areas can be analyzed simultaneously:
 
-Each iteration:
+- **`code-architect`**: Evaluates structure for brittleness, complexity, and coupling. Use to identify architectural concerns without making changes.
+- **`code-refiner`**: Simplifies complexity and improves maintainability. Use to act on identified improvements.
 
-1. **Group changes by functional area** (API, UI, database, tests, documentation)
+## Goals
 
-2. **Launch refiner agents in parallel** (one per area):
-   - Documentation (`*.md`) → `documentation-refiner`
-   - Code (`*.ts`, `*.py`, etc.) → `code-refiner`
+- **Simplicity**: Is there a simpler approach that achieves the same result?
+- **Maintainability**: Will this be easy to understand and modify later?
+- **Elegance**: Does the solution feel natural and well-structured?
+- **Complexity trade-offs**: Is any added complexity justified by the benefits?
 
-3. **Validate with `plan-refiner`**:
-   - Reviews all changes from this iteration
-   - Decides: continue, stop, or spawn refiners to undo over-simplifications
-   - Has final authority
+## Autonomy
 
-Stop when plan-refiner approves OR no changes made OR 3 iterations completed.
+Use your judgment on:
 
-### 3. Report
+- How many passes are needed (small changes may need none, large changes may need several)
+- Whether to run architect analysis before or alongside refinement
+- When to stop (diminishing returns, risk of over-simplification)
+- Which areas benefit from parallel vs sequential review
 
-- Iterations completed
-- Files modified
-- Lines removed
-- Key improvements
+## Output
 
-## Constraints
-
-- Maximum 3 iterations
-- Plan-refiner validates each iteration
-- Preserve functionality always
+Summarize what was reviewed, what changed, and key decisions made.
