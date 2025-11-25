@@ -81,6 +81,7 @@
       "Bash(git push -f origin master)"
     ]
   },
+  "model": "opus",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "Notification": [
@@ -99,9 +100,8 @@
     "type": "command",
     "command": "~/.dotfiles/claude/statusline.sh"
   },
-  "alwaysThinkingEnabled": true,
+  "alwaysThinkingEnabled": false,
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990
-  },
-  "model": "opus"
+  }
 }
