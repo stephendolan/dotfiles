@@ -220,9 +220,13 @@ Format: 2-3 sentence summary, 1-2 sentence problem statement, no verbose section
 
 - Ensure all tests pass before committing
 - Ensure all linters pass before committing, handling both errors and warnings
-- Always handle errors explicitly, never ignore them
 - **Never speculate about code you haven't read**: Always read files before answering questions or making changes. Never guess at implementation details or API signatures.
 - **Write general-purpose solutions**: Implement logic that solves problems generally. Never hard-code values from test cases or examples - build solutions that work for all valid inputs.
+- **Avoid over-engineering**: Only make changes that are directly requested or clearly necessary. Keep solutions simple and focused.
+  - Don't add features, refactor code, or make "improvements" beyond what was asked. A bug fix doesn't need surrounding code cleaned up. A simple feature doesn't need extra configurability.
+  - Don't add error handling or validation for scenarios that can't happen. Trust internal code and framework guarantees. Only validate at system boundaries (user input, external APIs).
+  - Don't create helpers, utilities, or abstractions for one-time operations. Don't design for hypothetical future requirements. Three similar lines of code is better than a premature abstraction.
+  - Don't add backwards-compatibility hacks like renaming unused `_vars`, re-exporting types, or `// removed` comments. If something is unused, delete it completely.
 
 ## Tooling preferences
 
