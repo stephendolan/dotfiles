@@ -1,5 +1,15 @@
 Review and refine implementation changes for elegance, maintainability, and simplicity.
 
+## Context is Critical
+
+**You must provide context to refiner agents about the intent behind changes.** Without this, refiners may undo intentional work.
+
+When spawning refiner agents, always include:
+
+- **Problem being solved**: What bug, issue, or requirement drove this change?
+- **Why this approach**: What constraints or failures led to choosing this implementation?
+- **What to preserve**: Any non-obvious decisions that must not be simplified away
+
 ## Scope
 
 Determine what to review based on the current state:
@@ -14,6 +24,8 @@ Use these agents in parallel where independent areas can be analyzed simultaneou
 
 - **`code-architect`**: Evaluates structure for brittleness, complexity, and coupling. Use to identify architectural concerns without making changes.
 - **`code-refiner`**: Simplifies complexity and improves maintainability. Use to act on identified improvements.
+
+**When spawning these agents, include the context from above in your prompt.**
 
 ## Goals
 
