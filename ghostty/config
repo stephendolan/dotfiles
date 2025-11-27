@@ -1,0 +1,5 @@
+# Revert: change to "stable" and restart, or re-download from ghostty.org
+auto-update-channel = tip
+
+# Disable ligatures (e.g. -> becoming →, != becoming ≠)
+font-feature = -liga

@@ -39,6 +39,7 @@
     ~/.config/starship.toml: starship/config.toml
     ~/.config/mcfly/config.toml: mcfly/config.toml
     ~/.config/bat/config: bat/config
+    ~/.config/ghostty/config: ghostty/config
 
     # Database tools
     ~/.psqlrc: psql/config
