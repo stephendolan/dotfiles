@@ -2,7 +2,13 @@
 
 ai() {
   printf "🤔 Thinking..." >&2
-  local cmd=$(claude -p "First read ~/Brewfile to see what tools are available, then return only the command to: $*. No explanation, no backticks, no formatting. Just the raw command ready to execute using the best available tools. If the command produces output, include flags for the prettiest, most human-readable formatting (colors, headers, etc.)." --model haiku)
+  local cmd=$(claude -p "Output ONLY the shell command for: $*
+
+RULES:
+- Single line of output containing only the executable command
+- No explanations, no markdown, no backticks, no preamble
+- Use modern CLI tools (gh, rg, fd, jq, etc.) when appropriate
+- Include flags for human-readable output where applicable" --model sonnet)
   printf "\r\e[2K" >&2
   print -z "$cmd"
 }

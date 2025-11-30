@@ -19,6 +19,7 @@ alias gd='git diff'
 
 # SHORTCUTS
 alias c='claude'
+alias cc='claude --continue'
 alias s='scry'
 alias dc='docker-compose'
 alias lg='lazygit'
