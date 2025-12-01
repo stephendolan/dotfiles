@@ -34,3 +34,6 @@ brew "yamllint"         # YAML linter
 brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
+
+# Applications
+brew "cookcli"
