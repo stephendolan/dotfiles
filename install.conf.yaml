@@ -39,7 +39,12 @@
     ~/.config/starship.toml: starship/config.toml
     ~/.config/mcfly/config.toml: mcfly/config.toml
     ~/.config/bat/config: bat/config
-    ~/.config/ghostty/config: ghostty/config
+    ~/Library/Application Support/com.mitchellh.ghostty/config:
+      if: "[ `uname` = Darwin ]"
+      path: ghostty/config
+    ~/.config/ghostty/config:
+      if: "[ `uname` = Linux ]"
+      path: ghostty/config
 
     # Database tools
     ~/.psqlrc: psql/config
