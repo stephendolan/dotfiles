@@ -77,7 +77,7 @@
       "mcp__linear__list_comments",
       "mcp__linear__list_documents",
       "mcp__linear__list_issues",
-      "mcp__linear__list_project",
+      "mcp__linear__list_project"
     ],
     "deny": [
       "Bash(rm -rf /*)",
