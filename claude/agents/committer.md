@@ -1,5 +1,6 @@
 ---
 name: committer
+model: sonnet
 description: Creates git commits with properly formatted messages. Handles the complete workflow: analyzes changes, drafts message following conventional commit standards, refines for clarity, and commits.
 tools: Bash, Grep, Glob, Read
 skills: writing-git-commits

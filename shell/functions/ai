@@ -21,15 +21,14 @@ explain() {
 }
 
 gci() {
-  printf "🤔 Analyzing changes..." >&2
-  local commit_command=$(claude -p "Read the output of 'git diff --cached' and 'git status --porcelain' to understand what changes are staged. Generate a concise, clear git commit message following conventional commit standards. Return only the complete git commit command with the -m flag and message in quotes. No explanation, no backticks, no formatting, no signatures, no attribution, no 'Generated with' text. Just the raw command ready to execute." --model haiku)
-  printf "\r\e[2K" >&2
-  print -z "$commit_command"
+  claude "Use the committer agent to commit my staged changes."
 }
 
 gpr() {
-  printf "🤔 Analyzing commits for PR..." >&2
-  local pr_command=$(claude -p "Analyze the git commits on the current branch compared to its upstream/parent branch to understand what changes this PR introduces. Generate a GitHub PR using the gh CLI with a descriptive title and body that explains the changes. Return only the complete 'gh pr create' command ready to execute. No explanation, no backticks, no formatting." --model haiku)
-  printf "\r\e[2K" >&2
-  print -z "$pr_command"
+  local mode=${1:-""}
+  if [[ -n "$mode" ]]; then
+    claude "Use the pr-creator agent to create a $mode PR for this branch."
+  else
+    claude "Use the pr-creator agent to create a PR for this branch."
+  fi
 }
