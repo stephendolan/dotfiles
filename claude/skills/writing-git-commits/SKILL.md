@@ -1,10 +1,21 @@
 ---
 name: writing-git-commits
-description: Draft initial commit messages. Use BEFORE git-commit-refiner agent. Covers commit types (feat, fix, refactor, docs, chore), scope determination, imperative mood formatting, and summary line best practices.
+description: Draft conventional commit messages following industry standards. Use when committing code, writing commit messages, or reviewing git diffs. Covers commit types (feat, fix, refactor, docs, chore), scope determination, imperative mood formatting, and summary line best practices.
 allowed-tools: Read, Bash, Grep, Glob
 ---
 
 This skill provides guidance for creating clear, consistent commit messages following conventional commit standards.
+
+## Philosophy
+
+Commit messages are **permanent documentation**. They explain WHY changes were made when the code alone doesn't tell the full story. Good messages make git archaeology easy - future developers (including you) can understand the evolution of the codebase.
+
+**Key questions before writing**:
+- What type of change is this? (feature, fix, refactor, etc.)
+- What's the most specific, accurate summary?
+- Does the WHY need explanation, or is it obvious from context?
+
+**Core principle**: Every word must earn its place. Vague messages like "fix bug" or "update code" waste everyone's time.
 
 ## Format
 
@@ -202,8 +213,6 @@ For large refactors or multi-part changes, prefer:
 2. **Descriptive body** explaining the overall approach
 3. **Issue references** linking to detailed discussion
 
-**When changes are truly inseparable**, launch the `git-committer` agent for detailed analysis and message generation.
-
 ## Repository-Specific Patterns
 
 Always check recent commits to match established patterns:
@@ -220,20 +229,6 @@ Look for:
 
 **Consistency with the repository matters more than perfect adherence to general standards.**
 
-## Quick Reference
-
-| Type     | When to Use                         |
-| -------- | ----------------------------------- |
-| feat     | New feature, new capability         |
-| fix      | Bug fix, error correction           |
-| refactor | Code cleanup, restructuring         |
-| docs     | Documentation changes only          |
-| chore    | Dependencies, build config, tooling |
-| test     | Test additions or fixes             |
-| perf     | Performance optimization            |
-| style    | Formatting, whitespace              |
-| ci       | CI/CD pipeline changes              |
-
 ## Remember
 
 - **Imperative mood** - "add" not "added" or "adds"
@@ -243,5 +238,3 @@ Look for:
 - **Body is optional** - Use when context helps
 - **Check repository patterns** - Consistency matters
 - **One logical change** - Split unrelated changes into multiple commits
-
-Good commit messages make archaeology easy. Future developers (including you) will thank you.

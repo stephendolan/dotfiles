@@ -1,6 +1,6 @@
 ---
 name: writing-pull-requests
-description: Generate concise pull request descriptions with summary and problem statement only. Avoids verbose sections like technical details, testing notes, before/after comparisons, and implementation specifics. Use when creating GitHub pull requests with gh pr create.
+description: Draft concise PR descriptions with summary and problem statement. Use when creating pull requests, writing PR descriptions, or using gh pr create. Avoids verbose sections like technical details, testing notes, and implementation specifics.
 allowed-tools: Bash, Read, Grep, Glob
 ---
 
@@ -57,57 +57,6 @@ Only include "Core Changes" for significant architectural modifications:
 ```
 
 **Skip this section** for routine bug fixes, feature additions, or refactoring that doesn't change architecture.
-
-## Workflow
-
-### 1. Gather Context
-
-```bash
-# Review all changes from branch point
-git diff main...HEAD
-
-# Check commit history
-git log main..HEAD --oneline
-```
-
-### 2. Verify Problem Statement
-
-If the problem isn't immediately clear from code changes:
-
-**Ask the user directly** using AskUserQuestion:
-
-- "What problem does this PR solve?"
-- "What was the user-facing issue or business need?"
-
-Never guess or infer when uncertain.
-
-### 3. Draft Description
-
-Write 2-3 sentence summary covering:
-
-- What changed
-- Why it changed
-- High-level impact
-
-Add problem statement if clearly understood or confirmed by user.
-
-Add core changes section ONLY if there are architectural changes.
-
-### 4. Create Pull Request
-
-```bash
-# Create PR with gh CLI using heredoc for body
-gh pr create --title "Brief descriptive title" --body "$(cat <<'EOF'
-## Summary
-
-[Your summary here]
-
-## Problem
-
-[Problem statement here]
-EOF
-)"
-```
 
 ## Examples
 

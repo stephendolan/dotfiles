@@ -174,8 +174,8 @@ Complete development lifecycle with quality gates:
 
 - **Plan** → plan-refiner approves → **Implement**
 - **Code** → code-refiner approves → **Commit**
-- **Commits** → commit-refiner approves → **Continue/PR**
-- **PR draft** → pr-refiner approves → **Create PR**
+- **Commit** → committer agent (has skill built-in) → **Continue/PR**
+- **PR** → pr-creator agent (has skill built-in) → **Done**
 
 ### State Management for Long Tasks
 
@@ -201,20 +201,15 @@ Plan-refiner has final authority on approach and can suggest radical simplificat
 
 ### 3. Committing
 
-1. Draft message with `writing-git-commits` skill
-2. Launch `git-commit-refiner` agent to polish
-3. Commit only after message is refined
+**Launch the `committer` agent.** Do not run `git commit` directly.
 
-Format: `type(scope): summary` in imperative mood, under 72 chars, accurate to changes.
+The committer agent handles the complete workflow: analyzes changes, drafts message following conventional commit standards, refines for clarity, and commits.
 
 ### 4. Pull Requests
 
-1. Review `git diff main...HEAD` and commit history
-2. Draft description with `pull-request` skill (Summary + Problem, rarely Core Changes)
-3. Launch `pr-refiner` agent to polish
-4. Create PR with `gh pr create` only after refined
+**Launch the `pr-creator` agent.** Do not run `gh pr create` directly.
 
-Format: 2-3 sentence summary, 1-2 sentence problem statement, no verbose sections.
+The pr-creator agent handles the complete workflow: analyzes branch changes, drafts description, verifies problem statement with user if unclear, refines for clarity, and creates the PR.
 
 ## Code Quality Standards
 
