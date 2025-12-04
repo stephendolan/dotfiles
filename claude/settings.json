@@ -2,16 +2,16 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
+      "Bash(./bin/*:*)",
       "Bash(ast-grep:*)",
       "Bash(awk:*)",
       "Bash(bat:*)",
-      "Bash(./bin/*:*)",
       "Bash(bundle:*)",
       "Bash(cat:*)",
       "Bash(chmod:*)",
-      "Bash(cp:*)",
       "Bash(column:*)",
       "Bash(comm:*)",
+      "Bash(cp:*)",
       "Bash(crystal:*)",
       "Bash(cut:*)",
       "Bash(delta:*)",
@@ -43,12 +43,12 @@
       "Bash(rg:*)",
       "Bash(rm:*)",
       "Bash(sed:*)",
-      "Bash(sort:*)",
       "Bash(shards:*)",
       "Bash(shellcheck:*)",
-      "Bash(tmux:*)",
+      "Bash(sort:*)",
       "Bash(tail:*)",
       "Bash(tee:*)",
+      "Bash(tmux:*)",
       "Bash(tr:*)",
       "Bash(tree:*)",
       "Bash(true)",
@@ -61,12 +61,15 @@
       "Bash(yarn:*)",
       "Bash(ynab:*)",
       "Bash(zoxide:*)",
-      "WebFetch(domain:clerk.com)",
       "WebFetch(domain:anthropic.com)",
       "WebFetch(domain:claude.com)",
+      "WebFetch(domain:clerk.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:docs.claude.com)",
       "WebFetch(domain:docs.sentry.io)",
-      "WebFetch(domain:tuple.app)",
       "WebFetch(domain:github.com)",
+      "WebFetch(domain:modelcontextprotocol.io)",
+      "WebFetch(domain:tuple.app)",
       "mcp__ChartMogul",
       "mcp__MixPanel",
       "mcp__Sentry__find_errors",
@@ -89,7 +92,7 @@
     ]
   },
   "model": "opus",
-  "enableAllProjectMcpServers": false,
+  "enableAllProjectMcpServers": true,
   "hooks": {
     "Notification": [
       {
@@ -107,7 +110,7 @@
     "type": "command",
     "command": "~/.dotfiles/claude/statusline.sh"
   },
-  "alwaysThinkingEnabled": true,
+  "alwaysThinkingEnabled": false,
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990
   }
