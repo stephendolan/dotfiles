@@ -21,14 +21,14 @@ explain() {
 }
 
 gci() {
-  claude "Use the committer agent to commit my staged changes."
+  claude -p "Use the committer agent to commit my staged changes."
 }
 
 gpr() {
   local mode=${1:-""}
   if [[ -n "$mode" ]]; then
-    claude "Use the pr-creator agent to create a $mode PR for this branch."
+    claude -p "Use the pr-creator agent to create a $mode PR for this branch."
   else
-    claude "Use the pr-creator agent to create a PR for this branch."
+    claude -p "Use the pr-creator agent to create a PR for this branch."
   fi
 }
