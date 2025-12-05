@@ -1,6 +1,14 @@
 {
   "globalShortcut": "",
   "mcpServers": {
+    "notion": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.notion.com/mcp"
+      ]
+    },
     "linear": {
       "command": "npx",
       "args": [
