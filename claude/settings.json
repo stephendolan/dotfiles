@@ -26,6 +26,7 @@
       "Bash(glow:*)",
       "Bash(grep:*)",
       "Bash(head:*)",
+      "Bash(helpscout:*)",
       "Bash(htop)",
       "Bash(jq:*)",
       "Bash(just:*)",
