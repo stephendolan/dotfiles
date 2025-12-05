@@ -30,7 +30,7 @@ Choose surfaces based on project size, recent activity, pain points, and tech st
 
 ## Consolidation Phase
 
-The code-architect agent in consolidation mode:
+The code-architect agent consolidates all surface findings:
 - Merges overlapping findings across surfaces
 - Identifies root causes spanning multiple areas
 - Prioritizes by impact with full codebase view

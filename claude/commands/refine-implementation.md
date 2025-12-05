@@ -33,6 +33,16 @@ Use these agents in parallel where independent areas can be analyzed simultaneou
 - **Maintainability**: Will this be easy to understand and modify later?
 - **Elegance**: Does the solution feel natural and well-structured?
 - **Complexity trade-offs**: Is any added complexity justified by the benefits?
+- **Domain expertise**: Were relevant skills applied during implementation?
+
+## Skill Verification
+
+Check if domain-specific skills should have been applied but weren't:
+
+- Identify domains from file types and context (C++, macOS, frontend, etc.)
+- Run any relevant skills to get domain-specific guidance
+- Flag violations of domain best practices
+- Apply corrections where skills would have prevented issues
 
 ## Autonomy
 

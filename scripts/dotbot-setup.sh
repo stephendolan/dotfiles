@@ -1,10 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "🤖 Setting up DotBot..."
+# DotBot submodule initialization is handled by the main install script.
+# This script exists for any additional DotBot-specific setup if needed.
 
-# Initialize and update the dotbot submodule
-echo "Updating DotBot submodule..."
-git submodule update --init --recursive dotbot
-
-echo "✅ DotBot setup complete!"
+echo "✅ DotBot ready!"

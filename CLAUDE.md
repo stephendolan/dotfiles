@@ -11,7 +11,6 @@ This is a dotfiles repository that uses DotBot for automated installation and sy
 The repository follows a consistent pattern where each tool gets its own directory:
 
 ```
-alacritty/          # Terminal emulator configuration
 asdf/               # Version manager configuration
 claude/             # Claude Code configuration (agents, commands, skills)
 git/                # Git configuration
@@ -67,7 +66,7 @@ When adding new tools:
 
 - **Shell**: Zsh with Starship prompt (no Oh My Zsh)
 - **Editor**: Neovim with LazyVim
-- **Terminal**: Alacritty
+- **Terminal**: Ghostty
 - **Package Manager**: Homebrew
 - **Version Manager**: ASDF
 - **History**: McFly

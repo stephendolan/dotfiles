@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Source ASDF (brew-setup.sh runs before this script)
+ASDF_SCRIPT="$(brew --prefix asdf 2>/dev/null)/libexec/asdf.sh"
+if [[ -f "$ASDF_SCRIPT" ]]; then
+    source "$ASDF_SCRIPT"
+else
+    echo "ERROR: ASDF not found. Ensure brew-setup.sh completed successfully."
+    exit 1
+fi
+
 echo "Setting up ASDF with common plugins..."
 
 # Install common ASDF plugins with full URLs (since short-name repo is disabled)
