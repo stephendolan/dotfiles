@@ -1,58 +1,53 @@
-Review and refine implementation changes for elegance, maintainability, and simplicity.
+Evaluate implementation changes and decide whether refinement is warranted.
 
-## Context is Critical
+## Two-Phase Process
 
-**You must provide context to refiner agents about the intent behind changes.** Without this, refiners may undo intentional work.
+1. **Evaluate**: Review the diff yourself and assess whether refinement would add value
+2. **Refine**: Spawn `code-refiner` only when evaluation reveals genuine issues
 
-When spawning refiner agents, always include:
+Small, focused changes rarely benefit from refinement. Evaluate first, then decide.
 
-- **Problem being solved**: What bug, issue, or requirement drove this change?
-- **Why this approach**: What constraints or failures led to choosing this implementation?
-- **What to preserve**: Any non-obvious decisions that must not be simplified away
+## Evaluation
 
-## Scope
+Run `git diff` (or `git diff main...HEAD` for clean trees) and assess:
 
-Determine what to review based on the current state:
+| Factor | Consider |
+|--------|----------|
+| Size | Under 30 lines? Likely skip. Over 50 lines? Likely refine. |
+| Complexity | Multiple abstraction layers for simple operations? |
+| Clarity | Would another developer understand this immediately? |
+| Idioms | Does it follow language conventions? |
 
-- **Dirty working tree**: Review uncommitted changes (`git diff` and `git diff --staged`)
-- **Clean working tree**: Review branch changes since divergence from main (`git diff main...HEAD`)
-- **User-specified scope**: Honor any explicit constraints provided
+### Skip Refinement
 
-## Available Agents
+- Changes under 30 lines with straightforward logic
+- Code follows existing patterns in the codebase
+- Uses idiomatic language constructs
+- No multi-step conditionals that could be simplified
 
-Use these agents in parallel where independent areas can be analyzed simultaneously:
+### Run Refinement
 
-- **`code-architect`**: Evaluates structure for brittleness, complexity, and coupling. Use to identify architectural concerns without making changes.
-- **`code-refiner`**: Simplifies complexity and improves maintainability. Use to act on identified improvements.
+- Changes over 50 lines
+- Multi-level nesting or indirection for simple operations
+- Comments explaining WHAT instead of self-documenting code
+- Language idiom violations (e.g., verbose loops instead of map/filter)
 
-**When spawning these agents, include the context from above in your prompt.**
+## Spawning Refiners
 
-## Goals
+When spawning `code-refiner`, include context so it preserves intentional decisions:
 
-- **Simplicity**: Is there a simpler approach that achieves the same result?
-- **Maintainability**: Will this be easy to understand and modify later?
-- **Elegance**: Does the solution feel natural and well-structured?
-- **Complexity trade-offs**: Is any added complexity justified by the benefits?
-- **Domain expertise**: Were relevant skills applied during implementation?
-
-## Skill Verification
-
-Check if domain-specific skills should have been applied but weren't:
-
-- Identify domains from file types and context (C++, macOS, frontend, etc.)
-- Run any relevant skills to get domain-specific guidance
-- Flag violations of domain best practices
-- Apply corrections where skills would have prevented issues
-
-## Autonomy
-
-Use your judgment on:
-
-- How many passes are needed (small changes may need none, large changes may need several)
-- Whether to run architect analysis before or alongside refinement
-- When to stop (diminishing returns, risk of over-simplification)
-- Which areas benefit from parallel vs sequential review
+- Problem being solved: What requirement drove this change?
+- Why this approach: What constraints led to this implementation?
+- What to preserve: Non-obvious decisions that should not be simplified away
 
 ## Output
 
-Summarize what was reviewed, what changed, and key decisions made.
+State your decision before taking action:
+
+When skipping:
+> No refinement needed. [Rationale: e.g., "15-line change, idiomatic code, follows existing patterns."]
+
+When refining:
+> Running refinement. [Rationale: e.g., "60 lines with nested conditionals that could be flattened."]
+
+After refinement completes, summarize what changed.
