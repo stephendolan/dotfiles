@@ -255,3 +255,9 @@ The pr-creator agent handles the complete workflow: analyzes branch changes, dra
 2. **ripgrep (rg)** - For fast text searches across files
 3. **fd** - For finding files by name or pattern
 4. Only fall back to traditional `grep` or `find` if explicitly requested or if the modern tools are unavailable
+
+### Personal Productivity CLIs
+
+- **of** (OmniFocus CLI) - Task management. Use for questions about tasks, projects, contexts, or GTD workflow.
+- **helpscout** (HelpScout CLI) - Customer support tooling for Tuple. Use for questions about support tickets, customers, or conversations.
+- **ynab** (You Need A Budget CLI) - Personal budgeting. Use for questions about budget categories, transactions, or spending.
