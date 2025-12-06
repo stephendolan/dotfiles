@@ -1,53 +1,42 @@
-Evaluate implementation changes and decide whether refinement is warranted.
+Spawn `code-refiner` to review recent changes for simplification opportunities.
 
-## Two-Phase Process
+## Workflow
 
-1. **Evaluate**: Review the diff yourself and assess whether refinement would add value
-2. **Refine**: Spawn `code-refiner` only when evaluation reveals genuine issues
+1. **Commit current work** - Create a WIP baseline to compare against
+2. **Spawn code-refiner** - Launch with minimal context for fresh perspective
+3. **Review changes** - Accept or reject refiner's suggestions
+4. **Commit properly** - Amend the WIP with a real commit message via `committer`
 
-Small, focused changes rarely benefit from refinement. Evaluate first, then decide.
+## Step 1: Commit Baseline
 
-## Evaluation
+```bash
+git add -A && git commit -m "wip: checkpoint before refinement"
+```
 
-Run `git diff` (or `git diff main...HEAD` for clean trees) and assess:
+Before spawning, note for yourself: What constraints matter? What complexity is intentional? Keep this ready for Step 3.
 
-| Factor | Consider |
-|--------|----------|
-| Size | Under 30 lines? Likely skip. Over 50 lines? Likely refine. |
-| Complexity | Multiple abstraction layers for simple operations? |
-| Clarity | Would another developer understand this immediately? |
-| Idioms | Does it follow language conventions? |
+## Step 2: Spawn Refiner
 
-### Skip Refinement
+Launch `code-refiner` with this prompt:
 
-- Changes under 30 lines with straightforward logic
-- Code follows existing patterns in the codebase
-- Uses idiomatic language constructs
-- No multi-step conditionals that could be simplified
+> Review the recent changes and apply refinement principles. Look for over-engineering, unnecessary abstraction, and opportunities for simplification.
 
-### Run Refinement
+## Step 3: Review and Resolve
 
-- Changes over 50 lines
-- Multi-level nesting or indirection for simple operations
-- Comments explaining WHAT instead of self-documenting code
-- Language idiom violations (e.g., verbose loops instead of map/filter)
+Check what changed:
 
-## Spawning Refiners
+```bash
+git diff HEAD~1
+```
 
-When spawning `code-refiner`, include context so it preserves intentional decisions:
+Then choose:
 
-- Problem being solved: What requirement drove this change?
-- Why this approach: What constraints led to this implementation?
-- What to preserve: Non-obvious decisions that should not be simplified away
+- **Accept**: Keep refiner's improvements
+- **Reject**: Revert to baseline (`git reset HEAD~1`) and provide constraints to refiner for second pass
+- **Partial**: Revert specific files (`git checkout HEAD~1 -- path/to/file`), keep others
 
-## Output
+## Step 4: Commit
 
-State your decision before taking action:
+Launch the `committer` agent to amend the WIP checkpoint into a proper commit. The message should describe what the code does, not how it was developed.
 
-When skipping:
-> No refinement needed. [Rationale: e.g., "15-line change, idiomatic code, follows existing patterns."]
-
-When refining:
-> Running refinement. [Rationale: e.g., "60 lines with nested conditionals that could be flattened."]
-
-After refinement completes, summarize what changed.
+**Important**: Do not skip refinement because changes seem "too simple." You cannot objectively assess code you just wrote. Always spawn the refiner.

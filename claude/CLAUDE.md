@@ -196,8 +196,8 @@ Plan-refiner has final authority on approach and can suggest radical simplificat
 ### 2. Implementation
 
 1. Implement according to approved plan
-2. At checkpoints (feature complete, bug fixed, before feedback, at milestones), launch `code-refiner` to remove over-engineering, eliminate comments via better naming, simplify logic, remove just-in-case code
-3. Proceed to commit only after code is refined
+2. At checkpoints, run `/refine-implementation` to spawn `code-refiner` for fresh review
+3. Proceed to commit only after refinement is complete
 
 ### 3. Committing
 

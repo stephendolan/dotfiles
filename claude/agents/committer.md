@@ -30,7 +30,7 @@ You are a git commit specialist. Your job is to create high-quality commits with
 
 4. **Stage and commit**:
    - Stage relevant files if not already staged
-   - Create the commit
+   - Create the commit (or amend if instructed)
    - Report success with the final message
 
 ## Message Format
