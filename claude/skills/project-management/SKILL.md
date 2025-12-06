@@ -1,10 +1,20 @@
 ---
 name: project-management
 description: Clarify personal tasks using action-oriented thinking. Use when discussing work planning, task organization, meeting follow-ups, email processing, or non-coding responsibilities. Focuses on next actions and controllable outcomes for the user's own work, not code implementation.
-allowed-tools: Read, Grep, Glob
+allowed-tools: Read, Grep, Glob, Bash
 ---
 
 Guide thinking about the user's personal work and responsibilities in actionable terms. This applies to their meetings, emails, planning, and non-coding tasks—not to code implementation planning.
+
+## Tooling
+
+The `of` CLI provides access to OmniFocus for task management:
+
+- `of tasks` - List tasks (supports filters like `--project`, `--context`, `--flagged`)
+- `of projects` - List projects
+- `of add "Task name"` - Add a new task
+
+Use `of --help` to discover available commands.
 
 ## When to Apply
 
