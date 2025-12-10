@@ -27,11 +27,3 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
-# Smart zoxide: z with args jumps, z without args opens interactive picker
-z() {
-  if [[ $# -eq 0 ]]; then
-    __zoxide_zi
-  else
-    __zoxide_z "$@"
-  fi
-}

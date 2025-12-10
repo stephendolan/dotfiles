@@ -90,7 +90,10 @@ command -v starship &> /dev/null && eval "$(starship init zsh)"
 command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
 
 # ZOXIDE
-command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"
+if command -v zoxide &> /dev/null; then
+    export _ZO_FZF_OPTS="$FZF_DEFAULT_OPTS --preview 'eza --tree --level=2 --color=always {2..}'"
+    eval "$(zoxide init zsh)"
+fi
 
 # AI ASSISTANT
 [[ -f $HOME/.zsh/functions/ai ]] && source $HOME/.zsh/functions/ai
