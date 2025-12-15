@@ -1,16 +1,16 @@
-Examine codebase architecture using parallel surface architects, consolidate with code-architect agent, then validate plans with plan-refiner.
+Examine codebase architecture using parallel architecture-reviewer agents, consolidate findings, then validate plans with plan-refiner.
 
 ## Workflow
 
 **Phase 1: Discovery**
 
 1. Identify 4-8 architectural surfaces
-2. Launch parallel architect agents, one per surface
+2. Launch parallel architecture-reviewer agents, one per surface
 3. Each agent outputs findings with severity/effort/approach
 
 **Phase 2: Consolidation**
 
-4. Launch code-architect agent to consolidate all surface findings
+4. Consolidate all surface findings
 5. Merge overlapping findings, identify root causes, create implementation plans
 
 **Phase 3: Validation**
@@ -30,7 +30,7 @@ Choose surfaces based on project size, recent activity, pain points, and tech st
 
 ## Consolidation Phase
 
-The code-architect agent consolidates all surface findings:
+Consolidate all surface findings:
 - Merges overlapping findings across surfaces
 - Identifies root causes spanning multiple areas
 - Prioritizes by impact with full codebase view
@@ -78,8 +78,8 @@ DEFERRED:
 
 ## Execution
 
-**Phase 1**: Launch 4-8 code-architect agents in parallel (one per surface)
+**Phase 1**: Launch 4-8 architecture-reviewer agents in parallel (one per surface)
 
-**Phase 2**: Launch code-architect agent to consolidate all surface findings
+**Phase 2**: Consolidate all surface findings into prioritized issues with implementation plans
 
 **Phase 3**: Launch plan-refiner agent to validate implementation plans
