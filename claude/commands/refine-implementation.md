@@ -14,11 +14,21 @@ You cannot objectively assess code you just wrote. This command provides fresh p
 
 ### 1. Gather Context
 
-Run in parallel:
+**Implementation context** (run in parallel):
 
 - `git diff` (or `git diff --cached` if staged) to see changes
 - `git status` to understand scope
+- `git log --oneline main..HEAD` to see commit history on this branch
+- `gh pr view --json title,body` to get PR description (if exists)
 - Read any relevant CLAUDE.md files in the changed directories
+
+**Intent reconstruction** (if no conversation context):
+
+If this is a fresh conversation on an existing branch, spawn a `code-explorer` agent:
+
+> Analyze this branch to understand what was intentionally built. Review the PR description/title, commit messages, and actual code changes. Summarize: What features/capabilities were intentionally implemented? What problem was being solved?
+
+Pass this context summary to all review agents.
 
 ### 2. Launch Review Agents (Parallel)
 
@@ -26,7 +36,29 @@ Spawn three `code-refiner` agents simultaneously, each with a different focus. A
 
 **Agent 1 - Simplicity & Elegance**:
 
-> Review recent changes for over-engineering, unnecessary abstractions, and complexity. You may make improvements, but for any deletion or revert of intentionally-added code, explain your reasoning clearly. Apply simplification principles: remove premature abstractions, delete just-in-case code, consolidate redundant patterns.
+> [Include context summary from step 1]
+>
+> Review for implementation complexity. You have two response modes:
+>
+> **Autonomous changes** (make directly):
+>
+> - Simplify HOW features are implemented (fewer abstractions, clearer code)
+> - Remove genuinely dead/unreachable code
+> - Consolidate redundant implementations of the same thing
+>
+> **Escalate to caller** (report but don't change):
+>
+> - Features that add disproportionate complexity
+> - Capabilities that seem tangential to the core intent
+> - Design decisions you'd question but can't confirm weren't intentional
+>
+> Format escalations as:
+>
+> ```
+> ESCALATE: [feature/code area]
+> Concern: [why this adds significant complexity]
+> Recommendation: [what you'd suggest if confirmed unnecessary]
+> ```
 
 **Agent 2 - Configuration Compliance**:
 
@@ -50,7 +82,16 @@ After agents complete:
 3. **If reasoning seems wrong or missing context, resume the agent** to discuss before accepting
 4. Reject or revert changes that undo intentional design decisions without strong justification
 
-### 4. Reconcile Changes
+### 4. Handle Escalations
+
+If any agent reported escalations:
+
+1. Present each escalation to the user with the agent's reasoning
+2. Ask: "Was this intentionally requested, or should we simplify?"
+3. For confirmed removals, make the change
+4. For intentional features, note them to avoid re-flagging in subsequent passes
+
+### 5. Reconcile Changes
 
 After reviewing and discussing with agents as needed:
 
@@ -59,7 +100,7 @@ After reviewing and discussing with agents as needed:
 3. Revert any changes that were rejected after discussion
 4. Show the user what changed
 
-### 5. Check for Another Pass
+### 6. Check for Another Pass
 
 Ask the user:
 
@@ -71,7 +112,7 @@ Options:
 - **Review changes** → Show `git diff` and wait for feedback
 - **Ready to commit** → Launch `committer` agent
 
-### 6. Final Review (Optional)
+### 7. Final Review (Optional)
 
 If user wants to review:
 

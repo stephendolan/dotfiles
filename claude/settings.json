@@ -81,7 +81,14 @@
       "mcp__linear__list_comments",
       "mcp__linear__list_documents",
       "mcp__linear__list_issues",
-      "mcp__linear__list_project"
+      "mcp__linear__list_project",
+      "mcp__betterstack__telemetry_create_cloud_connection_tool",
+      "mcp__betterstack__telemetry_get_metric_query_instructions_tool",
+      "mcp__betterstack__telemetry_get_metrics_and_cardinality_tool",
+      "mcp__betterstack__telemetry_get_query_instructions_tool",
+      "mcp__betterstack__telemetry_list_sources_tool",
+      "mcp__betterstack__telemetry_list_teams_tool",
+      "mcp__betterstack__telemetry_query"
     ],
     "deny": [
       "Bash(rm -rf /*)",
