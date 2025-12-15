@@ -16,10 +16,6 @@
       "command": "npx",
       "args": ["-y", "mcp-remote", "https://mcp.notion.com/mcp"]
     },
-    "slack": {
-			"command": "npx",
-			"args": ["-y", "mcp-remote", "https://mcp.slack.com/mcp"]
-		},
     "linear": {
       "command": "npx",
       "args": ["-y", "mcp-remote", "https://mcp.linear.app/sse"]
