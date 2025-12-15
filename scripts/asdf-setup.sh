@@ -4,6 +4,7 @@ set -euo pipefail
 # Source ASDF (brew-setup.sh runs before this script)
 ASDF_SCRIPT="$(brew --prefix asdf 2>/dev/null)/libexec/asdf.sh"
 if [[ -f "$ASDF_SCRIPT" ]]; then
+    # shellcheck source=/dev/null
     source "$ASDF_SCRIPT"
 else
     echo "ERROR: ASDF not found. Ensure brew-setup.sh completed successfully."
