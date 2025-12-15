@@ -21,7 +21,10 @@ explain() {
 }
 
 gci() {
-  claude -p "Use the committer agent to commit my staged changes."
+  printf "🤔 Analyzing changes..." >&2
+  local commit_cmd=$(claude -p "Analyze my staged changes with 'git diff --cached' and 'git status'. Generate a commit message using the writing-git-commits skill. Return ONLY the complete git commit command with -m flag. No explanation, no backticks." --model opus)
+  printf "\r\e[2K" >&2
+  print -z "$commit_cmd"
 }
 
 gpr() {
