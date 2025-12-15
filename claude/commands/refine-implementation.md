@@ -1,3 +1,9 @@
+---
+description: Multi-pass code review with parallel refiner agents
+---
+
+# Refine Implementation
+
 Multi-pass quality review of recent implementation. Ensures code adheres to CLAUDE.md, skills, and project conventions before committing.
 
 ## Philosophy

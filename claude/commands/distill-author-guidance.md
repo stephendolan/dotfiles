@@ -1,3 +1,10 @@
+---
+description: Extract coding patterns from an author's commits and PRs to generate skills
+argument-hint: GitHub username
+---
+
+# Distill Author Guidance
+
 Analyze coding patterns and preferences from author: $ARGUMENTS
 
 This command extracts implicit knowledge from an author's commits, PRs, and code reviews to generate skill recommendations.

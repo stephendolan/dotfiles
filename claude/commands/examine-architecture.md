@@ -1,49 +1,93 @@
-Examine codebase architecture using parallel architecture-reviewer agents, consolidate findings, then validate plans with plan-refiner.
+---
+description: Analyze codebase architecture for brittleness, complexity, and coupling
+argument-hint: Area to focus on (optional)
+---
 
-## Workflow
+# Architecture Examination
 
-**Phase 1: Discovery**
+You are examining a codebase's architecture to identify structural problems. Follow a systematic approach: identify architectural surfaces, analyze each in parallel, consolidate findings, then validate with plan-refiner.
 
-1. Identify 4-8 architectural surfaces
-2. Launch parallel architecture-reviewer agents, one per surface
-3. Each agent outputs findings with severity/effort/approach
+## Core Principles
 
-**Phase 2: Consolidation**
+- **Analyze, don't fix**: This command identifies problems and creates implementation plans, but doesn't make changes
+- **Parallel analysis**: Launch multiple agents to examine different surfaces simultaneously
+- **Validate recommendations**: Use plan-refiner to eliminate over-engineering from proposed fixes
+- **Use TodoWrite**: Track all progress throughout
 
-4. Consolidate all surface findings
-5. Merge overlapping findings, identify root causes, create implementation plans
+---
 
-**Phase 3: Validation**
+## Phase 1: Surface Identification
 
-6. Launch plan-refiner to review implementation plans
-7. Eliminate over-engineering, validate tractability, suggest simplifications
-8. Present validated fixes with implementation plans
+**Goal**: Identify which architectural surfaces to examine
 
-## Architectural Surfaces
+Focus area: $ARGUMENTS
 
-**Vertical**: Auth flow, data persistence, API request/response, error handling
-**Horizontal**: UI/presentation, business logic, data access, integrations
-**Cross-cutting**: State management, testing, configuration, logging
-**Structural**: Component organization, dependencies, build/deployment
+**Actions**:
+1. Create todo list with all phases
+2. If $ARGUMENTS specified, focus surfaces on that area
+3. Identify 4-8 architectural surfaces based on project characteristics
 
-Choose surfaces based on project size, recent activity, pain points, and tech stack.
+**Surface Categories**:
+- **Vertical**: Auth flow, data persistence, API request/response, error handling
+- **Horizontal**: UI/presentation, business logic, data access, integrations
+- **Cross-cutting**: State management, testing, configuration, logging
+- **Structural**: Component organization, dependencies, build/deployment
 
-## Consolidation Phase
+4. Present selected surfaces and confirm with user before proceeding
 
-Consolidate all surface findings:
-- Merges overlapping findings across surfaces
-- Identifies root causes spanning multiple areas
-- Prioritizes by impact with full codebase view
-- Creates step-by-step implementation plans
+---
 
-## Plan-Refiner
+## Phase 2: Parallel Analysis
 
-- Eliminate over-engineering
-- Validate tractability
-- Suggest simpler approaches
-- Prioritize by simplicity × impact
+**Goal**: Examine each surface for architectural problems
 
-## Output Format
+**Actions**:
+1. Launch architecture-reviewer agents in parallel (one per surface)
+2. Each agent should:
+   - Analyze the surface for brittleness, complexity, and coupling
+   - Output findings with severity, effort, and suggested approach
+   - Include a list of key files examined
+3. Wait for all agents to complete
+4. Read key files identified by agents to build context
+
+---
+
+## Phase 3: Consolidation
+
+**Goal**: Merge findings into prioritized, actionable issues
+
+**Actions**:
+1. Review all agent findings
+2. Merge overlapping issues across surfaces
+3. Identify root causes that span multiple areas
+4. Create step-by-step implementation plans for each issue
+5. Prioritize by impact (severity × breadth)
+
+---
+
+## Phase 4: Validation
+
+**Goal**: Ensure recommendations aren't over-engineered
+
+**Actions**:
+1. Launch plan-refiner agent to review implementation plans
+2. Plan-refiner should:
+   - Eliminate over-engineering
+   - Validate tractability
+   - Suggest simpler approaches
+   - Flag anything too complex to be worth fixing
+3. Incorporate plan-refiner feedback
+4. Present validated findings to user
+
+---
+
+## Phase 5: Summary
+
+**Goal**: Present actionable findings
+
+**Actions**:
+1. Mark all todos complete
+2. Present findings in this format:
 
 ```
 ARCHITECTURE EXAMINATION COMPLETE
@@ -51,35 +95,26 @@ ARCHITECTURE EXAMINATION COMPLETE
 Surfaces examined: X
 Raw findings: Y
 Consolidated issues: Z
-Validated fixes: N
 
 ACTIONABLE FIXES (ready to implement):
 
-1. [Issue Title] - Severity: X | Effort: Y | Files: Z
+1. [Issue Title] - Severity: high|medium|low | Effort: small|medium|large
 
    Problem: [What's architecturally wrong]
    Impact: [What's hard because of this]
-   Root cause: [Why this exists across surfaces]
+   Root cause: [Why this exists]
 
    Implementation Plan:
    1. [Step with file references]
    2. [Step with file references]
-   3. [...]
 
-   Plan-refiner notes: [Simplifications applied, validation]
+   Plan-refiner notes: [Simplifications applied]
 
 2. [...]
 
 DEFERRED:
 
-- [Issue] - Why: [Too complex / Low impact / Library handles this]
-- [...]
+- [Issue] - Why: [Too complex / Low impact / Not worth fixing]
 ```
 
-## Execution
-
-**Phase 1**: Launch 4-8 architecture-reviewer agents in parallel (one per surface)
-
-**Phase 2**: Consolidate all surface findings into prioritized issues with implementation plans
-
-**Phase 3**: Launch plan-refiner agent to validate implementation plans
+3. Ask user which issues they want to address

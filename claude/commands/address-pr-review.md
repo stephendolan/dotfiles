@@ -1,3 +1,10 @@
+---
+description: Analyze and address unresolved PR review comments
+argument-hint: PR number or URL
+---
+
+# Address PR Review
+
 Address unresolved PR review comments for pull request $ARGUMENTS.
 
 ## Process

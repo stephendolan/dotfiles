@@ -8,7 +8,22 @@ This skill guides creation of distinctive, production-grade frontend interfaces 
 
 **Always implement, never just suggest**: Create complete, working code with full styling, animations, and interactions. If the purpose or aesthetic direction is unclear, use AskUserQuestion to clarify before proceeding.
 
-Before coding, commit to a BOLD aesthetic direction:
+## Existing Projects: Adapt First
+
+Before designing anything, discover the project's existing frontend conventions:
+
+1. **Styling approach**: Check for Tailwind (`tailwind.config`), CSS Modules, styled-components, Sass, or plain CSS. Use what exists.
+2. **Component library**: Look for shadcn/ui, Radix, MUI, Chakra, or custom components. Extend existing patterns.
+3. **Design tokens**: Find existing color variables, spacing scales, typography settings. Use them.
+4. **Existing components**: Search for similar components to match patterns (naming, props, structure).
+
+**Match the codebase**: Use existing utility classes, follow established naming conventions, extend the design system rather than fighting it. A component that looks native to the codebase is better than one that's technically impressive but stylistically alien.
+
+**When extending**: If the existing system lacks something you need, add it in a way that feels native (e.g., add a new Tailwind color to the config rather than using arbitrary values).
+
+## Greenfield Projects: Bold Aesthetics
+
+For new projects without existing conventions, commit to a BOLD aesthetic direction:
 
 - **Purpose**: What problem does this interface solve? Who uses it?
 - **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazine, brutalist/raw, art deco/geometric, soft/pastel, industrial/utilitarian, etc. There are so many flavors to choose from. Use these for inspiration but design one that is true to the aesthetic direction.
