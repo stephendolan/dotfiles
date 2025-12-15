@@ -8,6 +8,10 @@
         "BETTERSTACK_API_TOKEN": "$BETTERSTACK_API_TOKEN"
       }
     },
+    "mixpanel": {
+      "command": "npx",
+      "args": [ "-y", "mcp-remote", "https://mcp.mixpanel.com/mcp", "--allow-http" ]
+    },
     "notion": {
       "command": "npx",
       "args": ["-y", "mcp-remote", "https://mcp.notion.com/mcp"]
