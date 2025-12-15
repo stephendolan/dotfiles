@@ -10,6 +10,7 @@ Guidance for writing robust, performant macOS native application code.
 macOS APIs have quirks and undocumented behaviors. Track state explicitly, document workarounds, and guard against callbacks firing after invalidation.
 
 **Key questions before writing**:
+
 - What thread does this run on?
 - Can this API fail silently or hang?
 - Does this need cleanup on deinit?
@@ -18,6 +19,7 @@ macOS APIs have quirks and undocumented behaviors. Track state explicitly, docum
 ## CGEvent vs NSEvent
 
 Prefer CGEvent for low-level keyboard handling. NSEvent has limitations:
+
 - Drops certain keyUp events (cmd+key combinations)
 - Loses information in translation from CGEvent
 - Adds conversion overhead

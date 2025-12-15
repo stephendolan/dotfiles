@@ -62,6 +62,7 @@ end
 ```
 
 This pattern:
+
 - Makes async behavior explicit at call sites
 - Allows synchronous execution in tests or console
 - Follows Rails conventions (ActionMailer's `deliver_later`)
@@ -261,19 +262,19 @@ end
 
 ## Quick Reference
 
-| Scenario | Strategy |
-|----------|----------|
-| Quota/payment exceeded | `discard_on` |
-| Invalid credentials | `discard_on` |
-| Record deleted | `discard_on DeserializationError` |
-| Service unavailable | `retry_on` with backoff |
-| Rate limited | `retry_on` with polynomial wait |
-| Timeout | `retry_on` with limited attempts |
+| Scenario               | Strategy                          |
+| ---------------------- | --------------------------------- |
+| Quota/payment exceeded | `discard_on`                      |
+| Invalid credentials    | `discard_on`                      |
+| Record deleted         | `discard_on DeserializationError` |
+| Service unavailable    | `retry_on` with backoff           |
+| Rate limited           | `retry_on` with polynomial wait   |
+| Timeout                | `retry_on` with limited attempts  |
 
-| Do | Avoid |
-|----|-------|
-| Keep jobs thin, delegate to models | Business logic in jobs |
-| Use `_later`/`_now` naming | Inconsistent async naming |
-| Log when discarding | Silent discards |
-| Convert types before enqueue | Assume serialization preserves types |
-| Design for idempotency | Assume exactly-once delivery |
+| Do                                 | Avoid                                |
+| ---------------------------------- | ------------------------------------ |
+| Keep jobs thin, delegate to models | Business logic in jobs               |
+| Use `_later`/`_now` naming         | Inconsistent async naming            |
+| Log when discarding                | Silent discards                      |
+| Convert types before enqueue       | Assume serialization preserves types |
+| Design for idempotency             | Assume exactly-once delivery         |

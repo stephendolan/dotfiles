@@ -16,13 +16,13 @@ skills/       Domain knowledge activated by context
 
 Slash commands orchestrate multi-step workflows, often spawning agents.
 
-| Command | Purpose | Agents Used |
-|---------|---------|-------------|
-| `/feature-dev` | Guided feature development (accepts Linear issues) | code-explorer, code-architect, code-reviewer |
-| `/refine-implementation` | Multi-pass quality review before committing | code-refiner |
-| `/examine-architecture` | Evaluate codebase for structural problems | architecture-reviewer, plan-refiner |
-| `/address-pr-review` | Resolve unresolved PR review comments | pr-comment-reviewer |
-| `/distill-author-guidance` | Extract coding patterns from an author's history | — |
+| Command                    | Purpose                                            | Agents Used                                  |
+| -------------------------- | -------------------------------------------------- | -------------------------------------------- |
+| `/feature-dev`             | Guided feature development (accepts Linear issues) | code-explorer, code-architect, code-reviewer |
+| `/refine-implementation`   | Multi-pass quality review before committing        | code-refiner                                 |
+| `/examine-architecture`    | Evaluate codebase for structural problems          | architecture-reviewer, plan-refiner          |
+| `/address-pr-review`       | Resolve unresolved PR review comments              | pr-comment-reviewer                          |
+| `/distill-author-guidance` | Extract coding patterns from an author's history   | —                                            |
 
 ---
 
@@ -32,33 +32,33 @@ Subagents are spawned by commands or invoked directly for focused tasks.
 
 ### Understanding Code
 
-| Agent | Purpose |
-|-------|---------|
-| **code-explorer** | Traces execution paths, maps architecture layers, documents dependencies |
-| **architecture-reviewer** | Evaluates existing code for brittleness, complexity, coupling |
+| Agent                     | Purpose                                                                  |
+| ------------------------- | ------------------------------------------------------------------------ |
+| **code-explorer**         | Traces execution paths, maps architecture layers, documents dependencies |
+| **architecture-reviewer** | Evaluates existing code for brittleness, complexity, coupling            |
 
 ### Building Code
 
-| Agent | Purpose |
-|-------|---------|
+| Agent              | Purpose                                                      |
+| ------------------ | ------------------------------------------------------------ |
 | **code-architect** | Designs feature architectures with implementation blueprints |
-| **plan-refiner** | Validates implementation plans, suggests simpler approaches |
+| **plan-refiner**   | Validates implementation plans, suggests simpler approaches  |
 
 ### Reviewing Code
 
-| Agent | Purpose |
-|-------|---------|
-| **code-reviewer** | Reviews for bugs, security, conventions (confidence-filtered) |
-| **code-refiner** | Simplifies complexity, improves maintainability |
-| **pr-comment-reviewer** | Evaluates individual PR comments for actionability |
+| Agent                   | Purpose                                                       |
+| ----------------------- | ------------------------------------------------------------- |
+| **code-reviewer**       | Reviews for bugs, security, conventions (confidence-filtered) |
+| **code-refiner**        | Simplifies complexity, improves maintainability               |
+| **pr-comment-reviewer** | Evaluates individual PR comments for actionability            |
 
 ### Git Workflow
 
-| Agent | Purpose |
-|-------|---------|
-| **committer** | Creates commits with conventional message format |
-| **pr-creator** | Creates PRs with structured descriptions |
-| **documentation-refiner** | Maintains README, CHANGELOG, and project docs |
+| Agent                     | Purpose                                          |
+| ------------------------- | ------------------------------------------------ |
+| **committer**             | Creates commits with conventional message format |
+| **pr-creator**            | Creates PRs with structured descriptions         |
+| **documentation-refiner** | Maintains README, CHANGELOG, and project docs    |
 
 ---
 
@@ -68,35 +68,35 @@ Skills provide domain expertise activated automatically by context.
 
 ### Development
 
-| Skill | Trigger |
-|-------|---------|
-| **ruby-idioms** | Writing Ruby code |
-| **rails-controllers** | Writing Rails controllers |
-| **rails-jobs** | Creating background jobs |
-| **rails-migrations** | Writing database migrations |
-| **rspec-testing** | Writing RSpec tests |
-| **cpp-native-development** | Writing C++17/20 code |
-| **macos-native-development** | Writing macOS/Swift/AppKit code |
-| **windows-native-development** | Writing Windows/Win32 code |
-| **frontend-design** | Building web interfaces |
+| Skill                          | Trigger                         |
+| ------------------------------ | ------------------------------- |
+| **ruby-idioms**                | Writing Ruby code               |
+| **rails-controllers**          | Writing Rails controllers       |
+| **rails-jobs**                 | Creating background jobs        |
+| **rails-migrations**           | Writing database migrations     |
+| **rspec-testing**              | Writing RSpec tests             |
+| **cpp-native-development**     | Writing C++17/20 code           |
+| **macos-native-development**   | Writing macOS/Swift/AppKit code |
+| **windows-native-development** | Writing Windows/Win32 code      |
+| **frontend-design**            | Building web interfaces         |
 
 ### Writing
 
-| Skill | Trigger |
-|-------|---------|
-| **writing-git-commits** | Committing code |
-| **writing-pull-requests** | Creating PRs |
-| **writing-documentation** | Updating docs |
-| **writing-claude-skills** | Creating skills |
-| **prompting-claude** | Writing prompts for Claude |
+| Skill                     | Trigger                    |
+| ------------------------- | -------------------------- |
+| **writing-git-commits**   | Committing code            |
+| **writing-pull-requests** | Creating PRs               |
+| **writing-documentation** | Updating docs              |
+| **writing-claude-skills** | Creating skills            |
+| **prompting-claude**      | Writing prompts for Claude |
 
 ### Tools
 
-| Skill | Trigger |
-|-------|---------|
+| Skill                    | Trigger                   |
+| ------------------------ | ------------------------- |
 | **chartmogul-analytics** | Analyzing revenue metrics |
-| **project-management** | Planning tasks and work |
-| **order-daycare-lunch** | School lunch ordering |
+| **project-management**   | Planning tasks and work   |
+| **order-daycare-lunch**  | School lunch ordering     |
 
 ---
 

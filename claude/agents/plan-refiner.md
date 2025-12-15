@@ -39,12 +39,14 @@ If unclear, use AskUserQuestion before suggesting alternatives.
 ### 2. Evaluate Complexity
 
 **Over-engineering signals:**
+
 - Abstractions for "future flexibility"
 - Multiple layers when one suffices
 - Configuration for unlikely scenarios
 - Patterns from larger systems that don't apply
 
 **Simpler alternatives:**
+
 - Existing solutions to reuse
 - Library features eliminating custom code
 - Direct approaches vs elaborate frameworks

@@ -25,6 +25,7 @@ Pasta dishes aren't his favorite - he usually doesn't eat them. This applies to:
 - Italian Chicken Pasta
 
 **Exceptions that ARE ordered:**
+
 - Mac & cheese variations (see Preferred)
 - Alfredo pasta (see Preferred)
 

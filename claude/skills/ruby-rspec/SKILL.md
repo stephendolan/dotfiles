@@ -249,12 +249,12 @@ end
 
 ## Quick Reference
 
-| Do | Avoid |
-|----|-------|
-| Flat, self-contained tests | Deeply nested contexts |
-| Test names describe full scenario | Context-dependent names |
-| Explicit setup in each test | Hidden setup in parent `before` blocks |
-| Test observable behavior | Test implementation details |
-| Custom matchers for domain concepts | Complex inline expectations |
-| VCR for external API recording | Fragile manual stubs for APIs |
-| Real objects where practical | Excessive mocking |
+| Do                                  | Avoid                                  |
+| ----------------------------------- | -------------------------------------- |
+| Flat, self-contained tests          | Deeply nested contexts                 |
+| Test names describe full scenario   | Context-dependent names                |
+| Explicit setup in each test         | Hidden setup in parent `before` blocks |
+| Test observable behavior            | Test implementation details            |
+| Custom matchers for domain concepts | Complex inline expectations            |
+| VCR for external API recording      | Fragile manual stubs for APIs          |
+| Real objects where practical        | Excessive mocking                      |

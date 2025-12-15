@@ -229,12 +229,12 @@ The pr-creator agent handles the complete workflow: analyzes branch changes, dra
 
 **Avoid shell loops.** For loops, while loops, and compound shell constructs require permission prompts. Use these alternatives:
 
-| Instead of | Use |
-|------------|-----|
-| `for f in *.md; do grep pattern "$f"; done` | `rg pattern *.md` |
-| `for f in dir/*; do head -5 "$f"; done` | `fd . dir -x head -5 {}` |
-| `find . -name "*.md" -exec cat {} \;` | `fd -e md -x cat {}` |
-| `grep -r pattern .` | `rg pattern` |
+| Instead of                                  | Use                      |
+| ------------------------------------------- | ------------------------ |
+| `for f in *.md; do grep pattern "$f"; done` | `rg pattern *.md`        |
+| `for f in dir/*; do head -5 "$f"; done`     | `fd . dir -x head -5 {}` |
+| `find . -name "*.md" -exec cat {} \;`       | `fd -e md -x cat {}`     |
+| `grep -r pattern .`                         | `rg pattern`             |
 
 For complex multi-file discovery, spawn a subagent rather than writing shell loops.
 

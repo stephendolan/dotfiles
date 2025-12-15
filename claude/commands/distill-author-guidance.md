@@ -12,6 +12,7 @@ This command extracts implicit knowledge from an author's commits, PRs, and code
 ## Phase 1: Data Collection
 
 Create a workspace directory for findings:
+
 ```
 /tmp/author-guidance-{author}/
 ├── commits/           # Findings from commit analysis
@@ -23,11 +24,13 @@ Create a workspace directory for findings:
 ### 1.1 Collect Commits (last 6 months)
 
 Get the author's commits to this repository:
+
 ```bash
 git log --author="{author}" --since="6 months ago" --format="%H" | head -100
 ```
 
 For each commit, spawn a subagent (batch in groups of 10 for efficiency) to analyze:
+
 - Commit message style and conventions
 - Code patterns in the diff (if touching code files)
 - Comments added or modified
@@ -38,12 +41,14 @@ Each subagent should write findings to `/tmp/author-guidance-{author}/commits/{h
 ### 1.2 Collect PR Review Comments
 
 Get PRs where the author left review comments:
+
 ```bash
 gh api "repos/{owner}/{repo}/pulls/comments?since={6-months-ago}&per_page=100" \
   --jq '.[] | select(.user.login == "{author}")'
 ```
 
 Paginate through all results. For each comment, analyze:
+
 - What pattern or issue did they flag?
 - Is this a recurring theme?
 - Does it suggest a preference or standard?
@@ -53,11 +58,13 @@ Write findings to `/tmp/author-guidance-{author}/pr-comments/`
 ### 1.3 Collect PRs Submitted by Author
 
 Get PRs the author submitted:
+
 ```bash
 gh pr list --author="{author}" --state all --limit 100 --json number,title,body,reviews
 ```
 
 For each PR, analyze:
+
 - PR description patterns
 - Review conversations (what feedback did they receive and incorporate?)
 - Code patterns in the changes
@@ -99,12 +106,14 @@ For each identified skill area:
 ### Skill Drafting Process
 
 Use the `writing-claude-skills` skill to structure each skill properly:
+
 - Philosophy section explaining the "why"
 - Concrete examples from the author's actual code
 - Anti-patterns observed in reviews
 - Remember section with key takeaways
 
 Use the `prompting-claude` skill to refine language:
+
 - Avoid emphatic language (no MUST, ALWAYS, NEVER in caps)
 - Use positive framing
 - Be explicit and specific
@@ -113,6 +122,7 @@ Use the `prompting-claude` skill to refine language:
 ### Output Format
 
 For each proposed skill, create:
+
 ```
 /tmp/author-guidance-{author}/skills/{skill-name}/
 ├── SKILL.md           # The skill content

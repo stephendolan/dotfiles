@@ -15,6 +15,7 @@ You cannot objectively assess code you just wrote. This command provides fresh p
 ### 1. Gather Context
 
 Run in parallel:
+
 - `git diff` (or `git diff --cached` if staged) to see changes
 - `git status` to understand scope
 - Read any relevant CLAUDE.md files in the changed directories
@@ -24,21 +25,26 @@ Run in parallel:
 Spawn three `code-refiner` agents simultaneously, each with a different focus. Agents may make changes, but must clearly report what they changed and why - especially for any deletions or reverts.
 
 **Agent 1 - Simplicity & Elegance**:
+
 > Review recent changes for over-engineering, unnecessary abstractions, and complexity. You may make improvements, but for any deletion or revert of intentionally-added code, explain your reasoning clearly. Apply simplification principles: remove premature abstractions, delete just-in-case code, consolidate redundant patterns.
 
 **Agent 2 - Configuration Compliance**:
+
 > Review recent changes for adherence to project configuration. You may make improvements, but explain your reasoning for significant changes. Check:
+>
 > - CLAUDE.md guidelines (comment philosophy, documentation standards, code quality)
 > - Skills that should have been invoked but weren't
 > - Agents that should have been launched but weren't
 > - Commands that could have streamlined the workflow
 
 **Agent 3 - Conventions & Patterns**:
+
 > Review recent changes for consistency with existing codebase patterns. You may make improvements, but for any recommendation to remove or restructure significant code, explain your reasoning. Check naming conventions, error handling patterns, test patterns, and architectural consistency.
 
 ### 3. Review Agent Reports
 
 After agents complete:
+
 1. Review what each agent changed and their reasoning
 2. For any major deletions or reverts, verify the reasoning is sound
 3. **If reasoning seems wrong or missing context, resume the agent** to discuss before accepting
@@ -47,6 +53,7 @@ After agents complete:
 ### 4. Reconcile Changes
 
 After reviewing and discussing with agents as needed:
+
 1. Keep non-conflicting improvements
 2. For conflicts, choose the better approach
 3. Revert any changes that were rejected after discussion
@@ -55,9 +62,11 @@ After reviewing and discussing with agents as needed:
 ### 5. Check for Another Pass
 
 Ask the user:
+
 > Refinement complete. [Summary of changes]. Would you like another pass, or are you ready to review and commit?
 
 Options:
+
 - **Another pass** → Return to step 2
 - **Review changes** → Show `git diff` and wait for feedback
 - **Ready to commit** → Launch `committer` agent
@@ -65,6 +74,7 @@ Options:
 ### 6. Final Review (Optional)
 
 If user wants to review:
+
 - Show the full diff of all refinements
 - Allow them to revert specific changes: `git checkout HEAD -- path/to/file`
 - Proceed to commit when satisfied
@@ -72,6 +82,7 @@ If user wants to review:
 ## When to Stop Iterating
 
 Stop after:
+
 - No agents find issues to fix
 - User indicates satisfaction
 - 3 passes maximum (diminishing returns)

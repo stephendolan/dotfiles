@@ -11,6 +11,7 @@ This skill provides guidance for creating clear, consistent commit messages foll
 Commit messages are **permanent documentation**. They explain WHY changes were made when the code alone doesn't tell the full story. Good messages make git archaeology easy - future developers (including you) can understand the evolution of the codebase.
 
 **Key questions before writing**:
+
 - What type of change is this? (feature, fix, refactor, etc.)
 - What's the most specific, accurate summary?
 - Does the WHY need explanation, or is it obvious from context?

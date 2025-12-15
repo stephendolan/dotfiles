@@ -23,11 +23,13 @@ You are examining a codebase's architecture to identify structural problems. Fol
 Focus area: $ARGUMENTS
 
 **Actions**:
+
 1. Create todo list with all phases
 2. If $ARGUMENTS specified, focus surfaces on that area
 3. Identify 4-8 architectural surfaces based on project characteristics
 
 **Surface Categories**:
+
 - **Vertical**: Auth flow, data persistence, API request/response, error handling
 - **Horizontal**: UI/presentation, business logic, data access, integrations
 - **Cross-cutting**: State management, testing, configuration, logging
@@ -42,6 +44,7 @@ Focus area: $ARGUMENTS
 **Goal**: Examine each surface for architectural problems
 
 **Actions**:
+
 1. Launch architecture-reviewer agents in parallel (one per surface)
 2. Each agent should:
    - Analyze the surface for brittleness, complexity, and coupling
@@ -57,6 +60,7 @@ Focus area: $ARGUMENTS
 **Goal**: Merge findings into prioritized, actionable issues
 
 **Actions**:
+
 1. Review all agent findings
 2. Merge overlapping issues across surfaces
 3. Identify root causes that span multiple areas
@@ -70,6 +74,7 @@ Focus area: $ARGUMENTS
 **Goal**: Ensure recommendations aren't over-engineered
 
 **Actions**:
+
 1. Launch plan-refiner agent to review implementation plans
 2. Plan-refiner should:
    - Eliminate over-engineering
@@ -86,6 +91,7 @@ Focus area: $ARGUMENTS
 **Goal**: Present actionable findings
 
 **Actions**:
+
 1. Mark all todos complete
 2. Present findings in this format:
 

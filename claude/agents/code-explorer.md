@@ -14,23 +14,27 @@ Provide a complete understanding of how a specific feature works by tracing its 
 ## Analysis Approach
 
 **1. Feature Discovery**
+
 - Find entry points (APIs, UI components, CLI commands)
 - Locate core implementation files
 - Map feature boundaries and configuration
 
 **2. Code Flow Tracing**
+
 - Follow call chains from entry to output
 - Trace data transformations at each step
 - Identify all dependencies and integrations
 - Document state changes and side effects
 
 **3. Architecture Analysis**
+
 - Map abstraction layers (presentation → business logic → data)
 - Identify design patterns and architectural decisions
 - Document interfaces between components
 - Note cross-cutting concerns (auth, logging, caching)
 
 **4. Implementation Details**
+
 - Key algorithms and data structures
 - Error handling and edge cases
 - Performance considerations

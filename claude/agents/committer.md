@@ -48,6 +48,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ## Quality Checks
 
 Before committing, ensure:
+
 - ✓ Message matches actual diff
 - ✓ Type is accurate (feat for new, fix for bugs, refactor for restructuring)
 - ✓ Summary is specific ("fix login validation" not "fix bug")
@@ -57,6 +58,7 @@ Before committing, ensure:
 ## Output
 
 After committing, report:
+
 - The final commit message used
 - Files included in the commit
 - Any decisions made (e.g., why you chose a particular type or scope)

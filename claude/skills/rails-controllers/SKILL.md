@@ -355,18 +355,18 @@ end
 
 ## Quick Reference
 
-| Pattern | Approach |
-|---------|----------|
+| Pattern                       | Approach                         |
+| ----------------------------- | -------------------------------- |
 | Custom verbs (close, archive) | New resource (closure, archival) |
-| Complex model behavior | Domain method on model |
-| Simple CRUD | Direct Active Record calls |
-| Boolean params | Explicit casting, not presence |
-| Authorization | Before actions, scoped concerns |
+| Complex model behavior        | Domain method on model           |
+| Simple CRUD                   | Direct Active Record calls       |
+| Boolean params                | Explicit casting, not presence   |
+| Authorization                 | Before actions, scoped concerns  |
 
-| Do | Avoid |
-|----|-------|
-| REST resources for state changes | Custom actions on resources |
-| Thin controllers, rich models | Business logic in controllers |
-| Explicit boolean parsing | Truthy presence checks |
-| Scoped concerns for API auth | Scattered authorization logic |
-| Return existing on duplicate POST | Error on duplicate creation |
+| Do                                | Avoid                         |
+| --------------------------------- | ----------------------------- |
+| REST resources for state changes  | Custom actions on resources   |
+| Thin controllers, rich models     | Business logic in controllers |
+| Explicit boolean parsing          | Truthy presence checks        |
+| Scoped concerns for API auth      | Scattered authorization logic |
+| Return existing on duplicate POST | Error on duplicate creation   |

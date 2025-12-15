@@ -10,6 +10,7 @@ Guidance for writing robust, performant Windows native code.
 Windows development requires explicit resource management and careful attention to threading models. The platform has quirks—embrace them with documented workarounds rather than fighting them.
 
 Key questions:
+
 - Is this on the right thread?
 - Are resources being released properly?
 - Does input need batching?

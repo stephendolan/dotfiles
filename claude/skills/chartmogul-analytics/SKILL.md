@@ -16,25 +16,30 @@ Before recommending a report, determine:
 ## Report Selection
 
 ### Growth Questions
+
 - "How is MRR/ARR trending?" → **MRR chart** with movement breakdown
 - "Where is growth coming from?" → **MRR Movements** (new business vs expansion)
 - "What's our net new MRR?" → **Net MRR Movements** (aggregates per customer)
 
 ### Retention Questions
+
 - "Are we retaining revenue?" → **Net MRR Retention** (target: >100%)
 - "How much are we losing to churn?" → **Gross MRR Retention** (excludes expansion)
 - "When do customers churn?" → **Customer Retention cohort** by signup month
 
 ### Churn Investigation
+
 - "Why are we churning?" → **Cohort analysis** segmented by plan or attribute
 - "Is churn improving?" → Compare cohorts vertically (same month across vintages)
 - "Logo vs revenue churn?" → **Customer Churn Rate** vs **Net MRR Churn Rate**
 
 ### Unit Economics
+
 - "What's a customer worth?" → **LTV**
 - "Are we pricing well?" → **ARPA** (all customers) vs **ASP** (new business only)
 
 ### Benchmarking
+
 - "How do we compare?" → **Benchmarks** filtered by ARR or ARPA range
 
 ## Key Distinctions
@@ -50,6 +55,7 @@ Before recommending a report, determine:
 Six cohort types: Customer Retention, Net MRR Retention, Customer Churn, Net MRR Churn, Quantity Retention, Quantity Churn.
 
 **Reading cohorts:**
+
 - **Vertical**: Same time point across cohorts (is retention improving?)
 - **Horizontal**: Single cohort over time (when do they churn?)
 - **Curve shapes**: Flat = healthy, Smile = normal stabilization, Declining = investigate
@@ -71,12 +77,12 @@ Don't mix annual and monthly subscriptions in the same cohort.
 
 ## MRR Movement Types
 
-| Movement | Direction | Meaning |
-|----------|-----------|---------|
-| New Business | Growth | First subscription from new customer |
-| Expansion | Growth | Upgrade or add-on |
-| Reactivation | Growth | Returning churned customer |
-| Contraction | Loss | Downgrade |
-| Churn | Loss | Cancellation |
+| Movement     | Direction | Meaning                              |
+| ------------ | --------- | ------------------------------------ |
+| New Business | Growth    | First subscription from new customer |
+| Expansion    | Growth    | Upgrade or add-on                    |
+| Reactivation | Growth    | Returning churned customer           |
+| Contraction  | Loss      | Downgrade                            |
+| Churn        | Loss      | Cancellation                         |
 
 **Net New MRR** = New Business + Expansion + Reactivation − Contraction − Churn

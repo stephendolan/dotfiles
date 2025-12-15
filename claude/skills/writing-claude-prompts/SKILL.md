@@ -25,27 +25,28 @@ Describe what to do rather than what to avoid. Negative prompting can backfire.
 
 Opus 4.5 overtriggers on emphatic language.
 
-| Avoid | Prefer |
-|-------|--------|
-| CRITICAL: You MUST use this tool when... | Use this tool when... |
+| Avoid                                     | Prefer                             |
+| ----------------------------------------- | ---------------------------------- |
+| CRITICAL: You MUST use this tool when...  | Use this tool when...              |
 | ALWAYS call the search function before... | Call the search function before... |
-| You are REQUIRED to... | You should... |
-| NEVER skip this step | Don't skip this step |
-| **NO** custom test attributes | Don't use custom test attributes |
+| You are REQUIRED to...                    | You should...                      |
+| NEVER skip this step                      | Don't skip this step               |
+| **NO** custom test attributes             | Don't use custom test attributes   |
 
 **Exception:** Emphatic language is appropriate for code exploration directives where skipping leads to incorrect solutions based on unread code:
+
 - "Read and understand relevant files before proposing code edits"
 
 ### Replace "Think" Variants
 
 When extended thinking is disabled, Opus 4.5 is sensitive to "think."
 
-| Avoid | Prefer |
-|-------|--------|
-| think about | consider |
-| think through | evaluate |
-| thinking | reasoning or considering |
-| think carefully | consider carefully |
+| Avoid           | Prefer                   |
+| --------------- | ------------------------ |
+| think about     | consider                 |
+| think through   | evaluate                 |
+| thinking        | reasoning or considering |
+| think carefully | consider carefully       |
 
 ### Be Explicit and Specific
 
@@ -53,10 +54,12 @@ Opus 4.5 requires explicit direction. Vague instructions underperform.
 
 ```markdown
 # Vague (less effective)
+
 - Prioritize simplicity and well-structured code
 - Use good architecture patterns
 
 # Explicit (more effective)
+
 - Implement exactly what was requested, nothing more
 - Place domain logic in models, external API calls in service objects
 - Use Capybara's click_on, fill_in methods with visible text labels
@@ -64,13 +67,15 @@ Opus 4.5 requires explicit direction. Vague instructions underperform.
 
 ### Provide Context and Motivation
 
-Explain *why* behavior matters to help Claude understand goals:
+Explain _why_ behavior matters to help Claude understand goals:
 
 ```markdown
 # Without context
+
 - Let code fail loudly on invalid assumptions
 
 # With context (more effective)
+
 - Let code fail loudly on invalid assumptions - this reveals programming
   errors early rather than masking bugs with defensive checks
 ```
@@ -90,12 +95,13 @@ skill-name/
 
 ```yaml
 ---
-name: skill-name          # lowercase, hyphens, max 64 chars
+name: skill-name # lowercase, hyphens, max 64 chars
 description: What the skill does. Use when [trigger conditions]. Covers [scope].
 ---
 ```
 
 **Description requirements:**
+
 - Maximum 1024 characters
 - Include BOTH what it does AND when to use it (trigger terms)
 - Be specific, not generic
@@ -119,6 +125,7 @@ code style, architecture patterns, testing, and Rails conventions.
 A skill should address one focused problem domain. If you need "and/or" or long lists of unrelated capabilities, consider splitting.
 
 Examples of appropriately focused skills:
+
 - "pdf-form-filling"
 - "rails-hotwire"
 - "customer-support-debugging"
@@ -163,12 +170,11 @@ Formatting in prompts influences response formatting. Use prose paragraphs unles
 
 ## Anti-Patterns to Avoid
 
-| Anti-Pattern | Problem | Fix |
-|--------------|---------|-----|
-| Excessive negative framing | May cause reverse behavior | Reframe as positive instructions |
-| Emphatic caps (MUST, NEVER, ALWAYS) | Causes overtriggering in Opus 4.5 | Use normal prompting |
-| "Think" and variants | Triggers extended thinking sensitivity | Use "consider", "evaluate" |
-| Vague philosophical statements | No actionable guidance | Replace with specific patterns |
-| Very broad skill scope | Unclear when to activate | Split into focused skills |
-| Lowercase `skill.md` | May not be discovered | Use `SKILL.md` (uppercase) |
-
+| Anti-Pattern                        | Problem                                | Fix                              |
+| ----------------------------------- | -------------------------------------- | -------------------------------- |
+| Excessive negative framing          | May cause reverse behavior             | Reframe as positive instructions |
+| Emphatic caps (MUST, NEVER, ALWAYS) | Causes overtriggering in Opus 4.5      | Use normal prompting             |
+| "Think" and variants                | Triggers extended thinking sensitivity | Use "consider", "evaluate"       |
+| Vague philosophical statements      | No actionable guidance                 | Replace with specific patterns   |
+| Very broad skill scope              | Unclear when to activate               | Split into focused skills        |
+| Lowercase `skill.md`                | May not be discovered                  | Use `SKILL.md` (uppercase)       |

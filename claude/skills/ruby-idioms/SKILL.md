@@ -209,12 +209,12 @@ delegate :name, :email, to: :user
 
 ## Quick Reference
 
-| Do | Avoid |
-|----|-------|
-| Let invalid state raise exceptions | Defensive nil chains everywhere |
-| Expanded conditionals in method bodies | Guard clauses for simple branching |
-| Guards at method entry before substantial logic | Guards scattered throughout |
-| Explicit, descriptive names | Abbreviated or generic names |
-| Constants for business rules | Magic numbers inline |
-| `!` only with non-bang counterpart | `!` to indicate "dangerous" |
-| Private methods in call order | Random private method ordering |
+| Do                                              | Avoid                              |
+| ----------------------------------------------- | ---------------------------------- |
+| Let invalid state raise exceptions              | Defensive nil chains everywhere    |
+| Expanded conditionals in method bodies          | Guard clauses for simple branching |
+| Guards at method entry before substantial logic | Guards scattered throughout        |
+| Explicit, descriptive names                     | Abbreviated or generic names       |
+| Constants for business rules                    | Magic numbers inline               |
+| `!` only with non-bang counterpart              | `!` to indicate "dangerous"        |
+| Private methods in call order                   | Random private method ordering     |

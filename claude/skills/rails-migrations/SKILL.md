@@ -234,33 +234,36 @@ For complex migrations, include in PR:
 Run in production console before deploying:
 
 \`\`\`ruby
+
 # Verify/clean up data
+
 orphaned = Model.where(foreign_key: nil)
 puts "Found #{orphaned.count} orphaned records"
-orphaned.delete_all if orphaned.count < 100  # Or handle appropriately
+orphaned.delete_all if orphaned.count < 100 # Or handle appropriately
 \`\`\`
 
 ## Rollback plan
 
 If issues occur:
+
 1. Revert the PR
 2. Run: `rails db:rollback STEP=1`
 ```
 
 ## Quick Reference
 
-| Operation | Safe Approach |
-|-----------|---------------|
-| Remove column | Two-phase: `ignored_columns` → drop |
-| Add NOT NULL | Check constraint → validate → apply |
-| Add index | `algorithm: :concurrently` |
+| Operation       | Safe Approach                         |
+| --------------- | ------------------------------------- |
+| Remove column   | Two-phase: `ignored_columns` → drop   |
+| Add NOT NULL    | Check constraint → validate → apply   |
+| Add index       | `algorithm: :concurrently`            |
 | Add foreign key | Add unvalidated → validate separately |
-| Rename column | Add new → backfill → remove old |
+| Rename column   | Add new → backfill → remove old       |
 
-| Do | Avoid |
-|----|-------|
-| Two-phase column removal | Single-step column drops |
-| Pre-deployment cleanup scripts | Assuming clean data |
+| Do                                  | Avoid                                |
+| ----------------------------------- | ------------------------------------ |
+| Two-phase column removal            | Single-step column drops             |
+| Pre-deployment cleanup scripts      | Assuming clean data                  |
 | `safety_assured` with justification | Disabling Strong Migrations globally |
-| Concurrent index creation | Blocking index adds on large tables |
-| Document rollback plan | Assuming migrations always succeed |
+| Concurrent index creation           | Blocking index adds on large tables  |
+| Document rollback plan              | Assuming migrations always succeed   |
