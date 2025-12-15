@@ -14,6 +14,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Maximize parallel tool calls**: When calling multiple tools with no dependencies between them, make all independent tool calls simultaneously in a single response. This significantly improves efficiency with Claude 4.5.
 
+## Sub-Agent Delegation
+
+**Delegate to sub-agents proactively.** Sub-agents preserve your context window and enable parallel execution.
+
+Spawn `Explore` agents for codebase discovery rather than reading many files directly. When work decomposes into independent pieces, delegate each to a sub-agent and run them in parallel. Use specialized agents for code review, architecture analysis, committing, PR creation, and refinement workflows.
+
+Sub-agents consume their own context (not yours), can run simultaneously, and start with fresh perspective—avoiding confirmation bias from accumulated context.
+
+**Patterns:**
+- Before reading more than 3-5 files, spawn an `Explore` agent to gather context
+- Launch multiple agents in a single message when tasks are independent
+- Use `run_in_background: true` for tasks that don't block your main work
+
 ## Comment Philosophy
 
 **Write self-documenting code that rarely needs comments.** Comments should be the exception, not the rule.
