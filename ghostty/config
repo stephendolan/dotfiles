@@ -4,3 +4,6 @@ auto-update-channel = tip
 # Disable ligatures (e.g. -> becoming →, != becoming ≠)
 font-feature = -liga
 keybind = shift+enter=text:\x1b\r
+
+macos-titlebar-style = tabs
+

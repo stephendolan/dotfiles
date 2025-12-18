@@ -65,3 +65,6 @@ build/
 # AI local configuration
 .claude/settings.local.json
 CLAUDE.local.md
+
+# Beads stealth mode
+.beads/
