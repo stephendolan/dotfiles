@@ -5,7 +5,7 @@ description: Guide revenue analysis using ChartMogul reports. Use when discussin
 
 Guide revenue conversations by recommending specific ChartMogul reports and surfacing key insights. Focus on answering the user's actual question, not cataloging metrics.
 
-## Thinking Framework
+## Decision Framework
 
 Before recommending a report, determine:
 

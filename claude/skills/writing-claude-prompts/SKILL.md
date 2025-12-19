@@ -1,5 +1,5 @@
 ---
-name: claude-prompting
+name: writing-claude-prompts
 description: Best practices for writing Claude Code skills, CLAUDE.md files, and prompts optimized for Opus 4.5. Use when creating or reviewing skills, writing agent instructions, or optimizing prompts for Claude 4.x models.
 ---
 

@@ -97,7 +97,7 @@ refactor: code       ❌ Too vague
 
 ## Imperative Mood
 
-Think: "This commit will..."
+Frame it as: "This commit will..."
 
 - ✅ "add feature" → This commit will add feature
 - ❌ "added feature" → This commit will added feature ❌

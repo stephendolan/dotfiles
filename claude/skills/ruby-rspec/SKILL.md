@@ -1,5 +1,5 @@
 ---
-name: rspec-testing
+name: ruby-rspec
 description: RSpec testing patterns for Ruby and Rails. Use when writing tests, reviewing test code, or discussing testing strategy. Covers structure, naming, matchers, and external service stubbing.
 ---
 

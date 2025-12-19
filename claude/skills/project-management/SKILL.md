@@ -1,10 +1,10 @@
 ---
 name: project-management
-description: Clarify personal tasks using action-oriented thinking. Use when discussing work planning, task organization, meeting follow-ups, email processing, or non-coding responsibilities. Focuses on next actions and controllable outcomes for the user's own work, not code implementation.
+description: Clarify personal tasks using action-oriented reasoning. Use when discussing work planning, task organization, meeting follow-ups, email processing, or non-coding responsibilities. Focuses on next actions and controllable outcomes for the user's own work, not code implementation.
 allowed-tools: Read, Grep, Glob, Bash
 ---
 
-Guide thinking about the user's personal work and responsibilities in actionable terms. This applies to their meetings, emails, planning, and non-coding tasks—not to code implementation planning.
+Guide reasoning about the user's personal work and responsibilities in actionable terms. This applies to their meetings, emails, planning, and non-coding tasks—not to code implementation planning.
 
 ## Tooling
 
@@ -21,7 +21,7 @@ Use `of --help` to discover available commands.
 **Use for:** User's personal work, meetings, email processing, task planning, follow-ups
 **NOT for:** Code implementation, development planning, technical architecture
 
-## Core Thinking
+## Core Questions
 
 When the user describes their work, ask internally:
 
@@ -45,8 +45,8 @@ When the user describes their work, ask internally:
 
 **Honest over aspirational:**
 
-- NEVER suggest fake deadlines for motivation
-- ALWAYS distinguish real due dates from desired timing
+- Don't suggest fake deadlines for motivation
+- Distinguish real due dates from desired timing
 - Focus on what they can actually control
 
 ## Project vs Action (Their Work)
@@ -71,7 +71,7 @@ When they're overwhelmed:
 - Batching reduces cognitive load
 - Intentional deferral ≠ procrastination
 
-Think: "What does this require from you?" not "When must this finish?"
+Ask: "What does this require from you?" not "When must this finish?"
 
 ## Communication Style
 
@@ -82,7 +82,7 @@ Think: "What does this require from you?" not "When must this finish?"
 - ❌ "Here's your GTD structure with contexts..."
 - ❌ "Let me organize your next actions list..."
 
-NEVER impose productivity frameworks. Guide clarity through questions.
+Don't impose productivity frameworks. Guide clarity through questions.
 
 ## Remember
 

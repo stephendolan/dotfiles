@@ -2,7 +2,7 @@
 
 This document contains detailed meal preferences for lunch orders.
 
-## UNIVERSALLY AVOID (Never Order)
+## Universally Avoid (Don't Order)
 
 ### Rice-Based Meals - 100% Avoidance Rate
 
@@ -12,9 +12,9 @@ This document contains detailed meal preferences for lunch orders.
 - Vegetable Teriyaki & Rice
 - Any meal with rice as a main component
 
-**Note**: This is the #1 rule - rice dishes are NEVER ordered.
+**Note**: This is the #1 rule - rice dishes are not ordered.
 
-## STRONGLY AVOID
+## Strongly Avoid
 
 ### Pasta Dishes (except mac & cheese and Alfredo)
 
@@ -29,7 +29,7 @@ Pasta dishes aren't his favorite - he usually doesn't eat them. This applies to:
 - Mac & cheese variations (see Preferred)
 - Alfredo pasta (see Preferred)
 
-## CAUTIOUSLY APPROACH
+## Cautiously Approach
 
 ### Tacos/Burritos
 
@@ -39,7 +39,7 @@ Sometimes skipped due to suspected rice component:
 - Tex Mex Turkey Soft Taco
 - Bean & Cheese Burrito (unless confirmed no rice)
 
-## PREFERRED MEALS
+## Preferred Meals
 
 ### BBQ-Flavored Items ✅
 

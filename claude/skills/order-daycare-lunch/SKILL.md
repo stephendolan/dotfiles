@@ -1,5 +1,5 @@
 ---
-name: daycare-lunch
+name: order-daycare-lunch
 description: Manage school lunch ordering for preschool with catered meals. Analyzes menus based on preferences (avoid rice, prefer BBQ and mac & cheese), helps select meals, processes orders from any source (PDF/screenshot/browser/verbal), and generates calendar reminders for days when lunch needs to be packed. Use when discussing school meals, menu selection, or packing lunch.
 allowed-tools: Bash, Read
 ---
@@ -12,11 +12,11 @@ Help manage lunch ordering for a preschool student who receives catered lunches.
 
 **Key Preferences:**
 
-- ❌ NEVER order rice-based meals (100% avoidance)
+- ❌ Don't order rice-based meals (100% avoidance)
 - ❌ Avoid pasta dishes (except mac & cheese and Alfredo)
 - ✅ Prefer BBQ items, mac & cheese, chicken nuggets, Alfredo pasta, pizza, breakfast items
 
-For complete preferences, see [PREFERENCES.md](PREFERENCES.md).
+For complete preferences, see [references/PREFERENCES.md](references/PREFERENCES.md).
 
 ## Workflow
 
@@ -63,10 +63,10 @@ Once you have ordered dates:
 3. **Run the ICS generator script**:
 
    ```bash
-   python generate_ics.py -m [MONTH] -y [YEAR] -d [COMMA_SEPARATED_DAYS]
+   python scripts/generate_ics.py -m [MONTH] -y [YEAR] -d [COMMA_SEPARATED_DAYS]
    ```
 
-   Example: `python generate_ics.py -m 7 -y 2025 -d 3,9,16,21,31`
+   Example: `python scripts/generate_ics.py -m 7 -y 2025 -d 3,9,16,21,31`
 
 4. **Provide the generated ICS file** to the user for calendar import
 
