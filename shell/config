@@ -74,14 +74,8 @@ if command -v fzf &> /dev/null; then
   export FZF_CTRL_T_OPTS="--bind 'enter:execute($EDITOR {})+abort'"
 fi
 
-# MCFLY
-if command -v mcfly &> /dev/null; then
-  export MCFLY_KEY_SCHEME=vim
-  export MCFLY_FUZZY=0
-  export MCFLY_RESULTS=15
-  export MCFLY_DELETE_WITHOUT_CONFIRM=true
-  eval "$(mcfly init zsh)"
-fi
+# ATUIN
+command -v atuin &> /dev/null && eval "$(atuin init zsh)"
 
 # STARSHIP
 command -v starship &> /dev/null && eval "$(starship init zsh)"

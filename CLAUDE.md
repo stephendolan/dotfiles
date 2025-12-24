@@ -11,11 +11,11 @@ This is a dotfiles repository that uses DotBot for automated installation and sy
 The repository follows a consistent pattern where each tool gets its own directory:
 
 ```
+ai/                 # AI tools configuration (Claude Code, OpenCode)
 asdf/               # Version manager configuration
-claude/             # Claude Code configuration (agents, commands, skills)
+atuin/              # Shell history configuration
 git/                # Git configuration
 homebrew/           # Homebrew package management
-mcfly/              # History tool configuration
 nvim/               # Neovim editor configuration
 psql/               # PostgreSQL client configuration
 pspg/               # PostgreSQL pager configuration
@@ -69,20 +69,26 @@ When adding new tools:
 - **Terminal**: Ghostty
 - **Package Manager**: Homebrew
 - **Version Manager**: ASDF
-- **History**: McFly
+- **History**: Atuin
 - **Search**: Ripgrep with FZF integration
 
 ### Local Overrides
 
 The system supports local configuration overrides through `.zshrc.local`, which is sourced at the end of `.zshrc` if it exists. This allows machine-specific customizations without modifying the repository.
 
-### Claude Code Configuration
+### AI Tools Configuration
 
-The `claude/` directory contains executable definitions for Claude Code:
+The `ai/` directory contains configuration for AI coding agents:
 
-- `claude/agents/*.md` - Agent prompts that define specialized behavior
-- `claude/commands/*.md` - Slash command prompts that define workflows
-- `claude/skills/*.md` - Skill prompts that define domain expertise
+- `ai/AGENTS.md` - Shared instructions (symlinked as `~/.claude/CLAUDE.md`)
+- `ai/agents/*.md` - Agent prompts that define specialized behavior
+- `ai/commands/*.md` - Slash command prompts that define workflows
+- `ai/skills/*.md` - Skill prompts that define domain expertise
+- `ai/mcp.json` - MCP server definitions (source of truth)
+- `ai/generate-mcp.sh` - Generates configs for Claude Desktop and Claude Code CLI
+- `ai/opencode/config.json` - OpenCode-specific settings
+
+Claude Code uses these files natively. OpenCode accesses them via the [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) plugin which reads `~/.claude/` directly.
 
 **Important**: These .md files are executable code, not documentation. They define agent behavior and should be treated like source code when reviewing or refining:
 

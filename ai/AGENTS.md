@@ -1,8 +1,8 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code across all projects.
+This file provides guidance to AI coding agents when working with code across all projects.
 
-## Claude 4.5 Model Configuration
+## Context Management
 
 **Context window management**: Your context window will be automatically compacted as it approaches its limit, allowing you to continue working indefinitely. Do not stop tasks early due to token budget concerns.
 

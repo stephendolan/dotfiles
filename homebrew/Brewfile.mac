@@ -1,5 +1,6 @@
 tap "homebrew/bundle"
 tap "homebrew/services"
+tap "oven-sh/bun"
 
 # Core tools
 brew "asdf"
@@ -15,6 +16,7 @@ brew "uv"
 brew "wget"
 
 # Modern CLI tools
+brew "bun"              # JavaScript runtime
 brew "delta"            # Better git diff
 brew "direnv"           # Directory environments
 brew "eza"              # Better ls
@@ -25,7 +27,7 @@ brew "glow"             # Markdown renderer
 brew "jq"               # JSON processor
 brew "just"             # Command runner
 brew "lazygit"          # Git TUI
-brew "mcfly"            # Better shell history
+brew "atuin"            # Magical shell history
 brew "starship"          # Modern prompt
 brew "tmux"             # Terminal multiplexer
 brew "tree"             # Directory tree viewer

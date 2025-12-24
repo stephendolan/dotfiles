@@ -1,6 +1,7 @@
 - clean:
     - "~"
     - "~/.config"
+    - "~/.config/opencode"
     - "~/.zsh"
     - "~/.claude"
     - "~/Library/Application Support/Claude"
@@ -37,7 +38,7 @@
       path: nvim
       force: true
     ~/.config/starship.toml: starship/config.toml
-    ~/.config/mcfly/config.toml: mcfly/config.toml
+    ~/.config/atuin/config.toml: atuin/config.toml
     ~/.config/bat/config: bat/config
     ~/Library/Application Support/com.mitchellh.ghostty/config:
       if: "[ `uname` = Darwin ]"
@@ -59,18 +60,14 @@
     ~/.ripgreprc: ripgrep/config
     ~/.rgignore: ripgrep/ignore
 
-    # Claude configuration
-    ~/.claude/settings.json: claude/settings.json
-    ~/.claude/CLAUDE.md: claude/CLAUDE.md
-    ~/.claude/agents: claude/agents
-    ~/.claude/commands: claude/commands
-    ~/.claude/skills: claude/skills
-    ~/Library/Application Support/Claude/claude_desktop_config.json:
-      if: "[ `uname` = Darwin ]"
-      path: claude/desktop_config.json
-    ~/.config/Claude/claude_desktop_config.json:
-      if: "[ `uname` = Linux ]"
-      path: claude/desktop_config.json
+    # AI tools configuration
+    # Claude Code (native) + OpenCode (via oh-my-opencode plugin reading ~/.claude/)
+    ~/.claude/CLAUDE.md: ai/AGENTS.md
+    ~/.claude/settings.json: ai/claude-settings.json
+    ~/.claude/agents: ai/agents
+    ~/.claude/commands: ai/commands
+    ~/.claude/skills: ai/skills
+    ~/.config/opencode/opencode.json: ai/opencode/config.json
 
 - shell:
     - [./scripts/dotbot-setup.sh, Setting up DotBot]
@@ -80,6 +77,8 @@
       stdout: true
       if: "[ `uname` = Linux ]"
     - [./scripts/brew-setup.sh, Setting up Homebrew and packages]
+    - [./ai/generate-mcp.sh, Generating MCP configs]
     - [./scripts/claude-code-setup.sh, Setting up Claude Code]
+    - [./scripts/opencode-setup.sh, Setting up OpenCode]
     - [./scripts/shell-setup.sh, Setting up default shell]
     - [./scripts/asdf-setup.sh, Setting up ASDF plugins and versions]

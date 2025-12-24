@@ -40,7 +40,7 @@
       "Bash(just:*)",
       "Bash(lazygit:*)",
       "Bash(ls:*)",
-      "Bash(mcfly:*)",
+      "Bash(atuin:*)",
       "Bash(mkdir:*)",
       "Bash(mv:*)",
       "Bash(node:*)",
@@ -143,16 +143,12 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "~/.dotfiles/claude/statusline.sh"
+    "command": "~/.dotfiles/ai/statusline.sh"
   },
   "enabledPlugins": {
-    "context7@claude-plugins-official": true,
-    "linear@claude-plugins-official": true,
     "notion@claude-plugins-official": true,
     "ralph-wiggum@claude-plugins-official": true,
-    "security-guidance@claude-plugins-official": true,
-    "sentry@claude-plugins-official": true,
-    "slack@claude-plugins-official": true
+    "security-guidance@claude-plugins-official": true
   },
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990

@@ -20,7 +20,7 @@ brew "glow"             # Markdown renderer
 brew "jq"               # JSON processor
 brew "just"             # Command runner
 brew "lazygit"          # Git TUI
-brew "mcfly"            # Better shell history
+brew "atuin"            # Magical shell history
 brew "starship"          # Modern prompt
 brew "tmux"             # Terminal multiplexer
 brew "tree"             # Directory tree viewer

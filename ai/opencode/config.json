@@ -1,0 +1,85 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugins": [
+    "oh-my-opencode"
+  ],
+  "instructions": [
+    "{file:~/.claude/CLAUDE.md}"
+  ],
+  "theme": "system",
+  "permission": {
+    "edit": "allow",
+    "webfetch": "allow",
+    "bash": {
+      "*": "allow",
+      "rm -rf /*": "deny",
+      "rm -rf /": "deny",
+      "git push --force origin main": "deny",
+      "git push --force origin master": "deny",
+      "git push -f origin main": "deny",
+      "git push -f origin master": "deny"
+    }
+  },
+  "mcp": {
+    "betterstack": {
+      "type": "remote",
+      "url": "https://mcp.betterstack.com",
+      "headers": {
+        "Authorization": "Bearer {env:BETTERSTACK_API_TOKEN}"
+      }
+    },
+    "mixpanel": {
+      "type": "remote",
+      "url": "https://mcp.mixpanel.com/mcp"
+    },
+    "notion": {
+      "type": "remote",
+      "url": "https://mcp.notion.com/mcp"
+    },
+    "linear": {
+      "type": "remote",
+      "url": "https://mcp.linear.app/sse"
+    },
+    "sentry": {
+      "type": "remote",
+      "url": "https://mcp.sentry.dev/mcp"
+    },
+    "sequential-thinking": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "browsermcp": {
+      "type": "local",
+      "command": [
+        "npx",
+        "@browsermcp/mcp@latest"
+      ]
+    },
+    "memory": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
+    },
+    "context7": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "environment": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    }
+  },
+  "plugin": [
+    "oh-my-opencode"
+  ]
+}
