@@ -1,6 +1,7 @@
 tap "homebrew/bundle"
 tap "homebrew/services"
 tap "oven-sh/bun"
+tap "tw93/tap"
 
 # Core tools
 brew "asdf"
@@ -43,3 +44,6 @@ brew "zsh-syntax-highlighting"
 
 # Applications
 brew "cookcli"
+
+# System maintenance
+brew "mole"              # Mac cleanup utility
