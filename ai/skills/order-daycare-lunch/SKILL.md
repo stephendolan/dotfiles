@@ -1,7 +1,7 @@
 ---
 name: order-daycare-lunch
 description: Manage school lunch ordering for preschool with catered meals. Analyzes menus based on preferences (avoid rice, prefer BBQ and mac & cheese), helps select meals, processes orders from any source (PDF/screenshot/browser/verbal), and generates calendar reminders for days when lunch needs to be packed. Use when discussing school meals, menu selection, or packing lunch.
-allowed-tools: Bash, Read
+allowed-tools: Bash, Read, mcp__claude-in-chrome__*
 ---
 
 # Preschool Lunch Ordering
@@ -12,17 +12,31 @@ Help manage lunch ordering for a preschool student who receives catered lunches.
 
 **Key Preferences:**
 
-- ❌ Don't order rice-based meals (100% avoidance)
-- ❌ Avoid pasta dishes (except mac & cheese and Alfredo)
-- ✅ Prefer BBQ items, mac & cheese, chicken nuggets, Alfredo pasta, pizza, breakfast items
+- **AVOID**: Rice-based meals (100% avoidance)
+- **AVOID**: Pasta dishes (except mac & cheese and Alfredo)
+- **PREFER**: BBQ items, mac & cheese, chicken nuggets, Alfredo pasta, pizza, breakfast items
 
 For complete preferences, see [references/PREFERENCES.md](references/PREFERENCES.md).
+
+## Site Information
+
+- **Service**: Boonli (ChefAdvantage)
+- **URL**: https://chefadvantage.boonli.com/home
+
+## Browser Automation Flow
+
+1. **Landing**: Navigate to home URL, click month button (e.g., "JAN: PRESCHOOL")
+2. **Builder**: Use Previous/Next Day arrows; select "Daily Feature - (PS)" under Combos
+3. **Quick Pick**: Click star icon in Review Selections panel to order multiple days at once
+   - If coordinate click fails: `document.querySelector('.fa-star').click()`
+4. **Checkout**: Click "Add and Go To Cart" then "CHECKOUT"
+   - **Stop at payment** - user enters payment details
 
 ## Workflow
 
 ### 1. Menu Analysis
 
-When user shares a menu (via **any source**: PDF, screenshot, browser, photo, or verbally):
+When user shares a menu (PDF, screenshot, browser, photo, or verbally):
 
 1. Identify meals to **skip** based on preferences
 2. Highlight **recommended** meals
@@ -36,21 +50,16 @@ When user shares a menu (via **any source**: PDF, screenshot, browser, photo, or
 ```
 | Date | Day | Action | Menu Item |
 |------|-----|--------|-----------|
-| Dec 1 | Mon | ✅ ORDER | Mac 'n Cheese |
-| Dec 2 | Tue | 🍱 PACK | Rice dish (avoid) |
-| Dec 3 | Wed | 🚫 CLOSED | Holiday |
+| Dec 1 | Mon | ORDER | Mac 'n Cheese |
+| Dec 2 | Tue | PACK | Rice dish (avoid) |
+| Dec 3 | Wed | CLOSED | Holiday |
 ```
 
 This format makes it easy to order and audit the full month at a glance.
 
 ### 2. Order Processing
 
-After user places an order, they'll share confirmation via **any source**:
-
-- PDF receipt, screenshot, browser page, photo, or verbal list
-
-**Extract (source-agnostic):**
-
+After order placement, extract from confirmation (any format):
 - Order month and year
 - List of dates food was ordered
 
@@ -58,23 +67,16 @@ After user places an order, they'll share confirmation via **any source**:
 
 Once you have ordered dates:
 
-1. **Determine school days** in that month (Mon-Fri, excluding holidays)
-2. **Calculate skipped days** = School days - Ordered days
-3. **Run the ICS generator script**:
-
+1. Calculate skipped days = School days (Mon-Fri, excluding holidays) - Ordered days
+2. Generate calendar reminders:
    ```bash
-   python scripts/generate_ics.py -m [MONTH] -y [YEAR] -d [COMMA_SEPARATED_DAYS]
+   python scripts/generate_ics.py -m [MONTH] -y [YEAR] -d [SKIPPED_DAYS] --child-name "[NAME]"
+   open pack-lunch-[month]-[year].ics
    ```
 
-   Example: `python scripts/generate_ics.py -m 7 -y 2025 -d 3,9,16,21,31`
+Creates "Pack [Name]'s Lunch" events for each skipped day.
 
-4. **Provide the generated ICS file** to the user for calendar import
+## Notes
 
-The script creates all-day "Free" events (won't block scheduling) for each skipped day with the title "Pack Child's Lunch". The user can customize the child's name and location using optional flags `--child-name` and `--location` if needed.
-
-## Important Notes
-
-- **Rice rule #1**: Never order rice-based meals - this is universal. Proactively warn about rice dishes when analyzing menus.
-- **School calendar**: Typically Mon-Fri, exclude major holidays (Thanksgiving, July 4, etc.)
-- **Price**: $3.37 per meal (as of 2025)
 - **Timezone**: America/New_York
+- Exclude major holidays (Thanksgiving, July 4, MLK Day, etc.)
