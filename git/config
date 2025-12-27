@@ -50,6 +50,9 @@
 [fetch]
   prune = true
 
+[submodule]
+  recurse = true
+
 [mergetool "fugitive"]
   cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
 
