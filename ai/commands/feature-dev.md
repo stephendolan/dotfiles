@@ -67,7 +67,7 @@ This phase prevents wasted implementation effort. Complete it before designing.
 
 1. Review the codebase findings and original feature request
 2. Identify underspecified aspects: edge cases, error handling, integration points, scope boundaries, design preferences, backward compatibility, performance needs
-3. **Present all questions to the user in a clear, organized list**
+3. **Use AskUserQuestion** to present questions with concrete options where possible
 4. **Wait for answers before proceeding to architecture design**
 
 If the user says "whatever you think is best", provide your recommendation and get explicit confirmation.
@@ -83,7 +83,7 @@ If the user says "whatever you think is best", provide your recommendation and g
 1. Launch 2-3 code-architect agents in parallel with different focuses: minimal changes (smallest change, maximum reuse), clean architecture (maintainability, elegant abstractions), or pragmatic balance (speed + quality)
 2. Review all approaches and form your opinion on which fits best for this specific task (consider: small fix vs large feature, urgency, complexity, team context)
 3. Present to user: brief summary of each approach, trade-offs comparison, **your recommendation with reasoning**, concrete implementation differences
-4. **Ask user which approach they prefer**
+4. **Use AskUserQuestion** to ask which approach they prefer (include your recommendation as first option)
 
 ---
 

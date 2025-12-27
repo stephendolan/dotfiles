@@ -102,11 +102,7 @@ After reviewing and discussing with agents as needed:
 
 ### 6. Check for Another Pass
 
-Ask the user:
-
-> Refinement complete. [Summary of changes]. Would you like another pass, or are you ready to review and commit?
-
-Options:
+**Use AskUserQuestion** to ask about next steps:
 
 - **Another pass** → Return to step 2
 - **Review changes** → Show `git diff` and wait for feedback

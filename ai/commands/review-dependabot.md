@@ -85,7 +85,7 @@ For any "Review" items, show the breaking changes and upgrade guide URL.
 
 ### 5. Merge
 
-Ask which PRs to merge: all recommended, select individually, or cancel.
+**Use AskUserQuestion** to ask which PRs to merge with options: all recommended, select individually, or cancel.
 
 For each approved PR:
 ```bash

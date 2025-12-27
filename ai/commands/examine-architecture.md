@@ -123,4 +123,4 @@ DEFERRED:
 - [Issue] - Why: [Too complex / Low impact / Not worth fixing]
 ```
 
-3. Ask user which issues they want to address
+3. **Use AskUserQuestion** to ask which issues they want to address (multiSelect: true)
