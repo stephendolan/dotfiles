@@ -67,6 +67,7 @@
     ~/.claude/agents: ai/agents
     ~/.claude/commands: ai/commands
     ~/.claude/skills: ai/skills
+    ~/.claude/hooks: ai/hooks
     ~/.config/opencode/opencode.json: ai/opencode/config.json
 
 - shell:
