@@ -160,17 +160,18 @@
     "deny": [
       "Bash(rm:-rf /*)",
       "Bash(rm:-rf /)",
-      "Bash(rm:-rf ~*)",
-      "Bash(rm:-rf $HOME*)",
+      "Bash(rm:-rf ~:*)",
+      "Bash(rm:-rf $HOME:*)",
       "Bash(git:push --force origin main)",
       "Bash(git:push --force origin master)",
       "Bash(git:push -f origin main)",
       "Bash(git:push -f origin master)",
-      "Bash(git:reset --hard*)",
-      "Bash(git:clean -fd*)",
-      "Bash(psql:*DROP DATABASE*)",
-      "Bash(psql:*DROP TABLE*)",
-      "Bash(psql:*TRUNCATE TABLE*)"
+      "Bash(git:reset --hard:*)",
+      "Bash(git:clean -fd:*)",
+      "Bash(psql:-c DROP DATABASE:*)",
+      "Bash(psql:-c DROP TABLE:*)",
+      "Bash(psql:-c TRUNCATE TABLE:*)",
+      "Bash(psql:-c TRUNCATE:*)"
     ],
     "ask": [],
     "defaultMode": "default"
