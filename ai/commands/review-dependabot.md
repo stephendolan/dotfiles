@@ -4,98 +4,98 @@ description: Analyze and merge Dependabot PRs with safety assessment. Use when d
 
 # Review Dependabot
 
-Analyze all open Dependabot PRs in this repository and merge safe updates.
+Analyze open Dependabot PRs and merge safe updates.
 
-## Process
+## Workflow
 
-### 1. Fetch Dependabot PRs
+1. Fetch all open Dependabot PRs
+2. Categorize by safety level and merge constraints
+3. Present summary table with recommendations
+4. Use AskUserQuestion for batch approval
+5. Merge approved PRs, handle failures gracefully
+
+## Fetching PRs
+
+**Single repo:**
+```bash
+gh pr list --author app/dependabot --state open --json number,title,body,url,statusCheckRollup,files
+```
+
+**Multi-repo** (when user mentions "all repos", specifies an owner, or cwd has no git repo):
+```bash
+gh search prs --author app/dependabot --owner {owner} --state open --json repository,number,title,url
+```
+
+For each repo, check `~/Repos/` for existing clone or clone to `/tmp/dependabot-review/{repo-name}`, then fetch full details with `gh pr view`.
+
+## PR Categories
+
+### Safe to Merge
+
+PRs mergeable immediately (CI passing, status `MERGEABLE`):
+
+- **Patch versions** (`1.2.3 → 1.2.4`) - bug fixes only
+- **`@types/*` packages** - type definitions, no runtime code
+- **Security patches** - PR body mentions CVE or advisory
+- **Dev dependencies (minor)** - build-time only
+
+### Manual Merge Required
+
+PRs modifying `.github/workflows/*` require the `workflow` OAuth scope (unavailable to `gh` CLI). Check the `files` field, present GitHub URLs, and let the user merge via browser.
+
+### Needs Review
+
+Major bumps (`3.x → 4.x`), runtime dependencies, and framework updates warrant deeper analysis. Spawn `general-purpose` agents in parallel:
+
+```
+Evaluate {name} {old} → {new} for {repo}:
+
+1. Search for "{name} v{new_major} migration guide"
+2. Extract breaking changes from PR body (release notes)
+3. Search codebase for usage: `rg "{name}"`
+4. Assess impact on found usages
+
+Response: Confidence (0-100%), breaking changes, migration URL, recommendation (merge/review/skip), one-sentence reason.
+```
+
+### Skip
+
+- **CI failing** - note if related to the update or pre-existing
+- **Merge conflicts** (`CONFLICTING`) - needs Dependabot rebase
+
+## Summary Presentation
+
+Group PRs by category with tables. Formatting notes:
+- Include counts in headers: "Safe to Merge (6 PRs)"
+- Use tables for Safe/Needs Review/Skipped categories
+- Use bullet list with inline GitHub URLs for Manual Merge Required
+- Tailor columns per category (e.g., Confidence/Issue for Needs Review, Reason for Skipped)
+
+## User Decision
+
+Use AskUserQuestion: (1) Merge all safe PRs, (2) Include manual-merge PRs (opens browser tabs), (3) Select individually, (4) Cancel.
+
+## Merge Execution
 
 ```bash
-gh pr list --author app/dependabot --state open --json number,title,body,url,statusCheckRollup
+gh pr merge {number} --squash
 ```
 
-Exit early if none found.
+### Handling Failures
 
-### 2. Classify Updates
+**Lockfile conflicts**: Merge PRs sequentially per repo. When a merge fails with "not mergeable", comment `@dependabot rebase` and inform the user.
 
-Parse each PR title to extract dependency name and version change. Classify as:
-- **Major**: First version number changes (3.x → 4.x)
-- **Minor**: Second number changes (3.1 → 3.2)
-- **Patch**: Third number changes (3.1.1 → 3.1.2)
+**Workflow file errors** ("refusing to allow an OAuth App to create or update workflow"): Move to Manual Merge Required list with GitHub URL.
 
-### 3. Analyze Dependencies
+## Detection Patterns
 
-Spawn one `general-purpose` agent per PR, all in parallel.
+Identify PR types from title patterns:
 
-**For major version bumps:**
-
-```
-Evaluate this major dependency update:
-
-Dependency: {name}
-Version: {old} → {new}
-Release notes from PR:
-{body}
-
-1. Web search for "{name} {new_major_version} migration guide" or "{name} {new_major_version} upgrade guide"
-2. Identify breaking changes from the release notes
-3. Search this codebase for imports/usage of {name}, then check if any breaking changes affect those usages
-4. Provide upgrade guide URL if found
-
-Response format:
-- **Confidence**: 0-100% that this is safe to merge without code changes
-- **Breaking changes**: List any that affect this codebase (or "none found")
-- **Upgrade guide**: URL or "not found"
-- **Recommendation**: merge / review / skip
-- **Reasoning**: One sentence explaining your assessment
-```
-
-**For minor and patch updates:**
-
-```
-Evaluate this {type} dependency update:
-
-Dependency: {name}
-Version: {old} → {new}
-Release notes from PR:
-{body}
-
-1. Check release notes for security fixes (prioritize these)
-2. Note any behavioral changes that could cause issues
-
-Response format:
-- **Confidence**: 0-100% safe to merge
-- **Security fix**: yes/no
-- **Recommendation**: merge / review / skip
-- **Reasoning**: One sentence
-```
-
-### 4. Present Summary
-
-Display a table showing all PRs with their analysis:
-
-```
-| PR | Dependency | Change | CI | Confidence | Action |
-|----|------------|--------|-----|------------|--------|
-| #6 | zod | 4.1→4.2 | ✓ | 95% | Merge |
-| #13 | next | 13→14 | ✓ | 60% | Review |
-```
-
-For any "Review" items, show the breaking changes and upgrade guide URL.
-
-### 5. Merge
-
-**Use AskUserQuestion** to ask which PRs to merge with options: all recommended, select individually, or cancel.
-
-For each approved PR:
-```bash
-gh pr merge {number} --squash --delete-branch
-```
-
-## Behavior
-
-- Spawn all analysis agents in a single message for parallel execution
-- Only recommend merge when CI passes
-- Security fixes get "merge" recommendation regardless of version type
-- When a PR contains multiple dependencies, evaluate each one
-- If uncertain about impact, recommend "review" rather than "merge"
+| Title Pattern | Category |
+|---------------|----------|
+| `Bump @types/` | TypeScript types (safe) |
+| `Bump actions/` | GitHub Actions (check for workflow files) |
+| `group` in title | Grouped update (evaluate each dependency) |
+| `security` in body | Security patch (prioritize) |
+| `CVE-` in body | Security patch (prioritize) |
+| `x.0.0` in version | Major bump (needs review) |

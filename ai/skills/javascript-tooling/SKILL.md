@@ -1,9 +1,13 @@
 ---
 name: javascript-tooling
-description: Recommended JavaScript/TypeScript tooling stack. Use when setting up build tooling, linting, formatting, testing, or bundling. Covers Biome, oxlint, tsup, Vitest, and ESM configuration.
+description: Recommended JavaScript/TypeScript tooling stack. Use when setting up build tooling, linting, formatting, testing, or bundling. Covers Biome, oxlint, tsup, Vitest, bun runtime, and ESM configuration.
 ---
 
 # JavaScript/TypeScript Tooling
+
+## Runtime: Bun
+
+Use bun as the default JavaScript runtime. It runs TypeScript natively, installs packages faster than npm/yarn, and avoids version manager complexity. For CLI projects, use `#!/usr/bin/env bun` shebang.
 
 ## Recommended Stack
 
@@ -26,7 +30,7 @@ Faster than Prettier, zero-config defaults.
 50-100x faster than ESLint, written in Rust.
 
 ```bash
-npm install -D oxlint
+bun add -D oxlint
 ```
 
 ```json
@@ -60,7 +64,7 @@ export default defineConfig({
 
 ### Testing: Vitest
 
-Native ESM and TypeScript support, faster than Jest.
+Faster than Jest with native ESM and TypeScript support.
 
 ```typescript
 // vitest.config.ts
@@ -75,16 +79,19 @@ export default defineConfig({
 
 ## Package.json Scripts
 
+Use `bun run` for all scripts:
+
 ```json
 {
   "scripts": {
-    "dev": "tsx src/cli.ts",
-    "build": "tsup",
-    "typecheck": "tsc --noEmit",
+    "dev": "bun run src/cli.ts",
+    "build": "bun run tsup",
+    "typecheck": "bun run tsc --noEmit",
     "lint": "oxlint src",
     "format": "biome format --write src",
     "format:check": "biome format src",
-    "test": "vitest"
+    "test": "bun run vitest",
+    "link": "bun run build && bun link"
   }
 }
 ```
@@ -107,15 +114,6 @@ Use `.js` extensions in imports even for TypeScript:
 import { foo } from './utils.js';
 ```
 
-## Version Injection
-
-Inject version at build time (already shown in tsup.config.ts above):
-
-```typescript
-declare const __VERSION__: string;
-program.version(__VERSION__);
-```
-
 ## DevDependencies
 
 ```json
@@ -124,9 +122,34 @@ program.version(__VERSION__);
     "@biomejs/biome": "^1.9.0",
     "oxlint": "^0.16.0",
     "tsup": "^8.0.0",
-    "tsx": "^4.0.0",
     "typescript": "^5.0.0",
     "vitest": "^3.0.0"
   }
 }
 ```
+
+## GitHub Actions
+
+Use `oven-sh/setup-bun@v2` for CI. For npm publishing, also set up node:
+
+```yaml
+- uses: oven-sh/setup-bun@v2
+  with:
+    bun-version: latest
+
+- run: bun install
+- run: bun run typecheck
+- run: bun run lint
+- run: bun test
+- run: bun run build
+
+# For npm publish step, also need node
+- uses: actions/setup-node@v6
+  with:
+    node-version: '24'
+    registry-url: 'https://registry.npmjs.org'
+
+- run: npm publish --provenance --access public
+```
+
+With `id-token: write` permission and `--provenance`, npm uses OIDC for authentication (no `NPM_TOKEN` needed).
