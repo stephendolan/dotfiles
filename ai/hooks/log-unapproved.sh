@@ -14,7 +14,9 @@ if [[ -z "$COMMAND" ]]; then
 fi
 
 COMMAND_ONELINE=$(echo "$COMMAND" | tr '\n' ' ' | sed 's/  */ /g')
-COMMAND_NAME=$(echo "$COMMAND" | awk '{print $1}' | sed 's/^[(]//')
+# Extract command name from first line only (use basename if it's a path)
+FIRST_WORD=$(echo "$COMMAND" | head -1 | awk '{print $1}' | sed 's/^[(]//')
+COMMAND_NAME=$(basename "$FIRST_WORD" 2>/dev/null || echo "$FIRST_WORD")
 if [[ -z "$COMMAND_NAME" || "$COMMAND_NAME" =~ ^[A-Z_]+=.* ]]; then
   exit 0
 fi

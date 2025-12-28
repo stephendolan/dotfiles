@@ -15,7 +15,8 @@ if [[ "${1:-}" == "--clear" ]]; then
 fi
 
 echo "=== Command patterns by frequency ==="
-awk -F'|' '{gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2); print $2}' "$LOG_FILE" \
+# Extract pattern from second field (handles commands with pipes by limiting to first 3 fields)
+awk -F'|' 'NF >= 3 {gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2); if ($2 != "") print $2}' "$LOG_FILE" \
   | sort | uniq -c | sort -rn
 
 echo ""
