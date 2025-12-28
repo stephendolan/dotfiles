@@ -2,6 +2,7 @@
 
 typeset -U path
 path=(
+  "$HOME/.bun/bin"
   "$HOME/.opencode/bin"
   "$HOME/.local/bin"
   "$HOME/.docker/bin"

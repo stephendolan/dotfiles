@@ -181,11 +181,11 @@
     ],
     "Notification": [
       {
-        "matcher": "permission_prompt",
+        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "open -g raycast://confetti"
+            "command": "echo -e '\\a\\033]777;notify;Claude Code;Needs attention\\007'"
           }
         ]
       }
