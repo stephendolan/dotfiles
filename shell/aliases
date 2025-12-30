@@ -8,6 +8,10 @@ alias la='eza --long --all --group-directories-first'
 alias vi='nvim'
 alias vim='nvim'
 
+# RUBY
+alias be='bundle exec'
+alias bi='bundle install'
+
 # GIT
 alias g='git'
 alias gs='git status'
