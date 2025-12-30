@@ -41,10 +41,6 @@
       "env": {
         "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
       }
-    },
-    "make": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.make.com"]
     }
   }
 }

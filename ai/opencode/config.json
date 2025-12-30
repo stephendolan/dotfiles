@@ -77,10 +77,6 @@
       "environment": {
         "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
       }
-    },
-    "make": {
-      "type": "remote",
-      "url": "https://mcp.make.com"
     }
   },
   "plugin": [
