@@ -52,6 +52,8 @@ flowchart LR
     subgraph Skills
         wgc["writing-git-commits"]
         wpr["writing-pull-requests"]
+        rds["refine-design"]
+        fdd["frontend-design"]
     end
 
     fd --> ce & ca & cr
@@ -64,6 +66,7 @@ flowchart LR
 
     com -.-> wgc
     prc -.-> wpr
+    rds -.-> fdd
 
     classDef cmd fill:#4a5568,stroke:#2d3748,color:#fff
     classDef agent fill:#3182ce,stroke:#2c5282,color:#fff
@@ -71,7 +74,7 @@ flowchart LR
 
     class fd,ri,ea,apr,rd,pub,dag cmd
     class ce,ca,cr,cf,ar,pr,pcr,com,prc,gp agent
-    class wgc,wpr skill
+    class wgc,wpr,rds,fdd skill
 ```
 
 **Legend**: Commands (gray) → spawn Agents (blue) → load Skills (green)
@@ -161,11 +164,12 @@ Skills provide domain expertise activated automatically by context.
 
 ### Tools
 
-| Skill                    | Trigger                   |
-| ------------------------ | ------------------------- |
-| **chartmogul-analytics** | Analyzing revenue metrics |
-| **project-management**   | Planning tasks and work   |
-| **order-daycare-lunch**  | School lunch ordering     |
+| Skill                    | Trigger                        |
+| ------------------------ | ------------------------------ |
+| **chartmogul-analytics** | Analyzing revenue metrics      |
+| **project-management**   | Planning tasks and work        |
+| **order-daycare-lunch**  | School lunch ordering          |
+| **refine-design**        | Iterating UI to 10/10 rating   |
 
 ---
 
