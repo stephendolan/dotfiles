@@ -74,6 +74,34 @@
       "environment": {
         "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
       }
+    },
+    "helpscout": {
+      "type": "local",
+      "command": [
+        "helpscout",
+        "mcp"
+      ]
+    },
+    "chartmogul": {
+      "type": "local",
+      "command": [
+        "chartmogul",
+        "mcp"
+      ]
+    },
+    "ynab": {
+      "type": "local",
+      "command": [
+        "ynab",
+        "mcp"
+      ]
+    },
+    "omnifocus": {
+      "type": "local",
+      "command": [
+        "of",
+        "mcp"
+      ]
     }
   },
   "plugin": [

@@ -160,7 +160,11 @@
       "mcp__linear__*",
       "mcp__mixpanel__*",
       "mcp__sentry__*",
-      "mcp__sequential-thinking__*"
+      "mcp__sequential-thinking__*",
+      "mcp__helpscout__*",
+      "mcp__chartmogul__*",
+      "mcp__ynab__*",
+      "mcp__omnifocus__*"
     ],
     "deny": [
       "Bash(rm:-rf /*)",
