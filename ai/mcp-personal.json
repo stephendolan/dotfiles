@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "ynab": {
+      "command": "ynab",
+      "args": ["mcp"]
+    }
+  }
+}
