@@ -99,17 +99,23 @@ fi
 # 3. Sync to Claude Code CLI (if available)
 if command -v claude &>/dev/null; then
   echo "  -> Claude Code CLI"
-  
+
+  # Remove servers not in source file
+  claude mcp list 2>/dev/null | grep -E '^[a-zA-Z0-9_-]+:' | cut -d: -f1 | while read -r name; do
+    if ! jq -e ".mcpServers[\"$name\"]" "$SOURCE_FILE" &>/dev/null; then
+      echo "     - $name"
+      claude mcp remove "$name" -s user 2>/dev/null || true
+    fi
+  done
+
+  # Add servers from source file
   jq -r '.mcpServers | keys[]' "$SOURCE_FILE" | while read -r name; do
-    # Check if server already exists
     if claude mcp get "$name" &>/dev/null; then
-      echo "     $name (exists, skipping)"
+      echo "     $name (exists)"
       continue
     fi
-    
-    # Get server config as JSON
+
     server_json=$(jq -c ".mcpServers[\"$name\"]" "$SOURCE_FILE")
-    
     echo "     + $name"
     claude mcp add-json --scope user "$name" "$server_json" 2>/dev/null || true
   done
