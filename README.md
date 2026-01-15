@@ -1,9 +1,19 @@
 # Dotfiles
 
-![Linters](https://github.com/stephendolan/dotfiles/workflows/Linters/badge.svg)
+Personal dotfiles managed with [DotBot](https://github.com/anishathalye/dotbot).
 
-This repository leverages [DotBot](https://github.com/anishathalye/dotbot) to build out a new or existing system in a consistent way.
+## Install
 
-All information about how to navigate and read these files can be found on the DotBot repository README.
+```bash
+git clone https://github.com/stephendolan/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+./install
+```
 
-That said, all you really need to get started is to run `./install` after cloning this repository into `~/.dotfiles`.
+## Structure
+
+- `ai/` - Claude Code configuration (agents, commands, skills)
+- `dev/` - Development tools (git, nvim, psql, rails)
+- `packages/` - Package managers (asdf, homebrew)
+- `shell/` - Shell environment (zsh, starship, atuin, ripgrep)
+- `scripts/` - Installation scripts
