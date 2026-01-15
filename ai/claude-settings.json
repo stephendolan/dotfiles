@@ -197,17 +197,6 @@
   "model": "opus",
   "enableAllProjectMcpServers": true,
   "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash(git:commit*)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.dotfiles/ai/hooks/pre-commit.sh"
-          }
-        ]
-      }
-    ],
     "Notification": [
       {
         "matcher": "",
