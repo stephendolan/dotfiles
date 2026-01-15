@@ -1,4 +1,4 @@
-name: Linters
+name: Lint
 
 on:
   push:
@@ -11,30 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
+
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
         with:
-          submodules: false
+          version: latest
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: "20"
-
-      - name: Install Prettier
-        run: npm install -g prettier
-
-      - name: Check Prettier formatting
-        run: prettier --check "**/*.{json,yaml,yml,md}"
-
-      - name: Shellcheck
-        uses: ludeeus/action-shellcheck@master
-        with:
-          scandir: "./scripts"
-          format: gcc
-          severity: warning
-
-      - name: YAML Lint
-        uses: ibiqlik/action-yamllint@v3
-        with:
-          file_or_dir: "."
-          config_file: .yamllint.yml
+      - name: Run Biome
+        run: biome ci .
