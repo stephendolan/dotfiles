@@ -1,0 +1,54 @@
+tap "homebrew/bundle"
+tap "homebrew/services"
+tap "oven-sh/bun"
+tap "tw93/tap"
+
+# Core tools
+brew "asdf"
+brew "ast-grep"
+brew "bat"
+brew "htop"
+brew "mosh"
+brew "neovim"
+brew "postgresql@17", restart_service: true
+brew "pspg"
+brew "redis", restart_service: true
+brew "ripgrep"
+brew "uv"
+brew "wget"
+
+# Modern CLI tools
+brew "atuin"            # Magical shell history
+brew "bun"              # JavaScript runtime
+brew "delta"            # Better git diff
+brew "direnv"           # Directory environments
+brew "eza"              # Better ls
+brew "fd"               # Better find
+brew "fzf"              # Fuzzy finder
+brew "gh"               # GitHub CLI
+brew "glow"             # Markdown renderer
+brew "jq"               # JSON processor
+brew "just"             # Command runner
+brew "lazygit"          # Git TUI
+brew "starship"         # Modern prompt
+brew "tree"             # Directory tree viewer
+brew "zoxide"           # Smarter cd command
+
+# Development tools
+brew "awscli"           # AWS command line interface
+brew "git-lfs"          # Git large file storage
+brew "pnpm"             # Fast, disk space efficient package manager
+brew "shellcheck"       # Shell script linter
+brew "stripe"           # Stripe CLI
+brew "terminal-notifier" # macOS notifications from terminal
+brew "yamllint"         # YAML linter
+
+# Zsh plugins
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+
+# Applications
+brew "cookcli"
+
+# System maintenance
+brew "mole"              # Mac cleanup utility

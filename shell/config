@@ -1,0 +1,85 @@
+# HISTORY
+setopt hist_ignore_all_dups inc_append_history
+HIST_STAMPS="yyyy-mm-dd"
+HISTFILE=~/.zhistory
+HISTSIZE=50000
+SAVEHIST=50000
+
+# CD BEHAVIOR
+setopt auto_cd auto_pushd pushd_minus pushd_silent pushd_to_home cdable_vars
+DIRSTACKSIZE=5
+
+# GLOBBING
+setopt extended_glob
+unsetopt no_match
+
+# COMPLETION
+if [[ -d /opt/homebrew/share/zsh/site-functions ]]; then
+    fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
+elif [[ -d /home/linuxbrew/.linuxbrew/share/zsh/site-functions ]]; then
+    fpath=(/home/linuxbrew/.linuxbrew/share/zsh/site-functions $fpath)
+fi
+autoload -Uz compinit
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C
+fi
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+setopt COMPLETE_IN_WORD
+setopt ALWAYS_TO_END
+
+# HOMEBREW ZSH PLUGINS
+if [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+elif [[ -f /home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source /home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+if [[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif [[ -f /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# ALIASES
+[[ -e $HOME/.aliases ]] && source $HOME/.aliases
+
+# PLATFORM-SPECIFIC CONFIG
+[[ -f $HOME/.zsh/config/mac ]] && source $HOME/.zsh/config/mac
+[[ -f $HOME/.zsh/config/fzf ]] && source $HOME/.zsh/config/fzf
+
+# ASDF
+if [[ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ]]; then
+    source /opt/homebrew/opt/asdf/libexec/asdf.sh
+elif [[ -f /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh ]]; then
+    source /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
+fi
+
+# FZF
+if command -v fzf &> /dev/null; then
+  source <(fzf --zsh)
+  export FZF_CTRL_T_OPTS="$FZF_CTRL_T_OPTS --bind 'enter:execute($EDITOR {})+abort'"
+fi
+
+# ATUIN
+command -v atuin &> /dev/null && eval "$(atuin init zsh)"
+
+# STARSHIP
+command -v starship &> /dev/null && eval "$(starship init zsh)"
+
+# DIRENV
+command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
+
+# ZOXIDE
+if command -v zoxide &> /dev/null; then
+    export _ZO_FZF_OPTS="$FZF_DEFAULT_OPTS --preview 'eza --tree --level=2 --color=always {2..}'"
+    eval "$(zoxide init zsh)"
+fi
+
+# AI ASSISTANT
+export ENABLE_TOOL_SEARCH=true
+[[ -f $HOME/.zsh/functions/ai ]] && source $HOME/.zsh/functions/ai
+
+# LOAD LOCAL SETTINGS
+[[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local

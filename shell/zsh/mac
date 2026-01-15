@@ -1,0 +1,9 @@
+# vim: set filetype=zsh :
+
+# libpq is keg-only; expose it for building postgres gems
+typeset -U path
+path=("/opt/homebrew/opt/libpq/bin" $path)
+
+export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/libpq/lib/pkgconfig"

@@ -1,0 +1,33 @@
+# vim: set filetype=sh :
+
+# MODERN TOOL REPLACEMENTS
+alias ll='eza --long --group-directories-first'
+alias la='eza --long --all --group-directories-first'
+
+# EDITOR
+alias vi='nvim'
+alias vim='nvim'
+
+# RUBY
+alias be='bundle exec'
+alias bi='bundle install'
+
+# GIT
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git pull'
+alias gd='git diff'
+
+# SHORTCUTS
+alias c='claude'
+alias cc='claude --continue'
+alias s='scry'
+alias dc='docker-compose'
+alias lg='lazygit'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+

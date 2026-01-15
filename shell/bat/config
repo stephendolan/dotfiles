@@ -1,0 +1,7 @@
+# Bat configuration
+# https://github.com/sharkdp/bat
+
+# Style configuration (disable line numbers for easier copy-paste)
+--style="header,grid"
+
+# Theme is set via BAT_THEME in shell/zsh/fzf for consistency with FZF preview

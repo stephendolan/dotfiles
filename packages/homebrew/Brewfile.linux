@@ -1,0 +1,39 @@
+# Core tools
+brew "asdf"
+brew "ast-grep"
+brew "bat"
+brew "htop"
+brew "mosh"
+brew "neovim"
+brew "pspg"
+brew "ripgrep"
+brew "uv"
+brew "wget"
+
+# Modern CLI tools
+brew "atuin"            # Magical shell history
+brew "delta"            # Better git diff
+brew "direnv"           # Directory environments
+brew "eza"              # Better ls
+brew "fd"               # Better find
+brew "fzf"              # Fuzzy finder
+brew "gh"               # GitHub CLI
+brew "glow"             # Markdown renderer
+brew "jq"               # JSON processor
+brew "just"             # Command runner
+brew "lazygit"          # Git TUI
+brew "starship"         # Modern prompt
+brew "tree"             # Directory tree viewer
+brew "zoxide"           # Smarter cd command
+
+# Development tools
+brew "shellcheck"       # Shell script linter
+brew "yamllint"         # YAML linter
+
+# Shell and plugins
+brew "zsh"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+
+# Applications
+brew "cookcli"

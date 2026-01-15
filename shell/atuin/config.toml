@@ -1,0 +1,17 @@
+# Search behavior
+search_mode = "fuzzy"
+filter_mode = "global"
+filter_mode_shell_up_key_binding = "host"
+
+# UI
+style = "compact"
+show_preview = true
+max_preview_height = 4
+enter_accept = true
+
+# Vim keybindings
+keymap_mode = "vim-insert"
+keymap_cursor = { vim_insert = "blink-bar", vim_normal = "steady-block" }
+
+# Sync (disabled - using local history only)
+auto_sync = false

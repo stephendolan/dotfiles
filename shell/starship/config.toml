@@ -1,0 +1,66 @@
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$cmd_duration\
+$jobs\
+$line_break\
+$character"""
+
+add_newline = true
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold yellow)"
+
+[directory]
+truncation_length = 0
+truncate_to_repo = false
+fish_style_pwd_dir_length = 1
+format = "[$path]($style)[$read_only]($read_only_style) "
+read_only = "🔒"
+style = "bold cyan"
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+symbol = ""
+style = "bold purple"
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+style = "bold yellow"
+conflicted = "!"
+ahead = "↑"
+behind = "↓"
+diverged = "↕"
+up_to_date = "✓"
+untracked = "?"
+stashed = "≡"
+modified = "M"
+staged = "+"
+renamed = "R"
+deleted = "D"
+
+[cmd_duration]
+min_time = 2_000
+format = "took [$duration]($style) "
+style = "bold yellow"
+
+[jobs]
+format = "[$symbol$number]($style) "
+symbol = "✦"
+style = "bold blue"
+
+[username]
+show_always = false
+format = "[$user]($style) at "
+style_user = "bold blue"
+style_root = "bold red"
+
+[hostname]
+ssh_only = true
+format = "[$hostname]($style) in "
+style = "bold green"

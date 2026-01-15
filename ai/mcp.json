@@ -1,0 +1,92 @@
+{
+  "mcpServers": {
+    "betterstack": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.betterstack.com",
+        "--header",
+        "Authorization: Bearer ${BETTERSTACK_API_TOKEN}"
+      ],
+      "env": {
+        "BETTERSTACK_API_TOKEN": "${BETTERSTACK_API_TOKEN}"
+      }
+    },
+    "chartmogul": {
+      "command": "chartmogul",
+      "args": ["mcp"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "env": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      }
+    },
+    "google": {
+      "command": "google",
+      "args": ["mcp"]
+    },
+    "helpscout": {
+      "command": "helpscout",
+      "args": ["mcp"]
+    },
+    "linear": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.linear.app/sse"]
+    },
+    "make": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://us1.make.com/mcp/u/${MAKE_MCP_TOKEN}/stateless?${MAKE_SCENARIO_PARAMS}"
+      ],
+      "env": {
+        "MAKE_MCP_TOKEN": "${MAKE_MCP_TOKEN}",
+        "MAKE_SCENARIO_PARAMS": "${MAKE_SCENARIO_PARAMS}"
+      }
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "env": {
+        "MEMORY_FILE_PATH": "${CLAUDE_MEMORY_PATH}"
+      }
+    },
+    "mixpanel": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.mixpanel.com/mcp",
+        "--allow-http"
+      ]
+    },
+    "notion": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.notion.com/mcp"]
+    },
+    "omnifocus": {
+      "command": "of",
+      "args": ["mcp"]
+    },
+    "sentry-exceptions": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.sentry.dev/mcp"]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "stripe": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.stripe.com/"]
+    },
+    "ynab": {
+      "command": "ynab",
+      "args": ["mcp"]
+    }
+  }
+}

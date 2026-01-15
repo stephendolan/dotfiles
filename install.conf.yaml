@@ -1,0 +1,84 @@
+- clean:
+    - "~"
+    - "~/.config"
+    - "~/.zsh"
+    - "~/.claude"
+
+- defaults:
+    link:
+      create: true
+      relink: true
+    shell:
+      stderr: true
+      quiet: true
+
+- link:
+    # Git configuration
+    ~/.gitconfig: dev/git/config
+    ~/.gitignore_global: dev/git/ignore_global
+
+    # Shell configuration
+    ~/.zshenv: shell/zshenv
+    ~/.zshrc: shell/config
+    ~/.aliases: shell/aliases
+    ~/.zsh/config/fzf: shell/zsh/fzf
+    ~/.zsh/config/mac:
+      if: "[ `uname` = Darwin ]"
+      path: shell/zsh/mac
+    ~/.zsh/functions/ai: shell/functions/ai
+
+    # Shell tools
+    ~/.config/starship.toml: shell/starship/config.toml
+    ~/.config/atuin/config.toml: shell/atuin/config.toml
+    ~/.config/bat/config: shell/bat/config
+    ~/.ripgreprc: shell/ripgrep/config
+    ~/.rgignore: shell/ripgrep/ignore
+
+    # Terminal
+    ~/Library/Application Support/com.mitchellh.ghostty/config:
+      if: "[ `uname` = Darwin ]"
+      path: shell/ghostty/config
+    ~/.config/ghostty/config:
+      if: "[ `uname` = Linux ]"
+      path: shell/ghostty/config
+
+    # Editor
+    ~/.config/nvim:
+      path: dev/nvim
+      force: true
+
+    # Database tools
+    ~/.psqlrc: dev/psql/config
+    ~/.pspgconf: dev/pspg/config
+
+    # Development tools
+    ~/.asdfrc: packages/asdf/config
+    ~/.tool-versions: packages/asdf/tool-versions
+    ~/.railsrc: dev/rails/default_flags
+
+    # Bun global binaries (symlinked for Claude Desktop PATH)
+    ~/.local/bin/chartmogul: ~/.bun/bin/chartmogul
+    ~/.local/bin/google: ~/.bun/bin/google
+    ~/.local/bin/helpscout: ~/.bun/bin/helpscout
+    ~/.local/bin/of: ~/.bun/bin/of
+    ~/.local/bin/ynab: ~/.bun/bin/ynab
+
+    # AI tools configuration (Claude Code)
+    ~/.claude/CLAUDE.md: ai/AGENTS.md
+    ~/.claude/settings.json: ai/claude-settings.json
+    ~/.claude/agents: ai/agents
+    ~/.claude/commands: ai/commands
+    ~/.claude/skills: ai/skills
+
+- shell:
+    - [./scripts/dotbot-setup.sh, Setting up DotBot]
+    - command: ./scripts/apt-install.sh
+      description: Installing apt packages
+      stdin: true
+      stdout: true
+      if: "[ `uname` = Linux ]"
+    - [./scripts/brew-setup.sh, Setting up Homebrew and packages]
+    - [./ai/generate-mcp.sh, Generating MCP configs]
+    - [./scripts/claude-code-setup.sh, Setting up Claude Code]
+    - [./scripts/shell-setup.sh, Setting up default shell]
+    - [./scripts/asdf-setup.sh, Setting up ASDF plugins and versions]

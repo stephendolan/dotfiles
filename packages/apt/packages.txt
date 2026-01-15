@@ -1,0 +1,56 @@
+# Core build tools
+build-essential
+make
+cmake
+pkg-config
+
+# Python build dependencies
+libssl-dev
+zlib1g-dev
+libbz2-dev
+libreadline-dev
+libsqlite3-dev
+libncursesw5-dev
+xz-utils
+tk-dev
+libxml2-dev
+libxmlsec1-dev
+libffi-dev
+liblzma-dev
+
+# Ruby build dependencies
+libgdbm-dev
+libncurses5-dev
+autoconf
+bison
+libyaml-dev
+libgmp-dev
+
+# Development tools
+git
+curl
+wget
+htop
+jq
+tree
+ripgrep
+fd-find
+bat
+fzf
+direnv
+
+# System libraries
+libpq-dev
+libmysqlclient-dev
+libcurl4-openssl-dev
+libgit2-dev
+
+# Additional utilities
+unzip
+software-properties-common
+gnupg
+lsb-release
+ca-certificates
+
+# Docker dependencies
+apt-transport-https

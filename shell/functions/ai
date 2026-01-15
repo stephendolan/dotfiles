@@ -1,0 +1,37 @@
+# AI ASSISTANT FUNCTIONS
+
+ai() {
+  printf "🤔 Thinking..." >&2
+  local cmd=$(claude -p "Output ONLY the shell command for: $*
+
+RULES:
+- Single line of output containing only the executable command
+- No explanations, no markdown, no backticks, no preamble
+- Use modern CLI tools (gh, rg, fd, jq, etc.) when appropriate
+- Include flags for human-readable output where applicable" --model sonnet)
+  printf "\r\e[2K" >&2
+  print -z "$cmd"
+}
+
+explain() {
+  printf "🤔 Thinking..." >&2
+  local explanation=$(claude -p "Explain this command: $*. Be concise and clear." --model haiku)
+  printf "\r\e[2K" >&2
+  echo "$explanation"
+}
+
+gci() {
+  printf "🤔 Analyzing changes..." >&2
+  local commit_cmd=$(claude -p "Analyze my staged changes with 'git diff --cached' and 'git status'. Generate a commit message using the writing-git-commits skill. Return ONLY the complete git commit command with -m flag. No explanation, no backticks. Your output will be entered directly onto the shell for execution and must be valid" --model opus)
+  printf "\r\e[2K" >&2
+  print -z "$commit_cmd"
+}
+
+gpr() {
+  local mode=${1:-""}
+  if [[ -n "$mode" ]]; then
+    claude -p "Use the pr-creator agent to create a $mode PR for this branch."
+  else
+    claude -p "Use the pr-creator agent to create a PR for this branch."
+  fi
+}

@@ -1,0 +1,82 @@
+# vim: set filetype=gitconfig :
+
+[init]
+  defaultBranch = main
+
+[push]
+  default = current
+  autoSetupRemote = true
+
+[pull]
+  rebase = true
+
+[column]
+  ui = auto
+
+[rerere]
+  enabled = true
+
+[core]
+  autocrlf = input
+  excludesfile = ~/.gitignore_global
+  pager = delta
+
+[user]
+  name = Stephen Dolan
+  email = dolan.stephen1@gmail.com
+
+[alias]
+  ci = commit
+  co = checkout
+  st = status
+  stat = status
+  diff = difftool
+  undo-commit = reset --soft HEAD^
+  squash = rebase -i main
+  sq = squash
+
+[color]
+  diff = auto
+  ui = auto
+
+[branch]
+  autosetuprebase = always
+  sort = -committerdate
+
+[commit]
+  cleanup = scissors
+
+[rebase]
+  autosquash = true
+  autoStash = true
+
+[fetch]
+  prune = true
+
+[submodule]
+  recurse = true
+
+[mergetool "fugitive"]
+  cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
+
+[merge]
+  tool = fugitive
+  conflictstyle = zdiff3
+
+[diff]
+  colorMoved = zebra
+  algorithm = histogram
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  light = false
+  side-by-side = true
+
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
