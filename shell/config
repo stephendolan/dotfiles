@@ -78,7 +78,6 @@ if command -v zoxide &> /dev/null; then
 fi
 
 # AI ASSISTANT
-export ENABLE_TOOL_SEARCH=true
 [[ -f $HOME/.zsh/functions/ai ]] && source $HOME/.zsh/functions/ai
 
 # LOAD LOCAL SETTINGS

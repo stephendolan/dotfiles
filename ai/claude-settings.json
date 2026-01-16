@@ -224,6 +224,9 @@
     "type": "command",
     "command": "~/.dotfiles/ai/statusline.sh"
   },
+  "enabledPlugins": {
+    "compound-engineering@every-marketplace": true
+  },
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990
   }

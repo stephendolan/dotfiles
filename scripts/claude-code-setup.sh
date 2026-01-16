@@ -11,4 +11,28 @@ else
     curl -fsSL https://claude.ai/install.sh | bash
 fi
 
+# Install plugins from marketplaces
+MARKETPLACES=(
+    "EveryInc/compound-engineering-plugin"
+)
+
+PLUGINS=(
+    "compound-engineering@every-marketplace"
+)
+
+for marketplace in "${MARKETPLACES[@]}"; do
+    if ! claude plugin marketplace list 2>/dev/null | grep -q "$marketplace"; then
+        echo "Adding marketplace: $marketplace"
+        claude plugin marketplace add "$marketplace" 2>/dev/null || true
+    fi
+done
+
+PLUGINS_FILE="$HOME/.claude/plugins/installed_plugins.json"
+for plugin in "${PLUGINS[@]}"; do
+    if ! grep -q "\"$plugin\"" "$PLUGINS_FILE" 2>/dev/null; then
+        echo "Installing plugin: $plugin"
+        claude plugin install "$plugin" 2>/dev/null || true
+    fi
+done
+
 echo "Claude Code setup complete!"
