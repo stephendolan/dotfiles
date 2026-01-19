@@ -1,7 +1,6 @@
 ---
 name: code-architect
 description: Designs feature architectures by analyzing codebase patterns. Use when planning new features or major changes. Covers implementation blueprints, component designs, data flows, and build sequences.
-mode: subagent
 model: opus
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
 ---

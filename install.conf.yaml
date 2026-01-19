@@ -70,6 +70,9 @@
     ~/.claude/commands: ai/commands
     ~/.claude/skills: ai/skills
 
+    # AI tools configuration (Amp)
+    ~/.config/AGENTS.md: ai/AGENTS.md
+
 - shell:
     - [git config core.hooksPath .githooks, Configuring git hooks]
     - [./scripts/dotbot-setup.sh, Setting up DotBot]

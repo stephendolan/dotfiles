@@ -84,15 +84,15 @@ The system supports local configuration overrides through `.zshrc.local`, which 
 
 ### AI Tools Configuration
 
-The `ai/` directory contains configuration for Claude Code:
+The `ai/` directory contains configuration for Claude Code and other AI editors:
 
-- `ai/AGENTS.md` - Shared instructions (symlinked as `~/.claude/CLAUDE.md`)
+- `ai/AGENTS.md` - Shared instructions (symlinked as `~/.claude/CLAUDE.md` and `~/.config/AGENTS.md`)
 - `ai/agents/*.md` - Agent prompts that define specialized behavior
 - `ai/commands/*.md` - Slash command prompts that define workflows
 - `ai/skills/*.md` - Skill prompts that define domain expertise
 - `ai/hooks/*.sh` - Hook scripts for Claude Code lifecycle events
 - `ai/mcp.json` - MCP server definitions (source of truth)
-- `ai/generate-mcp.sh` - Generates configs for Claude Desktop and Claude Code CLI
+- `ai/generate-mcp.sh` - Generates MCP configs for Claude Desktop and Claude Code CLI
 
 These .md files are executable code, not documentation. They define agent behavior and should be treated like source code when reviewing or refining.
 

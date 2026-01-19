@@ -72,6 +72,19 @@
       "command": "of",
       "args": ["mcp"]
     },
+    "posthog": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.posthog.com/mcp",
+        "--header",
+        "Authorization: Bearer ${POSTHOG_API_KEY}"
+      ],
+      "env": {
+        "POSTHOG_API_KEY": "${POSTHOG_API_KEY}"
+      }
+    },
     "sentry-exceptions": {
       "command": "npx",
       "args": ["-y", "mcp-remote", "https://mcp.sentry.dev/mcp"]

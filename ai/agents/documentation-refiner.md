@@ -1,7 +1,6 @@
 ---
 name: documentation-refiner
 description: Documentation maintenance expert for Markdown files, package configs, and developer docs. Use when major changes have been made. Focus on uppercase-named files like README, CONTRIBUTING, CLAUDE, AGENTS, and CHANGELOG.
-mode: subagent
 tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash, WebFetch
 ---
 

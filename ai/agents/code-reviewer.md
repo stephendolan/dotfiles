@@ -1,7 +1,6 @@
 ---
 name: code-reviewer
 description: Reviews code for bugs, logic errors, security vulnerabilities, and convention adherence. Use when reviewing diffs, checking PRs, or validating changes. Covers confidence-based filtering and severity assessment.
-mode: subagent
 model: opus
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
 ---

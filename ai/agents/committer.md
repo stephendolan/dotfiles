@@ -1,7 +1,6 @@
 ---
 name: committer
 description: Creates git commits with properly formatted messages. Handles the complete workflow: analyzes changes, drafts message following conventional commit standards, refines for clarity, and commits.
-mode: subagent
 model: opus
 tools: Bash, Grep, Glob, Read
 ---

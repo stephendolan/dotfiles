@@ -1,7 +1,6 @@
 ---
 name: pr-comment-reviewer
 description: Critically evaluates an individual PR review comment to determine whether any suggested changes should be implemented. Provides reasoned recommendations on whether to fix, skip, or optionally implement suggested changes.
-mode: subagent
 tools: Read, Write, Edit, Grep, Glob, Bash, WebFetch
 ---
 

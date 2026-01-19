@@ -1,7 +1,6 @@
 ---
 name: pr-creator
 description: Creates GitHub pull requests with concise, well-structured descriptions. Handles the complete workflow: analyzes branch changes, drafts description following PR standards, refines for clarity, and creates the PR.
-mode: subagent
 model: opus
 tools: Bash, Grep, Glob, Read, AskUserQuestion
 ---

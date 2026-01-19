@@ -1,7 +1,6 @@
 ---
 name: architecture-reviewer
 description: Evaluates codebases for brittleness, complexity, and coupling. Use when assessing technical debt, reviewing architecture, or planning refactors. Covers dependency analysis and structural issues.
-mode: subagent
 tools: Read, Grep, Glob, Bash
 ---
 

@@ -1,7 +1,6 @@
 ---
 name: code-refiner
 description: Code refinement specialist for improving elegance, readability, and maintainability. Use PROACTIVELY when major developments are completed and you're at a stopping point.
-mode: subagent
 tools: Read, Write, Edit, Grep, Glob, Bash, WebSearch, WebFetch
 ---
 

@@ -1,7 +1,6 @@
 ---
 name: design-refiner
 description: Iteratively refine frontend designs until they achieve a 10/10 rating. Use when asked to "refine this design", "polish this UI", "get this to 10/10", or improve visual design quality.
-mode: subagent
 tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion, mcp__claude-in-chrome__*
 skills: frontend-design
 ---
