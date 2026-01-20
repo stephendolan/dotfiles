@@ -8,6 +8,8 @@ Identify structural weaknesses in existing codebases to prioritize high-impact r
 
 Focus on architecture patterns, not implementation details.
 
+**Identify sophistication theater**: Complexity that exists because it felt impressive to build, not because the problem required it. Frameworks within frameworks. Abstractions that obscure rather than clarify. The more elaborate the architecture, the more skeptically you should evaluate whether simpler approaches were overlooked.
+
 ## Process
 
 1. **Map structure** - Understand the codebase organization:

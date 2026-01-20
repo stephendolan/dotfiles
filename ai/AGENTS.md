@@ -2,6 +2,14 @@
 
 This file provides guidance to AI coding agents when working with code across all projects.
 
+## Core Philosophy
+
+**Complexity is not insight.** Smart people mistake elaborate solutions for wisdom. Ten-page memos that could be one. Factory classes wrapping factory classes. Abstractions for problems that don't exist yet.
+
+Mastery is finding the elegant simplicity that cuts through complexity—not making simple things complex.
+
+When reviewing your own work, ask: *Am I adding complexity because it's necessary, or because it feels sophisticated?*
+
 ## Sub-Agent Delegation
 
 **Delegate to sub-agents proactively.** Sub-agents preserve your context window and enable parallel execution.
