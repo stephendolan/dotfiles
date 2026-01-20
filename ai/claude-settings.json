@@ -188,7 +188,6 @@
       "mcp__linear__*",
       "mcp__make-identity-resolution__*",
       "mcp__memory__*",
-      "mcp__mixpanel__*",
       "mcp__notion__*",
       "mcp__omnifocus__*",
       "mcp__plugin_compound-engineering_context7__*",

@@ -236,7 +236,6 @@ The `mcp.json` file defines MCP servers shared across tools:
 | **linear**              | Issue tracking integration     |
 | **make**                | Workflow automation            |
 | **memory**              | Persistent knowledge graph     |
-| **mixpanel**            | Product analytics              |
 | **notion**              | Workspace and docs             |
 | **omnifocus**           | Task management                |
 | **sentry**              | Error monitoring               |

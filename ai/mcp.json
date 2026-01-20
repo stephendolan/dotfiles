@@ -55,15 +55,6 @@
         "MEMORY_FILE_PATH": "${CLAUDE_MEMORY_PATH}"
       }
     },
-    "mixpanel": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.mixpanel.com/mcp",
-        "--allow-http"
-      ]
-    },
     "notion": {
       "command": "npx",
       "args": ["-y", "mcp-remote", "https://mcp.notion.com/mcp"]
