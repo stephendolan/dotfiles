@@ -247,7 +247,14 @@
     "command": "~/.dotfiles/ai/statusline.sh"
   },
   "enabledPlugins": {
-    "compound-engineering@every-marketplace": true
+    "compound-engineering@every-marketplace": true,
+    "call-quality@tuple-context": true,
+    "engineering@tuple-context": true,
+    "exceptions@tuple-context": true,
+    "logs@tuple-context": true,
+    "revenue@tuple-context": true,
+    "support@tuple-context": true,
+    "user-analytics@tuple-context": true
   },
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990

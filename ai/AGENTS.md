@@ -142,6 +142,12 @@ The pr-creator agent handles the complete workflow: analyzes branch changes, dra
   - Don't create abstractions for one-time operations. Three similar lines is better than a premature abstraction
   - If something is unused, delete it completely
 
+## Anti-Patterns
+
+- **Kitchen-sink sessions**: One task per session. Context pollution degrades quality.
+- **Infinite exploration**: Set a file-reading budget. After 5-7 files, synthesize or spawn an explorer agent.
+- **Trust-then-verify gap**: Run tests after changes, not just before committing.
+
 ## Tooling Preferences
 
 ### Bash Command Guidelines
