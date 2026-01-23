@@ -34,6 +34,22 @@ path=(
 # Ripgrep config path
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
+# ASDF version manager
+if [[ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ]]; then
+    source /opt/homebrew/opt/asdf/libexec/asdf.sh
+elif [[ -f /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh ]]; then
+    source /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
+fi
+
+# FZF defaults (used by vim plugins, git tools, etc.)
+export BAT_THEME="TwoDark"
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow'
+export FZF_COLORS="fg:-1,bg:-1,hl:230,fg+:3,bg+:233,hl+:229,info:150,prompt:110,spinner:150,pointer:167,marker:174"
+export FZF_DEFAULT_OPTS="--color=$FZF_COLORS --height=40% --layout=reverse --border --bind='ctrl-/:toggle-preview'"
+
+# Platform-specific environment
+[[ -f $HOME/.zshenv.mac ]] && source $HOME/.zshenv.mac
+
 # 1Password SSH agent (unless forwarded agent is present)
 # Forwarded agents have paths like /tmp/ssh-XXXXX/agent.PID
 if [[ ! "$SSH_AUTH_SOCK" =~ /ssh-.*/agent ]]; then

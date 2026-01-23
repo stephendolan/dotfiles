@@ -1,0 +1,15 @@
+# vim: set filetype=zsh :
+# Mac-specific environment variables (sourced by zshenv)
+
+# PostgreSQL tools (keg-only packages need explicit PATH)
+typeset -U path
+path=(
+  "/opt/homebrew/opt/postgresql@17/bin"
+  "/opt/homebrew/opt/libpq/bin"
+  $path
+)
+
+# Compiler flags for building native extensions
+export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/libpq/lib/pkgconfig"

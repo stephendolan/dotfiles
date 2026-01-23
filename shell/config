@@ -49,13 +49,6 @@ fi
 [[ -f $HOME/.zsh/config/mac ]] && source $HOME/.zsh/config/mac
 [[ -f $HOME/.zsh/config/fzf ]] && source $HOME/.zsh/config/fzf
 
-# ASDF
-if [[ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ]]; then
-    source /opt/homebrew/opt/asdf/libexec/asdf.sh
-elif [[ -f /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh ]]; then
-    source /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
-fi
-
 # FZF
 if command -v fzf &> /dev/null; then
   source <(fzf --zsh)
