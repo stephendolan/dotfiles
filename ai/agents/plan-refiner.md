@@ -1,6 +1,7 @@
 ---
 name: plan-refiner
 description: Evaluates plans for elegant, maintainable implementations. Suggests alternatives only with high confidence.
+model: opus
 tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion, WebFetch
 ---
 

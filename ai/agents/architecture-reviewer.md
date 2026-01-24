@@ -1,6 +1,7 @@
 ---
 name: architecture-reviewer
 description: Evaluates codebases for brittleness, complexity, and coupling. Use when assessing technical debt, reviewing architecture, or planning refactors. Covers dependency analysis and structural issues.
+model: opus
 tools: Read, Grep, Glob, Bash
 ---
 
