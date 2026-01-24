@@ -50,7 +50,7 @@ export FZF_DEFAULT_OPTS="--color=$FZF_COLORS --height=40% --layout=reverse --bor
 # Platform-specific environment
 [[ -f $HOME/.zshenv.mac ]] && source $HOME/.zshenv.mac
 
-# 1Password SSH agent (unless forwarded agent is present and socket exists)
+# SSH agent configuration (unless forwarded agent is present)
 # Forwarded agents have paths like /tmp/ssh-XXXXX/agent.PID
 if [[ ! "$SSH_AUTH_SOCK" =~ /ssh-.*/agent ]]; then
   if [[ "$(uname)" == "Darwin" ]]; then
@@ -58,6 +58,23 @@ if [[ ! "$SSH_AUTH_SOCK" =~ /ssh-.*/agent ]]; then
   else
     __1p_sock="$HOME/.1password/agent.sock"
   fi
-  [[ -S "$__1p_sock" ]] && export SSH_AUTH_SOCK="$__1p_sock"
+  if [[ -S "$__1p_sock" ]]; then
+    export SSH_AUTH_SOCK="$__1p_sock"
+  elif [[ "$(uname)" == "Linux" ]]; then
+    # Fallback to standard SSH agent on Linux when 1Password unavailable
+    __agent_file="$HOME/.ssh/agent-env"
+    if [[ -f "$__agent_file" ]]; then
+      source "$__agent_file" >/dev/null
+      # Verify agent is still running
+      kill -0 "$SSH_AGENT_PID" 2>/dev/null || unset SSH_AUTH_SOCK SSH_AGENT_PID
+    fi
+    if [[ -z "$SSH_AUTH_SOCK" ]]; then
+      eval "$(ssh-agent -s)" >/dev/null
+      echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK; export SSH_AUTH_SOCK;" > "$__agent_file"
+      echo "SSH_AGENT_PID=$SSH_AGENT_PID; export SSH_AGENT_PID;" >> "$__agent_file"
+      ssh-add 2>/dev/null
+    fi
+    unset __agent_file
+  fi
   unset __1p_sock
 fi
