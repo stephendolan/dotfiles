@@ -1,6 +1,6 @@
 ---
 name: daily-claude-code-recap
-description: Summarize today's Claude Code sessions across all projects
+description: What did I do today, summarize my sessions, daily standup, recap work. Use when you want a summary of Claude Code activity, need to see what was accomplished, or prepare for standup.
 argument-hint: Optional date (YYYY-MM-DD), defaults to today
 context: fork
 agent: Explore

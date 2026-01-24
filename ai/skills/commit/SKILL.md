@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Create a git commit with a clear, conventional message focused on why the change was made
+description: Commit changes, save work, create git commit. Use when done coding, ready to commit, need to save progress, or "commit this". Creates conventional commit messages focused on why, not what.
 argument-hint: Optional message hint or --amend flag
 disable-model-invocation: true
 ---

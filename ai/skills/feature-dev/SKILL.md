@@ -1,6 +1,6 @@
 ---
 name: feature-dev
-description: Guided feature development with codebase understanding and architecture focus
+description: Build feature, implement functionality, add capability, develop new code. Use when starting a new feature, implementing from a ticket, or need guided development with codebase exploration and architecture design.
 argument-hint: Feature description or Linear issue ID/URL
 disable-model-invocation: true
 ---

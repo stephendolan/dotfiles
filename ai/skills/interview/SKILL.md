@@ -1,7 +1,7 @@
 ---
 name: interview
-description: Interview me about the plan
-argument-hint: [plan]
+description: Question my plan, probe assumptions, find gaps, challenge design. Use when you have a plan that needs scrutiny, want to surface edge cases, or need help finding what you missed.
+argument-hint: Path to plan file
 model: opus
 disable-model-invocation: true
 ---

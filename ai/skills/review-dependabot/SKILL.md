@@ -1,6 +1,6 @@
 ---
 name: review-dependabot
-description: Analyze and merge Dependabot PRs with safety assessment. Use when dependency update PRs are pending. Evaluates breaking changes, searches for upgrade guides, checks codebase impact, and merges approved updates.
+description: Merge Dependabot PRs, update dependencies, handle dependency updates. Use when Dependabot PRs are pending, need to review dependency bumps, or update packages safely.
 disable-model-invocation: true
 context: fork
 ---

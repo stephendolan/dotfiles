@@ -1,6 +1,6 @@
 ---
 name: refine-implementation
-description: Multi-pass code review with parallel refiner agents. Use when completing implementation and before committing. Dynamically selects agents based on change type.
+description: Review my code, check for issues, clean up implementation, refine before commit. Use when implementation is done and you want fresh-eyes review, code quality check, or to catch issues before committing.
 disable-model-invocation: true
 ---
 

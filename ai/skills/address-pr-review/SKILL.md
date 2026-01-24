@@ -1,6 +1,6 @@
 ---
 name: address-pr-review
-description: Analyze and address unresolved PR review comments
+description: Handle PR feedback, address review comments, fix PR issues, respond to reviewer. Use when PR has comments to address, need to resolve feedback, or reviewer requested changes.
 argument-hint: PR number or URL
 disable-model-invocation: true
 context: fork
