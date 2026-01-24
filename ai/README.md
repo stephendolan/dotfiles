@@ -24,6 +24,8 @@ Workflows orchestrate multi-step processes by spawning agents, which may load do
 ```mermaid
 flowchart LR
     subgraph Workflows
+        cm["/commit"]
+        cpr["/create-pr"]
         fd["/feature-dev"]
         ri["/refine-implementation"]
         ea["/examine-architecture"]
@@ -56,6 +58,8 @@ flowchart LR
         wdoc["writing-documentation"]
     end
 
+    cm --> com
+    cpr --> prc
     fd --> ce & ca & cr
     ri --> cf
     ea --> ar & pr
@@ -71,7 +75,7 @@ flowchart LR
     classDef agent fill:#3182ce,stroke:#2c5282,color:#fff
     classDef skill fill:#38a169,stroke:#276749,color:#fff
 
-    class fd,ri,ea,apr,rd,pub,int,dcr workflow
+    class cm,cpr,fd,ri,ea,apr,rd,pub,int,dcr workflow
     class ce,ca,cr,cf,ar,pr,pcr,com,prc,dr,docr,sk agent
     class fdd,wcs,wcp,wdoc skill
 ```
@@ -86,6 +90,8 @@ Workflows orchestrate multi-step processes, often spawning agents.
 
 | Workflow                   | Purpose                                            | Agents Used                                  |
 | -------------------------- | -------------------------------------------------- | -------------------------------------------- |
+| `/commit`                  | Commit with conventional message (why > what)      | committer                                    |
+| `/create-pr`               | Create PR with concise description                 | pr-creator                                   |
 | `/feature-dev`             | Guided feature development (accepts Linear issues) | code-explorer, code-architect, code-reviewer |
 | `/refine-implementation`   | Multi-pass quality review before committing        | code-refiner                                 |
 | `/examine-architecture`    | Evaluate codebase for structural problems          | architecture-reviewer, plan-refiner          |

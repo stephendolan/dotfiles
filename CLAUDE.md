@@ -88,7 +88,7 @@ The `ai/` directory contains configuration for Claude Code and other AI editors:
 
 - `ai/AGENTS.md` - Shared instructions (symlinked as `~/.claude/CLAUDE.md` and `~/.config/AGENTS.md`)
 - `ai/agents/*.md` - Agent prompts that define specialized subagent behavior
-- `ai/skills/*/SKILL.md` - Skill prompts that define workflows and domain expertise
+- `ai/skills/*/SKILL.md` - Skill prompts that define workflows (slash commands) and domain expertise
 - `ai/hooks/*.sh` - Hook scripts for Claude Code lifecycle events
 - `ai/mcp.json` - MCP server definitions (source of truth)
 - `ai/generate-mcp.sh` - Generates MCP configs for Claude Desktop and Claude Code CLI

@@ -28,6 +28,8 @@ Sub-agents consume their own context (not yours), can run simultaneously, and st
 
 | Workflows                  | Purpose                                   |
 | -------------------------- | ----------------------------------------- |
+| `/commit`                  | Commit with conventional message (why > what) |
+| `/create-pr`               | Create PR with concise description        |
 | `/feature-dev`             | Guided feature development                |
 | `/refine-implementation`   | Multi-pass code review before commit      |
 | `/examine-architecture`    | Evaluate codebase for structural problems |
@@ -120,15 +122,15 @@ Plan-refiner has final authority on approach and can suggest radical simplificat
 
 ### 3. Committing
 
-Invoke by name: "Use the committer agent to commit these changes."
+Run `/commit` or ask: "commit these changes"
 
-The committer agent handles the complete workflow: analyzes changes, drafts message following conventional commit standards, refines for clarity, and commits.
+Creates commits with conventional messages that explain *why*, not just *what*. Analyzes changes, drafts message, refines for clarity, and commits.
 
 ### 4. Pull Requests
 
-Invoke by name: "Use the pr-creator agent to create a PR for this branch."
+Run `/create-pr` or ask: "create a PR for this branch"
 
-The pr-creator agent handles the complete workflow: analyzes branch changes, drafts description, verifies problem statement with user if unclear, refines for clarity, and creates the PR.
+Creates PRs with concise descriptions focused on the problem being solved. Analyzes branch, drafts description, verifies problem statement if unclear, and creates the PR.
 
 ## Code Quality Standards
 
