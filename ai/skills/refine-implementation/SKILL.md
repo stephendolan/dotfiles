@@ -1,5 +1,7 @@
 ---
+name: refine-implementation
 description: Multi-pass code review with parallel refiner agents. Use when completing implementation and before committing. Dynamically selects agents based on change type.
+disable-model-invocation: true
 ---
 
 # Refine Implementation
@@ -49,12 +51,12 @@ These agents run on every refinement pass:
 
 Select these based on what the changes involve:
 
-| Agent             | When to Use                                                               | Focus                                                                                                                                                                                                                                          |
-| ----------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Agent             | When to Use                                                               | Focus                                                                                                                                                                                                                          |
+| ----------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Architecture**  | New domain models, significant new functionality, architectural additions | Identify anti-patterns (anemic domain model, god objects, feature envy). Suggest patterns that fit (strategy, decorator, repository). Review domain modeling and layer boundaries. **Escalate rather than fix**—frame as "Consider whether..." |
-| **Test Coverage** | New functionality, bug fixes, refactors touching business logic           | Verify tests exist for new code paths. Check edge cases are covered. Identify untested branches. Flag missing test files for new classes.                                                                                                      |
-| **Documentation** | New public APIs, changed CLI interfaces, new configuration options        | Check README/CHANGELOG updates needed. Verify inline documentation for public interfaces. Ensure CLAUDE.md reflects new patterns or commands.                                                                                                  |
-| **Prompt Review** | Changes to Claude skills, CLAUDE.md files, agent prompts                  | Apply the `writing-claude-prompts` skill. Check for clarity, specificity, and actionability. Review instruction structure and examples.                                                                                                        |
+| **Test Coverage** | New functionality, bug fixes, refactors touching business logic           | Verify tests exist for new code paths. Check edge cases are covered. Identify untested branches. Flag missing test files for new classes.                                                                                      |
+| **Documentation** | New public APIs, changed CLI interfaces, new configuration options        | Check README/CHANGELOG updates needed. Verify inline documentation for public interfaces. Ensure CLAUDE.md reflects new patterns or commands.                                                                                  |
+| **Prompt Review** | Changes to Claude skills, CLAUDE.md files, agent prompts                  | Apply the `writing-claude-prompts` skill. Check for clarity, specificity, and actionability. Review instruction structure and examples.                                                                                        |
 
 ### 3. Review Agent Reports
 

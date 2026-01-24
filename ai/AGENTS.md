@@ -26,7 +26,7 @@ Sub-agents consume their own context (not yours), can run simultaneously, and st
 
 ### Quick Reference
 
-| Commands                   | Purpose                                   |
+| Workflows                  | Purpose                                   |
 | -------------------------- | ----------------------------------------- |
 | `/feature-dev`             | Guided feature development                |
 | `/refine-implementation`   | Multi-pass code review before commit      |
@@ -52,7 +52,7 @@ Sub-agents consume their own context (not yours), can run simultaneously, and st
 | `documentation-refiner` | Maintain Markdown files and developer docs    |
 | `skeptic`               | Challenge conclusions before reaching user    |
 
-| Skills                   | Trigger                   |
+| Domain Skills            | Trigger                   |
 | ------------------------ | ------------------------- |
 | `frontend-design`        | Building web interfaces   |
 | `writing-documentation`  | Updating docs             |

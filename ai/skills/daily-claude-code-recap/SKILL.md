@@ -1,7 +1,10 @@
 ---
+name: daily-claude-code-recap
 description: Summarize today's Claude Code sessions across all projects
 argument-hint: Optional date (YYYY-MM-DD), defaults to today
 context: fork
+agent: Explore
+disable-model-invocation: true
 ---
 
 # Daily Claude Code Recap

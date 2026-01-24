@@ -1,5 +1,7 @@
 ---
+name: publish
 description: Publish a release by branching, committing, creating PR, merging, tagging, and triggering npm publish via GitHub Actions
+disable-model-invocation: true
 ---
 
 # Publish Release

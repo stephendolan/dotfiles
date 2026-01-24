@@ -1,6 +1,9 @@
 ---
+name: address-pr-review
 description: Analyze and address unresolved PR review comments
 argument-hint: PR number or URL
+disable-model-invocation: true
+context: fork
 ---
 
 # Address PR Review

@@ -70,7 +70,6 @@
     ~/.claude/CLAUDE.md: ai/AGENTS.md
     ~/.claude/settings.json: ai/claude-settings.json
     ~/.claude/agents: ai/agents
-    ~/.claude/commands: ai/commands
     ~/.claude/skills: ai/skills
 
     # AI tools configuration (Amp)

@@ -1,13 +1,12 @@
 # AI Coding Agent Configuration
 
-Custom agents, commands, and skills for Claude Code and compatible AI coding tools.
+Custom agents and skills for Claude Code and compatible AI coding tools.
 
 ## Overview
 
 ```
-commands/             Slash commands that orchestrate workflows
-agents/               Specialized subagents spawned by commands
-skills/               Domain knowledge activated by context
+agents/               Specialized subagents spawned by workflows
+skills/               Workflows, domain knowledge, and context-activated expertise
 
 AGENTS.md             Shared instructions (symlinked to ~/.claude/CLAUDE.md)
 mcp.json              MCP server definitions (source of truth)
@@ -20,11 +19,11 @@ statusline.sh         Custom statusline for Claude Code
 
 ## Architecture
 
-Commands orchestrate workflows by spawning agents, which may load skills for domain expertise.
+Workflows orchestrate multi-step processes by spawning agents, which may load domain skills for expertise.
 
 ```mermaid
 flowchart LR
-    subgraph Commands
+    subgraph Workflows
         fd["/feature-dev"]
         ri["/refine-implementation"]
         ea["/examine-architecture"]
@@ -50,7 +49,7 @@ flowchart LR
         sk["skeptic"]
     end
 
-    subgraph Skills
+    subgraph Domain Skills
         fdd["frontend-design"]
         wcs["writing-claude-skills"]
         wcp["writing-claude-prompts"]
@@ -68,24 +67,24 @@ flowchart LR
     prc -.-> wdoc
     dr -.-> fdd
 
-    classDef cmd fill:#4a5568,stroke:#2d3748,color:#fff
+    classDef workflow fill:#4a5568,stroke:#2d3748,color:#fff
     classDef agent fill:#3182ce,stroke:#2c5282,color:#fff
     classDef skill fill:#38a169,stroke:#276749,color:#fff
 
-    class fd,ri,ea,apr,rd,pub,int,dcr cmd
+    class fd,ri,ea,apr,rd,pub,int,dcr workflow
     class ce,ca,cr,cf,ar,pr,pcr,com,prc,dr,docr,sk agent
     class fdd,wcs,wcp,wdoc skill
 ```
 
-**Legend**: Commands (gray) → spawn Agents (blue) → load Skills (green)
+**Legend**: Workflows (gray) → spawn Agents (blue) → load Domain Skills (green)
 
 ---
 
-## Commands
+## Workflows
 
-Slash commands orchestrate multi-step workflows, often spawning agents.
+Workflows orchestrate multi-step processes, often spawning agents.
 
-| Command                    | Purpose                                            | Agents Used                                  |
+| Workflow                   | Purpose                                            | Agents Used                                  |
 | -------------------------- | -------------------------------------------------- | -------------------------------------------- |
 | `/feature-dev`             | Guided feature development (accepts Linear issues) | code-explorer, code-architect, code-reviewer |
 | `/refine-implementation`   | Multi-pass quality review before committing        | code-refiner                                 |
@@ -100,7 +99,7 @@ Slash commands orchestrate multi-step workflows, often spawning agents.
 
 ## Agents
 
-Subagents are spawned by commands or invoked directly for focused tasks.
+Subagents are spawned by workflows or invoked directly for focused tasks.
 
 ### Understanding Code
 
@@ -141,9 +140,9 @@ Subagents are spawned by commands or invoked directly for focused tasks.
 
 ---
 
-## Skills
+## Domain Skills
 
-Skills provide domain expertise activated automatically by context.
+Domain skills provide expertise activated automatically by context.
 
 ### Development
 
@@ -263,7 +262,6 @@ DotBot symlinks this directory to the expected locations:
 ai/AGENTS.md             → ~/.claude/CLAUDE.md
 ai/claude-settings.json  → ~/.claude/settings.json
 ai/agents/               → ~/.claude/agents/
-ai/commands/             → ~/.claude/commands/
 ai/skills/               → ~/.claude/skills/
 ```
 

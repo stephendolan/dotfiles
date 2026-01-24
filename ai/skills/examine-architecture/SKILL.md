@@ -1,6 +1,9 @@
 ---
+name: examine-architecture
 description: Analyze codebase architecture for structural problems. Use when assessing technical debt, planning refactors, or auditing codebase health. Covers brittleness, coupling, complexity, and actionable fixes.
 argument-hint: Area to focus on (optional)
+disable-model-invocation: true
+context: fork
 ---
 
 # Architecture Examination
