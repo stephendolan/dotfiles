@@ -50,12 +50,14 @@ export FZF_DEFAULT_OPTS="--color=$FZF_COLORS --height=40% --layout=reverse --bor
 # Platform-specific environment
 [[ -f $HOME/.zshenv.mac ]] && source $HOME/.zshenv.mac
 
-# 1Password SSH agent (unless forwarded agent is present)
+# 1Password SSH agent (unless forwarded agent is present and socket exists)
 # Forwarded agents have paths like /tmp/ssh-XXXXX/agent.PID
 if [[ ! "$SSH_AUTH_SOCK" =~ /ssh-.*/agent ]]; then
   if [[ "$(uname)" == "Darwin" ]]; then
-    export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+    __1p_sock="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
   else
-    export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+    __1p_sock="$HOME/.1password/agent.sock"
   fi
+  [[ -S "$__1p_sock" ]] && export SSH_AUTH_SOCK="$__1p_sock"
+  unset __1p_sock
 fi
