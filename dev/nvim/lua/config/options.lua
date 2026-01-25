@@ -1,4 +1,4 @@
-vim.env.PATH = vim.env.HOME .. "/.asdf/shims:" .. vim.env.PATH
+vim.env.PATH = vim.env.HOME .. "/.local/share/mise/shims:" .. vim.env.PATH
 
 local opt = vim.opt
 

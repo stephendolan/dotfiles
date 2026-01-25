@@ -4,7 +4,7 @@ tap "oven-sh/bun"
 tap "tw93/tap"
 
 # Core tools
-brew "asdf"
+brew "mise"
 brew "ast-grep"
 brew "bat"
 brew "htop"

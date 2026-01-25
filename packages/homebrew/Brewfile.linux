@@ -1,5 +1,5 @@
 # Core tools
-brew "asdf"
+brew "mise"
 brew "ast-grep"
 brew "bat"
 brew "htop"

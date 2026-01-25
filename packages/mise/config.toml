@@ -1,0 +1,13 @@
+# https://mise.jdx.dev/configuration.html
+
+[settings]
+legacy_version_file = true    # Read .tool-versions files (asdf compatibility)
+auto_install = true           # Install missing tools when entering a directory
+trusted_config_paths = ["~"]  # Trust all configs under home (disable prompts)
+
+[tools]
+node = "lts"
+python = "3.13"
+ruby = "3.4"
+go = "1.22"
+crystal = "1.16"

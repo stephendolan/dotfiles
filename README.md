@@ -14,6 +14,6 @@ cd ~/.dotfiles
 
 - `ai/` - Claude Code configuration (agents, commands, skills)
 - `dev/` - Development tools (git, nvim, psql, rails)
-- `packages/` - Package managers (asdf, homebrew)
+- `packages/` - Package managers (mise, homebrew)
 - `shell/` - Shell environment (zsh, starship, atuin, ripgrep)
 - `scripts/` - Installation scripts

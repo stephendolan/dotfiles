@@ -34,11 +34,9 @@ path=(
 # Ripgrep config path
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
-# ASDF version manager
-if [[ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ]]; then
-    source /opt/homebrew/opt/asdf/libexec/asdf.sh
-elif [[ -f /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh ]]; then
-    source /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
+# mise version manager
+if command -v mise &>/dev/null; then
+    eval "$(mise activate zsh)"
 fi
 
 # FZF defaults (used by vim plugins, git tools, etc.)

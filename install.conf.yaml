@@ -55,8 +55,8 @@
     ~/.pspgconf: dev/pspg/config
 
     # Development tools
-    ~/.asdfrc: packages/asdf/config
-    ~/.tool-versions: packages/asdf/tool-versions
+    ~/.config/mise/config.toml: packages/mise/config.toml
+    ~/.default-gems: packages/mise/default-gems
     ~/.railsrc: dev/rails/default_flags
 
     # Bun global binaries (symlinked for Claude Desktop PATH)
@@ -87,4 +87,4 @@
     - [./ai/generate-mcp.sh, Generating MCP configs]
     - [./scripts/claude-code-setup.sh, Setting up Claude Code]
     - [./scripts/shell-setup.sh, Setting up default shell]
-    - [./scripts/asdf-setup.sh, Setting up ASDF plugins and versions]
+    - [./scripts/mise-setup.sh, Setting up mise tools and versions]

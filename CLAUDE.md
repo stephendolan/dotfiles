@@ -20,7 +20,7 @@ dev/                # Development tools
   rails/            # Rails generator defaults
 packages/           # Package managers
   apt/              # Debian/Ubuntu packages
-  asdf/             # Version manager
+  mise/             # Version manager
   homebrew/         # macOS/Linux packages
 shell/              # Shell environment
   atuin/            # Shell history
@@ -74,7 +74,7 @@ When adding new tools:
 - **Editor**: Neovim with LazyVim
 - **Terminal**: Ghostty
 - **Package Manager**: Homebrew
-- **Version Manager**: ASDF
+- **Version Manager**: mise
 - **History**: Atuin
 - **Search**: Ripgrep with FZF integration
 
