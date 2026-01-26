@@ -19,6 +19,7 @@
 
     # Shell configuration
     ~/.zshenv: shell/zshenv
+    ~/.superset/.zshenv: shell/zshenv
     ~/.zshenv.mac:
       if: "[ `uname` = Darwin ]"
       path: shell/zshenv.mac
