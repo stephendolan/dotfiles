@@ -25,6 +25,7 @@ export HOMEBREW_NO_ENV_HINTS=1
 
 typeset -U path
 path=(
+  "$HOME/.local/share/mise/shims"
   "$HOME/.bun/bin"
   "$HOME/.local/bin"
   "$HOME/.docker/bin"
