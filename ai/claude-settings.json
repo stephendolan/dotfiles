@@ -254,7 +254,8 @@
     "logs@tuple-context": true,
     "revenue@tuple-context": true,
     "support@tuple-context": true,
-    "user-analytics@tuple-context": true
+    "user-analytics@tuple-context": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
   },
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990
