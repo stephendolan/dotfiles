@@ -1,7 +1,6 @@
 ---
 name: publish
 description: Release package, publish to npm, cut a release, bump version, deploy. Use when ready to release, need to publish new version, or ship to npm. Handles version bump, PR, merge, tag, and publish.
-disable-model-invocation: true
 ---
 
 # Publish Release

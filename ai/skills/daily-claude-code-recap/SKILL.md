@@ -4,7 +4,6 @@ description: What did I do today, summarize my sessions, daily standup, recap wo
 argument-hint: Optional date (YYYY-MM-DD), defaults to today
 context: fork
 agent: Explore
-disable-model-invocation: true
 ---
 
 # Daily Claude Code Recap

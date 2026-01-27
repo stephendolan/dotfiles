@@ -2,7 +2,6 @@
 name: create-pr
 description: Create PR, open pull request, submit for review, push branch. Use when code is ready for review, need to create PR, or "make a PR". Creates concise descriptions focused on the problem being solved.
 argument-hint: Optional branch name or --draft flag
-disable-model-invocation: true
 ---
 
 # Create Pull Request

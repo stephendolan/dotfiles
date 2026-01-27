@@ -1,7 +1,6 @@
 ---
 name: refine-implementation
 description: Review my code, check for issues, clean up implementation, refine before commit. Use when implementation is done and you want fresh-eyes review, code quality check, or to catch issues before committing.
-disable-model-invocation: true
 ---
 
 # Refine Implementation

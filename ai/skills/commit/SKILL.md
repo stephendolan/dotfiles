@@ -2,7 +2,6 @@
 name: commit
 description: Commit changes, save work, create git commit. Use when done coding, ready to commit, need to save progress, or "commit this". Creates conventional commit messages focused on why, not what.
 argument-hint: Optional message hint or --amend flag
-disable-model-invocation: true
 ---
 
 # Commit Changes
