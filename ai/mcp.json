@@ -24,6 +24,10 @@
         "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
       }
     },
+    "fortress": {
+      "command": "fortress",
+      "args": ["serve"]
+    },
     "google": {
       "command": "google",
       "args": ["mcp"]

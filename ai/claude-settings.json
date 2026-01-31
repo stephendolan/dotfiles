@@ -48,6 +48,7 @@
       "Bash(file:*)",
       "Bash(find:*)",
       "Bash(for:*)",
+      "Bash(fortress:*)",
       "Bash(fzf:*)",
       "Bash(gem:*)",
       "Bash(gh:*)",
@@ -188,6 +189,7 @@
       "mcp__linear__*",
       "mcp__make-identity-resolution__*",
       "mcp__memory__*",
+      "mcp__fortress__*",
       "mcp__notion__*",
       "mcp__omnifocus__*",
       "mcp__plugin_compound-engineering_context7__*",
@@ -255,7 +257,8 @@
     "revenue@tuple-context": true,
     "support@tuple-context": true,
     "user-analytics@tuple-context": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "clangd-lsp@claude-plugins-official": true
   },
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990

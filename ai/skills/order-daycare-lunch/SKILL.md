@@ -78,6 +78,8 @@ Once you have ordered dates:
 
 Creates "Pack [Name]'s Lunch" events for each skipped day.
 
+**Important**: Do NOT include the avoided meal name in event titles or descriptions. The parent doesn't need to see "Cheesy Tomato Pasta" on their calendar - just that they need to pack lunch. Keep it simple: "Pack Henry's lunch".
+
 ## Notes
 
 - **Timezone**: America/New_York
