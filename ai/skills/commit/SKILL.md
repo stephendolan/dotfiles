@@ -38,7 +38,7 @@ type(scope): concise summary in imperative mood
 Optional body explaining WHY this change was made.
 Not what changed (the diff shows that), but why.
 
-Co-Authored-By: Claude <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 ```
 
 ### 4. Refine and Commit

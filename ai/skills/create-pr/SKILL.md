@@ -27,7 +27,7 @@ Before drafting, identify:
 - **What problem does this solve?** (user-facing issue or business need)
 - **Why was this approach chosen?** (if non-obvious)
 
-If the problem isn't clear from commit messages or code, **ask the user**. Never guess.
+If the problem isn't clear from commit messages or code, **stop and ask the user** using AskUserQuestion. Never guess the problem statement.
 
 ### 3. Draft Description
 
@@ -74,7 +74,7 @@ Report the PR URL when complete.
 - Testing sections (CI handles this)
 - Before/after comparisons
 - File listings (visible in diff)
-- Migration notes (unless critical)
+- Migration notes
 - Follow-up work sections
 
 ## Key Principles
