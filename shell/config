@@ -61,6 +61,9 @@ command -v atuin &> /dev/null && eval "$(atuin init zsh)"
 # STARSHIP
 command -v starship &> /dev/null && eval "$(starship init zsh)"
 
+# MISE (activate for interactive shells; shims handle non-interactive)
+command -v mise &> /dev/null && eval "$(mise activate zsh)"
+
 # DIRENV
 command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
 

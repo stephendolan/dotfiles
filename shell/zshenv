@@ -35,11 +35,6 @@ path=(
 # Ripgrep config path
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
-# mise version manager
-if command -v mise &>/dev/null; then
-    eval "$(mise activate zsh)"
-fi
-
 # FZF defaults (used by vim plugins, git tools, etc.)
 export BAT_THEME="TwoDark"
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow'
