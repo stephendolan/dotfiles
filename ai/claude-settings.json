@@ -215,9 +215,7 @@
       "Bash(psql:-c TRUNCATE TABLE:*)",
       "Bash(psql:-c TRUNCATE:*)"
     ],
-    "ask": [
-      "Bash(gh pr comment:*)"
-    ],
+    "ask": ["Bash(gh pr comment:*)"],
     "defaultMode": "acceptEdits"
   },
   "enableAllProjectMcpServers": true,

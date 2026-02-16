@@ -1,10 +1,10 @@
 #!/bin/bash
-# Run Biome before committing
+# Run Biome before committing — auto-fix and re-stage
 
 if command -v biome &> /dev/null; then
-  biome ci .
+  biome check --write --staged --no-errors-on-unmatched
 elif command -v npx &> /dev/null; then
-  npx @biomejs/biome ci .
+  npx @biomejs/biome check --write --staged --no-errors-on-unmatched
 else
   echo "Warning: Biome not found, skipping lint"
 fi
