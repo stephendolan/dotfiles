@@ -215,10 +215,11 @@
       "Bash(psql:-c TRUNCATE TABLE:*)",
       "Bash(psql:-c TRUNCATE:*)"
     ],
-    "ask": ["Bash(gh pr comment:*)"],
+    "ask": [
+      "Bash(gh pr comment:*)"
+    ],
     "defaultMode": "acceptEdits"
   },
-  "model": "opus",
   "enableAllProjectMcpServers": true,
   "hooks": {
     "Notification": [
@@ -231,17 +232,6 @@
           }
         ]
       }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.dotfiles/ai/hooks/continue-on-test-failure.sh"
-          }
-        ]
-      }
     ]
   },
   "statusLine": {
@@ -249,17 +239,19 @@
     "command": "~/.dotfiles/ai/statusline.sh"
   },
   "enabledPlugins": {
-    "compound-engineering@every-marketplace": true,
     "call-quality@tuple-context": true,
+    "clangd-lsp@claude-plugins-official": true,
+    "compound-engineering@every-marketplace": true,
     "engineering@tuple-context": true,
     "exceptions@tuple-context": true,
     "logs@tuple-context": true,
     "revenue@tuple-context": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
     "support@tuple-context": true,
     "user-analytics@tuple-context": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "clangd-lsp@claude-plugins-official": true
+    "swift-lsp@claude-plugins-official": true
   },
+  "skipDangerousModePermissionPrompt": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990
   }
