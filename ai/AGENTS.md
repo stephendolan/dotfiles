@@ -149,6 +149,7 @@ Creates PRs with concise descriptions focused on the problem being solved. Analy
 - **Kitchen-sink sessions**: One task per session. Context pollution degrades quality.
 - **Infinite exploration**: Set a file-reading budget. After 5-7 files, synthesize or spawn an explorer agent.
 - **Trust-then-verify gap**: Run tests after changes, not just before committing.
+- **Wrong model tier**: Call out mismatches with a quick nudge. Lookups on Opus = waste. Architecture on Sonnet = underpowered. ~95% of work runs fine on Sonnet; Opus is for the actually hard stuff (50x price spread).
 
 ## Tooling Preferences
 

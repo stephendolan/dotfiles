@@ -1,17 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "spinnerTipsOverride": {
-    "mode": "replace",
-    "tips": [
-      "Reading your codebase...",
-      "Analyzing dependencies...",
-      "Checking for bugs...",
-      "Optimizing performance...",
-      "Writing tests...",
-      "Reviewing changes...",
-      "Exploring the architecture..."
-    ]
-  },
   "permissions": {
     "allow": [
       "Bash(./bin/*:*)",
@@ -227,9 +215,12 @@
       "Bash(psql:-c TRUNCATE TABLE:*)",
       "Bash(psql:-c TRUNCATE:*)"
     ],
-    "ask": ["Bash(gh pr comment:*)"],
+    "ask": [
+      "Bash(gh pr comment:*)"
+    ],
     "defaultMode": "acceptEdits"
   },
+  "model": "sonnet",
   "enableAllProjectMcpServers": true,
   "hooks": {
     "Notification": [
@@ -260,6 +251,17 @@
     "support@tuple-context": true,
     "user-analytics@tuple-context": true,
     "swift-lsp@claude-plugins-official": true
+  },
+  "spinnerTipsOverride": {
+    "tips": [
+      "Reading your codebase...",
+      "Analyzing dependencies...",
+      "Checking for bugs...",
+      "Optimizing performance...",
+      "Writing tests...",
+      "Reviewing changes...",
+      "Exploring the architecture..."
+    ]
   },
   "skipDangerousModePermissionPrompt": true,
   "feedbackSurveyState": {
