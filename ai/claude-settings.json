@@ -187,15 +187,11 @@
       "mcp__google__*",
       "mcp__helpscout__*",
       "mcp__linear__*",
-      "mcp__make-identity-resolution__*",
-      "mcp__memory__*",
-      "mcp__fortress__*",
       "mcp__notion__*",
       "mcp__omnifocus__*",
       "mcp__plugin_compound-engineering_context7__*",
       "mcp__posthog__*",
       "mcp__sentry-exceptions__*",
-      "mcp__sequential-thinking__*",
       "mcp__stripe__*",
       "mcp__ynab__*"
     ],
@@ -215,9 +211,7 @@
       "Bash(psql:-c TRUNCATE TABLE:*)",
       "Bash(psql:-c TRUNCATE:*)"
     ],
-    "ask": [
-      "Bash(gh pr comment:*)"
-    ],
+    "ask": ["Bash(gh pr comment:*)"],
     "defaultMode": "acceptEdits"
   },
   "model": "sonnet",

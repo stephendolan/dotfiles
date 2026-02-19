@@ -11,7 +11,7 @@ skills/               Workflows, domain knowledge, and context-activated experti
 AGENTS.md             Shared instructions (symlinked to ~/.claude/CLAUDE.md)
 mcp.json              MCP server definitions (source of truth)
 claude-settings.json  Claude Code settings (permissions, model)
-generate-mcp.sh       Syncs MCP config to Claude Desktop and CLI
+generate-mcp.sh       Syncs MCP config to Claude Desktop, Claude CLI, and Codex CLI
 statusline.sh         Custom statusline for Claude Code
 ```
 
@@ -239,16 +239,13 @@ The `mcp.json` file defines MCP servers shared across tools:
 | **google**              | Gmail and Calendar integration |
 | **helpscout**           | Customer support               |
 | **linear**              | Issue tracking integration     |
-| **make**                | Workflow automation            |
-| **memory**              | Persistent knowledge graph     |
 | **notion**              | Workspace and docs             |
 | **omnifocus**           | Task management                |
 | **sentry**              | Error monitoring               |
-| **sequential-thinking** | Step-by-step reasoning         |
 | **stripe**              | Payment processing             |
 | **ynab**                | Budget tracking                |
 
-Run `./generate-mcp.sh` to sync servers to Claude Desktop and Claude CLI.
+Run `./generate-mcp.sh` to sync servers to Claude Desktop, Claude CLI, and Codex CLI.
 
 ### Statusline
 
@@ -281,3 +278,4 @@ Run `./install` from the dotfiles root to set up symlinks.
 | ------------------ | ---------------------------------------------- |
 | **Claude Code**    | Native support for all files in this directory |
 | **Claude Desktop** | MCP servers synced via `generate-mcp.sh`       |
+| **Codex CLI**      | MCP servers synced via `generate-mcp.sh`       |

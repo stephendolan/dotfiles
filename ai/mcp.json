@@ -24,10 +24,6 @@
         "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
       }
     },
-    "fortress": {
-      "command": "fortress",
-      "args": ["serve"]
-    },
     "google": {
       "command": "google",
       "args": ["mcp"]
@@ -39,25 +35,6 @@
     "linear": {
       "command": "npx",
       "args": ["-y", "mcp-remote", "https://mcp.linear.app/sse"]
-    },
-    "make": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://us1.make.com/mcp/u/${MAKE_MCP_TOKEN}/stateless?${MAKE_SCENARIO_PARAMS}"
-      ],
-      "env": {
-        "MAKE_MCP_TOKEN": "${MAKE_MCP_TOKEN}",
-        "MAKE_SCENARIO_PARAMS": "${MAKE_SCENARIO_PARAMS}"
-      }
-    },
-    "memory": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-memory"],
-      "env": {
-        "MEMORY_FILE_PATH": "${CLAUDE_MEMORY_PATH}"
-      }
     },
     "notion": {
       "command": "npx",
@@ -83,10 +60,6 @@
     "sentry-exceptions": {
       "command": "npx",
       "args": ["-y", "mcp-remote", "https://mcp.sentry.dev/mcp"]
-    },
-    "sequential-thinking": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
     },
     "stripe": {
       "command": "npx",
