@@ -1,0 +1,26 @@
+{
+  "name": "dotfiles",
+  "owner": {
+    "name": "Stephen Dolan",
+    "url": "https://github.com/stephendolan"
+  },
+  "metadata": {
+    "description": "Personal Claude Code agents and skills",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "personal",
+      "description": "Personal agents and skills for development workflows, code review, architecture analysis, and domain expertise.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Stephen Dolan",
+        "url": "https://github.com/stephendolan"
+      },
+      "homepage": "https://github.com/stephendolan/dotfiles",
+      "tags": ["personal", "workflows", "agents", "skills"],
+      "source": "./ai",
+      "strict": false
+    }
+  ]
+}

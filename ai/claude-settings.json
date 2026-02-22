@@ -207,7 +207,9 @@
       "Bash(psql:-c TRUNCATE TABLE:*)",
       "Bash(psql:-c TRUNCATE:*)"
     ],
-    "ask": ["Bash(gh pr comment:*)"],
+    "ask": [
+      "Bash(gh pr comment:*)"
+    ],
     "defaultMode": "acceptEdits"
   },
   "enableAllProjectMcpServers": true,
@@ -230,6 +232,8 @@
   },
   "enabledPlugins": {
     "compound-engineering@every-marketplace": true,
+    "family@private-family-skills": true,
+    "personal@dotfiles": true,
     "ralph-loop@claude-plugins-official": true
   },
   "spinnerTipsOverride": {

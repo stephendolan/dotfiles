@@ -14,10 +14,14 @@ fi
 # Install plugins from marketplaces
 MARKETPLACES=(
     "EveryInc/compound-engineering-plugin"
+    "stephendolan/dotfiles"
+    "stephendolan/private-family-skills"
 )
 
 PLUGINS=(
     "compound-engineering@every-marketplace"
+    "personal@dotfiles"
+    "family@private-family-skills"
 )
 
 for marketplace in "${MARKETPLACES[@]}"; do
