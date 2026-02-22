@@ -77,7 +77,9 @@
       "Bash(npm:*)",
       "Bash(npx:*)",
       "Bash(of:*)",
+      "Bash(open:*)",
       "Bash(opencode:*)",
+      "Bash(osascript:*)",
       "Bash(paste:*)",
       "Bash(ping:*)",
       "Bash(pnpm:*)",
@@ -181,18 +183,12 @@
       "WebFetch(domain:x.com)",
       "WebSearch:*",
       "mcp__betterstack__*",
-      "mcp__browsermcp__*",
       "mcp__chartmogul__*",
-      "mcp__context7__*",
-      "mcp__google__*",
+      "mcp__claude_ai_*",
       "mcp__helpscout__*",
-      "mcp__linear__*",
-      "mcp__notion__*",
       "mcp__omnifocus__*",
       "mcp__plugin_compound-engineering_context7__*",
-      "mcp__posthog__*",
-      "mcp__sentry-exceptions__*",
-      "mcp__stripe__*",
+      "mcp__superset__*",
       "mcp__ynab__*"
     ],
     "deny": [
@@ -211,10 +207,11 @@
       "Bash(psql:-c TRUNCATE TABLE:*)",
       "Bash(psql:-c TRUNCATE:*)"
     ],
-    "ask": ["Bash(gh pr comment:*)"],
+    "ask": [
+      "Bash(gh pr comment:*)"
+    ],
     "defaultMode": "acceptEdits"
   },
-  "model": "sonnet",
   "enableAllProjectMcpServers": true,
   "hooks": {
     "Notification": [
@@ -234,17 +231,8 @@
     "command": "~/.dotfiles/ai/statusline.sh"
   },
   "enabledPlugins": {
-    "call-quality@tuple-context": true,
-    "clangd-lsp@claude-plugins-official": true,
     "compound-engineering@every-marketplace": true,
-    "engineering@tuple-context": true,
-    "exceptions@tuple-context": true,
-    "logs@tuple-context": true,
-    "revenue@tuple-context": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "support@tuple-context": true,
-    "user-analytics@tuple-context": true,
-    "swift-lsp@claude-plugins-official": true
+    "ralph-loop@claude-plugins-official": true
   },
   "spinnerTipsOverride": {
     "tips": [

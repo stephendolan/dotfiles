@@ -62,7 +62,6 @@
 
     # Bun global binaries (symlinked for Claude Desktop PATH)
     ~/.local/bin/chartmogul: ~/.bun/bin/chartmogul
-    ~/.local/bin/google: ~/.bun/bin/google
     ~/.local/bin/helpscout: ~/.bun/bin/helpscout
     ~/.local/bin/of: ~/.bun/bin/of
     ~/.local/bin/ynab: ~/.bun/bin/ynab
@@ -72,6 +71,11 @@
     ~/.claude/settings.json: ai/claude-settings.json
     ~/.claude/agents: ai/agents
     ~/.claude/skills: ai/skills
+
+    # AI tools configuration (Codex)
+    ~/.codex/skills/:
+      glob: true
+      path: ai/skills/*
 
     # AI tools configuration (Amp)
     ~/.config/AGENTS.md: ai/AGENTS.md

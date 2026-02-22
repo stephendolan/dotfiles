@@ -230,20 +230,18 @@ Domain skills provide expertise activated automatically by context.
 
 ### MCP Servers
 
-The `mcp.json` file defines MCP servers shared across tools:
+The `mcp.json` file defines MCP servers for tools without a Desktop connector:
 
-| Server                  | Purpose                        |
-| ----------------------- | ------------------------------ |
-| **betterstack**         | Logging and uptime monitoring  |
-| **chartmogul**          | Revenue analytics              |
-| **google**              | Gmail and Calendar integration |
-| **helpscout**           | Customer support               |
-| **linear**              | Issue tracking integration     |
-| **notion**              | Workspace and docs             |
-| **omnifocus**           | Task management                |
-| **sentry**              | Error monitoring               |
-| **stripe**              | Payment processing             |
-| **ynab**                | Budget tracking                |
+| Server          | Purpose                       |
+| --------------- | ----------------------------- |
+| **betterstack** | Logging and uptime monitoring |
+| **chartmogul**  | Revenue analytics             |
+| **helpscout**   | Customer support              |
+| **omnifocus**   | Task management               |
+| **superset**    | Data exploration              |
+| **ynab**        | Budget tracking               |
+
+SaaS integrations (Linear, Notion, Sentry, Stripe, PostHog, Google, Slack, GitHub) use Claude Desktop connectors instead.
 
 Run `./generate-mcp.sh` to sync servers to Claude Desktop, Claude CLI, and Codex CLI.
 

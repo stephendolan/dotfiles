@@ -17,53 +17,17 @@
       "command": "chartmogul",
       "args": ["mcp"]
     },
-    "context7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"],
-      "env": {
-        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
-      }
-    },
-    "google": {
-      "command": "google",
-      "args": ["mcp"]
-    },
     "helpscout": {
       "command": "helpscout",
       "args": ["mcp"]
-    },
-    "linear": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.linear.app/sse"]
-    },
-    "notion": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.notion.com/mcp"]
     },
     "omnifocus": {
       "command": "of",
       "args": ["mcp"]
     },
-    "posthog": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.posthog.com/mcp",
-        "--header",
-        "Authorization: Bearer ${POSTHOG_API_KEY}"
-      ],
-      "env": {
-        "POSTHOG_API_KEY": "${POSTHOG_API_KEY}"
-      }
-    },
-    "sentry-exceptions": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.sentry.dev/mcp"]
-    },
-    "stripe": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.stripe.com/"]
+    "superset": {
+      "type": "http",
+      "url": "https://api.superset.sh/api/agent/mcp"
     },
     "ynab": {
       "command": "ynab",

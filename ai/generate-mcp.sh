@@ -18,10 +18,15 @@ else
   CLAUDE_DESKTOP_CONFIG="$HOME/.config/Claude/claude_desktop_config.json"
 fi
 
-# 1. Generate Claude Desktop config
+# 1. Merge into Claude Desktop config (preserves existing keys like preferences)
 echo "  -> Claude Desktop: ${CLAUDE_DESKTOP_CONFIG}"
 mkdir -p "$(dirname "$CLAUDE_DESKTOP_CONFIG")"
-jq '{globalShortcut: ""} + .' "$SOURCE_FILE" | npx prettier --parser json > "$CLAUDE_DESKTOP_CONFIG"
+if [[ -f "$CLAUDE_DESKTOP_CONFIG" ]]; then
+  jq -s '.[0] * .[1]' "$CLAUDE_DESKTOP_CONFIG" "$SOURCE_FILE" > "${CLAUDE_DESKTOP_CONFIG}.tmp"
+  mv "${CLAUDE_DESKTOP_CONFIG}.tmp" "$CLAUDE_DESKTOP_CONFIG"
+else
+  cp "$SOURCE_FILE" "$CLAUDE_DESKTOP_CONFIG"
+fi
 
 # 2. Sync to Claude Code CLI (if available)
 if command -v claude &>/dev/null; then
