@@ -233,8 +233,8 @@
   "enabledPlugins": {
     "compound-engineering@every-marketplace": true,
     "family@private-family-skills": true,
-    "claude-setup@dotfiles": true,
-    "ralph-loop@claude-plugins-official": true
+    "ralph-loop@claude-plugins-official": true,
+    "stephendolan@dotfiles": true
   },
   "spinnerTipsOverride": {
     "tips": [
