@@ -20,7 +20,7 @@ MARKETPLACES=(
 
 PLUGINS=(
     "compound-engineering@every-marketplace"
-    "personal@dotfiles"
+    "claude-setup@dotfiles"
     "family@private-family-skills"
 )
 

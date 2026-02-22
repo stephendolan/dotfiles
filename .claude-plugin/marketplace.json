@@ -10,7 +10,7 @@
   },
   "plugins": [
     {
-      "name": "personal",
+      "name": "claude-setup",
       "description": "Personal agents and skills for development workflows, code review, architecture analysis, and domain expertise.",
       "version": "1.0.0",
       "author": {
