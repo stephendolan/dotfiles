@@ -9,6 +9,12 @@ if [[ ! "$OSTYPE" == "linux-gnu"* ]] || ! command -v apt-get &> /dev/null; then
     exit 0
 fi
 
+# Skip if no sudo access (e.g. running from Claude Code)
+if ! sudo -n true 2>/dev/null; then
+    echo "Skipping apt packages (no sudo access)"
+    exit 0
+fi
+
 echo "Installing apt packages from packages.txt..."
 
 # Update package list

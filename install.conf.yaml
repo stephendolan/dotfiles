@@ -61,10 +61,18 @@
     ~/.railsrc: dev/rails/default_flags
 
     # Bun global binaries (symlinked for Claude Desktop PATH)
-    ~/.local/bin/chartmogul: ~/.bun/bin/chartmogul
-    ~/.local/bin/helpscout: ~/.bun/bin/helpscout
-    ~/.local/bin/of: ~/.bun/bin/of
-    ~/.local/bin/ynab: ~/.bun/bin/ynab
+    ~/.local/bin/chartmogul:
+      path: ~/.bun/bin/chartmogul
+      if: "[ -f $HOME/.bun/bin/chartmogul ]"
+    ~/.local/bin/helpscout:
+      path: ~/.bun/bin/helpscout
+      if: "[ -f $HOME/.bun/bin/helpscout ]"
+    ~/.local/bin/of:
+      path: ~/.bun/bin/of
+      if: "[ -f $HOME/.bun/bin/of ]"
+    ~/.local/bin/ynab:
+      path: ~/.bun/bin/ynab
+      if: "[ -f $HOME/.bun/bin/ynab ]"
 
     # AI tools configuration (Claude Code)
     # Agents and skills are installed via the stephendolan@dotfiles plugin
