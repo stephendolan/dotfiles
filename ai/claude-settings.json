@@ -214,6 +214,17 @@
   },
   "enableAllProjectMcpServers": true,
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.dotfiles/ai/hooks/tmux-rename-session.sh"
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "matcher": "",
@@ -234,7 +245,8 @@
     "compound-engineering@every-marketplace": true,
     "family@private-family-skills": true,
     "ralph-loop@claude-plugins-official": true,
-    "stephendolan@dotfiles": true
+    "stephendolan@dotfiles": true,
+    "swift-lsp@claude-plugins-official": true
   },
   "spinnerTipsOverride": {
     "tips": [

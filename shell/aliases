@@ -21,9 +21,13 @@ alias gp='git push'
 alias gl='git pull'
 alias gd='git diff'
 
+# CLAUDE
+alias c='claude --allow-dangerously-skip-permissions'
+alias cc='claude --continue --allow-dangerously-skip-permissions'
+alias tc='tmux new -- claude --allow-dangerously-skip-permissions'
+alias tcc='tmux new -- claude --continue --allow-dangerously-skip-permissions'
+
 # SHORTCUTS
-alias c='claude'
-alias cc='claude --continue'
 alias s='scry'
 alias dc='docker-compose'
 alias lg='lazygit'
