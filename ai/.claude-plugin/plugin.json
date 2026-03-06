@@ -1,7 +1,7 @@
 {
   "name": "stephendolan",
-  "version": "1.0.0",
-  "description": "Personal agents and skills for development workflows, code review, architecture analysis, and domain expertise. Includes 10 agents and 19 skills.",
+  "version": "1.1.0",
+  "description": "Personal agents and skills for development workflows, code review, architecture analysis, and domain expertise.",
   "author": {
     "name": "Stephen Dolan",
     "url": "https://github.com/stephendolan"
