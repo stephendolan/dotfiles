@@ -1,5 +1,5 @@
 ---
-name: work
+name: ship
 description: Autonomous end-to-end feature development without user involvement. Plans, validates with agents, defends against skeptic, implements, simplifies, and refines. Use when building a feature hands-free, implementing from a ticket, or want fully autonomous development. Covers planning, architecture review, implementation, and code quality.
 argument-hint: Feature description, ticket URL, or Linear issue ID
 context: fork

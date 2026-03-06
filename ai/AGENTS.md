@@ -30,8 +30,7 @@ Sub-agents consume their own context (not yours), can run simultaneously, and st
 | -------------------------- | ----------------------------------------- |
 | `/commit`                  | Commit with conventional message (why > what) |
 | `/create-pr`               | Create PR with concise description        |
-| `/work`                    | Autonomous end-to-end feature development |
-| `/feature-dev`             | Guided feature development                |
+| `/ship`                    | Autonomous end-to-end feature development |
 | `/refine-implementation`   | Multi-pass code review before commit      |
 | `/examine-architecture`    | Evaluate codebase for structural problems |
 | `/address-pr-review`       | Resolve PR review comments                |
