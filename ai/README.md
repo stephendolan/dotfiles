@@ -1,19 +1,49 @@
 # AI Coding Agent Configuration
 
-Custom agents and skills for Claude Code and compatible AI coding tools.
+Custom agents, skills, and workflows for Claude Code.
 
-## Overview
+## Install as a Plugin
+
+This repository serves as a Claude Code plugin marketplace. To install:
+
+```bash
+# Add the marketplace
+/plugin marketplace add stephendolan/dotfiles
+
+# Install the plugin
+/plugin install stephendolan@dotfiles
+```
+
+Skills become available as `/stephendolan:commit`, `/stephendolan:create-pr`, etc.
+
+### Local Development
+
+```bash
+# Test locally without installing
+claude --plugin-dir ./ai
+
+# Pick up changes during development
+/reload-plugins
+```
+
+### Plugin Structure
+
+The `ai/` directory is the plugin root:
 
 ```
-agents/               Specialized subagents spawned by workflows
-skills/               Workflows, domain knowledge, and context-activated expertise
-
-AGENTS.md             Shared instructions (symlinked to ~/.claude/CLAUDE.md)
-mcp.json              MCP server definitions (source of truth)
-claude-settings.json  Claude Code settings (permissions, model)
-generate-mcp.sh       Syncs MCP config to Claude Desktop, Claude CLI, and Codex CLI
-statusline.sh         Custom statusline for Claude Code
+ai/
+  .claude-plugin/
+    plugin.json          Plugin manifest
+  agents/                Subagent definitions
+  skills/                Slash command workflows and domain expertise
+  hooks/                 Event handlers
+  AGENTS.md              Shared instructions
+  mcp.json               MCP server definitions
+  claude-settings.json   Default settings
+  statusline.sh          Custom statusline
 ```
+
+> For the author's personal dotfiles setup, DotBot symlinks this directory to `~/.claude/`. Run `./install` from the repo root.
 
 ---
 
@@ -26,7 +56,7 @@ flowchart LR
     subgraph Workflows
         cm["/commit"]
         cpr["/create-pr"]
-        fd["/feature-dev"]
+        fd["/ship"]
         ri["/refine-implementation"]
         ea["/examine-architecture"]
         apr["/address-pr-review"]
@@ -80,69 +110,64 @@ flowchart LR
     class fdd,wcs,wcp,wdoc skill
 ```
 
-**Legend**: Workflows (gray) → spawn Agents (blue) → load Domain Skills (green)
+**Legend**: Workflows (gray) spawn Agents (blue) which load Domain Skills (green)
 
 ---
 
 ## Workflows
 
-Workflows orchestrate multi-step processes, often spawning agents.
+| Workflow                   | Purpose                                            |
+| -------------------------- | -------------------------------------------------- |
+| `/commit`                  | Commit with conventional message (why > what)      |
+| `/create-pr`               | Create PR with concise description                 |
+| `/ship`                    | Autonomous end-to-end feature development          |
+| `/refine-implementation`   | Multi-pass quality review before committing        |
+| `/examine-architecture`    | Evaluate codebase for structural problems          |
+| `/address-pr-review`       | Resolve unresolved PR review comments              |
+| `/review-dependabot`       | Analyze and merge Dependabot PRs with safety check |
+| `/publish`                 | End-to-end release workflow (branch, PR, tag, npm) |
+| `/interview`               | Interview user about a plan before implementation  |
+| `/daily-claude-code-recap` | Summarize the day's Claude Code sessions           |
+| `/github-overview`         | GitHub PR dashboard for organization               |
 
-| Workflow                   | Purpose                                            | Agents Used                                  |
-| -------------------------- | -------------------------------------------------- | -------------------------------------------- |
-| `/commit`                  | Commit with conventional message (why > what)      | committer                                    |
-| `/create-pr`               | Create PR with concise description                 | pr-creator                                   |
-| `/feature-dev`             | Guided feature development (accepts Linear issues) | code-explorer, code-architect, code-reviewer |
-| `/refine-implementation`   | Multi-pass quality review before committing        | code-refiner                                 |
-| `/examine-architecture`    | Evaluate codebase for structural problems          | architecture-reviewer, plan-refiner          |
-| `/address-pr-review`       | Resolve unresolved PR review comments              | pr-comment-reviewer                          |
-| `/review-dependabot`       | Analyze and merge Dependabot PRs with safety check | code-reviewer                                |
-| `/publish`                 | End-to-end release workflow (branch, PR, tag, npm) | committer, pr-creator                        |
-| `/interview`               | Interview user about a plan before implementation  | -                                            |
-| `/daily-claude-code-recap` | Summarize the day's Claude Code sessions           | -                                            |
+### Execution Flow Examples
+
+```
+/ship "Add user authentication"
+  Discovery -> Exploration (code-explorer) -> Architecture (code-architect)
+  -> Implementation -> Review (code-reviewer) -> Summary
+
+/refine-implementation
+  code-refiner: simplicity -> configuration compliance -> conventions
+  -> Reconcile changes, iterate if needed
+
+/examine-architecture
+  architecture-reviewer (parallel, one per surface)
+  -> Consolidate findings -> plan-refiner validates fixes
+
+/publish
+  Gather context -> Ask release type -> committer: release commit
+  -> pr-creator: release PR -> Merge, tag, push -> Monitor CI
+```
 
 ---
 
 ## Agents
 
-Subagents are spawned by workflows or invoked directly for focused tasks.
-
-### Understanding Code
-
-| Agent                     | Purpose                                                                  |
-| ------------------------- | ------------------------------------------------------------------------ |
-| **code-explorer**         | Traces execution paths, maps architecture layers, documents dependencies |
-| **architecture-reviewer** | Evaluates existing code for brittleness, complexity, coupling            |
-
-### Building Code
-
-| Agent              | Purpose                                                      |
-| ------------------ | ------------------------------------------------------------ |
-| **code-architect** | Designs feature architectures with implementation blueprints |
-| **plan-refiner**   | Validates implementation plans, suggests simpler approaches  |
-
-### Reviewing Code
-
-| Agent                   | Purpose                                                         |
-| ----------------------- | --------------------------------------------------------------- |
-| **code-reviewer**       | Reviews for bugs, security, conventions (confidence-filtered)   |
-| **code-refiner**        | Simplifies complexity, improves maintainability                 |
-| **pr-comment-reviewer** | Evaluates individual PR comments for actionability              |
-| **skeptic**             | Challenges investigative conclusions before they reach the user |
-
-### Git Workflow
-
-| Agent                     | Purpose                                                       |
-| ------------------------- | ------------------------------------------------------------- |
-| **committer**             | Creates commits with conventional message format              |
-| **pr-creator**            | Creates PRs with structured descriptions                      |
-| **documentation-refiner** | Maintains Markdown files, package configs, and developer docs |
-
-### Design
-
-| Agent              | Purpose                                               |
-| ------------------ | ----------------------------------------------------- |
-| **design-refiner** | Iteratively refines frontend designs to 10/10 quality |
+| Agent                     | Purpose                                            |
+| ------------------------- | -------------------------------------------------- |
+| **code-explorer**         | Trace execution paths, map dependencies            |
+| **code-architect**        | Design feature architectures                       |
+| **code-reviewer**         | Review for bugs, security, conventions             |
+| **code-refiner**          | Simplify complexity, improve maintainability       |
+| **architecture-reviewer** | Evaluate brittleness, complexity, coupling         |
+| **plan-refiner**          | Validate plans, suggest simpler approaches         |
+| **pr-comment-reviewer**   | Evaluate PR comments for actionability             |
+| **committer**             | Create commits with conventional messages          |
+| **pr-creator**            | Create PRs with structured descriptions            |
+| **design-refiner**        | Iteratively refine frontend designs                |
+| **documentation-refiner** | Maintain Markdown files and developer docs         |
+| **skeptic**               | Challenge conclusions before they reach the user   |
 
 ---
 
@@ -150,87 +175,23 @@ Subagents are spawned by workflows or invoked directly for focused tasks.
 
 Domain skills provide expertise activated automatically by context.
 
-### Development
-
-| Skill               | Trigger                 |
-| ------------------- | ----------------------- |
-| **frontend-design** | Building web interfaces |
-
-### Writing
-
 | Skill                      | Trigger                     |
 | -------------------------- | --------------------------- |
+| **frontend-design**        | Building web interfaces     |
 | **writing-documentation**  | Updating docs               |
 | **writing-claude-skills**  | Creating Claude Code skills |
 | **writing-claude-prompts** | Writing prompts for Claude  |
-
-### Tools
-
-| Skill                    | Trigger                     |
-| ------------------------ | --------------------------- |
-| **chartmogul-analytics** | Analyzing revenue metrics   |
-| **task-management**      | GTD workflow with OmniFocus |
-| **order-daycare-lunch**  | School lunch ordering       |
+| **cooking**                | Recipes and meal planning   |
+| **drama-triangle**         | Communication and conflict analysis |
+| **chartmogul-analytics**   | Analyzing revenue metrics   |
+| **task-management**        | GTD workflow with OmniFocus |
+| **order-daycare-lunch**    | School lunch ordering       |
 
 ---
 
-## Workflow Patterns
+## MCP Servers
 
-### Feature Development
-
-```
-/feature-dev "Add user authentication"
-    │
-    ├─→ Discovery: clarify requirements
-    ├─→ Exploration: code-explorer (2-3x parallel)
-    ├─→ Questions: resolve ambiguities (AskUserQuestion)
-    ├─→ Architecture: code-architect (2-3x parallel)
-    ├─→ Implementation: build the feature
-    ├─→ Review: code-reviewer (3x parallel)
-    └─→ Summary: document what was built
-```
-
-### Code Quality
-
-```
-/refine-implementation
-    │
-    ├─→ code-refiner: simplicity & elegance
-    ├─→ code-refiner: configuration compliance
-    ├─→ code-refiner: conventions & patterns
-    └─→ Reconcile changes, iterate if needed
-```
-
-### Architecture Analysis
-
-```
-/examine-architecture
-    │
-    ├─→ architecture-reviewer (4-8x parallel, one per surface)
-    ├─→ Consolidate findings
-    └─→ plan-refiner: validate fixes
-```
-
-### Release Publishing
-
-```
-/publish
-    │
-    ├─→ Gather context (git status, current version)
-    ├─→ Ask release type (patch/minor/major)
-    ├─→ committer: create release commit
-    ├─→ pr-creator: create release PR
-    ├─→ Merge, tag, and push
-    └─→ Monitor GitHub Actions release workflow
-```
-
----
-
-## Configuration
-
-### MCP Servers
-
-The `mcp.json` file defines MCP servers for tools without a Desktop connector:
+The `mcp.json` file defines MCP server connections:
 
 | Server          | Purpose                       |
 | --------------- | ----------------------------- |
@@ -241,39 +202,4 @@ The `mcp.json` file defines MCP servers for tools without a Desktop connector:
 | **superset**    | Data exploration              |
 | **ynab**        | Budget tracking               |
 
-SaaS integrations (Linear, Notion, Sentry, Stripe, PostHog, Google, Slack, GitHub) use Claude Desktop connectors instead.
-
 Run `./generate-mcp.sh` to sync servers to Claude Desktop, Claude CLI, and Codex CLI.
-
-### Statusline
-
-The `statusline.sh` script provides a custom prompt showing:
-
-- Current directory
-- Git branch with dirty/clean indicator
-- Active model name
-
----
-
-## Installation
-
-DotBot symlinks this directory to the expected locations:
-
-```
-ai/AGENTS.md             → ~/.claude/CLAUDE.md
-ai/claude-settings.json  → ~/.claude/settings.json
-ai/agents/               → ~/.claude/agents/
-ai/skills/               → ~/.claude/skills/
-```
-
-Run `./install` from the dotfiles root to set up symlinks.
-
----
-
-## Tool Compatibility
-
-| Tool               | How It Works                                   |
-| ------------------ | ---------------------------------------------- |
-| **Claude Code**    | Native support for all files in this directory |
-| **Claude Desktop** | MCP servers synced via `generate-mcp.sh`       |
-| **Codex CLI**      | MCP servers synced via `generate-mcp.sh`       |
