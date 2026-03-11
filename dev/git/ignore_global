@@ -69,3 +69,4 @@ build/
 
 # Beads stealth mode
 .beads/
+.agents/

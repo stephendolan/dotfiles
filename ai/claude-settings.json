@@ -247,7 +247,8 @@
     "ralph-loop@claude-plugins-official": true,
     "stephendolan@dotfiles": true,
     "swift-lsp@claude-plugins-official": true,
-    "clangd-lsp@claude-plugins-official": true
+    "clangd-lsp@claude-plugins-official": true,
+    "ruby-lsp@claude-plugins-official": true
   },
   "spinnerTipsOverride": {
     "tips": [
@@ -260,9 +261,9 @@
       "Exploring the architecture..."
     ]
   },
+  "effortLevel": "high",
   "skipDangerousModePermissionPrompt": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990
-  },
-  "effortLevel": "high"
+  }
 }
