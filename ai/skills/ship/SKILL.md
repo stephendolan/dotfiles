@@ -116,3 +116,35 @@ Feature request: $ARGUMENTS
    - Files created/modified
    - How the plan evolved through agent review
    - Remaining considerations or follow-up work
+
+---
+
+## Phase 9: Compound
+
+**Goal**: Make the next unit of work easier than this one
+
+After shipping, reflect on the session and update the project's working knowledge. This is not about documenting what was built (the commit/PR does that) — it's about extracting **reusable lessons** that prevent future mistakes or speed up future work.
+
+1. **Review friction**: What slowed this session down? Did the plan miss something the codebase required? Did an agent give bad advice? Did a test fail for a non-obvious reason? Did the auto-review catch something that should have been caught earlier?
+
+2. **Check CLAUDE.md for staleness**: Read the project CLAUDE.md. Does anything need updating based on what was just built? Common triggers:
+   - New architectural patterns introduced (e.g., new table, new channel, new investigator type)
+   - Existing guidance that's now wrong or incomplete
+   - A guardrail that would have prevented a mistake made during this session
+
+3. **Update if warranted**: If something concrete should change, update it now:
+   - **CLAUDE.md**: Add/update project conventions, implementation checklist items, or architecture docs
+   - **Workflow skills**: If a phase was missing or a step was consistently wrong, update the skill
+   - **Memory**: Save non-obvious learnings (user preferences, external system quirks, debugging tips) that don't belong in CLAUDE.md
+
+4. **Skip if nothing to compound**: Most sessions won't produce updates. That's fine — only compound when there's a genuine lesson. Don't manufacture insights.
+
+**What to compound (examples):**
+- "The analytics investigator can't use `groups` table with aggregates" → CLAUDE.md checklist or skill update
+- "User prefers terse PR descriptions" → memory
+- "New HelpScout channel added, must update all channel-aware code paths" → CLAUDE.md architecture section
+
+**What NOT to compound:**
+- What was built (that's the commit message / PR description)
+- How a specific bug was fixed (that's the code diff)
+- Anything already in CLAUDE.md or derivable from the codebase
