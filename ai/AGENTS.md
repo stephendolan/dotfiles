@@ -143,6 +143,9 @@ Creates PRs with concise descriptions focused on the problem being solved. Analy
   - Don't add error handling for scenarios that can't happen. Only validate at system boundaries
   - Don't create abstractions for one-time operations. Three similar lines is better than a premature abstraction
   - If something is unused, delete it completely
+- **Migration safety**: When changing data formats, schemas, or event names, answer "what happens to data that already exists?" Dual-read from old and new sources during transitions. Don't remove legacy compat paths until all in-flight data has aged out.
+- **Error propagation**: Error paths must look like errors to callers. Don't log an API failure and return a success-shaped response. Don't send optimistic confirmation text when an action failed.
+- **Trace new identifiers end-to-end**: When adding a new identifier or key at one layer, trace the full data path to verify it's consumed at every downstream layer. A new field that's written but never read (or read but never forwarded) is a silent no-op.
 
 ## Anti-Patterns
 
