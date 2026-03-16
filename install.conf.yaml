@@ -45,6 +45,9 @@
       if: "[ `uname` = Linux ]"
       path: shell/ghostty/config
 
+    # Tmux
+    ~/.tmux.conf: shell/tmux/config
+
     # Editor
     ~/.config/nvim:
       path: dev/nvim

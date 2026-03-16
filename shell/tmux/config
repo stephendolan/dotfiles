@@ -1,0 +1,21 @@
+# ── Essentials ──────────────────────────────────────────────
+set -g default-terminal "tmux-256color"
+set -sa terminal-overrides ",*:Tc"        # true color
+set -s escape-time 0                       # no esc delay
+set -g history-limit 50000                 # Claude produces a lot of output
+set -g focus-events on
+
+# ── Mouse (critical for iOS/Termius) ───────────────────────
+set -g mouse on
+
+# ── Clipboard ──────────────────────────────────────────────
+set -g set-clipboard on
+
+# ── Sessions ───────────────────────────────────────────────
+set -g detach-on-destroy off               # switch session, don't detach
+
+# ── No chrome ──────────────────────────────────────────────
+set -g status off
+
+# ── Quality of life ────────────────────────────────────────
+bind r source-file ~/.tmux.conf \; display "Reloaded"
