@@ -7,39 +7,19 @@ description: Release package, publish to npm, cut a release, bump version, deplo
 
 End-to-end release workflow: branch, commit, PR, merge, tag, and publish to npm.
 
-## Prerequisites
+## Current State
 
-Before starting, verify:
+- **Release workflow**: !`ls .github/workflows/ 2>/dev/null | grep -iE '(release|publish|production|npm)' | head -1 || echo "NONE FOUND"`
+- **Current version**: !`jq -r '.version' package.json 2>/dev/null || echo "no package.json"`
+- **Branch**: !`git branch --show-current`
+- **Commits on branch**: !`git log --oneline main..HEAD 2>/dev/null | head -10 || echo "on main"`
+- **Working tree clean**: !`git status --porcelain | head -5 || echo "clean"`
 
-- Working directory is clean or has only intended changes
-- You're authenticated with GitHub CLI (`gh auth status`)
-- GitHub Actions release workflow exists and is properly configured
-
-### Verify Release Infrastructure
-
-Look for a GitHub Actions workflow that handles releases. Common names include:
-
-- `release.yml`, `release.yaml`
-- `publish.yml`, `publish.yaml`
-- `production.yml`, `production.yaml`
-- `npm-publish.yml`, `npm-publish.yaml`
-
-Check `.github/workflows/` for any file matching these patterns. If found, assume it's configured to handle npm publishing when a `v*` tag is pushed.
-
-If no release workflow exists, stop and alert the user:
+If release workflow is "NONE FOUND", stop and alert the user:
 
 > No release workflow found in `.github/workflows/`. Create a workflow that triggers on `v*` tags and publishes to npm.
 
 ## Process
-
-### 1. Gather Context
-
-Run in parallel:
-
-- `git status` - Check for uncommitted changes
-- `git branch --show-current` - Get current branch
-- `git log --oneline main..HEAD` - See commits on this branch (if any)
-- `jq -r '.version' package.json` - Get current version
 
 ### 2. Ask Release Questions
 
