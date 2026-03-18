@@ -223,6 +223,14 @@
             "command": "~/.dotfiles/ai/hooks/tmux-rename-session.sh"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/stephen/.superset/hooks/notify.sh"
+          }
+        ]
       }
     ],
     "Notification": [
@@ -232,6 +240,49 @@
           {
             "type": "command",
             "command": "echo -e '\\a\\033]777;notify;Claude Code;Needs attention\\007'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/stephen/.superset/hooks/notify.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/stephen/.superset/hooks/notify.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/stephen/.superset/hooks/notify.sh"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/stephen/.superset/hooks/notify.sh"
           }
         ]
       }
