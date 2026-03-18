@@ -78,3 +78,6 @@ fi
 
 # LOAD LOCAL SETTINGS
 [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"

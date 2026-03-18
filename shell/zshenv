@@ -72,3 +72,6 @@ if [[ ! "$SSH_AUTH_SOCK" =~ /ssh-.*/agent ]]; then
   fi
   unset __1p_sock
 fi
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"
