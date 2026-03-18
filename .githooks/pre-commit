@@ -1,10 +1,16 @@
 #!/bin/bash
 # Run Biome before committing — auto-fix and re-stage
 
+STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
+[ -z "$STAGED" ] && exit 0
+
 if command -v biome &> /dev/null; then
-  biome check --write --staged --no-errors-on-unmatched
+  biome check --write --no-errors-on-unmatched $STAGED
 elif command -v npx &> /dev/null; then
-  npx @biomejs/biome check --write --staged --no-errors-on-unmatched
+  npx @biomejs/biome check --write --no-errors-on-unmatched $STAGED
 else
   echo "Warning: Biome not found, skipping lint"
+  exit 0
 fi
+
+git add $STAGED
