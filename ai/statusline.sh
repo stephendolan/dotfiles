@@ -52,6 +52,18 @@ if [ -n "$percent" ]; then
   context_bar=$(printf " \\033[1;${color}m%s\\033[0m \\033[2m%d%%\\033[0m" "$bar" "$percent")
 fi
 
+# Claude.ai rate limits (new in Claude Code v2.1.80)
+rate_limits=""
+rate_5h=$(echo "$input" | jq -r '(.rate_limits[0].used_percentage // .rate_limits.primary.used_percentage) // empty | floor')
+rate_7d=$(echo "$input" | jq -r '(.rate_limits[1].used_percentage // .rate_limits.secondary.used_percentage) // empty | floor')
+
+if [ -n "$rate_5h" ] || [ -n "$rate_7d" ]; then
+  rate_parts=()
+  [ -n "$rate_5h" ] && rate_parts+=("5h:${rate_5h}%")
+  [ -n "$rate_7d" ] && rate_parts+=("7d:${rate_7d}%")
+  rate_limits=$(printf " \\033[2m—\\033[0m \\033[1;35m%s\\033[0m" "${rate_parts[*]}")
+fi
+
 printf "\\033[1;36m%s\\033[0m %s\\033[1;34m%s\\033[0m" "$basename" "$git_info" "$model"
 
 if [ "$style" != "default" ] && [ "$style" != "null" ]; then
@@ -60,4 +72,8 @@ fi
 
 if [ -n "$context_bar" ]; then
   printf " \\033[2m—\\033[0m%s" "$context_bar"
+fi
+
+if [ -n "$rate_limits" ]; then
+  printf "%s" "$rate_limits"
 fi
