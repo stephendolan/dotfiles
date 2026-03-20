@@ -70,3 +70,6 @@ build/
 # Beads stealth mode
 .beads/
 .agents/
+
+# Tree-sitter symbol indexes
+.treesitter/

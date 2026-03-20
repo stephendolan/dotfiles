@@ -12,6 +12,7 @@ brew "postgresql@17", restart_service: true
 brew "pspg"
 brew "redis", restart_service: true
 brew "ripgrep"
+brew "tree-sitter"
 brew "uv"
 brew "wget"
 

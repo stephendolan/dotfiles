@@ -173,16 +173,23 @@ For complex multi-file discovery, spawn a subagent rather than writing shell loo
 
 - **File searching**: Use `fd` instead of `find`. Faster, respects .gitignore, simpler syntax.
 - **Text searching**: Use `rg` (ripgrep) instead of `grep`. Use full language names with `--type` (e.g., `--type ruby` not `--type rb`).
+- **Repo symbol index**: If `.treesitter/symbols.txt` exists, search it first with `rg -i 'keyword' .treesitter/symbols.txt` to jump straight to definitions.
 - **Syntax-aware searching**: Use `ast-grep` for structural code search.
 - **File viewing**: `bat` provides syntax highlighting and line numbers.
 - **Directory listings**: `eza` provides colorized output and git status integration.
 
 ### Tool Hierarchy
 
+**Definition lookups** ("where is X defined?"): If `.treesitter/symbols.txt` exists, search it first with `rg -i 'keyword' .treesitter/symbols.txt`. If the symbol is missing or the file does not exist, fall back to the structural search hierarchy below.
+
+**Structural and text search:**
+
 1. **ast-grep** - For syntax-aware structural searches in code
 2. **ripgrep (rg)** - For fast text searches across files
 3. **fd** - For finding files by name or pattern
 4. Only fall back to traditional `grep` or `find` if explicitly requested
+
+`.treesitter/symbols.txt` is a generated tree-sitter tags index for supported languages, currently Bash, C/C++, Go, JavaScript/TypeScript, Objective-C/Objective-C++, Python, Ruby, Rust, and Swift. Treat it as a fast orientation file, not a source of truth. If a symbol you know exists is missing from the index, regenerate it with `~/.dotfiles/scripts/tree-sitter-index-repos.py --repo .` and fall back to `ast-grep` or `rg`.
 
 ### Personal Productivity CLIs
 

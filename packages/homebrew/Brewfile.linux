@@ -7,6 +7,7 @@ brew "mosh"
 brew "neovim"
 brew "pspg"
 brew "ripgrep"
+brew "tree-sitter"
 brew "uv"
 brew "wget"
 

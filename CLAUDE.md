@@ -29,7 +29,7 @@ shell/              # Shell environment
   ripgrep/          # Search tool
   starship/         # Prompt
   zsh/              # Shell-specific configs
-scripts/            # Installation scripts
+scripts/            # Installation scripts and utilities
 dotbot/             # DotBot submodule
 ```
 
@@ -94,6 +94,14 @@ The `ai/` directory contains configuration for Claude Code and other AI editors:
 - `ai/generate-mcp.sh` - Generates MCP configs for Claude Desktop, Claude Code CLI, and Codex CLI
 
 These .md files are executable code, not documentation. They define agent behavior and should be treated like source code when reviewing or refining.
+
+### Tree-sitter Repo Indexes
+
+Use `scripts/tree-sitter-index-repos.py` to bootstrap a managed tree-sitter grammar cache under `~/.config/tree-sitter` and generate `.treesitter/symbols.txt` files inside repos under `~/Repos`.
+
+The symbol file is a fast lookup index for supported languages, currently Bash, C/C++, Go, JavaScript/TypeScript, Objective-C/Objective-C++, Python, Ruby, Rust, and Swift. Shared agent guidance in `ai/AGENTS.md` tells agents to search `.treesitter/symbols.txt` first when it exists, then fall back to `ast-grep` and `rg`.
+
+`.treesitter/` is globally ignored through `dev/git/ignore_global`, so these generated files stay local to each repository.
 
 ## Development Notes
 
