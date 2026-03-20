@@ -71,5 +71,8 @@ build/
 .beads/
 .agents/
 
+# Python
+__pycache__/
+
 # Tree-sitter symbol indexes
 .treesitter/
