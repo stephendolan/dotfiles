@@ -15,6 +15,10 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+DEFAULT_REPOS_ROOT = "~/Repos"
+DEFAULT_CHUNK_SIZE = 128
+
+
 @dataclass(frozen=True)
 class GrammarRepo:
     name: str
@@ -176,13 +180,13 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--repos-root",
-        default="~/Repos",
+        default=DEFAULT_REPOS_ROOT,
         help="Root directory to scan for git repos when --repo is not provided.",
     )
     parser.add_argument(
         "--chunk-size",
         type=int,
-        default=128,
+        default=DEFAULT_CHUNK_SIZE,
         help="Maximum files per tree-sitter batch.",
     )
     parser.add_argument(
