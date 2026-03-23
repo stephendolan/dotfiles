@@ -78,7 +78,7 @@ Act as a personal culinary advisor to help plan, create, and refine nourishing, 
 
 Once Stephen tries a recipe, gives feedback, and iterates to satisfaction, add it to the recipes repo:
 
-**Location:** `/home/clawd/repos/recipes/`
+**Repo:** `stephendolan/recipes` (clone to `~/Repos/recipes/` if not present)
 **Format:** Cooklang (`.cook` files)
 
 **Structure:**

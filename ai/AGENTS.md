@@ -4,25 +4,18 @@ This file provides guidance to AI coding agents when working with code across al
 
 ## Core Philosophy
 
-**Complexity is not insight.** Smart people mistake elaborate solutions for wisdom. Ten-page memos that could be one. Factory classes wrapping factory classes. Abstractions for problems that don't exist yet.
-
-Mastery is finding the elegant simplicity that cuts through complexity—not making simple things complex.
-
 When reviewing your own work, ask: *Am I adding complexity because it's necessary, or because it feels sophisticated?*
 
 ## Sub-Agent Delegation
 
-**Delegate to sub-agents proactively.** Sub-agents preserve your context window and enable parallel execution.
+**Delegate to sub-agents proactively.** Sub-agents preserve your context window, enable parallel execution, and start with fresh perspective.
 
-Spawn `Explore` agents for codebase discovery rather than reading many files directly. When work decomposes into independent pieces, delegate each to a sub-agent and run them in parallel. Use specialized agents for code review, architecture analysis, committing, PR creation, and refinement workflows.
-
-Sub-agents consume their own context (not yours), can run simultaneously, and start with fresh perspective--avoiding confirmation bias from accumulated context.
+When work decomposes into independent pieces, delegate each to a sub-agent and run them in parallel.
 
 **Patterns:**
 
-- Before reading more than 3-5 files, spawn an `Explore` agent to gather context
-- Launch multiple agents in a single message when tasks are independent
 - Use `run_in_background: true` for tasks that don't block your main work
+- When delegating to parallel sub-agents, no two agents should edit the same file. If edits to the same file are needed, serialize them or assign a single owner.
 
 ### Quick Reference
 
@@ -65,20 +58,6 @@ Sub-agents consume their own context (not yours), can run simultaneously, and st
 | `order-daycare-lunch`    | School lunch ordering     |
 | `cooking`                | Recipes and meal planning |
 
-## Comment Philosophy
-
-**Write self-documenting code that rarely needs comments.**
-
-| Comment Type  | Action                                                         |
-| ------------- | -------------------------------------------------------------- |
-| Explains WHAT | Remove - use better naming                                     |
-| Explains HOW  | Remove - extract to named function                             |
-| Explains WHY  | Keep if non-obvious (business logic, constraints, workarounds) |
-
-**Keep**: Technical constraints, algorithm rationale, external workarounds, performance notes.
-
-**Target**: 80-90% fewer comments. TODO/FIXME belong in TODO.md.
-
 ## Documentation Standards
 
 **Write timeless documentation.** Describe what IS, not what WAS.
@@ -88,8 +67,6 @@ Avoid temporal references: "vs previous", "used to be X", "now uses Y", "the new
 **Test**: If unclear in 6 months, remove it. Exception: CHANGELOG.md documents changes over time.
 
 ## Development Workflow
-
-**Refine each stage before proceeding.**
 
 ### Quality Gates
 
@@ -106,53 +83,13 @@ For complex work spanning multiple sessions:
 - Create setup scripts (`init.sh`) for graceful restarts across sessions
 - Track progress in files and review filesystem state when resuming
 
-### 1. Planning
-
-1. Understand requirements and create implementation plan
-2. Launch `plan-refiner` agent to validate approach
-3. Proceed only after plan is approved
-
-Plan-refiner has final authority on approach and can suggest radical simplifications.
-
-### 2. Implementation
-
-1. Implement according to approved plan
-2. At checkpoints, run `/refine-implementation` to spawn `code-refiner` for fresh review
-3. Proceed to commit only after refinement is complete
-
-### 3. Committing
-
-Run `/commit` or ask: "commit these changes"
-
-Creates commits with conventional messages that explain *why*, not just *what*. Analyzes changes, drafts message, refines for clarity, and commits.
-
-### 4. Pull Requests
-
-Run `/create-pr` or ask: "create a PR for this branch"
-
-Creates PRs with concise descriptions focused on the problem being solved. Analyzes branch, drafts description, verifies problem statement if unclear, and creates the PR.
-
 ## Code Quality Standards
 
-- Ensure all tests pass before committing
 - Ensure all linters pass before committing, handling both errors and warnings
-- **Read code before responding**: Read files before answering questions or making changes. Verify implementation details and API signatures rather than guessing.
 - **Write general-purpose solutions**: Implement logic that solves problems generally. Build solutions that work for all valid inputs rather than hard-coding values from test cases.
-- **Avoid over-engineering**: Only make changes that are directly requested or clearly necessary. Keep solutions simple and focused.
-  - Don't add features, refactor code, or make "improvements" beyond what was asked
-  - Don't add error handling for scenarios that can't happen. Only validate at system boundaries
-  - Don't create abstractions for one-time operations. Three similar lines is better than a premature abstraction
-  - If something is unused, delete it completely
 - **Migration safety**: When changing data formats, schemas, or event names, answer "what happens to data that already exists?" Dual-read from old and new sources during transitions. Don't remove legacy compat paths until all in-flight data has aged out.
 - **Error propagation**: Error paths must look like errors to callers. Don't log an API failure and return a success-shaped response. Don't send optimistic confirmation text when an action failed.
 - **Trace new identifiers end-to-end**: When adding a new identifier or key at one layer, trace the full data path to verify it's consumed at every downstream layer. A new field that's written but never read (or read but never forwarded) is a silent no-op.
-
-## Anti-Patterns
-
-- **Kitchen-sink sessions**: One task per session. Context pollution degrades quality.
-- **Infinite exploration**: Set a file-reading budget. After 5-7 files, synthesize or spawn an explorer agent.
-- **Trust-then-verify gap**: Run tests after changes, not just before committing.
-- **Wrong model tier**: Call out mismatches with a quick nudge. Lookups on Opus = waste. Architecture on Sonnet = underpowered. ~95% of work runs fine on Sonnet; Opus is for the actually hard stuff (50x price spread).
 
 ## Tooling Preferences
 
@@ -167,29 +104,14 @@ Creates PRs with concise descriptions focused on the problem being solved. Analy
 | `find . -name "*.md" -exec cat {} \;`       | `fd -e md -x cat {}`     |
 | `grep -r pattern .`                         | `rg pattern`             |
 
-For complex multi-file discovery, spawn a subagent rather than writing shell loops.
+### When Using Bash for Search
 
-### Modern Tool Usage
+Built-in Grep and Glob tools are primary for search. When bash is needed (piping, complex queries, syntax-aware search):
 
-- **File searching**: Use `fd` instead of `find`. Faster, respects .gitignore, simpler syntax.
-- **Text searching**: Use `rg` (ripgrep) instead of `grep`. Use full language names with `--type` (e.g., `--type ruby` not `--type rb`).
-- **Repo symbol index**: If `.treesitter/symbols.txt` exists, search it first with `rg -i 'keyword' .treesitter/symbols.txt` to jump straight to definitions.
-- **Syntax-aware searching**: Use `ast-grep` for structural code search.
-- **File viewing**: `bat` provides syntax highlighting and line numbers.
-- **Directory listings**: `eza` provides colorized output and git status integration.
-
-### Tool Hierarchy
-
-**Definition lookups** ("where is X defined?"): If `.treesitter/symbols.txt` exists, search it first with `rg -i 'keyword' .treesitter/symbols.txt`. If the symbol is missing or the file does not exist, fall back to the structural search hierarchy below.
-
-**Structural and text search:**
-
-1. **ast-grep** - For syntax-aware structural searches in code
-2. **ripgrep (rg)** - For fast text searches across files
-3. **fd** - For finding files by name or pattern
-4. Only fall back to traditional `grep` or `find` if explicitly requested
-
-`.treesitter/symbols.txt` is a generated tree-sitter tags index for supported languages, currently Bash, C/C++, Go, JavaScript/TypeScript, Objective-C/Objective-C++, Python, Ruby, Rust, and Swift. Treat it as a fast orientation file, not a source of truth. If a symbol you know exists is missing from the index, regenerate it with `~/.dotfiles/scripts/tree-sitter-index-repos.py --repo .` and fall back to `ast-grep` or `rg`.
+- **File searching**: `fd` instead of `find`
+- **Text searching**: `rg` with `--type` using full language names (e.g., `--type ruby`)
+- **Syntax-aware searching**: `ast-grep` for structural code search
+- **Repo symbol index**: If `.treesitter/symbols.txt` exists, search it first with `rg -i 'keyword' .treesitter/symbols.txt` to jump straight to definitions. This is a generated tree-sitter tags index. Treat it as a fast orientation file, not a source of truth. Regenerate with `~/.dotfiles/scripts/tree-sitter-index-repos.py --repo .` if needed.
 
 ### Personal Productivity CLIs
 

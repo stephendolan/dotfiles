@@ -1,13 +1,13 @@
 ---
 name: writing-claude-prompts
-description: Best practices for writing Claude Code skills, CLAUDE.md files, and prompts optimized for Opus 4.5. Use when creating or reviewing skills, writing agent instructions, or optimizing prompts for Claude 4.x models.
+description: Best practices for writing Claude Code skills, CLAUDE.md files, and prompts optimized for Opus 4.5/4.6. Use when creating or reviewing skills, writing agent instructions, or optimizing prompts for Claude 4.x models.
 ---
 
 # Claude Prompting Best Practices
 
-## Opus 4.5 Behavioral Characteristics
+## Opus 4.5/4.6 Behavioral Characteristics
 
-Opus 4.5 has specific behavioral characteristics that affect prompt design:
+Opus 4.5+ has specific behavioral characteristics that affect prompt design:
 
 - **Highly responsive to system prompts** - Emphatic language causes overtriggering
 - **Stricter instruction adherence** - Won't infer implied requests; needs explicit direction

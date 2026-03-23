@@ -61,7 +61,7 @@ build/
 
 # Dotfiles-specific local files
 .ruby-lsp/
-.superset/config.json
+.superset/
 
 # Local overrides (never commit)
 *.local.json
