@@ -30,6 +30,7 @@ When work decomposes into independent pieces, delegate each to a sub-agent and r
 | `/review-dependabot`       | Analyze and merge Dependabot PRs          |
 | `/publish`                 | End-to-end release workflow               |
 | `/interview`               | Interview user about a plan               |
+| `/grill-me`                | Relentless decision-tree interrogation    |
 | `/daily-claude-code-recap` | Summarize the day's sessions              |
 
 | Agents                  | Purpose                                       |
