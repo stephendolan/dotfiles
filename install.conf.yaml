@@ -80,11 +80,15 @@
     # Agents and skills are installed via the stephendolan@dotfiles plugin
     ~/.claude/CLAUDE.md: ai/AGENTS.md
     ~/.claude/settings.json: ai/claude-settings.json
+    ~/.claude/skills/counselors: ai/skills/counselors
 
     # AI tools configuration (Codex)
     ~/.codex/skills/:
       glob: true
       path: ai/skills/*
+
+    # AI tools configuration (Counselors)
+    ~/.config/counselors/config.json: ai/counselors/config.json
 
     # AI tools configuration (Amp)
     ~/.config/AGENTS.md: ai/AGENTS.md
@@ -101,4 +105,7 @@
     - [./ai/generate-mcp.sh, Generating MCP configs]
     - [./scripts/claude-code-setup.sh, Setting up Claude Code]
     - [./scripts/shell-setup.sh, Setting up default shell]
+    - command: duti -s com.mitchellh.ghostty .command all
+      description: Setting Ghostty as default terminal for .command files
+      if: "[ `uname` = Darwin ] && command -v duti >/dev/null 2>&1"
     - [./scripts/mise-setup.sh, Setting up mise tools and versions]

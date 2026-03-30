@@ -84,7 +84,22 @@ After reviewing and discussing with agents as needed:
 3. Revert any changes that were rejected after discussion
 4. Show the user what changed
 
-### 6. Check for Another Pass
+### 6. External Second Opinion (Optional)
+
+Run `/counselors` after local reconciliation when the change is risky enough to justify one more pass.
+
+Good triggers:
+
+- Auth, billing, migrations, public APIs, or infrastructure changes
+- Broad refactors or changes spanning many files
+- Local review agents disagreeing or repeatedly escalating
+- A branch that feels high-consequence and worth one last independent check
+
+Ask Counselors to focus on regressions, blind spots, and missing tests. Give it the key files and branch diff context, not a giant pasted prompt.
+
+Incorporate valid findings, then do another local pass only if the external review changed the shape of the branch materially.
+
+### 7. Check for Another Pass
 
 **Use AskUserQuestion** to ask about next steps:
 
@@ -92,7 +107,7 @@ After reviewing and discussing with agents as needed:
 - **Review changes** → Show `git diff` and wait for feedback
 - **Ready to commit** → Launch `committer` agent
 
-### 7. Final Review (Optional)
+### 8. Final Review (Optional)
 
 If user wants to review:
 
@@ -112,5 +127,6 @@ Stop after:
 
 - **No commits until user approves** - Changes stay uncommitted for review
 - **Multiple perspectives** - Different agents catch different issues
+- **External review is a scalpel** - Use `/counselors` for risky or disputed changes, not every pass
 - **Iterative improvement** - One pass rarely catches everything
 - **User control** - Always show changes, never auto-commit

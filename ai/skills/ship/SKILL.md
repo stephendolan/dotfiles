@@ -18,6 +18,8 @@ Autonomy requires conviction. When agents disagree, gather evidence and make a c
 - **Route decisions to plan-refiner**: When you face ambiguity, launch the plan-refiner with the specific question and context. Accept its decision.
 - **Defend with evidence**: When the skeptic challenges, respond with codebase evidence and reasoning. Change the plan only when the challenge is genuinely valid.
 - **Fresh perspectives catch blind spots**: Specialized agents review from angles you'd miss after building context.
+- **Always run one Counselors plan review**: Every `/ship` run gets one `/counselors` pass on the implementation plan before code is written.
+- **Use additional Counselors passes selectively**: Extra external reviews still need a reason.
 
 ---
 
@@ -60,8 +62,10 @@ Feature request: $ARGUMENTS
    - **plan-refiner**: Evaluate for elegance, over-engineering, and maintainability. Make decisions autonomously—you have final authority on approach.
    - **code-architect**: Validate architecture choices against codebase patterns. Provide a decisive blueprint, not multiple options.
 2. Incorporate feedback from both agents
-3. If either agent suggests significant changes, update the plan and re-run the other to confirm alignment
-4. The plan is ready when both agents approve or their feedback has been incorporated
+3. Run `/counselors` on the plan for one external second opinion every time
+4. Ask Counselors to look for blind spots, regressions, missing constraints, and simpler alternatives. Include the plan plus the most relevant files and diff context
+5. If local agents or Counselors suggest significant changes, update the plan and re-run the plan-refiner to settle tradeoffs
+6. The plan is ready when the internal reviewers are aligned and any valid Counselors feedback has been incorporated
 
 ---
 
@@ -100,8 +104,9 @@ Feature request: $ARGUMENTS
 **Goal**: Multi-pass quality review
 
 1. Use the `/refine-implementation` skill for fresh-eyes review
-2. Make decisions autonomously on all escalations: fix genuine issues, skip cosmetic preferences
-3. Run up to 2 refinement passes
+2. If the diff is high-risk, cross-cutting, or still contentious after local review, run one `/counselors` pass against the final diff before concluding
+3. Make decisions autonomously on all escalations: fix genuine issues, skip cosmetic preferences
+4. Run up to 2 refinement passes
 
 ---
 

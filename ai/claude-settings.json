@@ -207,10 +207,8 @@
       "Bash(psql:-c TRUNCATE TABLE:*)",
       "Bash(psql:-c TRUNCATE:*)"
     ],
-    "ask": [
-      "Bash(gh pr comment:*)"
-    ],
-    "defaultMode": "acceptEdits"
+    "ask": ["Bash(gh pr comment:*)"],
+    "defaultMode": "auto"
   },
   "enableAllProjectMcpServers": true,
   "hooks": {
@@ -228,7 +226,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/stephen/.superset/hooks/notify.sh"
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
           }
         ]
       }
@@ -249,7 +247,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/stephen/.superset/hooks/notify.sh"
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
           }
         ]
       }
@@ -260,7 +258,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/stephen/.superset/hooks/notify.sh"
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
           }
         ]
       }
@@ -271,7 +269,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/stephen/.superset/hooks/notify.sh"
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
           }
         ]
       }
@@ -282,7 +280,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/stephen/.superset/hooks/notify.sh"
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
           }
         ]
       }
@@ -293,9 +291,8 @@
     "command": "~/.dotfiles/ai/statusline.sh"
   },
   "enabledPlugins": {
-    "compound-engineering@every-marketplace": true,
     "family@private-family-skills": true,
-    "ralph-loop@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": false,
     "stephendolan@dotfiles": true,
     "swift-lsp@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true,
@@ -313,6 +310,7 @@
     ]
   },
   "effortLevel": "high",
+  "autoDreamEnabled": true,
   "skipDangerousModePermissionPrompt": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990
