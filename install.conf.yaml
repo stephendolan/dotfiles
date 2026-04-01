@@ -80,15 +80,10 @@
     # Agents and skills are installed via the stephendolan@dotfiles plugin
     ~/.claude/CLAUDE.md: ai/AGENTS.md
     ~/.claude/settings.json: ai/claude-settings.json
-    ~/.claude/skills/counselors: ai/skills/counselors
-
     # AI tools configuration (Codex)
     ~/.codex/skills/:
       glob: true
       path: ai/skills/*
-
-    # AI tools configuration (Counselors)
-    ~/.config/counselors/config.json: ai/counselors/config.json
 
     # AI tools configuration (Amp)
     ~/.config/AGENTS.md: ai/AGENTS.md

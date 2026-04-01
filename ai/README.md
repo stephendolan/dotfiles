@@ -36,7 +36,6 @@ ai/
     plugin.json          Plugin manifest
   agents/                Subagent definitions
   skills/                Slash command workflows and domain expertise
-  counselors/            Counselors CLI configuration
   hooks/                 Event handlers
   AGENTS.md              Shared instructions
   mcp.json               MCP server definitions
@@ -121,7 +120,6 @@ flowchart LR
 | -------------------------- | -------------------------------------------------- |
 | `/commit`                  | Commit with conventional message (why > what)      |
 | `/create-pr`               | Create PR with concise description                 |
-| `/counselors`              | Fan out a review to Claude and Codex in parallel   |
 | `/ship`                    | Autonomous end-to-end feature development          |
 | `/refine-implementation`   | Multi-pass quality review before committing        |
 | `/examine-architecture`    | Evaluate codebase for structural problems          |

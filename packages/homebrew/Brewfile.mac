@@ -20,7 +20,6 @@ brew "wget"
 # Modern CLI tools
 brew "atuin"            # Magical shell history
 brew "bun"              # JavaScript runtime
-brew "counselors"       # Fan out prompts to Claude and Codex
 brew "delta"            # Better git diff
 brew "direnv"           # Directory environments
 brew "duti"             # Default app associations

@@ -86,7 +86,7 @@ After reviewing and discussing with agents as needed:
 
 ### 6. External Second Opinion (Optional)
 
-Run `/counselors` after local reconciliation when the change is risky enough to justify one more pass.
+Run `/codex:adversarial-review` after local reconciliation when the change is risky enough to justify one more pass.
 
 Good triggers:
 
@@ -94,8 +94,6 @@ Good triggers:
 - Broad refactors or changes spanning many files
 - Local review agents disagreeing or repeatedly escalating
 - A branch that feels high-consequence and worth one last independent check
-
-Ask Counselors to focus on regressions, blind spots, and missing tests. Give it the key files and branch diff context, not a giant pasted prompt.
 
 Incorporate valid findings, then do another local pass only if the external review changed the shape of the branch materially.
 
@@ -127,6 +125,6 @@ Stop after:
 
 - **No commits until user approves** - Changes stay uncommitted for review
 - **Multiple perspectives** - Different agents catch different issues
-- **External review is a scalpel** - Use `/counselors` for risky or disputed changes, not every pass
+- **External review is a scalpel** - Use `/codex:adversarial-review` for risky or disputed changes, not every pass
 - **Iterative improvement** - One pass rarely catches everything
 - **User control** - Always show changes, never auto-commit

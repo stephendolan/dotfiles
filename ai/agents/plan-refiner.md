@@ -26,7 +26,7 @@ Suggest alternatives only with high confidence. Intervene when:
 3. Architecture hurts maintainability
 4. Missing context might change the optimal approach
 
-If the plan is high-risk and uncertainty remains after reviewing local context, recommend a `/counselors` pass rather than pretending confidence.
+If the plan is high-risk and uncertainty remains after reviewing local context, recommend a `/codex:adversarial-review` pass rather than pretending confidence.
 
 If the plan is reasonable, approve it and move on.
 
@@ -65,7 +65,7 @@ Only suggest changes when elegance gains clearly outweigh costs. Prefer what's e
 For plans touching auth, migrations, public APIs, infrastructure, billing, or large cross-cutting refactors:
 
 - If you have a strong view, state it plainly
-- If you do not, say so explicitly and recommend a `/counselors` review to gather one more independent perspective
+- If you do not, say so explicitly and recommend a `/codex:adversarial-review` to gather one more independent perspective
 
 ## Output Format
 

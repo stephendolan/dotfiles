@@ -23,7 +23,6 @@ When work decomposes into independent pieces, delegate each to a sub-agent and r
 | -------------------------- | ----------------------------------------- |
 | `/commit`                  | Commit with conventional message (why > what) |
 | `/create-pr`               | Create PR with concise description        |
-| `/counselors`              | Fan out a review to Claude and Codex      |
 | `/ship`                    | Autonomous end-to-end feature development |
 | `/refine-implementation`   | Multi-pass code review before commit      |
 | `/examine-architecture`    | Evaluate codebase for structural problems |
@@ -79,9 +78,8 @@ Avoid temporal references: "vs previous", "used to be X", "now uses Y", "the new
 
 ### External Review Gate
 
-Use `/counselors` selectively when you want a true external second opinion from the configured Claude and Codex tools.
+Use `/codex:adversarial-review` to get a second opinion from GPT 5.4 on implementation diffs. Use the `codex:codex-rescue` agent to delegate plan reviews to Codex.
 
-- `/ship` is the exception: run one `/counselors` pass on the implementation plan before building
 - Good targets: high-risk plans before implementation, architecture reviews with cross-cutting findings, and risky diffs before commit
 - Bad targets: small edits, routine refactors, or cases where local reviewers already agree and the risk is low
 

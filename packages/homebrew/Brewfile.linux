@@ -15,7 +15,6 @@ brew "wget"
 
 # Modern CLI tools
 brew "atuin"            # Magical shell history
-brew "counselors"       # Fan out prompts to Claude and Codex
 brew "delta"            # Better git diff
 brew "direnv"           # Directory environments
 brew "eza"              # Better ls

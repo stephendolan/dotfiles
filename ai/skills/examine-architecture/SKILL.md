@@ -14,7 +14,6 @@ You are examining a codebase's architecture to identify structural problems. Fol
 - **Analyze, don't fix**: This command identifies problems and creates implementation plans, but doesn't make changes
 - **Parallel analysis**: Launch multiple agents to examine different surfaces simultaneously
 - **Validate recommendations**: Use plan-refiner to eliminate over-engineering from proposed fixes
-- **Use Counselors on the top issues only**: External second opinions are valuable for high-severity or cross-cutting recommendations, not every surface
 - **Use TodoWrite**: Track all progress throughout
 
 ---
@@ -84,10 +83,9 @@ Focus area: $ARGUMENTS
    - Validate tractability
    - Suggest simpler approaches
    - Flag anything too complex to be worth fixing
-3. If the top issues are high-severity, cross-cutting, or likely to be controversial, run `/counselors` on the top 2-3 issues and proposed fixes
-4. Ask Counselors to challenge the root-cause analysis, spot missed risks, and call out fixes that feel overbuilt
-5. Incorporate plan-refiner and Counselors feedback
-6. Present validated findings to user
+3. If the top issues are high-severity, cross-cutting, or likely to be controversial, launch the `codex:codex-rescue` agent to challenge the root-cause analysis and spot missed risks
+4. Incorporate plan-refiner and Codex feedback
+5. Present validated findings to user
 
 ---
 
