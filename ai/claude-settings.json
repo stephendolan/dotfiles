@@ -208,7 +208,7 @@
       "Bash(psql:-c TRUNCATE:*)"
     ],
     "ask": ["Bash(gh pr comment:*)"],
-    "defaultMode": "auto"
+    "defaultMode": "bypassPermissions"
   },
   "enableAllProjectMcpServers": true,
   "hooks": {

@@ -32,6 +32,9 @@ path=(
   $path
 )
 
+# Claude Code
+export CLAUDE_CODE_NO_FLICKER=1
+
 # Ripgrep config path
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
