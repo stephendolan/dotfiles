@@ -1,24 +1,21 @@
 ---
 name: ship
-description: Autonomous end-to-end feature development without user involvement. Plans, validates with agents, defends against skeptic, implements, simplifies, and refines. Use when building a feature hands-free, implementing from a ticket, or want fully autonomous development. Covers planning, architecture review, implementation, and code quality.
+description: Autonomous end-to-end feature development without user involvement. Plans, validates with agents, defends against skeptic, implements, refines, delivers, and compounds learnings. Use when building a feature hands-free, implementing from a ticket, or want fully autonomous development.
 argument-hint: Feature description, ticket URL, or Linear issue ID
 context: fork
 ---
 
 # Autonomous Work
 
-Build features end-to-end without user involvement. Route all decisions through the plan-refiner agent instead of asking the user.
-
-## Philosophy
-
-Autonomy requires conviction. When agents disagree, gather evidence and make a call rather than deferring. The plan-refiner is your decision-maker of last resort—not the user. The only user interaction is the final summary.
+Build features end-to-end without user involvement.
 
 ## Principles
 
-- **Route decisions to plan-refiner**: When you face ambiguity, launch the plan-refiner with the specific question and context. Accept its decision.
-- **Defend with evidence**: When the skeptic challenges, respond with codebase evidence and reasoning. Change the plan only when the challenge is genuinely valid.
-- **Fresh perspectives catch blind spots**: Specialized agents review from angles you'd miss after building context.
-- **Get a Codex second opinion on the plan**: Every `/ship` run gets one `codex:codex-rescue` pass on the implementation plan before code is written.
+- **Do not ask the user**: Route all ambiguity to the plan-refiner agent. Accept its decision. The only user interaction is the final summary.
+- **Ship the full request**: Build what was asked for. If the user asked for a capability, ship it — do not defer it to a later phase or propose an MVP-first approach unless the request is genuinely ambiguous.
+- **Defend with evidence**: When the skeptic challenges, respond with codebase evidence. Change the plan only when the challenge is valid.
+- **Codex second opinion**: Every `/ship` run gets one `codex:codex-rescue` pass on the plan before code is written.
+- **Signal progress**: Emit the blockquoted status line at the end of each phase so the user can track where you are.
 
 ---
 
@@ -36,6 +33,8 @@ Feature request: $ARGUMENTS
 3. Read key files identified by the explorer agents
 4. Synthesize a clear understanding of the feature and codebase context
 
+> Context gathered.
+
 ---
 
 ## Phase 2: Plan
@@ -51,6 +50,8 @@ Feature request: $ARGUMENTS
    - Testing approach
 2. Write the plan to a temporary file for agent review
 
+> Plan drafted.
+
 ---
 
 ## Phase 3: Refine
@@ -65,13 +66,20 @@ Feature request: $ARGUMENTS
 4. If agents or Codex suggest significant changes, update the plan and re-run the plan-refiner to settle tradeoffs
 5. The plan is ready when the internal reviewers are aligned and any valid Codex feedback has been incorporated
 
+> Plan refined.
+
 ---
 
 ## Phase 4: Defend
 
 **Goal**: Stress-test the plan against adversarial scrutiny
 
-1. Launch the skeptic agent with the full plan and codebase context
+1. Launch the skeptic agent with the full plan and codebase context. Direct the skeptic to challenge:
+   - Whether this solves the root cause or just a symptom
+   - Whether any features the user asked for are being deferred or phased unnecessarily
+   - Whether legacy compat or backward-compat is being added without justification
+   - Whether an upstream fix would be better than a workaround
+   - Whether the scope matches the actual request (not over-engineered, not under-engineered)
 2. Handle the skeptic's verdict:
    - **APPROVED**: Proceed to implementation
    - **CONDITIONALLY_APPROVED**: Address the conditions, then proceed
@@ -79,32 +87,47 @@ Feature request: $ARGUMENTS
 3. If challenges remain after your response, launch the plan-refiner to arbitrate between the plan, the skeptic's challenges, and your responses. The plan-refiner's call is final.
 4. Maximum 2 rounds with the skeptic. After that, the plan-refiner decides.
 
+> Plan defended.
+
 ---
 
 ## Phase 5: Implement
 
 **Goal**: Build the feature
 
-1. Use the `compound-engineering:workflows:work` skill with the full validated plan as context
+1. For each step in the plan's build sequence:
+   - Grep for similar patterns in the codebase and follow them
+   - Implement the step
+   - Run relevant tests after each significant change — fix failures before moving on
+2. After all steps complete, run the project's linters and formatters. Fix all errors and warnings.
+
+> Implementation done.
 
 ---
 
-## Phase 6: Simplify
+## Phase 6: Polish
 
-**Goal**: Remove unnecessary complexity
+**Goal**: Remove unnecessary complexity and ensure quality
 
-1. Use the `/simplify` command to review for code reuse, quality, and efficiency
+1. Use the `/refine-implementation` skill for fresh-eyes multi-pass review (it runs `/simplify` and optionally `/codex:adversarial-review` internally)
+2. When `/refine-implementation` surfaces escalations via AskUserQuestion, decide autonomously: fix genuine issues, skip cosmetic preferences
+3. After refinement, run linters/formatters again to catch anything introduced
+
+> Code polished.
 
 ---
 
-## Phase 7: Polish
+## Phase 7: Deliver
 
-**Goal**: Multi-pass quality review
+**Goal**: Get the code committed and PR opened
 
-1. Use the `/refine-implementation` skill for fresh-eyes review
-2. If the diff is high-risk, cross-cutting, or still contentious after local review, run `/codex:adversarial-review` against the final diff before concluding
-3. Make decisions autonomously on all escalations: fix genuine issues, skip cosmetic preferences
-4. Run up to 2 refinement passes
+1. Run `git status` — clean up any leftover plan files, temp files, or unintended changes
+2. Use `/commit` to create the commit
+3. Use `/create-pr` to open the PR. Pass the full problem statement and plan context so the skill does not need to ask the user for clarification.
+4. Monitor CI via `gh pr checks` until all checks complete. If CI fails with a code issue, diagnose, fix, re-commit, and re-push. If CI fails with infrastructure/flaky issues (timeouts, Docker cache), note it in the summary and move on.
+5. Check for auto-review bot comments (`gh pr view --comments`). Address code suggestions; ignore assignment/label bots and style nits that conflict with project conventions.
+
+> PR submitted.
 
 ---
 
@@ -112,12 +135,13 @@ Feature request: $ARGUMENTS
 
 **Goal**: Summarize what was built
 
-1. Review the final state with `git diff`
+1. Review the final state with `git diff main...HEAD`
 2. Present a summary:
    - What was built
    - Key architectural decisions
    - Files created/modified
    - How the plan evolved through agent review
+   - PR URL
    - Remaining considerations or follow-up work
 
 ---
@@ -126,28 +150,9 @@ Feature request: $ARGUMENTS
 
 **Goal**: Make the next unit of work easier than this one
 
-After shipping, reflect on the session and update the project's working knowledge. This is not about documenting what was built (the commit/PR does that) — it's about extracting **reusable lessons** that prevent future mistakes or speed up future work.
+Extract reusable lessons — not a record of what was built (the commit/PR covers that).
 
-1. **Review friction**: What slowed this session down? Did the plan miss something the codebase required? Did an agent give bad advice? Did a test fail for a non-obvious reason? Did the auto-review catch something that should have been caught earlier?
-
-2. **Check CLAUDE.md for staleness**: Read the project CLAUDE.md. Does anything need updating based on what was just built? Common triggers:
-   - New architectural patterns introduced (e.g., new table, new channel, new investigator type)
-   - Existing guidance that's now wrong or incomplete
-   - A guardrail that would have prevented a mistake made during this session
-
-3. **Update if warranted**: If something concrete should change, update it now:
-   - **CLAUDE.md**: Add/update project conventions, implementation checklist items, or architecture docs
-   - **Workflow skills**: If a phase was missing or a step was consistently wrong, update the skill
-   - **Memory**: Save non-obvious learnings (user preferences, external system quirks, debugging tips) that don't belong in CLAUDE.md
-
-4. **Skip if nothing to compound**: Most sessions won't produce updates. That's fine — only compound when there's a genuine lesson. Don't manufacture insights.
-
-**What to compound (examples):**
-- "The analytics investigator can't use `groups` table with aggregates" → CLAUDE.md checklist or skill update
-- "User prefers terse PR descriptions" → memory
-- "New HelpScout channel added, must update all channel-aware code paths" → CLAUDE.md architecture section
-
-**What NOT to compound:**
-- What was built (that's the commit message / PR description)
-- How a specific bug was fixed (that's the code diff)
-- Anything already in CLAUDE.md or derivable from the codebase
+1. **Review friction**: What slowed this session down? Missed codebase requirement, bad agent advice, non-obvious test failure?
+2. **Check CLAUDE.md for staleness**: New patterns introduced, existing guidance now wrong, or a guardrail that would have prevented a mistake?
+3. **Update if warranted**: Fix CLAUDE.md, workflow skills, or memory as appropriate.
+4. **Skip if nothing to compound**: Most sessions produce no updates. Don't manufacture insights.
