@@ -15,6 +15,7 @@ Build features end-to-end without user involvement.
 - **Ship the full request**: Build what was asked for. If the user asked for a capability, ship it — do not defer it to a later phase or propose an MVP-first approach unless the request is genuinely ambiguous.
 - **Defend with evidence**: When the skeptic challenges, respond with codebase evidence. Change the plan only when the challenge is valid.
 - **Codex second opinion**: Every `/ship` run gets one `codex:codex-rescue` pass on the plan before code is written.
+- **UI work uses `/ui`**: If the feature touches frontend or UI, follow the `/ui` skill for exploration, building, and refinement throughout the relevant phases.
 - **Signal progress**: Emit the blockquoted status line at the end of each phase so the user can track where you are.
 
 ---
