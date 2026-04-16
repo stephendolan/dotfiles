@@ -202,4 +202,4 @@ The `mcp.json` file defines MCP server connections:
 | **superset**    | Data exploration              |
 | **ynab**        | Budget tracking               |
 
-Run `./generate-mcp.sh` to sync servers to Claude Desktop, Claude CLI, and Codex CLI.
+Run `./generate-mcp.sh` to sync servers to Claude CLI and Codex CLI.

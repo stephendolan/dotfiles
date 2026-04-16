@@ -62,7 +62,7 @@
     ~/.default-gems: packages/mise/default-gems
     ~/.railsrc: dev/rails/default_flags
 
-    # Bun global binaries (symlinked for Claude Desktop PATH)
+    # Bun global binaries (exposed on PATH for MCP clients)
     ~/.local/bin/chartmogul:
       path: ~/.bun/bin/chartmogul
       if: "[ -f $HOME/.bun/bin/chartmogul ]"
