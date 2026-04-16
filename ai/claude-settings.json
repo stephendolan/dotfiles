@@ -207,7 +207,11 @@
       "Bash(psql:-c TRUNCATE TABLE:*)",
       "Bash(psql:-c TRUNCATE:*)"
     ],
-    "ask": ["Bash(gh pr comment:*)"],
+    "ask": [
+      "Bash(gh pr comment:*)",
+      "Bash(bin/deploy:*)",
+      "Bash(./bin/deploy:*)"
+    ],
     "defaultMode": "bypassPermissions"
   },
   "enableAllProjectMcpServers": true,
