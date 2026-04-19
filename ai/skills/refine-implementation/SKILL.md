@@ -7,6 +7,20 @@ description: Review my code, check for issues, clean up implementation, refine b
 
 Fresh-eyes multi-pass review before committing. You cannot objectively assess code you just wrote — specialized agents review for different concerns.
 
+## Invocation modes
+
+This skill has two modes. Which one you're in changes how you handle "should we iterate more?" steps and how you format the output.
+
+- **Interactive (default):** user is watching. Use `AskUserQuestion` for decisions, show diffs, offer to revert. Up to 3 passes.
+- **Autonomous** (invoked from a pipeline, `/ship`, or any sub-agent context with no interactive user): no `AskUserQuestion`, no multi-pass loop. One refinement pass. Return a one-line report when no changes are made — save the full `<code_refinement>` structured output for runs that actually changed the code.
+
+Detect autonomous mode when any of:
+- The invoker was an Agent tool call (you were spawned, not paged)
+- The prompt says "do not ask the user any questions"
+- You're running in the background (check whether stdin is interactive)
+
+When in doubt, default to interactive.
+
 ## Process
 
 ### 1. Gather Context
@@ -94,8 +108,12 @@ Incorporate valid findings, then do another local pass only if the external revi
 
 ### 8. Check for Another Pass
 
+**Interactive mode only — skip in autonomous mode.**
+
 **Use AskUserQuestion** to ask about next steps (3 passes maximum — diminishing returns):
 
 - **Another pass** → Return to step 3 (skip `/simplify` on subsequent passes)
 - **Review changes** → Show `git diff` and wait for feedback. Allow reverting specific changes: `git checkout HEAD -- path/to/file`
 - **Ready to commit** → Launch `committer` agent
+
+In autonomous mode, exit after a single pass. Return the structured report if you made changes, or the one-line form if everything was clean.
