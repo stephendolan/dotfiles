@@ -56,14 +56,14 @@ flowchart LR
     subgraph Workflows
         cm["/commit"]
         cpr["/create-pr"]
-        fd["/ship"]
+        sh["/ship"]
         ri["/refine-implementation"]
         ea["/examine-architecture"]
+        ica["/improve-codebase-architecture"]
         apr["/address-pr-review"]
         rd["/review-dependabot"]
-        pub["/publish"]
         int["/interview"]
-        dcr["/daily-claude-code-recap"]
+        gm["/grill-me"]
     end
 
     subgraph Agents
@@ -74,8 +74,6 @@ flowchart LR
         ar["architecture-reviewer"]
         pr["plan-refiner"]
         pcr["pr-comment-reviewer"]
-        com["committer"]
-        prc["pr-creator"]
         dr["design-refiner"]
         docr["documentation-refiner"]
         sk["skeptic"]
@@ -86,28 +84,25 @@ flowchart LR
         wcs["writing-claude-skills"]
         wcp["writing-claude-prompts"]
         wdoc["writing-documentation"]
+        mt["mom-test"]
     end
 
-    cm --> com
-    cpr --> prc
-    fd --> ce & ca & cr
+    sh --> ce & ca & cr & sk
     ri --> cf
     ea --> ar & pr
+    ica --> ar & pr
     apr --> pcr
     rd --> cr
-    pub --> com & prc
 
-    com -.-> wdoc
-    prc -.-> wdoc
     dr -.-> fdd
 
     classDef workflow fill:#4a5568,stroke:#2d3748,color:#fff
     classDef agent fill:#3182ce,stroke:#2c5282,color:#fff
     classDef skill fill:#38a169,stroke:#276749,color:#fff
 
-    class cm,cpr,fd,ri,ea,apr,rd,pub,int,dcr workflow
-    class ce,ca,cr,cf,ar,pr,pcr,com,prc,dr,docr,sk agent
-    class fdd,wcs,wcp,wdoc skill
+    class cm,cpr,sh,ri,ea,ica,apr,rd,int,gm workflow
+    class ce,ca,cr,cf,ar,pr,pcr,dr,docr,sk agent
+    class fdd,wcs,wcp,wdoc,mt skill
 ```
 
 **Legend**: Workflows (gray) spawn Agents (blue) which load Domain Skills (green)
@@ -116,19 +111,18 @@ flowchart LR
 
 ## Workflows
 
-| Workflow                   | Purpose                                            |
-| -------------------------- | -------------------------------------------------- |
-| `/commit`                  | Commit with conventional message (why > what)      |
-| `/create-pr`               | Create PR with concise description                 |
-| `/ship`                    | Autonomous end-to-end feature development          |
-| `/refine-implementation`   | Multi-pass quality review before committing        |
-| `/examine-architecture`    | Evaluate codebase for structural problems          |
-| `/address-pr-review`       | Resolve unresolved PR review comments              |
-| `/review-dependabot`       | Analyze and merge Dependabot PRs with safety check |
-| `/publish`                 | End-to-end release workflow (branch, PR, tag, npm) |
-| `/interview`               | Interview user about a plan before implementation  |
-| `/daily-claude-code-recap` | Summarize the day's Claude Code sessions           |
-| `/github-overview`         | GitHub PR dashboard for organization               |
+| Workflow                          | Purpose                                            |
+| --------------------------------- | -------------------------------------------------- |
+| `/commit`                         | Commit with conventional message (why > what)      |
+| `/create-pr`                      | Create PR with concise description                 |
+| `/ship`                           | Autonomous end-to-end feature development          |
+| `/refine-implementation`          | Multi-pass quality review before committing        |
+| `/examine-architecture`           | Evaluate codebase for structural problems          |
+| `/improve-codebase-architecture`  | Find deepening opportunities informed by ADRs      |
+| `/address-pr-review`              | Resolve unresolved PR review comments              |
+| `/review-dependabot`              | Analyze and merge Dependabot PRs with safety check |
+| `/interview`                      | Interview user about a plan before implementation  |
+| `/grill-me`                       | Relentless decision-tree interrogation of a plan   |
 
 ### Execution Flow Examples
 
@@ -144,10 +138,6 @@ flowchart LR
 /examine-architecture
   architecture-reviewer (parallel, one per surface)
   -> Consolidate findings -> plan-refiner validates fixes
-
-/publish
-  Gather context -> Ask release type -> committer: release commit
-  -> pr-creator: release PR -> Merge, tag, push -> Monitor CI
 ```
 
 ---
@@ -163,8 +153,6 @@ flowchart LR
 | **architecture-reviewer** | Evaluate brittleness, complexity, coupling         |
 | **plan-refiner**          | Validate plans, suggest simpler approaches         |
 | **pr-comment-reviewer**   | Evaluate PR comments for actionability             |
-| **committer**             | Create commits with conventional messages          |
-| **pr-creator**            | Create PRs with structured descriptions            |
 | **design-refiner**        | Iteratively refine frontend designs                |
 | **documentation-refiner** | Maintain Markdown files and developer docs         |
 | **skeptic**               | Challenge conclusions before they reach the user   |
@@ -175,17 +163,15 @@ flowchart LR
 
 Domain skills provide expertise activated automatically by context.
 
-| Skill                      | Trigger                     |
-| -------------------------- | --------------------------- |
-| **frontend-design**        | Building web interfaces     |
-| **writing-documentation**  | Updating docs               |
-| **writing-claude-skills**  | Creating Claude Code skills |
-| **writing-claude-prompts** | Writing prompts for Claude  |
-| **cooking**                | Recipes and meal planning   |
+| Skill                      | Trigger                             |
+| -------------------------- | ----------------------------------- |
+| **frontend-design**        | Building web interfaces             |
+| **writing-documentation**  | Updating docs                       |
+| **writing-claude-skills**  | Creating Claude Code skills         |
+| **writing-claude-prompts** | Writing prompts for Claude          |
+| **mom-test**               | Customer-discovery interview design |
 | **drama-triangle**         | Communication and conflict analysis |
-| **chartmogul-analytics**   | Analyzing revenue metrics   |
-| **task-management**        | GTD workflow with OmniFocus |
-| **order-daycare-lunch**    | School lunch ordering       |
+| **task-management**        | GTD workflow with OmniFocus         |
 
 ---
 

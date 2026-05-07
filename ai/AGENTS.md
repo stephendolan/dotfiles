@@ -16,22 +16,22 @@ When work decomposes into independent pieces, delegate each to a sub-agent and r
 
 - Use `run_in_background: true` for tasks that don't block your main work
 - When delegating to parallel sub-agents, no two agents should edit the same file. If edits to the same file are needed, serialize them or assign a single owner.
+- The built-in `Explore` and `Plan` subagents default to Haiku. On sessions with many MCP servers loaded, the inherited tool catalog inflates the subagent's system prompt past Haiku's limit and every call fails with "Prompt is too long" — even trivial prompts. Pass `model: sonnet` (or `opus`) on the Agent invocation to escape, or fall back to `general-purpose`.
 
 ### Quick Reference
 
-| Workflows                  | Purpose                                   |
-| -------------------------- | ----------------------------------------- |
-| `/commit`                  | Commit with conventional message (why > what) |
-| `/create-pr`               | Create PR with concise description        |
-| `/ship`                    | Autonomous end-to-end feature development |
-| `/refine-implementation`   | Multi-pass code review before commit      |
-| `/examine-architecture`    | Evaluate codebase for structural problems |
-| `/address-pr-review`       | Resolve PR review comments                |
-| `/review-dependabot`       | Analyze and merge Dependabot PRs          |
-| `/publish`                 | End-to-end release workflow               |
-| `/interview`               | Interview user about a plan               |
-| `/grill-me`                | Relentless decision-tree interrogation    |
-| `/daily-claude-code-recap` | Summarize the day's sessions              |
+| Workflows                         | Purpose                                       |
+| --------------------------------- | --------------------------------------------- |
+| `/commit`                         | Commit with conventional message (why > what) |
+| `/create-pr`                      | Create PR with concise description            |
+| `/ship`                           | Autonomous end-to-end feature development     |
+| `/refine-implementation`          | Multi-pass code review before commit          |
+| `/examine-architecture`           | Evaluate codebase for structural problems     |
+| `/improve-codebase-architecture`  | Find deepening opportunities informed by ADRs |
+| `/address-pr-review`              | Resolve PR review comments                    |
+| `/review-dependabot`              | Analyze and merge Dependabot PRs              |
+| `/interview`                      | Interview user about a plan                   |
+| `/grill-me`                       | Relentless decision-tree interrogation        |
 
 | Agents                  | Purpose                                       |
 | ----------------------- | --------------------------------------------- |
@@ -42,22 +42,19 @@ When work decomposes into independent pieces, delegate each to a sub-agent and r
 | `architecture-reviewer` | Evaluate brittleness, complexity, coupling    |
 | `plan-refiner`          | Validate plans, suggest simpler approaches    |
 | `pr-comment-reviewer`   | Evaluate PR comments for actionability        |
-| `committer`             | Create commits with conventional messages     |
-| `pr-creator`            | Create PRs with structured descriptions       |
 | `design-refiner`        | Iteratively refine frontend designs           |
 | `documentation-refiner` | Maintain Markdown files and developer docs    |
 | `skeptic`               | Challenge conclusions before reaching user    |
 
-| Domain Skills            | Trigger                   |
-| ------------------------ | ------------------------- |
-| `frontend-design`        | Building web interfaces   |
-| `writing-documentation`  | Updating docs             |
-| `writing-claude-skills`  | Creating Claude skills    |
-| `writing-claude-prompts` | Writing prompts           |
-| `chartmogul-analytics`   | Analyzing revenue metrics |
-| `task-management`        | GTD workflow (OmniFocus)  |
-| `order-daycare-lunch`    | School lunch ordering     |
-| `cooking`                | Recipes and meal planning |
+| Domain Skills            | Trigger                             |
+| ------------------------ | ----------------------------------- |
+| `frontend-design`        | Building web interfaces             |
+| `writing-documentation`  | Updating docs                       |
+| `writing-claude-skills`  | Creating Claude skills              |
+| `writing-claude-prompts` | Writing prompts                     |
+| `mom-test`               | Customer-discovery interview design |
+| `drama-triangle`         | Communication and conflict analysis |
+| `task-management`        | GTD workflow (OmniFocus)            |
 
 ## Documentation Standards
 
@@ -73,8 +70,8 @@ Avoid temporal references: "vs previous", "used to be X", "now uses Y", "the new
 
 - **Plan** -> plan-refiner approves -> **Implement**
 - **Code** -> code-refiner approves -> **Commit**
-- **Commit** -> committer agent -> **Continue/PR**
-- **PR** -> pr-creator agent -> **Done**
+- **Commit** -> `/commit` -> **Continue/PR**
+- **PR** -> `/create-pr` -> **Done**
 
 ### External Review Gate
 
@@ -126,3 +123,5 @@ Built-in Grep and Glob tools are primary for search. When bash is needed (piping
 - **of** (OmniFocus CLI) - Task management, GTD workflow
 - **helpscout** (HelpScout CLI) - Customer support for Tuple
 - **ynab** (You Need A Budget CLI) - Personal budgeting
+
+@RTK.md
