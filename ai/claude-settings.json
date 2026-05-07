@@ -295,20 +295,36 @@
     "command": "~/.dotfiles/ai/statusline.sh"
   },
   "enabledPlugins": {
-    "family@private-family-skills": true,
+    "personal@private-skills": true,
     "ralph-loop@claude-plugins-official": false,
     "stephendolan@dotfiles": true,
     "swift-lsp@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true,
     "ruby-lsp@claude-plugins-official": true,
-    "codex@openai-codex": true
+    "codex@openai-codex": true,
+    "compound-engineering@every-marketplace": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
       "source": {
         "source": "github",
         "repo": "openai/codex-plugin-cc"
-      }
+      },
+      "autoUpdate": true
+    },
+    "dotfiles": {
+      "source": {
+        "source": "github",
+        "repo": "stephendolan/dotfiles"
+      },
+      "autoUpdate": true
+    },
+    "private-skills": {
+      "source": {
+        "source": "github",
+        "repo": "stephendolan/private-skills"
+      },
+      "autoUpdate": true
     }
   },
   "spinnerTipsOverride": {
@@ -322,9 +338,10 @@
       "Exploring the architecture..."
     ]
   },
-  "effortLevel": "high",
+  "effortLevel": "xhigh",
   "autoDreamEnabled": true,
   "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990
   },
