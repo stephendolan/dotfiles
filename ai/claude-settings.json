@@ -327,5 +327,8 @@
   "skipDangerousModePermissionPrompt": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754059139990
+  },
+  "worktree": {
+    "baseRef": "head"
   }
 }
