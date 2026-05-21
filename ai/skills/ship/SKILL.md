@@ -132,7 +132,7 @@ Feature request: $ARGUMENTS
 
 **Goal**: Remove unnecessary complexity and ensure quality
 
-1. Use the `/refine-implementation` skill for fresh-eyes multi-pass review (it runs `/code-review` and optionally `/codex:adversarial-review` internally). In sub-agent mode, invoke it in its own sub-agent mode so it skips AskUserQuestion and returns a terse report when clean.
+1. Use the `/refine-implementation` skill for fresh-eyes multi-pass review (it runs `/code-review` for correctness findings and optionally `/codex:adversarial-review` internally). In sub-agent mode, invoke it in its own sub-agent mode so it skips AskUserQuestion and returns a terse report when clean.
 2. When `/refine-implementation` surfaces escalations, decide autonomously: fix genuine issues, skip cosmetic preferences.
 3. Run linters/formatters again to catch anything introduced.
 4. **Refine gate (incremental).** Run typecheck and any project-declared prod-build commands (see `CLAUDE.md` for the canonical list; e.g., a monorepo with a stricter prod tsconfig than its test tsconfig needs both). For tests, run only what the diff touches if the test runner supports it (Vitest: `--changed <base-branch>`). The full suite is Phase 7's job — this gate just proves "my diff doesn't obviously break." This saves real time across multi-issue batch runs.

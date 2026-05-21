@@ -41,9 +41,9 @@ If this is a fresh conversation on an existing branch, spawn a `code-explorer` a
 
 Pass this context summary to all review agents.
 
-### 2. Run /code-review (first pass only)
+### 2. Run /code-review for Correctness (first pass only)
 
-Run the built-in `/code-review` command as a fast first pass before the more targeted agent reviews. Skip this step on subsequent passes.
+Run the built-in `/code-review` command to report correctness bugs before the broader cleanup and refinement agents. Treat its findings as review input; do not expect it to modify code. Skip this step on subsequent passes.
 
 ### 3. Select and Launch Review Agents
 
