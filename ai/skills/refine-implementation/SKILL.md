@@ -41,9 +41,9 @@ If this is a fresh conversation on an existing branch, spawn a `code-explorer` a
 
 Pass this context summary to all review agents.
 
-### 2. Run /simplify (first pass only)
+### 2. Run /code-review (first pass only)
 
-Run the built-in `/simplify` command as a fast first pass before the more targeted agent reviews. Skip this step on subsequent passes.
+Run the built-in `/code-review` command as a fast first pass before the more targeted agent reviews. Skip this step on subsequent passes.
 
 ### 3. Select and Launch Review Agents
 
@@ -112,7 +112,7 @@ Incorporate valid findings, then do another local pass only if the external revi
 
 **Use AskUserQuestion** to ask about next steps (3 passes maximum — diminishing returns):
 
-- **Another pass** → Return to step 3 (skip `/simplify` on subsequent passes)
+- **Another pass** → Return to step 3 (skip `/code-review` on subsequent passes)
 - **Review changes** → Show `git diff` and wait for feedback. Allow reverting specific changes: `git checkout HEAD -- path/to/file`
 - **Ready to commit** → Launch `committer` agent
 
