@@ -308,21 +308,24 @@
     "openai-codex": {
       "source": {
         "source": "github",
-        "repo": "openai/codex-plugin-cc"
+        "repo": "openai/codex-plugin-cc",
+        "skipLfs": true
       },
       "autoUpdate": true
     },
     "dotfiles": {
       "source": {
         "source": "github",
-        "repo": "stephendolan/dotfiles"
+        "repo": "stephendolan/dotfiles",
+        "skipLfs": true
       },
       "autoUpdate": true
     },
     "private-skills": {
       "source": {
         "source": "github",
-        "repo": "stephendolan/private-skills"
+        "repo": "stephendolan/private-skills",
+        "skipLfs": true
       },
       "autoUpdate": true
     }
