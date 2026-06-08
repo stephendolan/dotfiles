@@ -134,8 +134,9 @@ Feature request: $ARGUMENTS
 
 1. Use the `/refine-implementation` skill for fresh-eyes multi-pass review (it runs `/code-review` for correctness findings and optionally `/codex:adversarial-review` internally). In sub-agent mode, invoke it in its own sub-agent mode so it skips AskUserQuestion and returns a terse report when clean.
 2. When `/refine-implementation` surfaces escalations, decide autonomously: fix genuine issues, skip cosmetic preferences.
-3. Run linters/formatters again to catch anything introduced.
-4. **Refine gate (incremental).** Run typecheck and any project-declared prod-build commands (see `CLAUDE.md` for the canonical list; e.g., a monorepo with a stricter prod tsconfig than its test tsconfig needs both). For tests, run only what the diff touches if the test runner supports it (Vitest: `--changed <base-branch>`). The full suite is Phase 7's job — this gate just proves "my diff doesn't obviously break." This saves real time across multi-issue batch runs.
+3. **Thermonuclear maintainability gate.** Run the `/thermonuclear-review` skill on the branch diff. Where `/refine-implementation` and `/code-review` hunt correctness, this is the strict structural pass: abstraction quality, files crossing ~1k lines, spaghetti-condition growth, thin/leaky abstractions, and type-boundary erosion — and it is intentionally ambitious about "code judo" simplifications that delete complexity rather than rearrange it. Triage its findings autonomously: act on genuine structural problems and high-confidence simplifications that preserve behavior; skip taste-only nits. Re-run the touched tests after any restructuring. In sub-agent mode, keep the invocation terse and apply only clear wins — do not let an ambitious refactor balloon a batch item's scope.
+4. Run linters/formatters again to catch anything introduced.
+5. **Refine gate (incremental).** Run typecheck and any project-declared prod-build commands (see `CLAUDE.md` for the canonical list; e.g., a monorepo with a stricter prod tsconfig than its test tsconfig needs both). For tests, run only what the diff touches if the test runner supports it (Vitest: `--changed <base-branch>`). The full suite is Phase 7's job — this gate just proves "my diff doesn't obviously break." This saves real time across multi-issue batch runs.
 
 > Code polished.
 
