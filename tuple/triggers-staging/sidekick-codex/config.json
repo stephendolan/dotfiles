@@ -1,0 +1,7 @@
+{
+  "name": "Topic Balloons - Codex",
+  "description": "Launches Codex (GPT-5.5, medium reasoning) when Tuple transcription starts. It runs a live 2D memory game: key topics and recall prompts inflate balloons on screen, and popping one reveals the supporting context.",
+  "category": "Sidekick",
+  "platforms": ["macos"],
+  "language": "bash"
+}

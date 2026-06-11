@@ -1,1 +1,6 @@
 .claude/
+
+# Tuple trigger runtime artifacts (live dirs symlink into this repo)
+tuple/**/triggers.log*
+tuple/**/.vault-lock/
+.DS_Store

@@ -90,6 +90,9 @@
 
 - shell:
     - [git config core.hooksPath .githooks, Configuring git hooks]
+    - command: ./scripts/tuple-triggers-sync.sh
+      description: Deploying Tuple triggers (runner requires real dirs, not symlinks)
+      if: "[ `uname` = Darwin ]"
     - [./scripts/dotbot-setup.sh, Setting up DotBot]
     - command: ./scripts/apt-install.sh
       description: Installing apt packages

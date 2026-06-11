@@ -1,0 +1,7 @@
+{
+  "name": "Demo Coach - Claude",
+  "description": "Launches Claude Code (Opus, medium thinking) as a live speaking coach when Tuple transcription starts. It follows the transcript in real time and coaches demo delivery — pacing, filler words, narrative arc — chiming in when you say \"Claude\".",
+  "category": "Sidekick",
+  "platforms": ["macos"],
+  "language": "bash"
+}
