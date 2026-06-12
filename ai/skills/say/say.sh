@@ -7,7 +7,8 @@ set -euo pipefail
 #
 # Required: ELEVENLABS_API_KEY in the environment (or in ~/.zshrc.local).
 # Optional env:
-#   CLAUDE_SAY_VOICE_ID      ElevenLabs voice ID (defaults to Charlie)
+#   CLAUDE_SAY_VOICE_ID      ElevenLabs voice ID (defaults to Mark - Natural
+#                            Conversations)
 #   CLAUDE_SAY_MODEL_ID      ElevenLabs model    (defaults to eleven_v3)
 #   CLAUDE_SAY_AUDIO_DEVICE  CoreAudio device display name to route through
 #                            (defaults to system default output). When this
@@ -17,7 +18,7 @@ set -euo pipefail
 #                            it is always audible locally.
 #   CLAUDE_SAY_NO_MONITOR    Set to 1 to suppress the local monitor playback
 
-VOICE_ID="${CLAUDE_SAY_VOICE_ID:-cjVigY5qzO86Huf0OWal}"
+VOICE_ID="${CLAUDE_SAY_VOICE_ID:-UgBBYS2sOqTuMpoF3BR0}"
 MODEL_ID="${CLAUDE_SAY_MODEL_ID:-eleven_v3}"
 CACHE_DIR="/tmp/claude-say"
 DEVICE_CACHE="$CACHE_DIR/audio-device-id"
