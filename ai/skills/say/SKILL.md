@@ -1,6 +1,6 @@
 ---
 name: say
-description: Speak text aloud via ElevenLabs TTS with expressive audio tags. Use when the user is on a call, away from the keyboard, or has asked you to talk back, narrate progress, or read something out loud. Supports v3 inline tags like [laughs] and [whispers], and per-call routing to a specific output device.
+description: Speak text aloud via ElevenLabs TTS with expressive audio tags. Use when the user is alone (solo on a call or away from the keyboard) or has asked you to talk back, narrate progress, or read something out loud. Never speak while the user is on a call with other people. Supports v3 inline tags like [laughs] and [whispers], and per-call routing to a specific output device.
 argument-hint: "text to speak (supports v3 audio tags)"
 allowed-tools: Bash
 ---
@@ -102,6 +102,7 @@ Bad — tag doesn't match voice character (whispering on an upbeat voice):
 
 ## When NOT to use
 
+- **The user is on a call with other people.** Only speak when the user is solo on a call (or not on a call at all). Check participants first (e.g. `tuple-dev state`); if anyone else is present, stay in the terminal — speech would interrupt their conversation and can leak into the call audio.
 - Long output, lists, tables, code — those belong in the terminal where the user can read and scroll.
 - Anything the user might not want audible to others in the room or on a call.
 - Routine task-completion noise when the user is at their keyboard and can read it.
