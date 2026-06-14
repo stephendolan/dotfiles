@@ -1,6 +1,7 @@
 # AI Coding Agent Configuration
 
-Custom agents, skills, and workflows for Claude Code.
+Custom agents, skills, and workflows for Claude Code, Codex, and other agent
+runtimes.
 
 ## Install as a Plugin
 
@@ -14,7 +15,9 @@ This repository serves as a Claude Code plugin marketplace. To install:
 /plugin install stephendolan@dotfiles
 ```
 
-Skills become available as `/stephendolan:commit`, `/stephendolan:create-pr`, etc.
+In Claude, skills become available as `/stephendolan:commit`,
+`/stephendolan:create-pr`, etc. In Codex, use the installed skills directly
+and generate native subagent roles from the canonical markdown definitions.
 
 ### Local Development
 
@@ -24,6 +27,9 @@ claude --plugin-dir ./ai
 
 # Pick up changes during development
 /reload-plugins
+
+# Regenerate Codex native roles from canonical agent markdown
+./ai/scripts/generate-codex-agents.py
 ```
 
 ### Plugin Structure
@@ -35,7 +41,8 @@ ai/
   .claude-plugin/
     plugin.json          Plugin manifest
   agents/                Subagent definitions
-  skills/                Slash command workflows and domain expertise
+  scripts/               Runtime adapter generators
+  skills/                Workflow skills and domain expertise
   hooks/                 Event handlers
   AGENTS.md              Shared instructions
   mcp.json               MCP server definitions
@@ -49,7 +56,10 @@ ai/
 
 ## Architecture
 
-Workflows orchestrate multi-step processes by spawning agents, which may load domain skills for expertise.
+Workflows orchestrate multi-step processes by spawning agents, which may load
+domain skills for expertise. Claude reads `agents/*.md` directly. Codex uses
+generated native roles under `~/.codex/agents/stephendolan/`; regenerate them
+with `./ai/scripts/generate-codex-agents.py` after editing agent markdown.
 
 ```mermaid
 flowchart LR
@@ -172,6 +182,7 @@ Domain skills provide expertise activated automatically by context.
 | **mom-test**               | Customer-discovery interview design |
 | **drama-triangle**         | Communication and conflict analysis |
 | **task-management**        | GTD workflow with OmniFocus         |
+| **notes-knowledge-base**   | Maintain Stephen's Obsidian notes knowledge base |
 
 ---
 
@@ -185,7 +196,6 @@ The `mcp.json` file defines MCP server connections:
 | **chartmogul**  | Revenue analytics             |
 | **helpscout**   | Customer support              |
 | **omnifocus**   | Task management               |
-| **superset**    | Data exploration              |
 | **ynab**        | Budget tracking               |
 
 Run `./generate-mcp.sh` to sync servers to Claude CLI and Codex CLI.

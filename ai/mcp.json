@@ -25,10 +25,6 @@
       "command": "of",
       "args": ["mcp"]
     },
-    "superset": {
-      "type": "http",
-      "url": "https://api.superset.sh/api/agent/mcp"
-    },
     "ynab": {
       "command": "ynab",
       "args": ["mcp"]

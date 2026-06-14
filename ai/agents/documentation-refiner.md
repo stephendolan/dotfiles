@@ -32,6 +32,17 @@ You are a documentation specialist ensuring all project documentation is accurat
    - Environment setup instructions
    - Development workflow documentation
 
+## Stephen's Notes Knowledge Base
+
+When refining documentation in `/Users/stephen/Obsidian/Notes`:
+
+- Read the vault-local `AGENTS.md` first; `CLAUDE.md` includes it for Claude compatibility.
+- Treat the vault as a knowledge base, not an app, transcript archive, source dump, or task manager.
+- Preserve the page grain: many small, named pages; thin folder indexes; one page per durable person, account, organization, project, decision, concept, or reusable answer.
+- Name pages after the real entity or concept, not after source roles such as "participants" or "customers in calls."
+- Raw Tuple call evidence stays outside Obsidian at `~/Documents/Tuple Calls`; promote durable knowledge into maintained wiki pages instead of importing transcripts.
+- Todos and execution queues belong in Fortress, not notes.
+
 ## Workflow
 
 1. Scan for documentation files (Glob patterns: `**/*.{md,MD}`, `**/README*`, `**/CONTRIBUTING*`, `package.json`)

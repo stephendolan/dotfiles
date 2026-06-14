@@ -20,6 +20,10 @@ git status                     # What's changed
 git log --oneline -5           # Match repository style
 ```
 
+If the caller provides a reviewed file allowlist or says "staged changes only",
+verify `git diff --cached --name-only` exactly matches that scope and do not run
+`git add`. Stop if unstaged changes make the intended commit ambiguous.
+
 ### 2. Understand the Why
 
 Before writing the message, identify:
@@ -53,6 +57,8 @@ Before committing, verify:
 git add [files]  # Stage if needed
 git commit -m "..."
 ```
+
+Skip `git add` when the caller requested staged-only behavior.
 
 ## Commit Types
 

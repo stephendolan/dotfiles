@@ -188,7 +188,6 @@
       "mcp__helpscout__*",
       "mcp__omnifocus__*",
       "mcp__plugin_compound-engineering_context7__*",
-      "mcp__superset__*",
       "mcp__ynab__*"
     ],
     "deny": [
