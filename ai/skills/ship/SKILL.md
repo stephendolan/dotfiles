@@ -16,6 +16,31 @@ Build features end-to-end without user involvement.
 
 Detect sub-agent mode when any of: invoked by another agent rather than a direct user command, the prompt explicitly says "do not ask the user", or a parent skill passed in a worktree path.
 
+## Completion contract
+
+Ship is an end-to-end workflow, not a general quality checklist.
+
+- A direct user request that names Ship, says "use ship", "ship this", or asks
+  for autonomous end-to-end development is a **full Ship invocation** by
+  default, including Phase 7 delivery. This remains true when the user phrases
+  the request as "use ship as relevant"; if Ship is relevant enough to invoke,
+  it is relevant through delivery unless one of the exceptions below applies.
+- Before changing implementation files, record the selected mode in the
+  runtime's task tracker or status stream: `Ship mode: full` or
+  `Ship mode: partial`. In full mode, include Phase 7 Deliver in the task plan.
+- Partial mode is allowed only when the user explicitly requests a dry run,
+  review, plan, local-only patch, no commit, no PR, or another no-side-effect
+  boundary; when mandatory review gates are unavailable; or when a newer user
+  instruction interrupts the workflow. If partial mode is selected, say which
+  phases are intentionally excluded before editing files.
+- In full mode, do not send a final summary after Phase 5 or Phase 6. Continue
+  through Phase 7 until the code is committed and a PR is opened, unless blocked
+  by an explicit user instruction, an unavailable mandatory review gate, a
+  failing verification gate, or an inability to isolate the intended files.
+- If full mode cannot reach Phase 7 delivery, the final summary must start with
+  `Ship incomplete:` and name the exact phase and blocker. Never describe
+  uncommitted local changes as shipped.
+
 ## Runtime model
 
 This workflow is runtime-neutral. Treat slash-command names, Claude frontmatter,
@@ -181,6 +206,9 @@ Feature request: $ARGUMENTS
 ## Phase 7: Deliver
 
 **Goal**: Get the code committed, PR opened, and (if authorized) merged.
+
+This phase is mandatory for full Ship invocations. A verified local diff is not
+a delivered Ship run.
 
 1. Run `git status` — clean up any leftover plan files, temp files, or unintended changes.
 2. Create an explicit reviewed file allowlist for the commit. Stage only files on that allowlist. Verify `git diff --cached --name-only` exactly matches the allowlist before committing. If unrelated dirty files exist, leave them unstaged and name them in the final summary; if the intended files cannot be separated cleanly, stop.
