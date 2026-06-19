@@ -213,6 +213,9 @@
     ],
     "defaultMode": "bypassPermissions"
   },
+  "attribution": {
+    "sessionUrl": false
+  },
   "enableAllProjectMcpServers": true,
   "hooks": {
     "UserPromptSubmit": [
