@@ -216,6 +216,7 @@
   "attribution": {
     "sessionUrl": false
   },
+  "respondToBashCommands": false,
   "enableAllProjectMcpServers": true,
   "hooks": {
     "UserPromptSubmit": [
