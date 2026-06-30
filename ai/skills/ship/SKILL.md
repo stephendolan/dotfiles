@@ -25,9 +25,14 @@ Ship is an end-to-end workflow, not a general quality checklist.
   default, including Phase 7 delivery. This remains true when the user phrases
   the request as "use ship as relevant"; if Ship is relevant enough to invoke,
   it is relevant through delivery unless one of the exceptions below applies.
-- Before changing implementation files, record the selected mode in the
-  runtime's task tracker or status stream: `Ship mode: full` or
-  `Ship mode: partial`. In full mode, include Phase 7 Deliver in the task plan.
+- Before changing implementation files, record the selected operating contract
+  in the runtime's task tracker or status stream:
+  - `Ship mode: full` or `Ship mode: partial`
+  - `Delivery target: pr`, `merge`, or `production`
+  - `Review budget: surgical`, `standard`, or `high-risk`
+  In full mode, include Phase 7 Deliver in the task plan. If the delivery
+  target is `production`, also include the project-declared release/deploy
+  step.
 - Partial mode is allowed only when the user explicitly requests a dry run,
   review, plan, local-only patch, no commit, no PR, or another no-side-effect
   boundary; when mandatory review gates are unavailable; or when a newer user
@@ -40,6 +45,43 @@ Ship is an end-to-end workflow, not a general quality checklist.
 - If full mode cannot reach Phase 7 delivery, the final summary must start with
   `Ship incomplete:` and name the exact phase and blocker. Never describe
   uncommitted local changes as shipped.
+
+## Delivery target
+
+Pick and announce one target before editing:
+
+- **pr** — Commit, push, and open a PR. This is the default full Ship target
+  unless the user, parent workflow, or project instructions ask for more.
+- **merge** — Open the PR, wait for required checks/reviews, then merge when
+  policy allows.
+- **production** — Merge, then run and verify the project-declared release or
+  deploy path. Use this when the user says "prod", "production", "deploy",
+  "release", "ship to users", when the parent pipeline requires it, or when the
+  final answer will claim production behavior.
+
+If the user says "full workflow" without a release/deploy word, use `pr` unless
+the project instructions define a stronger merge-on-green or production policy.
+
+## Review budget
+
+Choose the smallest budget that protects the change. Project instructions can
+raise the budget, but should not lower it for sensitive areas.
+
+- **surgical** — Small, well-owned change; usually <=2 files; no public API,
+  database, auth, permission, payment, state-machine, migration, external side
+  effect, or broad UI primitive. Use one targeted exploration pass if the owner
+  is not obvious, one fresh plan/root-cause review, and one post-diff review.
+- **standard** — Normal feature or bug fix crossing a few modules, adding user
+  visible behavior, or touching tests/contracts. Use bounded exploration,
+  plan refinement, and focused post-diff review.
+- **high-risk** — Security/auth, payments, migrations, public schemas/APIs,
+  durable data mutations, permission/tooling surfaces, shared state machines,
+  broad primitives, or reviewer disagreement. Use the full plan, skeptic, and
+  polish gates.
+
+Do not spawn the standard/high-risk reviewer set for surgical work just because
+the workflow has phases. The phase can be satisfied by a smaller review when the
+budget allows it.
 
 ## Runtime model
 
@@ -65,6 +107,12 @@ plan or diff, relevant paths/evidence, allowed write scope, and expected output
 format. Do not let specialist agents delegate further unless the caller
 explicitly asks for nested delegation.
 
+Close completed specialist agents as soon as their output has been incorporated.
+If a spawn call fails because the prompt shape or thread limit is wrong, fix the
+cause once; do not keep retrying the same delegation. Prefer one combined,
+bounded reviewer prompt over several overlapping reviewers when the review
+budget is surgical.
+
 Ship's review gates require fresh context. If the runtime cannot provide a
 subagent, external reviewer, or comparably independent fresh-context review for
 Phase 3, Phase 4, or Phase 6, stop before implementation or delivery and report
@@ -81,6 +129,9 @@ the runtime's equivalent), not here. Examples:
 - Project instructions declaring "required build gates" (for example `pnpm --filter @pkg/api run build`) -> Phase 6/7 picks them up automatically.
 - Project-level skill like `pipeline:deploy-check` -> Phase 7 invokes it optionally after merge.
 - Project instructions declaring "sensitive paths" -> Phase 4 path-sensitivity guard consults it.
+- Project instructions declaring verification matrices, deploy targets, path
+  filters, external cleanup rules, or provider-specific source-link rules ->
+  Phase 2, Phase 6, and Phase 7 use those local rules.
 
 Never hardcode specific project paths, commands, or services in this file. This skill runs across every repo.
 
@@ -107,12 +158,17 @@ Feature request: $ARGUMENTS
    - **Linear issue ID or URL** → fetch details via Linear MCP
    - **GitHub issue reference** (`#NNN`, `owner/repo#NNN`, or a github.com issue URL) → `gh issue view <n> --json title,body,labels,comments`. If the body already contains a `## Plan` or `## Implementation Plan` section with file paths, carry it forward and have Phase 2 refine rather than regenerate it.
    - **Plain feature description** → use as-is.
-2. Launch 2-3 code-explorer specialist agents in parallel:
-   - Similar existing features and their implementation patterns
-   - Architecture and abstractions in the affected area
-   - Conventions, patterns, and testing approaches
-3. Read key files identified by the explorer agents, including the project's root `AGENTS.md`, `CLAUDE.md`, or runtime-equivalent instruction file, plus any package-level instruction files in the changed areas.
-4. Synthesize a clear understanding of the feature and codebase context.
+2. For bug fixes, run a short root-cause sprint before plan review: reproduce or
+   trace the failure to the owning code path, gather current-state evidence, and
+   avoid sending a speculative solution to reviewers.
+3. Launch exploration based on the review budget:
+   - **surgical**: inspect locally first; use at most one explorer when the
+     owner or pattern is unclear.
+   - **standard**: launch 1-2 bounded explorers for distinct questions.
+   - **high-risk**: launch 2-3 bounded explorers in parallel:
+     similar existing features, architecture/abstractions, conventions/tests.
+4. Read key files identified by the explorer agents, including the project's root `AGENTS.md`, `CLAUDE.md`, or runtime-equivalent instruction file, plus any package-level instruction files in the changed areas.
+5. Synthesize a clear understanding of the feature and codebase context.
 
 > Context gathered.
 
@@ -124,11 +180,14 @@ Feature request: $ARGUMENTS
 
 1. Create a detailed implementation plan covering:
    - Problem statement and goals
+   - Delivery target and review budget
    - Architecture approach with rationale
    - Files to create/modify with specific changes
    - Build sequence (phased implementation steps)
    - Edge cases and error handling strategy
-   - Testing approach
+   - Testing/verification approach, using project-local matrices when present
+   - External/live side effects, if any, and whether they belong in this Ship
+     run or a separate cleanup run
 2. Write the plan to a temporary file for agent review
 
 > Plan drafted.
@@ -139,15 +198,24 @@ Feature request: $ARGUMENTS
 
 **Goal**: Validate the plan through expert review
 
-1. Launch plan-refiner and code-architect agents in parallel:
-   - **plan-refiner**: Evaluate for elegance, over-engineering, and maintainability. Make decisions autonomously—you have final authority on approach.
-   - **code-architect**: Validate architecture choices against codebase patterns. Provide a decisive blueprint, not multiple options.
-2. Incorporate feedback from both agents
-3. Run the independent second-opinion reviewer for blind spots, regressions, missing constraints, and simpler alternatives:
+1. Launch reviewers based on the review budget:
+   - **surgical**: one fresh-context reviewer that challenges root cause,
+     scope, and simpler alternatives. Add `code-architect` only when ownership
+     or layering is unclear.
+   - **standard**: `plan-refiner` plus either `code-architect` or the most
+     relevant specialist.
+   - **high-risk**: `plan-refiner` and `code-architect` in parallel, plus the
+     independent second opinion below.
+2. Incorporate valid feedback. Make decisions autonomously; you have final
+   authority on approach.
+3. For standard/high-risk work, run the independent second-opinion reviewer for
+   blind spots, regressions, missing constraints, and simpler alternatives:
    - Claude: prefer `codex:codex-rescue` when available.
    - Codex: prefer `ce-adversarial-document-reviewer` for risky plans; otherwise use a fresh `default` subagent with the plan, evidence, and review criteria.
    - Other runtimes: use the closest fresh-context reviewer available.
-4. If reviewers suggest significant changes, update the plan and re-run the plan-refiner to settle tradeoffs.
+4. If reviewers suggest significant changes, update the plan and re-run a single
+   settling reviewer to resolve tradeoffs. Do not restart the full reviewer set
+   unless the budget is high-risk and the plan materially changed.
 5. The plan is ready when the internal reviewers are aligned and any valid independent-review feedback has been incorporated.
 
 > Plan refined.
@@ -158,18 +226,24 @@ Feature request: $ARGUMENTS
 
 **Goal**: Stress-test the plan against adversarial scrutiny
 
-1. Launch the skeptic agent with the full plan and codebase context. Direct the skeptic to challenge:
+1. Launch the skeptic agent with the full plan and codebase context when any of
+   these are true: review budget is high-risk, project instructions require it,
+   the diff touches sensitive paths, reviewers disagreed, or the plan changed
+   materially after review. For surgical/standard work without those triggers,
+   the Phase 3 fresh-context reviewer can satisfy this phase if it explicitly
+   challenged root cause, scope, and simpler alternatives.
+2. Direct the skeptic to challenge:
    - Whether this solves the root cause or just a symptom
    - Whether any features the user asked for are being deferred or phased unnecessarily
    - Whether legacy compat or backward-compat is being added without justification
    - Whether an upstream fix would be better than a workaround
    - Whether the scope matches the actual request (not over-engineered, not under-engineered)
-2. Handle the skeptic's verdict:
+3. Handle the skeptic's verdict:
    - **APPROVED**: Proceed to implementation
    - **CONDITIONALLY_APPROVED**: Address the conditions, then proceed
    - **REJECTED**: Address each challenge with evidence and reasoning, then re-submit
-3. If challenges remain after your response, launch the plan-refiner to arbitrate between the plan, the skeptic's challenges, and your responses. The plan-refiner's call is final.
-4. Maximum 2 rounds with the skeptic. After that, the plan-refiner decides.
+4. If challenges remain after your response, launch the plan-refiner to arbitrate between the plan, the skeptic's challenges, and your responses. The plan-refiner's call is final.
+5. Maximum 2 rounds with the skeptic. After that, the plan-refiner decides.
 
 > Plan defended.
 
@@ -193,9 +267,30 @@ Feature request: $ARGUMENTS
 
 **Goal**: Remove unnecessary complexity and ensure quality
 
-1. Use the `refine-implementation` skill for fresh-eyes multi-pass review. In Claude this is `/refine-implementation`; in Codex this is `$refine-implementation` or the loaded skill. Ship requires a correctness review and an independent adversarial pass before delivery; if the runtime cannot provide both, stop and report the missing review gate. In sub-agent mode, invoke it in its own sub-agent mode so it asks no user questions and returns a terse report when clean.
+1. Run fresh-eyes diff review based on the review budget:
+   - **surgical**: one post-diff reviewer focused on correctness and
+     simplicity. Use `refine-implementation` in autonomous mode when available,
+     but ask it for one bounded pass.
+   - **standard**: use the `refine-implementation` skill for correctness and
+     maintainability review. In Claude this is `/refine-implementation`; in
+     Codex this is `$refine-implementation` or the loaded skill.
+   - **high-risk**: require correctness review plus an independent adversarial
+     pass before delivery; if the runtime cannot provide both, stop and report
+     the missing review gate.
+   In sub-agent mode, invoke review skills in their own sub-agent mode so they
+   ask no user questions and return terse reports when clean.
 2. When `refine-implementation` surfaces escalations, decide autonomously: fix genuine issues, skip cosmetic preferences.
-3. **Thermonuclear maintainability gate.** Run the `thermonuclear-review` skill on the branch diff. Where `refine-implementation` and code review hunt correctness, this is the strict structural pass: abstraction quality, files crossing ~1k lines, spaghetti-condition growth, thin/leaky abstractions, and type-boundary erosion — and it is intentionally ambitious about "code judo" simplifications that delete complexity rather than rearrange it. Triage its findings autonomously: act on genuine structural problems and high-confidence simplifications that preserve behavior; skip taste-only nits. Re-run the touched tests after any restructuring. In sub-agent mode, keep the invocation terse and apply only clear wins — do not let an ambitious refactor balloon a batch item's scope.
+3. **Thermonuclear maintainability gate.** Run the `thermonuclear-review` skill
+   only when the review budget is high-risk, the diff is structurally broad,
+   files are crossing ~1k lines, or the change introduces a new abstraction.
+   Where `refine-implementation` and code review hunt correctness, this is the
+   strict structural pass: abstraction quality, spaghetti-condition growth,
+   thin/leaky abstractions, and type-boundary erosion. Triage its findings
+   autonomously: act on genuine structural problems and high-confidence
+   simplifications that preserve behavior; skip taste-only nits. Re-run the
+   touched tests after any restructuring. In sub-agent mode, keep the invocation
+   terse and apply only clear wins — do not let an ambitious refactor balloon a
+   batch item's scope.
 4. Run linters/formatters again to catch anything introduced.
 5. **Refine gate (incremental).** Run typecheck and any project-declared prod-build commands from the project instructions. For tests, run only what the diff touches if the test runner supports it (Vitest: `--changed <base-branch>`). The full suite is Phase 7's job — this gate just proves "my diff doesn't obviously break." This saves real time across multi-issue batch runs.
 
@@ -213,6 +308,11 @@ a delivered Ship run.
 1. Run `git status` — clean up any leftover plan files, temp files, or unintended changes.
 2. Create an explicit reviewed file allowlist for the commit. Stage only files on that allowlist. Verify `git diff --cached --name-only` exactly matches the allowlist before committing. If unrelated dirty files exist, leave them unstaged and name them in the final summary; if the intended files cannot be separated cleanly, stop.
 3. Full-suite gate: run typecheck + tests + any project-declared prod-build from the project instructions. Rebase onto the base branch first (`git fetch origin <base> && git rebase origin/<base>`) so you're testing against current trunk.
+   - Use the project verification matrix when one exists. Do not invent broad
+     gates just because a repository has unrelated workflows.
+   - If CI path filters clearly exclude this diff and project instructions do
+     not require a manual run, rely on the relevant local/project gate instead
+     of dispatching unrelated CI.
 4. **Flake sentinel.** If a test that was green in Phase 6 now fails after rebase: don't retry blindly. Re-run just the failing test file in isolation twice. Two passes in isolation = flake (test-ordering, shared DB state); note in the PR body and continue. One persistent failure = real regression pulled in by the rebase; identify the likely commit via `git log --oneline <base-sha>..origin/<base>` and escalate.
 5. Use the `commit` skill to create the commit. Use the runtime's native invocation (`/commit`, `$commit`, or loaded skill), pass enough context that it can write a why-focused message without asking questions, and explicitly instruct it to commit staged changes only without staging additional files.
 6. Use the `create-pr` skill to open the PR. Use the runtime's native invocation (`/create-pr`, `$create-pr`, or loaded skill) and pass the full problem statement and plan context so the skill does not need to ask the user for clarification. If the input was a GitHub issue #, include `Closes #N` in the PR body.
@@ -220,8 +320,19 @@ a delivered Ship run.
    - `.github/workflows/` exists with non-Dependabot workflows → monitor via `gh pr checks` until all checks complete. Code failure → diagnose, fix, re-commit, re-push. Infra/flake failure → note in summary and move on.
    - No CI workflows → the local gate IS the merge gate. Green locally = ready to merge. Don't wait.
 8. Check for auto-review bot comments (`gh pr view --comments`). Address code suggestions; ignore assignment/label bots and style nits that conflict with project conventions.
-9. **Merge** — if a merge-on-green policy applies (for example invoked from a pipeline, or declared by the repo's project instructions), squash-merge via `gh pr merge <pr> --squash --delete-branch`. Otherwise leave the PR open for human review.
-10. **Optional deploy check** — if a project-level deploy-check skill exists, invoke it now to poll post-merge deploy status while context is warm.
+9. **Merge** — if the delivery target is `merge` or `production`, or if a
+   merge-on-green policy applies (for example invoked from a pipeline, or
+   declared by the repo's project instructions), squash-merge via
+   `gh pr merge <pr> --squash --delete-branch`. Otherwise leave the PR open for
+   human review.
+10. **Deploy/release** — if the delivery target is `production`, run the
+   project-declared release/deploy path and verify the deployed/released SHA.
+   If the project has a deploy-check skill, invoke it now while context is warm.
+11. **Live side effects** — do not mix unrelated external cleanup, backfills, or
+   production data repair into the code-shipping path unless the user explicitly
+   asked for it or the deploy would be unsafe without it. If the live mutation
+   path is blocked or independent, finish the code delivery and produce a
+   bounded handoff prompt/action for the cleanup.
 
 > PR submitted.
 
@@ -235,6 +346,7 @@ a delivered Ship run.
 2. Present a summary:
    - What was built
    - Key architectural decisions
+   - Delivery target reached
    - Files created/modified
    - How the plan evolved through agent review
    - PR URL
