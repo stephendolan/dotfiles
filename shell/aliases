@@ -23,9 +23,8 @@ alias gd='git diff'
 
 # CLAUDE
 alias c='claude --allow-dangerously-skip-permissions'
-alias cc='claude --continue --allow-dangerously-skip-permissions'
-alias tc='tmux new -- claude --allow-dangerously-skip-permissions'
-alias tcc='tmux new -- claude --continue --allow-dangerously-skip-permissions'
+alias cw='c --worktree'
+alias cc='c --continue'
 
 # SHORTCUTS
 alias s='scry'
