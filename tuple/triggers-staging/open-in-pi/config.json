@@ -1,7 +1,0 @@
-{
-  "name": "Open in Pi",
-  "description": "Launches Pi in the current Tuple transcription directory when transcription starts, with a live-call sidekick prompt that asks Pi to configure itself to monitor the transcript in the background while staying responsive.",
-  "category": "Sidekick",
-  "platforms": ["macos"],
-  "language": "bash"
-}
