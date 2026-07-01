@@ -54,8 +54,7 @@ non-Claude runtimes.
 | `/improve-codebase-architecture`  | Find deepening opportunities informed by ADRs |
 | `/address-pr-review`              | Resolve PR review comments                    |
 | `/review-dependabot`              | Analyze and merge Dependabot PRs              |
-| `/interview`                      | Interview user about a plan                   |
-| `/grill-me`                       | Relentless decision-tree interrogation        |
+| `/grill-me`                       | Interrogate a plan to resolve every open decision |
 
 | Agents                  | Purpose                                       |
 | ----------------------- | --------------------------------------------- |
