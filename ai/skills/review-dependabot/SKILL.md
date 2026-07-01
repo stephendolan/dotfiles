@@ -94,13 +94,12 @@ gh pr merge {number} --squash
 
 ## Detection Patterns
 
-Identify PR types from title patterns:
+Map title and body patterns to the categories above:
 
-| Title Pattern      | Category                                  |
-| ------------------ | ----------------------------------------- |
-| `Bump @types/`     | TypeScript types (safe)                   |
-| `Bump actions/`    | GitHub Actions (check for workflow files) |
-| `group` in title   | Grouped update (evaluate each dependency) |
-| `security` in body | Security patch (prioritize)               |
-| `CVE-` in body     | Security patch (prioritize)               |
-| `x.0.0` in version | Major bump (needs review)                 |
+| Pattern                        | Category               |
+| ------------------------------ | ---------------------- |
+| `Bump @types/`                 | Safe to Merge          |
+| `security` or `CVE-` in body   | Safe to Merge          |
+| `Bump actions/`                | Manual Merge Required  |
+| `group` in title               | Needs Review           |
+| `x.0.0` in version             | Needs Review           |

@@ -85,33 +85,9 @@ budget allows it.
 
 ## Runtime model
 
-This workflow is runtime-neutral. Treat slash-command names, Claude frontmatter,
-and Codex skill names as invocation details, not as the workflow contract.
-
-| Concept | Claude | Codex | Runtime-neutral behavior |
-| --- | --- | --- | --- |
-| Workflow skill | `/ship`, `/commit`, `/create-pr` | `$ship`, `$commit`, `$create-pr`, or direct skill use | Load and follow the matching `SKILL.md`. |
-| Specialist agent | Agent tool with `agents/*.md` | Native generated role from `$CODEX_HOME/agents/stephendolan/` defaulting to `~/.codex/agents/stephendolan/`, or `default` subagent plus `agents/RUNTIME.md` and the requested agent markdown | Spawn when the user invoked Ship or otherwise explicitly asked for delegation; otherwise apply the role in the main thread. |
-| Project instructions | `CLAUDE.md` | `AGENTS.md` plus any `CLAUDE.md` compatibility file | Read the runtime's project instruction file before planning edits. |
-| Task tracking | `TodoWrite` or Task tools | `update_plan` | Keep an explicit phase/task state when the runtime has a tracker. |
-| Human question | `AskUserQuestion` | direct user question or `request_user_input` when available | Avoid during Ship; use plan-refiner arbitration or fail loudly. |
-
-When a runtime cannot launch a named specialist directly, resolve paths from
-the plugin root, meaning the directory that contains both `agents/` and
-`skills/`. Read `agents/RUNTIME.md` and the relevant `agents/<name>.md`, then
-provide both as the role contract to the runtime's generic subagent.
-
-Invoking Ship is an explicit request for the specialist reviews named in this
-workflow. Keep delegated tasks bounded: give each specialist the goal, current
-plan or diff, relevant paths/evidence, allowed write scope, and expected output
-format. Do not let specialist agents delegate further unless the caller
-explicitly asks for nested delegation.
-
-Close completed specialist agents as soon as their output has been incorporated.
-If a spawn call fails because the prompt shape or thread limit is wrong, fix the
-cause once; do not keep retrying the same delegation. Prefer one combined,
-bounded reviewer prompt over several overlapping reviewers when the review
-budget is surgical.
+This workflow is runtime-neutral. Running under a non-Claude runtime (Codex,
+etc.) or need project-overlay resolution? Read `runtime.md` for the cross-runtime
+mapping table and project-overlay rules.
 
 Ship's review gates require fresh context. If the runtime cannot provide a
 subagent, external reviewer, or comparably independent fresh-context review for
@@ -119,21 +95,6 @@ Phase 3, Phase 4, or Phase 6, stop before implementation or delivery and report
 the missing capability. Applying the persona in the main thread is acceptable
 for ordinary role adaptation, but it does not satisfy Ship's mandatory review
 gates.
-
-## Project overlays
-
-Project-specific gates, path-sensitivity lists, and deploy checks belong in the
-project repo (`AGENTS.md`, `CLAUDE.md`, `.claude/skills/`, `.codex/skills/`, or
-the runtime's equivalent), not here. Examples:
-
-- Project instructions declaring "required build gates" (for example `pnpm --filter @pkg/api run build`) -> Phase 6/7 picks them up automatically.
-- Project-level skill like `pipeline:deploy-check` -> Phase 7 invokes it optionally after merge.
-- Project instructions declaring "sensitive paths" -> Phase 4 path-sensitivity guard consults it.
-- Project instructions declaring verification matrices, deploy targets, path
-  filters, external cleanup rules, or provider-specific source-link rules ->
-  Phase 2, Phase 6, and Phase 7 use those local rules.
-
-Never hardcode specific project paths, commands, or services in this file. This skill runs across every repo.
 
 ## Principles
 
@@ -168,7 +129,7 @@ Feature request: $ARGUMENTS
    - **high-risk**: launch 2-3 bounded explorers in parallel:
      similar existing features, architecture/abstractions, conventions/tests.
 4. Read key files identified by the explorer agents, including the project's root `AGENTS.md`, `CLAUDE.md`, or runtime-equivalent instruction file, plus any package-level instruction files in the changed areas.
-5. Synthesize a clear understanding of the feature and codebase context.
+5. Synthesize understanding: confirm every file the explorers flagged is read, and the project instruction file(s) are read.
 
 > Context gathered.
 
@@ -216,7 +177,7 @@ Feature request: $ARGUMENTS
 4. If reviewers suggest significant changes, update the plan and re-run a single
    settling reviewer to resolve tradeoffs. Do not restart the full reviewer set
    unless the budget is high-risk and the plan materially changed.
-5. The plan is ready when the internal reviewers are aligned and any valid independent-review feedback has been incorporated.
+5. The plan is ready when every reviewer returned, and every valid finding is either incorporated or has a recorded rejection rationale.
 
 > Plan refined.
 
@@ -277,8 +238,8 @@ Feature request: $ARGUMENTS
    - **high-risk**: require correctness review plus an independent adversarial
      pass before delivery; if the runtime cannot provide both, stop and report
      the missing review gate.
-   In sub-agent mode, invoke review skills in their own sub-agent mode so they
-   ask no user questions and return terse reports when clean.
+   In sub-agent mode, invoke review skills in their own sub-agent mode (see
+   Invocation modes) so they inherit the no-user-questions, terse-report behavior.
 2. When `refine-implementation` surfaces escalations, decide autonomously: fix genuine issues, skip cosmetic preferences.
 3. **Thermonuclear maintainability gate.** Run the `thermonuclear-review` skill
    only when the review budget is high-risk, the diff is structurally broad,
@@ -356,7 +317,7 @@ a delivered Ship run.
 
 ## Phase 9: Compound
 
-**Skip in sub-agent mode** — the parent batch owns cross-issue lessons and will compound at its own wrap-up.
+**Skip in sub-agent mode** (see Invocation modes) — the parent batch compounds cross-issue lessons at its own wrap-up.
 
 **Goal** (interactive only): Make the next unit of work easier than this one
 

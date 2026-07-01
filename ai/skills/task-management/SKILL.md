@@ -94,9 +94,3 @@ Focus on effort, not results:
 Frame naturally: "Sounds like the next step is drafting that email?" / "Should I add that to your inbox?"
 
 Avoid: "Here's your GTD structure with contexts..."
-
-## Principles
-
-- **Concrete beats vague**: Actual next step, not intention
-- **Controllable beats outcome**: Effort over results
-- **Capture beats remember**: Get it into OmniFocus immediately

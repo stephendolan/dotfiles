@@ -1,6 +1,6 @@
 ---
 name: notes-knowledge-base
-description: Maintain Stephen's Obsidian notes knowledge base in /Users/stephen/Obsidian/Notes. Use when working with Stephen's notes, personal knowledge base, Obsidian vault, qmd setup, source pages, source summaries, or life/work knowledge retrieval.
+description: Maintain Stephen's Obsidian notes knowledge base in /Users/stephen/Obsidian/Notes. Use when working with Stephen's personal knowledge base, qmd setup, source pages, or life/work knowledge retrieval.
 ---
 
 # Notes Knowledge Base
@@ -56,7 +56,7 @@ For Tuple calls:
 2. Use `events.jsonl` for people and metadata.
 3. Use `call-summary.md` when present and `transcriptions.jsonl` when exact content matters.
 4. Classify low-signal tests and empty calls in `Topics/Tuple Calls.md` instead of importing them.
-5. Promote durable knowledge into `Areas/Tuple/Projects/`, `Topics/Tuple Call Decisions.md`, `Areas/Tuple/Customer Signals.md`, `Entities/Accounts/`, `Entities/People/`, and concept pages. Name pages for real entities and concepts, not source roles.
+5. Promote durable knowledge into `Areas/Tuple/Projects/`, `Topics/Tuple Call Decisions.md`, `Areas/Tuple/Customer Signals.md`, `Entities/Accounts/`, `Entities/People/`, and concept pages.
 6. Cite call evidence by date/time and call ID, not by creating raw transcript pages in Obsidian.
 7. Delete temporary helper scripts or reports before finishing.
 
@@ -112,6 +112,4 @@ Use filesystem tools for ordinary markdown inspection and scoped edits. Read `Op
 
 ## Boundary
 
-Do not create todos, reminders, or execution queues in the knowledge base. Capture real tasks in Fortress and keep the vault focused on durable knowledge, decisions, context, and evidence.
-
-Do not leave large imports as transcript/source dumps. Extract durable people, projects, accounts, decisions, vocabulary, customer signals, and contradictions into maintained wiki pages with evidence pointers.
+The vault-local `AGENTS.md` (read in step 1) and the global knowledge-base contract define what belongs here. Keep the vault focused on durable knowledge, decisions, context, and evidence; capture real tasks in Fortress, not the vault.

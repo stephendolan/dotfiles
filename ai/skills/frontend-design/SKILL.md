@@ -5,8 +5,6 @@ allowed-tools: AskUserQuestion
 license: Complete terms in LICENSE.txt
 ---
 
-This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics.
-
 **Always implement, never just suggest**: Create complete, working code with full styling, animations, and interactions. If the purpose or aesthetic direction is unclear, use AskUserQuestion to clarify before proceeding.
 
 ## Existing Projects: Adapt First
@@ -54,12 +52,4 @@ Avoid generic AI-generated aesthetics: overused font families (Inter, Roboto, Ar
 
 Interpret creatively and make unexpected choices that feel genuinely designed for the context. No design should be the same. Vary between light and dark themes, different fonts, different aesthetics. Don't converge on common choices (Space Grotesk, for example) across generations.
 
-Match implementation complexity to the aesthetic vision. Maximalist designs need elaborate code with extensive animations and effects. Minimalist or refined designs need restraint, precision, and careful attention to spacing, typography, and subtle details. Elegance comes from executing the vision well.
-
-Remember: Claude is capable of extraordinary creative work. Don't hold back, show what can truly be created when pushing beyond conventions and committing fully to a distinctive vision.
-
-## Summary
-
-- **Existing projects**: Match the codebase first - discover and extend existing patterns
-- **Greenfield projects**: Commit to a bold aesthetic direction with intentionality
-- **Every design**: Typography, color, motion, composition, and atmosphere should feel distinctive and memorable
+Match implementation complexity to the aesthetic vision. Maximalist designs need elaborate code with extensive animations and effects. Minimalist or refined designs need restraint, precision, and careful attention to spacing, typography, and subtle details.

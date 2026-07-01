@@ -1,6 +1,6 @@
 ---
 name: address-pr-review
-description: Handle PR feedback, address review comments, fix PR issues, respond to reviewer. Use when PR has comments to address, need to resolve feedback, or reviewer requested changes.
+description: Analyze unresolved PR review comments and recommend whether to fix, skip, or optionally address each. Use when a PR has review comments and you need a verdict on how to respond.
 argument-hint: PR number or URL
 context: fork
 ---
@@ -103,12 +103,3 @@ Found {N} unresolved comments.
 
 {Synthesized recommendation across all comments}
 ```
-
-## Guidelines
-
-- Only analyze unresolved comments (`isResolved == false`)
-- Launch agents in parallel for speed
-- Be critical but reasonable about recommendations
-- Consider CLAUDE.md principles when evaluating suggestions
-- Consolidate duplicate comments
-- Use clear verdicts: Should Fix, Optional, or Skip

@@ -48,9 +48,7 @@ For each party in the communication, determine which role they've been assigned:
 
 ### Step 2: Check for Role Rotation
 
-Look for statements that shift between roles in the same communication:
-- "After everything I've done [Rescuer], this is how they treat me [Victim]"
-- "I've been patient [Rescuer], but now I have to be blunt [Persecutor]"
+Look for statements that shift between roles in the same communication (e.g., the Rescuer→Victim and Victim→Persecutor patterns described above). The shift mid-communication is the tell that the author is inside the triangle.
 
 ### Step 3: Find Hidden Payoffs
 
@@ -85,12 +83,10 @@ The author should be able to state their core message without making anyone a vi
 
 Before a difficult conversation, evaluate:
 
-1. **Am I making anyone a victim?** (including myself)
-2. **Am I assigning villain motives?** (greed, laziness, abandonment)
-3. **Am I positioning myself as the hero?** (savior, martyr, only solution)
-4. **What's my honest want?** (state it in one sentence)
-5. **How do I respect everyone's agency?** (they can choose, they're capable)
-6. **What's the mutual benefit framing?** (not "I'm sacrificing for you")
+1. **Does my core message pass the One-Liner Test?** (no one cast as victim, villain, or hero — see Step 5)
+2. **What's my honest want?** (state it in one sentence)
+3. **How do I respect everyone's agency?** (they can choose, they're capable)
+4. **What's the mutual benefit framing?** (not "I'm sacrificing for you")
 
 See `references/conversation-audit.md` for a detailed audit checklist to apply line-by-line.
 See `references/language-patterns.md` for a comprehensive list of drama markers organized by role.

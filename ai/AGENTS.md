@@ -74,8 +74,6 @@ non-Claude runtimes.
 | ------------------------ | ----------------------------------- |
 | `frontend-design`        | Building web interfaces             |
 | `writing-documentation`  | Updating docs                       |
-| `writing-claude-skills`  | Creating Claude skills              |
-| `writing-claude-prompts` | Writing prompts                     |
 | `mom-test`               | Customer-discovery interview design |
 | `drama-triangle`         | Communication and conflict analysis |
 | `task-management`        | GTD workflow (OmniFocus)            |

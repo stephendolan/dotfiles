@@ -7,14 +7,7 @@ context: fork
 
 # Architecture Examination
 
-You are examining a codebase's architecture to identify structural problems. Follow a systematic approach: identify architectural surfaces, analyze each in parallel, consolidate findings, then validate with plan-refiner.
-
-## Core Principles
-
-- **Analyze, don't fix**: This command identifies problems and creates implementation plans, but doesn't make changes
-- **Parallel analysis**: Launch multiple agents to examine different surfaces simultaneously
-- **Validate recommendations**: Use plan-refiner to eliminate over-engineering from proposed fixes
-- **Use TodoWrite**: Track all progress throughout
+You are examining a codebase's architecture to identify structural problems. **Analyze, don't fix**: this command identifies problems and creates implementation plans, but doesn't make changes.
 
 ---
 

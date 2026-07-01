@@ -102,7 +102,7 @@ Bad — tag doesn't match voice character (whispering on an upbeat voice):
 
 ## When NOT to use
 
-- **The user is on a call with other people.** Only speak when the user is solo on a call (or not on a call at all). Check participants first (e.g. `tuple-dev state`); if anyone else is present, stay in the terminal — speech would interrupt their conversation and can leak into the call audio.
+- **Check participants before speaking.** Only speak when the user is solo on a call (or not on a call at all); if anyone else is present (check first, e.g. `tuple-dev state`), stay in the terminal — speech would interrupt their conversation and can leak into the call audio.
 - Long output, lists, tables, code — those belong in the terminal where the user can read and scroll.
 - Anything the user might not want audible to others in the room or on a call.
 - Routine task-completion noise when the user is at their keyboard and can read it.

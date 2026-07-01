@@ -1,6 +1,6 @@
 ---
 name: create-pr
-description: Create PR, open pull request, submit for review, push branch. Use when code is ready for review, need to create PR, or "make a PR". Creates concise descriptions focused on the problem being solved.
+description: Open a pull request for the current branch. Use when code is ready for review. Creates concise descriptions focused on the problem being solved.
 argument-hint: Optional branch name or --draft flag
 ---
 
@@ -62,12 +62,6 @@ gh pr create --title "type(scope): summary" --body "..."
 
 Report the PR URL when complete.
 
-## What to Include
-
-- Summary (2-3 sentences max)
-- Problem statement (verify with user if uncertain)
-- Core changes (only for major architectural work)
-
 ## What to Exclude
 
 - Technical details sections
@@ -76,10 +70,3 @@ Report the PR URL when complete.
 - File listings (visible in diff)
 - Migration notes
 - Follow-up work sections
-
-## Key Principles
-
-- **Why over what**: The diff shows what changed; explain why
-- **Trust CI/CD**: Don't document what automated tests verify
-- **Brevity**: Two sections (Summary + Problem) is normal and sufficient
-- **Question uncertainty**: Always verify problem statements you're unsure about

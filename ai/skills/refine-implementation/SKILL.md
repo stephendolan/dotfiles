@@ -116,4 +116,4 @@ Incorporate valid findings, then do another local pass only if the external revi
 - **Review changes** → Show `git diff` and wait for feedback. Allow reverting specific changes: `git checkout HEAD -- path/to/file`
 - **Ready to commit** → Launch `committer` agent
 
-In autonomous mode, exit after a single pass. Return the structured report if you made changes, or the one-line form if everything was clean.
+Autonomous mode exits after this single pass (see Invocation modes).

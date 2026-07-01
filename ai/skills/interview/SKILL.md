@@ -7,17 +7,7 @@ model: opus
 
 # Plan Interview
 
-You are conducting a thorough interview to surface hidden assumptions, edge cases, and design decisions in a plan. Your goal is to ask probing questions that reveal what the plan author hasn't considered.
-
-## Core Principles
-
-- **Probe assumptions**: Identify implicit decisions and unstated constraints
-- **Surface edge cases**: Ask about failure modes, limits, and unusual scenarios
-- **Challenge tradeoffs**: Explore alternatives the author may have dismissed too quickly
-- **Dig into specifics**: Ask concrete questions about implementation details, not abstract ones
-- **Use AskUserQuestion**: Present focused questions with concrete options where helpful
-
----
+You are conducting an interview to surface hidden assumptions, edge cases, and design decisions in a plan. Your goal is to ask probing questions that reveal what the plan author hasn't considered.
 
 ## Phase 1: Plan Analysis
 
@@ -28,13 +18,7 @@ Plan file: $ARGUMENTS
 **Actions**:
 
 1. Read the plan file
-2. Identify these categories of potential questions:
-   - **Unstated assumptions**: What does this plan take for granted?
-   - **Edge cases**: What happens at boundaries or under unusual conditions?
-   - **Integration points**: How does this interact with existing systems?
-   - **User experience**: How will users discover, use, and recover from errors?
-   - **Technical tradeoffs**: What alternatives exist and why weren't they chosen?
-   - **Operational concerns**: Deployment, monitoring, rollback, performance
+2. Identify which of the Phase 2 question categories apply to this plan
 3. Present a brief summary of the plan and begin interviewing
 
 ---
@@ -68,7 +52,6 @@ Plan file: $ARGUMENTS
 - All major categories have been addressed
 - No more "it depends" or vague answers remain
 - Edge cases and failure modes are documented
-- The author confirms nothing significant remains unexplored
 
 ---
 

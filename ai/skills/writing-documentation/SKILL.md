@@ -53,22 +53,3 @@ Show examples with inline comments, not verbose prose descriptions.
 ## Common Issues
 
 Outdated instructions, missing prerequisites, broken examples, inconsistent formatting, stale information
-
-## Maintenance Checklist
-
-- [ ] Headers follow hierarchy
-- [ ] Code blocks specify language
-- [ ] Links work
-- [ ] Examples are tested
-- [ ] Consistent terminology
-- [ ] Active voice, imperative mood
-- [ ] Prerequisites stated
-
-## Remember
-
-- **Scannable beats comprehensive** - Walls of text don't get read
-- **Show don't tell** - Examples over explanations
-- **Test everything** - Code examples must work
-- **Concise beats verbose** - Cut unnecessary words
-
-Documentation is for the reader, not the writer.

@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Commit changes, save work, create git commit. Use when done coding, ready to commit, need to save progress, or "commit this". Creates conventional commit messages focused on why, not what.
+description: Create a git commit. Use when ready to commit changes. Creates conventional commit messages focused on why, not what.
 argument-hint: Optional message hint or --amend flag
 ---
 
@@ -114,11 +114,3 @@ fix(api): handle null response
 refactor(database): normalize user schema
 chore: update dependencies
 ```
-
-## Key Principles
-
-- **Why over what**: The diff shows what; the message explains why
-- **Concise**: Every word must earn its place
-- **Imperative**: "add feature" not "added feature"
-- **Specific**: "fix login validation" not "fix bug"
-- **Match style**: Check `git log` and follow existing patterns

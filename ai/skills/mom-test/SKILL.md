@@ -124,20 +124,16 @@ See `references/bad-data-taxonomy.md` for transcript-scanning heuristics.
 
 - **Pitching mid-discovery** instead of listening
 - **Seeking validation** rather than disconfirmation
-- **Customer segment too broad** to produce convergent signal (e.g., "developers" is not a segment)
+- **Customer segment too broad** to produce convergent signal (e.g., "developers" is not a segment) — and stopping too early on a handful of interviews drawn from it
 - **Formal "interview" framing** ("Thanks for agreeing to this interview…") that triggers performance behavior — keep it casual
 - **Obeying feature requests** instead of diagnosing the underlying problem
 - **Confirmation bias**: stopping the conversation when you hear what you wanted
 - **No commitment ask**: accepting "this is great" as data
 - **Confusing complainers with customers** — they want it solved ≠ they'll pay
 - **One-person learning bottleneck**: secondhand accounts lose the nuance that drives decisions
-- **Stopping too early** with three interviews from a too-broad segment
 
 ## Remember
 
 - A "meh" with specifics outranks a "Wow!" without them.
-- People stop lying when you ask for money.
-- If they haven't already tried to solve it, they won't buy your solution.
 - Ideas should be understood, not obeyed. *You own the solution; they own the problem.*
 - The goal of a discovery call is anti-sales: get rejected by everyone except people who genuinely care.
-- Conversation isn't data until it's anchored to a specific past behavior, a concrete constraint, or an actual commitment.
