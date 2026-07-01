@@ -21,7 +21,7 @@ apply the relevant role in the main thread.
 
 - Use `run_in_background: true` for tasks that don't block your main work
 - When delegating to parallel sub-agents, no two agents should edit the same file. If edits to the same file are needed, serialize them or assign a single owner.
-- The built-in `Explore` and `Plan` subagents default to Haiku. On sessions with many MCP servers loaded, the inherited tool catalog inflates the subagent's system prompt past Haiku's limit and every call fails with "Prompt is too long" — even trivial prompts. Pass `model: sonnet` (or `opus`) on the Agent invocation to escape, or fall back to `general-purpose`.
+- The built-in `Explore` agent inherits the main session's model, capped at Opus. If any built-in subagent still fails with "Prompt is too long" in a session with many MCP servers loaded, pass `model: sonnet` (or `opus`) on the Agent invocation to escape, or fall back to `general-purpose`.
 
 ### Runtime Portability
 
