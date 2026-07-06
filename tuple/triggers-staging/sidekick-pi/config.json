@@ -1,0 +1,7 @@
+{
+  "name": "Sidekick - Pi",
+  "description": "When transcription starts, launches Pi as an active live-call companion via `tuple connect`. A bundled extension — the Call Console — follows the call in the background (so Pi stays responsive), shows call state in one plain status block below the editor, keeps the chat de-noised, adapts its cadence to the call's shape (real-time for pairing, quiet check-ins when solo; re-evaluating as people join/leave), collects findings/fact-checks in a /notes browser, and lets you manage watch words and cadence live. Requires a Tuple build whose CLI exposes connect and transcription show.",
+  "category": "Sidekick",
+  "platforms": ["macos"],
+  "language": "bash"
+}

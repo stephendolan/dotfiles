@@ -1,0 +1,9 @@
+{
+  "consoleEnabled": true,
+  "cli": "tuple-staging",
+  "watchWords": ["pi", "pie"],
+  "defaultMode": "auto",
+  "catchupMaxLines": 300,
+  "streamTimeout": "30s",
+  "exportNotes": true
+}
