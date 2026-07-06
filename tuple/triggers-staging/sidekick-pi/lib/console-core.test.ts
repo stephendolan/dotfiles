@@ -26,7 +26,6 @@ import {
   truncate,
   newAutoState,
   diffParticipants,
-  isSolo,
   autoOnRoster,
   autoOnSharing,
   autoDue,
@@ -545,12 +544,6 @@ test("diffParticipants finds joins and leaves", () => {
   const d = diffParticipants(["me", "mikey"], ["me", "jordan"]);
   assert.deepEqual(d.joined, ["jordan"]);
   assert.deepEqual(d.left, ["mikey"]);
-});
-
-test("isSolo is true for nobody or just me", () => {
-  assert.equal(isSolo([]), true);
-  assert.equal(isSolo(["me"]), true);
-  assert.equal(isSolo(["me", "mikey"]), false);
 });
 
 test("autoOnRoster schedules a settle pulse only on change", () => {

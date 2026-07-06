@@ -10,7 +10,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 import { addArtifact, mergeConfig } from "./console-core.ts";
-import { followLoop } from "./feed.ts";
+import { autoTick, buildContextInjection, finalizeFeedEnd, followLoop, screenshotTick } from "./feed.ts";
 import { applyMode, createRuntime, type RuntimeState, type SidekickCtx } from "./runtime.ts";
 
 interface SentMessage {
@@ -231,4 +231,98 @@ test("applyMode restarts a blocking stream without counting an error and next ar
     else process.env.FAKE_TUPLE_DIR = prev;
     await cleanup(fake.dir);
   }
+});
+
+test("buildContextInjection carries the feed override, live call state, and learned participants", () => {
+  const runtime = runtimeFor("unused-cli-not-invoked");
+  runtime.feed.speakers["u1"] = { name: "Grace Hopper", email: "g@x.co" };
+  const injected = buildContextInjection(runtime, Date.now());
+  assert.equal(injected.role, "custom");
+  assert.equal(injected.customType, "tuple-call-state");
+  assert.match(injected.content, /Live transcript delivery/);
+  assert.match(injected.content, /## Current call state/);
+  assert.match(injected.content, /Grace Hopper/);
+});
+
+test("autoTick sends the auto-eval prompt via triggerTurn once the capture window elapses", () => {
+  const runtime = createRuntime(mergeConfig({ defaultMode: "auto", autoCaptureSec: 1 }));
+  runtime.state.callStartMs = Date.now() - 2000;
+  const { pi, sent } = fakePi();
+  autoTick(pi as any, runtime);
+
+  const evalMsg = sent.find((m) => m.message.customType === "tuple-auto-eval");
+  assert.ok(evalMsg);
+  assert.equal(evalMsg!.options.triggerTurn, true);
+  assert.equal(runtime.autoState.captured, true);
+});
+
+test("autoTick withholds the periodic pulse when the call has stayed silent", () => {
+  const runtime = createRuntime(mergeConfig({ defaultMode: "auto", autoCaptureSec: 1 }));
+  runtime.state.callStartMs = Date.now() - 2000;
+  const { pi, sent } = fakePi();
+  autoTick(pi as any, runtime); // capture window elapses; first evaluation fires
+  assert.equal(runtime.autoState.captured, true);
+
+  sent.length = 0;
+  runtime.autoState.lastPulseMs = Date.now() - 10 * 60_000; // batchCount unchanged
+  autoTick(pi as any, runtime);
+  assert.equal(sent.length, 0);
+});
+
+test("screenshotTick captures a frame and feeds the model when screen watch is active", async () => {
+  const fake = await makeFakeTuple(["fake-jpeg-bytes"]);
+  const prev = process.env.FAKE_TUPLE_DIR;
+  process.env.FAKE_TUPLE_DIR = fake.dir;
+  try {
+    const runtime = createRuntime(mergeConfig({}));
+    runtime.cli = fake.cli;
+    runtime.uiReady = true;
+    runtime.feed.screenSharing = true;
+    runtime.state.screenWatch = "active";
+    const { pi, sent } = fakePi();
+
+    screenshotTick(pi as any, runtime);
+    await waitFor(() => sent.some((m) => m.message.customType === "tuple-screenshot"), "screenshot message was not sent");
+
+    const shot = sent.find((m) => m.message.customType === "tuple-screenshot")!;
+    assert.deepEqual(shot.options, {}); // frames must never be queued
+  } finally {
+    if (prev == null) delete process.env.FAKE_TUPLE_DIR;
+    else process.env.FAKE_TUPLE_DIR = prev;
+    await cleanup(fake.dir);
+  }
+});
+
+test("followLoop triggers a turn for routine speech in realtime mode", async () => {
+  const first = [transcript("first", 1), transcript("second", 2)].join("\n");
+  const second = transcript("just chatting about the plan", 5);
+  const fake = await makeFakeTuple([first, second, callEnded()]);
+  const prev = process.env.FAKE_TUPLE_DIR;
+  process.env.FAKE_TUPLE_DIR = fake.dir;
+  try {
+    const runtime = runtimeFor(fake.cli, { defaultMode: "realtime" });
+    const { pi, sent } = fakePi();
+    await followLoop(pi as any, runtime, ctxFixture());
+
+    const routine = sent.find((m) => String(m.message.content).includes("just chatting about the plan"));
+    assert.ok(routine);
+    assert.equal(routine!.options.triggerTurn, true);
+  } finally {
+    if (prev == null) delete process.env.FAKE_TUPLE_DIR;
+    else process.env.FAKE_TUPLE_DIR = prev;
+    await cleanup(fake.dir);
+  }
+});
+
+test("finalizeFeedEnd is idempotent across a double call", async () => {
+  const runtime = runtimeFor("unused-cli-not-invoked");
+  assert.equal(runtime.state.artifacts.length, 0); // no artifacts: exportArtifacts early-returns
+  const { pi } = fakePi();
+
+  await finalizeFeedEnd(pi as any, runtime, ctxFixture(), 1000);
+  const firstEndedAt = runtime.state.endedAtMs;
+  assert.equal(firstEndedAt, 1000);
+
+  await finalizeFeedEnd(pi as any, runtime, ctxFixture(), 2000);
+  assert.equal(runtime.state.endedAtMs, firstEndedAt);
 });

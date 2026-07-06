@@ -362,9 +362,11 @@ export type FeedTerminalReason = "call_ended" | "recording_ended";
 //
 // The manager opens in real-time to hear how the call starts, then evaluates on
 // three triggers: the opening window elapsing, the roster changing (someone
-// joins/leaves), and a periodic timer. Solo is decided cheaply (no agent turn);
-// a real conversation gets a short agent evaluation. All the *timing* logic is
-// here and pure, so the extension just wires triggers to actions.
+// joins/leaves), and a periodic timer. Every due evaluation goes to the agent —
+// it judges solo-vs-pairing (and everything else about the call's shape) from
+// the roster line in the prompt; there's no cheap pre-filter here. All the
+// *timing* logic is here and pure, so the extension just wires triggers to
+// actions.
 // ---------------------------------------------------------------------------
 
 export interface AutoState {
@@ -390,11 +392,6 @@ export function diffParticipants(prev: string[], curr: string[]): ParticipantDel
   const p = new Set(prev);
   const c = new Set(curr);
   return { joined: curr.filter((n) => !p.has(n)), left: prev.filter((n) => !c.has(n)) };
-}
-
-// Solo = the local user is alone (nobody, or only themselves, on the roster).
-export function isSolo(participants: string[]): boolean {
-  return participants.length <= 1;
 }
 
 // Schedule an evaluation at `atMs`, keeping the earliest already-pending time so
@@ -516,7 +513,7 @@ export function consoleStatusLines(state: ConsoleState, nowMs: number, width = N
     const every = MODE_INTERVAL[state.mode] ?? ""; // "30s" / "2m" / "5m"
     const cd = countdownSec(state.nextFlushMs, nowMs);
     modeParts.push(`summary ${every}`);
-    if (cd != null) modeParts.push(nextLabel(cd, "full"));
+    if (cd != null) modeParts.push(nextLabel(cd));
   }
   const elapsed = state.callStartMs != null ? formatElapsed(nowMs - state.callStartMs) : null;
   const screen = state.screenSharing ? (state.screenWatch === "off" ? "screen: off (sharing)" : `screen: ${state.screenWatch}`) : null;
@@ -536,12 +533,9 @@ function notesLabel(count: number): string {
   return `${count} ${count === 1 ? "note" : "notes"}`;
 }
 
-function nextLabel(cd: number, style: "full" | "short"): string {
-  if (cd >= 90) {
-    const value = `~${Math.round(cd / 60)}m`;
-    return style === "full" ? `next ${value}` : value;
-  }
-  return style === "full" ? `next ${cd}s` : `${cd}s`;
+function nextLabel(cd: number): string {
+  if (cd >= 90) return `next ~${Math.round(cd / 60)}m`;
+  return `next ${cd}s`;
 }
 
 function compactStatusLine(input: { warning: string | null; modeParts: string[]; elapsed: string | null; screen: string | null; width: number }): string {
@@ -854,8 +848,9 @@ export function participantNames(state: FeedState): string[] {
 }
 
 // ---------------------------------------------------------------------------
-// Live call-state block injected into the agent's system prompt each turn, so
-// the agent always knows the room without re-deriving it.
+// Live call-state block appended to every LLM call via pi's `context` event
+// (see buildContextInjection in feed.ts), so the agent always knows the room
+// without re-deriving it.
 // ---------------------------------------------------------------------------
 
 export function buildCallMetaBlock(state: ConsoleState, participants: string[], nowMs: number): string {

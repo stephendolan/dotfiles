@@ -1,8 +1,13 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { Container, Image, Text } from "@earendil-works/pi-tui";
 
 import type { RuntimeState, SidekickCtx } from "./runtime.ts";
 import { captureSharedScreen } from "./runtime.ts";
+
+// Deliberately free of any pi-tui import — see ./screenshot-renderer.ts for the
+// rendering half (registerScreenshotRenderer / renderScreenshotToolResult).
+// Keeping this pipeline pi-tui-free means it (and anything that imports it
+// statically, like feed.ts's screenshotTick) stays loadable and unit-testable
+// without pi's TUI package on the module path.
 
 export interface ScreenshotOptions {
   feedModel?: boolean;
@@ -87,38 +92,5 @@ export async function runScreenshotPipeline(
     return { captured: false, toolResult: { content: [{ type: "text", text: "Screen capture failed." }], details: { image: null } } };
   } finally {
     if (options.guard) runtime.capturing = false;
-  }
-}
-
-export function registerScreenshotRenderer(pi: ExtensionAPI) {
-  try {
-    pi.registerMessageRenderer?.("tuple-screenshot", (message: any, _options: any, theme: any) => {
-      try {
-        const d = message?.details ?? {};
-        if (!d.image) return new Text(theme.fg("muted", "No shared screen."), 0, 0);
-        const c = new Container();
-        const header = d.reason ? `🖥 shared screen · ${d.reason}` : "🖥 shared screen";
-        c.addChild(new Text(theme.fg("dim", header), 0, 0));
-        c.addChild(new Image(d.image, d.mimeType || "image/jpeg", theme, { maxWidthCells: 80, maxHeightCells: 24 }));
-        return c;
-      } catch {
-        return new Text("shared screen", 0, 0);
-      }
-    });
-  } catch {
-    // renderer is best-effort
-  }
-}
-
-export function renderScreenshotToolResult(result: any, _options: any, theme: any, _context: any) {
-  try {
-    const d = result?.details ?? {};
-    if (!d.image) return new Text(theme.fg("muted", "No shared screen to capture."), 0, 0);
-    const c = new Container();
-    if (d.note) c.addChild(new Text(theme.fg("dim", `🖥 ${d.note}`), 0, 0));
-    c.addChild(new Image(d.image, d.mimeType || "image/jpeg", theme, { maxWidthCells: 80, maxHeightCells: 24 }));
-    return c;
-  } catch {
-    return new Text("screen captured", 0, 0);
   }
 }

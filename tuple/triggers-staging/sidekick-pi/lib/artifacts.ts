@@ -8,7 +8,6 @@ import type { RuntimeState, SidekickCtx } from "./runtime.ts";
 
 export async function exportArtifacts(pi: ExtensionAPI, runtime: RuntimeState, ctx: SidekickCtx | undefined, nowMs = Date.now()) {
   if (!runtime.config.exportNotes || runtime.notesExported || runtime.state.artifacts.length === 0) return;
-  runtime.notesExported = true;
   try {
     const dir = await resolveArtifactsDirectory();
     await mkdir(dir, { recursive: true });
@@ -22,6 +21,7 @@ export async function exportArtifacts(pi: ExtensionAPI, runtime: RuntimeState, c
       generatedAtMs: nowMs,
     });
     await writeFile(file, markdown, "utf8");
+    runtime.notesExported = true;
     try {
       ctx?.ui?.notify?.(`Sidekick notes written to ${file}`, "info");
     } catch {

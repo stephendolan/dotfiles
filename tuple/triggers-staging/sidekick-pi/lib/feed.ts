@@ -27,6 +27,7 @@ import {
 } from "./console-core.ts";
 import type { RuntimeState, SidekickCtx } from "./runtime.ts";
 import { applyMode, refreshStatus, setAutoState, stopTranscriptFeed, tupleStream } from "./runtime.ts";
+import { runScreenshotPipeline } from "./screenshots.ts";
 
 export const FEED_OVERRIDE = `
 
@@ -48,6 +49,23 @@ You have **set_watch_mode** (realtime / balanced / low_noise / periodic) to trad
 Both dials are already set when you connect. Do **not** configure set_watch_mode or set_screen_watch on your first turn or before you have evidence (speech, a share, a request) — the auto-cadence manager will ask you to evaluate once there is something to judge.
 
 The extension runs an **auto-cadence** manager: it opens in real-time to hear the call's start, then sends you a short "[auto-cadence]" message whenever the call changes — someone joins or leaves, a screen share starts or stops, and every few minutes — asking you to judge what's happening and set **both** the transcript watch mode (\`set_watch_mode\`) and the screen watch level (\`set_screen_watch\`) to fit. They're independent: e.g. a teammate demoing → \`set_screen_watch active\` to follow it frame-by-frame, while the transcript can stay quiet. When you get one: act with tool calls and stay quiet — don't narrate the check. If a setting already fits, leave it.`;
+
+// The live-state injection appended to every LLM call via pi's `context` event.
+// That event is the only hook that fires for BOTH user prompts and
+// extension-triggered turns (deliver/autoTick use sendMessage triggerTurn,
+// which never emits before_agent_start), and its messages are an ephemeral
+// per-call copy — so the override and call state are always current and never
+// bloat the session.
+export function buildContextInjection(runtime: RuntimeState, nowMs: number) {
+  const meta = buildCallMetaBlock(runtime.state, participantNames(runtime.feed), nowMs);
+  return {
+    role: "custom" as const,
+    customType: "tuple-call-state",
+    content: `${FEED_OVERRIDE}\n\n${meta}`,
+    display: false,
+    timestamp: nowMs,
+  };
+}
 
 export function mountStatus(runtime: RuntimeState, ctx: SidekickCtx) {
   if (!runtime.uiReady) return;
@@ -151,26 +169,35 @@ export async function followLoop(pi: ExtensionAPI, runtime: RuntimeState, ctx: S
     }
     if (!out.trim()) continue; // silence window elapsed; re-check
 
-    const { lines, urgent, mentioned } = parseBatch(out, runtime.feed, runtime.isWake, runtime.isMention);
-    runtime.state.screenSharing = runtime.feed.screenSharing;
-    if (lines.length) {
-      markFlush(runtime);
-      refreshStatus(runtime);
-      if (first) {
-        first = false;
-        const recent = lines.length > runtime.config.catchupMaxLines ? lines.slice(-runtime.config.catchupMaxLines) : lines;
-        const omitted = lines.length - recent.length;
-        const preface = omitted > 0 ? `(${omitted} earlier lines omitted — this is the recent tail)\n\n` : "";
-        deliver(pi, runtime, `The call so far, for context — do not comment on it retroactively:\n\n${preface}${recent.join("\n")}`, { contextOnly: true });
-      } else {
-        const tail = urgent
-          ? "This includes a line addressed to you or a recording stop / call-end — respond in the transcript per your instructions."
-          : mentioned
-            ? "A watch word was mentioned — respond only if it was actually directed at you."
-          : "Routine call speech. If the topic shifted, call post_summary; if you learned something worth keeping, call record_artifact. Otherwise stay silent.";
-        deliver(pi, runtime, `New on the call:\n\n${lines.join("\n")}\n\n${tail}`, { urgent });
+    try {
+      const { lines, urgent, mentioned } = parseBatch(out, runtime.feed, runtime.isWake, runtime.isMention);
+      runtime.state.screenSharing = runtime.feed.screenSharing;
+      if (lines.length) {
+        markFlush(runtime);
+        refreshStatus(runtime);
+        if (first) {
+          first = false;
+          const recent = lines.length > runtime.config.catchupMaxLines ? lines.slice(-runtime.config.catchupMaxLines) : lines;
+          const omitted = lines.length - recent.length;
+          const preface = omitted > 0 ? `(${omitted} earlier lines omitted — this is the recent tail)\n\n` : "";
+          deliver(pi, runtime, `The call so far, for context — do not comment on it retroactively:\n\n${preface}${recent.join("\n")}`, { contextOnly: true });
+        } else {
+          const tail = urgent
+            ? "This includes a line addressed to you or a recording stop / call-end — respond in the transcript per your instructions."
+            : mentioned
+              ? "A watch word was mentioned — respond only if it was actually directed at you."
+            : "Routine call speech. If the topic shifted, call post_summary; if you learned something worth keeping, call record_artifact. Otherwise stay silent.";
+          deliver(pi, runtime, `New on the call:\n\n${lines.join("\n")}\n\n${tail}`, { urgent });
+        }
+        maybeNameSession(pi, runtime);
       }
-      maybeNameSession(pi, runtime);
+    } catch {
+      // A bad batch must never kill the follow loop: the loop's own stream
+      // pacing (each poll blocks up to --timeout) keeps this from becoming a
+      // tight spin, and transcript following has to survive one malformed or
+      // throwing batch. Swallow and keep looping; runtime.feed.ended is still
+      // checked below so a terminal batch still ends the loop even if
+      // delivery threw.
     }
     if (runtime.feed.ended) break;
   }
@@ -215,9 +242,7 @@ export function screenshotTick(pi: ExtensionAPI, runtime: RuntimeState) {
   runtime.prevSharing = decision.prevSharing;
   runtime.lastShotMs = decision.lastShotMs;
   if (decision.action.kind === "capture") {
-    void import("./screenshots.ts").then((m) => {
-      void m.runScreenshotPipeline(pi, runtime, undefined, { reason: decision.action.reason, feedModel: decision.action.feedModel, guard: true });
-    });
+    void runScreenshotPipeline(pi, runtime, undefined, { reason: decision.action.reason, feedModel: decision.action.feedModel, guard: true });
   }
 }
 

@@ -21,14 +21,13 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 import {
   addArtifact,
-  buildCallMetaBlock,
   coerceArtifactKind,
-  participantNames,
 } from "./lib/console-core.ts";
+import { exportArtifacts } from "./lib/artifacts.ts";
 import {
   autoTick,
+  buildContextInjection,
   cycle,
-  FEED_OVERRIDE,
   followLoop,
   maybeNameSession,
   mountStatus,
@@ -38,7 +37,8 @@ import {
 } from "./lib/feed.ts";
 import { claimSidekickLock, releaseSidekickLock } from "./lib/locks.ts";
 import { openCadence, openNotes, openWatchWords } from "./lib/overlays.ts";
-import { registerScreenshotRenderer, runScreenshotPipeline } from "./lib/screenshots.ts";
+import { registerScreenshotRenderer } from "./lib/screenshot-renderer.ts";
+import { runScreenshotPipeline } from "./lib/screenshots.ts";
 import { registerTools } from "./lib/tools.ts";
 import {
   captureScreen,
@@ -87,11 +87,11 @@ export default function (pi: ExtensionAPI) {
     seedScreenShareState(runtime);
   });
 
-  // First turn: override connect's "follow the transcript yourself" instruction
-  // and inject live call state. Re-applied every turn so both stay current.
-  pi.on("before_agent_start", async (event: any) => {
-    const meta = buildCallMetaBlock(runtime.state, participantNames(runtime.feed), Date.now());
-    return { systemPrompt: `${event?.systemPrompt ?? ""}${FEED_OVERRIDE}\n\n${meta}` };
+  // Inject the transcript-feed override and live call state on every LLM call.
+  // See buildContextInjection for why this must be the `context` event and not
+  // before_agent_start.
+  pi.on("context", async (event: any) => {
+    return { messages: [...event.messages, buildContextInjection(runtime, Date.now())] };
   });
 
   pi.on("session_shutdown", async () => {
@@ -101,7 +101,14 @@ export default function (pi: ExtensionAPI) {
       clearInterval(runtime.statusTimer);
       runtime.statusTimer = null;
     }
-    if (runtime.feed.ended && !runtime.state.ended) await finalizeFeedEnd(pi, runtime, undefined);
+    if (runtime.feed.ended && !runtime.state.ended) {
+      await finalizeFeedEnd(pi, runtime, undefined);
+    } else if (!runtime.state.ended) {
+      // Pi shut down mid-call (quit, crash, …) rather than at call end — export
+      // whatever notes exist now so they aren't lost. Best-effort: exportArtifacts
+      // already no-ops when there are no artifacts or exportNotes is false.
+      await exportArtifacts(pi, runtime, undefined, Date.now());
+    }
     await releaseSidekickLock(runtime);
   });
 }

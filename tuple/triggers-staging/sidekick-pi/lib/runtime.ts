@@ -1,5 +1,3 @@
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import type { SelectItem } from "@earendil-works/pi-tui";
 import { execFile, type ChildProcess } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { promisify } from "node:util";
@@ -196,11 +194,6 @@ export function applyMode(runtime: RuntimeState, ctx: SidekickCtx | undefined, m
   }
 }
 
-export async function tuple(runtime: RuntimeState, args: string[], timeoutMs = 45_000): Promise<string> {
-  const { stdout } = await execFileP(runtime.cli, args, { timeout: timeoutMs, maxBuffer: 16 * 1024 * 1024 });
-  return stdout;
-}
-
 export function tupleStream(runtime: RuntimeState, args: string[], timeoutMs = 45_000): Promise<string> {
   runtime.streamAbort = new AbortController();
   runtime.streamRestartRequested = false;
@@ -224,6 +217,22 @@ export function recomputeNextFlush(runtime: RuntimeState, nowMs = Date.now()) {
   runtime.state.nextFlushMs = iv == null ? null : nowMs + iv;
 }
 
+// A tuple CLI child that ignores SIGTERM would otherwise wedge mode switches
+// (the follow loop awaits the exec callback) and outlive shutdown — escalate
+// to SIGKILL if the live child hasn't exited within 3 seconds of the
+// abort/kill attempt above. Shared by restart and stop so both escalate the
+// same way.
+function escalateKill(runtime: RuntimeState) {
+  const child = runtime.streamChild;
+  if (child) {
+    const killTimer = setTimeout(() => {
+      try { child.kill("SIGKILL"); } catch { /* escalation is best-effort */ }
+    }, 3000);
+    killTimer.unref?.();
+    child.once("exit", () => clearTimeout(killTimer));
+  }
+}
+
 export function restartTranscriptFeed(runtime: RuntimeState) {
   recomputeNextFlush(runtime);
   if (!runtime.streamAbort && !runtime.streamChild) return;
@@ -238,6 +247,7 @@ export function restartTranscriptFeed(runtime: RuntimeState) {
   } catch {
     // restart is best-effort
   }
+  escalateKill(runtime);
 }
 
 export function stopTranscriptFeed(runtime: RuntimeState) {
@@ -252,6 +262,7 @@ export function stopTranscriptFeed(runtime: RuntimeState) {
   } catch {
     // stop is best-effort
   }
+  escalateKill(runtime);
 }
 
 export async function captureScreen(runtime: RuntimeState): Promise<string | null> {
@@ -284,6 +295,3 @@ export async function captureSharedScreen(runtime: RuntimeState): Promise<Captur
   if (!jpegB64) return null;
   return { jpegB64, display: await toDisplayPng(jpegB64) };
 }
-
-// Re-exported pi-tui shape so callers do not need to import it only for typing.
-export type { ExtensionAPI, SelectItem };

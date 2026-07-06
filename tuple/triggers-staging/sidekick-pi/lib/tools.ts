@@ -16,7 +16,8 @@ import {
 } from "./console-core.ts";
 import type { RuntimeState, SidekickCtx } from "./runtime.ts";
 import { applyMode, refreshStatus, setScreenWatch } from "./runtime.ts";
-import { renderScreenshotToolResult, runScreenshotPipeline } from "./screenshots.ts";
+import { renderScreenshotToolResult } from "./screenshot-renderer.ts";
+import { runScreenshotPipeline } from "./screenshots.ts";
 
 interface SetWatchModeParams {
   mode?: unknown;
