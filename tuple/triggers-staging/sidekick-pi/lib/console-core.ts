@@ -84,8 +84,8 @@ export function isCadenceSetting(value: unknown): value is CadenceSetting {
 //   • off      — don't auto-capture.
 //   • periodic — a frame when a share starts, then one every few minutes (a
 //                light timeline for you; not fed to the agent).
-//   • active   — a frame every few seconds, fed into the agent's vision so it can
-//                follow a live demo and participate.
+//   • active   — a visible frame every few seconds for the user; not fed to the
+//                agent unless it explicitly requests a one-off capture.
 // ---------------------------------------------------------------------------
 
 export type ScreenWatch = "off" | "periodic" | "active";
@@ -99,7 +99,7 @@ export function isScreenWatch(value: unknown): value is ScreenWatch {
 export const SCREEN_WATCH_DESC: Record<ScreenWatch, string> = {
   off: "don't auto-capture the shared screen",
   periodic: "a frame when a share starts, then every few minutes",
-  active: "a frame every few seconds, fed to your vision — for following a live demo",
+  active: "a visible frame every few seconds for following a live demo",
 };
 
 // Milliseconds between captures for a screen-watch level, or null for "off".
@@ -144,8 +144,7 @@ export interface ConsoleConfig {
   /** "periodic" screen-watch: minutes between captures while a share stays up (a
    *  fresh share is always captured immediately). */
   screenshotIntervalMin: number;
-  /** "active" screen-watch: seconds between captures while following a live demo
-   *  (these frames are fed to the agent's vision). */
+  /** "active" screen-watch: seconds between display-only captures while following a live demo. */
   screenshotActiveSec: number;
   /** Write recorded artifacts to a markdown file when the call ends. */
   exportNotes: boolean;
@@ -377,10 +376,20 @@ export interface AutoState {
   pendingPulseMs: number | null; // an event scheduled a settle-then-evaluate
   prevParticipants: string[]; // last-seen roster, to detect joins/leaves
   prevSharing: boolean; // last-seen screen-share state, to detect start/stop
+  prevSharedContentVersion: number; // last-seen focused window / URL event version
 }
 
 export function newAutoState(enabled: boolean): AutoState {
-  return { enabled, captured: false, lastPulseMs: null, lastPulseBatchCount: 0, pendingPulseMs: null, prevParticipants: [], prevSharing: false };
+  return {
+    enabled,
+    captured: false,
+    lastPulseMs: null,
+    lastPulseBatchCount: 0,
+    pendingPulseMs: null,
+    prevParticipants: [],
+    prevSharing: false,
+    prevSharedContentVersion: 0,
+  };
 }
 
 export interface ParticipantDelta {
@@ -429,6 +438,23 @@ export function autoOnSharing(
   return { auto: { ...auto, prevSharing: sharing, pendingPulseMs: schedulePulse(auto, nowMs + settleMs) }, changed: true };
 }
 
+// Focused content changes (window title/app/URL) are cheaper than screenshots and
+// often enough to understand what is being shared, so they also trigger a quick
+// re-evaluation of the two dials.
+export function autoOnSharedContent(
+  auto: AutoState,
+  version: number,
+  nowMs: number,
+  settleMs: number,
+): { auto: AutoState; changed: boolean } {
+  if (!auto.enabled) return { auto: { ...auto, prevSharedContentVersion: version }, changed: false };
+  if (version === auto.prevSharedContentVersion) return { auto, changed: false };
+  return {
+    auto: { ...auto, prevSharedContentVersion: version, pendingPulseMs: schedulePulse(auto, nowMs + settleMs) },
+    changed: true,
+  };
+}
+
 export type AutoDue = "capture" | "pulse" | null;
 
 // Whether the auto manager owes an action right now:
@@ -467,6 +493,7 @@ export function buildAutoEvalPrompt(
   participants: string,
   sharing: boolean,
   due: AutoDue,
+  sharedContent: SharedContent[] = [],
 ): string {
   const opener = due === "capture" ? "The opening of the call has been captured." : "Something changed — re-evaluate.";
   const shareLine = sharing
@@ -477,15 +504,21 @@ export function buildAutoEvalPrompt(
   // triggers a re-evaluation. So when no one is sharing, say so and forbid a
   // speculative set_screen_watch instead of inviting one.
   const screenPara = sharing
-    ? `Screen watch (set_screen_watch): "active" (frames every few seconds, fed to your vision) when someone is demoing or the screen is the point and you need to follow it; "periodic" for a light timeline; "off" when the screen doesn't matter. This is separate from the transcript pace — you can watch a demo closely while barely sampling the talk.`
+    ? `Screen watch (set_screen_watch): "active" for visible frames every few seconds when someone is demoing or the screen is the point; "periodic" for a light timeline; "off" when the screen doesn't matter. Auto-captured frames are display-only receipts and are not fed to your vision; call capture_screen once when you need to inspect or summarize the current screen. This is separate from the transcript pace — you can keep a demo visible while barely sampling the talk.`
     : `The screen-watch axis is idle while no one shares — do not call set_screen_watch now; you'll be re-evaluated the moment a share starts (which is always captured immediately regardless of the level).`;
+  const sharedContentLine = sharedContent.length
+    ? `Shared content signal: ${formatSharedContentList(sharedContent)}. Prefer the shared-content title/app/URL signal before asking for screenshots; call capture_screen only when visual details matter.`
+    : sharing
+      ? `No shared-content title/app/URL signal is available yet; use screenshots only when the visual details matter.`
+      : null;
   return [
     `[auto-cadence] ${opener} On the call: ${participants}. ${shareLine}`,
     `Current settings — transcript watch: ${mode}; screen watch: ${screenWatch}. These are independent; set each to fit what's happening.`,
     `Transcript watch (set_watch_mode): real-time for active back-and-forth pairing; a summary mode (balanced, low_noise, periodic) when it's quieter — a presentation, monologue, or long focused stretch. The topic may have shifted since last time (e.g. "let's try this in real time") — react to that.`,
+    sharedContentLine,
     screenPara,
     `Change only what should change; if a setting already fits, leave it. If something notable happened, add one short post_summary. Keep this minimal — don't narrate the check itself.`,
-  ].join("\n");
+  ].filter(Boolean).join("\n");
 }
 
 // The one status block, shown below the editor: compact, priority-ordered, and
@@ -627,7 +660,7 @@ export function screenshotDecision(input: ScreenshotDecisionInput): ScreenshotDe
   const due = started || input.lastShotMs == null || input.nowMs >= input.lastShotMs + shotIntervalMs;
   if (!due) return { action: { kind: "none" }, prevSharing: true, lastShotMs: input.lastShotMs };
   return {
-    action: { kind: "capture", reason: started ? "just started sharing" : "live", feedModel: input.screenWatch === "active" },
+    action: { kind: "capture", reason: started ? "just started sharing" : "live", feedModel: false },
     prevSharing: true,
     lastShotMs: input.nowMs,
   };
@@ -736,18 +769,32 @@ export type ParsedLine = { line: string; urgent: boolean; mentioned: boolean; so
 export interface FeedState {
   speakers: Record<string, Speaker>;
   screenSharing: boolean;
+  sharedContent: Record<string, SharedContent>;
+  sharedContentVersion: number;
   ended: boolean;
   endedReason: FeedTerminalReason | null;
 }
 
+export interface SharedContent {
+  userId: string;
+  userName: string;
+  title: string;
+  appName: string;
+  appId: string;
+  url: string;
+  windowId: string;
+  atMs: number;
+}
+
 export function newFeedState(): FeedState {
-  return { speakers: {}, screenSharing: false, ended: false, endedReason: null };
+  return { speakers: {}, screenSharing: false, sharedContent: {}, sharedContentVersion: 0, ended: false, endedReason: null };
 }
 
 const SKIP_EVENT_CATEGORIES = new Set(["user_audio_started", "user_audio_stopped"]);
 const STOP_OR_END_EVENT_CATEGORIES = new Set(["recording_ended"]);
 const SCREEN_START = "user_screen_sharing_started";
 const SCREEN_STOP = "user_screen_sharing_stopped";
+const SHARED_CONTENT_CHANGED = "shared_content_changed";
 
 function userIdKey(value: unknown): string {
   if (typeof value === "string" || typeof value === "number") return String(value);
@@ -763,6 +810,33 @@ function pickString(...values: unknown[]): string {
   return "";
 }
 
+function pickValue(value: unknown): string {
+  if (typeof value === "string") return value.trim();
+  if (value && typeof value === "object" && "value" in value) return pickString((value as { value?: unknown }).value);
+  return "";
+}
+
+function compactText(value: string, max = 120): string {
+  const t = value.replace(/\s+/g, " ").trim();
+  return t.length > max ? `${t.slice(0, Math.max(0, max - 1))}…` : t;
+}
+
+function compactUrl(value: string): string {
+  const raw = value.trim();
+  if (!raw) return "";
+  try {
+    const u = new URL(raw);
+    if (u.protocol === "file:") return "file://";
+    if (u.protocol === "http:" || u.protocol === "https:") {
+      const path = u.pathname === "/" ? "" : u.pathname;
+      return compactText(`${u.origin}${path}`, 160);
+    }
+    return compactText(`${u.protocol}//${u.host}${u.pathname}`, 160);
+  } catch {
+    return compactText(raw.split(/[?#]/)[0] || raw, 160);
+  }
+}
+
 function displayName(user: unknown): string {
   if (!user || typeof user !== "object") return "";
   const u = user as { full_name?: unknown; short_name?: unknown; email?: unknown };
@@ -772,6 +846,43 @@ function displayName(user: unknown): string {
 function resolveSpeaker(state: FeedState, userId: unknown): string {
   const id = userIdKey(userId);
   return state.speakers[id]?.name || id || "unknown";
+}
+
+function readSharedContent(data: any, recTime: unknown, state: FeedState): SharedContent | null {
+  const userId = userIdKey(data.user_id ?? data.user);
+  const key = userId || "unknown";
+  const title = compactText(pickValue(data.title));
+  const appName = compactText(pickValue(data.app?.name));
+  const appId = compactText(pickValue(data.app?.id));
+  const url = compactUrl(pickValue(data.url));
+  const windowId = pickString(String(data.window_id ?? ""));
+  if (!title && !appName && !appId && !url) return null;
+  const at = timestampMs(recTime);
+  return {
+    userId: key,
+    userName: resolveSpeaker(state, userId),
+    title,
+    appName,
+    appId,
+    url,
+    windowId,
+    atMs: Number.isFinite(at) ? at : 0,
+  };
+}
+
+export function sharedContentEntries(state: FeedState): SharedContent[] {
+  return Object.values(state.sharedContent).sort((a, b) => a.atMs - b.atMs || a.userId.localeCompare(b.userId));
+}
+
+export function sharedContentLabel(content: SharedContent): string {
+  const who = content.userName || content.userId || "unknown";
+  const app = content.appName || content.appId || "unknown app";
+  const title = content.title || "untitled window";
+  return [who, app, title, content.url].filter(Boolean).join(" · ");
+}
+
+function formatSharedContentList(entries: SharedContent[]): string {
+  return entries.map(sharedContentLabel).join("; ");
 }
 
 export function readEnvelope(
@@ -808,7 +919,17 @@ export function readEnvelope(
   if (type === "transcription_started" || type === "transcription_dropped") return null;
 
   if (type === SCREEN_START) state.screenSharing = true;
-  if (type === SCREEN_STOP) state.screenSharing = false;
+  if (type === SCREEN_STOP) {
+    state.screenSharing = false;
+    const stoppedUserId = userIdKey(data.user_id ?? data.user);
+    if (stoppedUserId && state.sharedContent[stoppedUserId]) {
+      delete state.sharedContent[stoppedUserId];
+      state.sharedContentVersion += 1;
+    } else if (!stoppedUserId && Object.keys(state.sharedContent).length) {
+      state.sharedContent = {};
+      state.sharedContentVersion += 1;
+    }
+  }
   if (data.user) {
     const id = userIdKey(data.user);
     const name = displayName(data.user);
@@ -819,6 +940,21 @@ export function readEnvelope(
         email: email || state.speakers[id]?.email || "",
       };
     }
+  }
+  if (type === SHARED_CONTENT_CHANGED) {
+    const content = readSharedContent(data, rec.time, state);
+    if (!content) return null;
+    state.sharedContent[content.userId] = content;
+    state.sharedContentVersion += 1;
+    const app = content.appName || content.appId || "unknown app";
+    const title = content.title || "untitled window";
+    const url = content.url ? ` · ${content.url}` : "";
+    return {
+      line: `- ${hms(rec.time)} shared content: ${content.userName || content.userId} focused ${app}: ${title}${url}`,
+      urgent: false,
+      mentioned: false,
+      sortMs: timestampMs(rec.time),
+    };
   }
   if (SKIP_EVENT_CATEGORIES.has(type)) return null;
   if (STOP_OR_END_EVENT_CATEGORIES.has(type)) {
@@ -853,18 +989,22 @@ export function participantNames(state: FeedState): string[] {
 // without re-deriving it.
 // ---------------------------------------------------------------------------
 
-export function buildCallMetaBlock(state: ConsoleState, participants: string[], nowMs: number): string {
+export function buildCallMetaBlock(state: ConsoleState, participants: string[], nowMs: number, sharedContent: SharedContent[] = []): string {
   const elapsed = state.callStartMs != null ? formatElapsed(nowMs - state.callStartMs) : "unknown";
   const parts = participants.length ? participants.join(", ") : "unknown so far";
   const words = state.watchWords.length ? state.watchWords.join(", ") : "none";
-  return [
+  const lines = [
     "## Current call state (live — refreshed each turn)",
     `- Participants: ${parts}`,
     `- Elapsed: ${elapsed}`,
     `- Watch mode: ${MODE_LABEL[state.mode]}`,
     `- Watch words: ${words}`,
     `- Notes recorded so far: ${state.artifacts.length}`,
-  ].join("\n");
+  ];
+  for (const content of sharedContent) {
+    lines.push(`- Shared content: ${sharedContentLabel(content)}`);
+  }
+  return lines.join("\n");
 }
 
 // A memorable, searchable session name so `pi -c` / `pi -r` can find this call

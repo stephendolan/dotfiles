@@ -236,12 +236,23 @@ test("applyMode restarts a blocking stream without counting an error and next ar
 test("buildContextInjection carries the feed override, live call state, and learned participants", () => {
   const runtime = runtimeFor("unused-cli-not-invoked");
   runtime.feed.speakers["u1"] = { name: "Grace Hopper", email: "g@x.co" };
+  runtime.feed.sharedContent["u1"] = {
+    userId: "u1",
+    userName: "Grace Hopper",
+    title: "Compiler notes",
+    appName: "Safari",
+    appId: "com.apple.Safari",
+    url: "https://example.com/compiler",
+    windowId: "7",
+    atMs: 90_000,
+  };
   const injected = buildContextInjection(runtime, Date.now());
   assert.equal(injected.role, "custom");
   assert.equal(injected.customType, "tuple-call-state");
   assert.match(injected.content, /Live transcript delivery/);
   assert.match(injected.content, /## Current call state/);
   assert.match(injected.content, /Grace Hopper/);
+  assert.match(injected.content, /Shared content: Grace Hopper · Safari · Compiler notes · https:\/\/example.com\/compiler/);
 });
 
 test("autoTick sends the auto-eval prompt via triggerTurn once the capture window elapses", () => {
@@ -269,7 +280,7 @@ test("autoTick withholds the periodic pulse when the call has stayed silent", ()
   assert.equal(sent.length, 0);
 });
 
-test("screenshotTick captures a frame and feeds the model when screen watch is active", async () => {
+test("screenshotTick captures an active frame without persisting model image content", async () => {
   const fake = await makeFakeTuple(["fake-jpeg-bytes"]);
   const prev = process.env.FAKE_TUPLE_DIR;
   process.env.FAKE_TUPLE_DIR = fake.dir;
@@ -286,6 +297,9 @@ test("screenshotTick captures a frame and feeds the model when screen watch is a
 
     const shot = sent.find((m) => m.message.customType === "tuple-screenshot")!;
     assert.deepEqual(shot.options, {}); // frames must never be queued
+    assert.equal(typeof shot.message.content, "string");
+    assert.ok(!Array.isArray(shot.message.content));
+    assert.ok(!JSON.stringify(shot.message.content).includes("\"type\":\"image\""));
   } finally {
     if (prev == null) delete process.env.FAKE_TUPLE_DIR;
     else process.env.FAKE_TUPLE_DIR = prev;

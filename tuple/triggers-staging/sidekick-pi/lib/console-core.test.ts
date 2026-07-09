@@ -28,6 +28,7 @@ import {
   diffParticipants,
   autoOnRoster,
   autoOnSharing,
+  autoOnSharedContent,
   autoDue,
   autoMarkPulsed,
   buildAutoEvalPrompt,
@@ -40,6 +41,7 @@ import {
   parseBatch,
   newFeedState,
   participantNames,
+  sharedContentEntries,
   buildCallMetaBlock,
   sessionNameFor,
   matchTrigger,
@@ -417,6 +419,46 @@ test("readEnvelope tracks screen sharing and call end", () => {
   assert.equal(end!.urgent, true);
 });
 
+test("readEnvelope tracks shared content title, app, and compact URL", () => {
+  const state = newFeedState();
+  state.speakers["u1"] = { name: "Mikey", email: "" };
+  const rec = readEnvelope(
+    JSON.stringify({
+      type: "shared_content_changed",
+      time: "2026-07-08T15:07:53.258Z",
+      data: {
+        user_id: "u1",
+        title: { value: "PostHog Wizard - Add PostHog to your codebase automatically" },
+        app: { id: "com.apple.Safari", name: "Safari" },
+        url: { value: "https://posthog.com/docs/wizard?utm_source=call#install" },
+        window_id: 42,
+      },
+    }),
+    state,
+    isWakeFix,
+  );
+  assert.ok(rec);
+  assert.match(rec!.line, /shared content: Mikey focused Safari/);
+  assert.match(rec!.line, /PostHog Wizard/);
+  assert.match(rec!.line, /https:\/\/posthog.com\/docs\/wizard/);
+  assert.doesNotMatch(rec!.line, /utm_source/);
+  assert.equal(rec!.urgent, false);
+  assert.equal(state.sharedContentVersion, 1);
+  assert.deepEqual(sharedContentEntries(state), [{
+    userId: "u1",
+    userName: "Mikey",
+    title: "PostHog Wizard - Add PostHog to your codebase automatically",
+    appName: "Safari",
+    appId: "com.apple.Safari",
+    url: "https://posthog.com/docs/wizard",
+    windowId: "42",
+    atMs: Date.parse("2026-07-08T15:07:53.258Z"),
+  }]);
+
+  readEnvelope(JSON.stringify({ type: "user_screen_sharing_stopped", time: 2, data: { user: { id: "u1", full_name: "Mikey" } } }), state, isWakeFix);
+  assert.deepEqual(sharedContentEntries(state), []);
+});
+
 test("readEnvelope treats recording_ended as terminal", () => {
   const state = newFeedState();
   const rec = readEnvelope(JSON.stringify({ type: "recording_ended", time: 1, data: {} }), state, isWakeFix);
@@ -449,11 +491,22 @@ test("buildCallMetaBlock summarizes live state", () => {
     stateFixture({ mode: "balanced", callStartMs: 1000, watchWords: ["pi"] }),
     ["Ada", "Ben"],
     92_000,
+    [{
+      userId: "u1",
+      userName: "Ada",
+      title: "Example docs",
+      appName: "Safari",
+      appId: "com.apple.Safari",
+      url: "https://example.com/docs",
+      windowId: "7",
+      atMs: 90_000,
+    }],
   );
   assert.match(block, /Participants: Ada, Ben/);
   assert.match(block, /Elapsed: 01:31/);
   assert.match(block, /Watch mode: summary · 30s/);
   assert.match(block, /Watch words: pi/);
+  assert.match(block, /Shared content: Ada · Safari · Example docs · https:\/\/example.com\/docs/);
 });
 
 test("buildCallMetaBlock handles unknown participants and no watch words", () => {
@@ -592,6 +645,19 @@ test("autoOnSharing schedules a quick pulse on a share start/stop only", () => {
   assert.equal(autoOnSharing(newAutoState(false), true, 1, 5000).changed, false);
 });
 
+test("autoOnSharedContent schedules a quick pulse on focused content changes", () => {
+  const a0 = { ...newAutoState(true), captured: true };
+  const r1 = autoOnSharedContent(a0, 1, 1000, 5000);
+  assert.equal(r1.changed, true);
+  assert.equal(r1.auto.pendingPulseMs, 6000);
+  assert.equal(r1.auto.prevSharedContentVersion, 1);
+  const r2 = autoOnSharedContent(r1.auto, 1, 9000, 5000);
+  assert.equal(r2.changed, false);
+  const off = autoOnSharedContent(newAutoState(false), 2, 1, 5000);
+  assert.equal(off.changed, false);
+  assert.equal(off.auto.prevSharedContentVersion, 2);
+});
+
 test("schedulePulse keeps the earliest pending across two events", () => {
   // a roster settle (45s) then a share settle (5s) should collapse to the sooner
   let a = newAutoState(true);
@@ -613,10 +679,21 @@ test("isScreenWatch validates the level", () => {
 });
 
 test("buildAutoEvalPrompt covers both axes without call content", () => {
-  const p = buildAutoEvalPrompt("low_noise", "off", "me, mikey", true, "pulse");
+  const p = buildAutoEvalPrompt("low_noise", "off", "me, mikey", true, "pulse", [{
+    userId: "u1",
+    userName: "Mikey",
+    title: "PostHog Wizard",
+    appName: "Safari",
+    appId: "com.apple.Safari",
+    url: "https://posthog.com/wizard",
+    windowId: "9",
+    atMs: 90_000,
+  }]);
   assert.match(p, /auto-cadence/);
   assert.match(p, /me, mikey/);
   assert.match(p, /sharing their screen/);
+  assert.match(p, /Shared content signal: Mikey · Safari · PostHog Wizard · https:\/\/posthog.com\/wizard/);
+  assert.match(p, /Prefer the shared-content title\/app\/URL signal before asking for screenshots/);
   assert.match(p, /set_watch_mode/);
   assert.match(p, /set_screen_watch\): "active"/);
   assert.match(p, /independent/);
@@ -677,7 +754,7 @@ test("screenshotDecision preserves periodic throttle by attempt", () => {
   assert.equal(due.lastShotMs, 301_000);
 });
 
-test("screenshotDecision uses active cadence and feeds the model", () => {
+test("screenshotDecision uses active cadence without feeding the model", () => {
   const d = screenshotDecision({
     sharing: true,
     prevSharing: true,
@@ -687,7 +764,7 @@ test("screenshotDecision uses active cadence and feeds the model", () => {
     screenshotActiveSec: 15,
     nowMs: 16_000,
   });
-  assert.deepEqual(d.action, { kind: "capture", reason: "live", feedModel: true });
+  assert.deepEqual(d.action, { kind: "capture", reason: "live", feedModel: false });
 });
 
 test("screenshotDecision resets on unshare and honors off", () => {

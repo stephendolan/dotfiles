@@ -71,10 +71,12 @@ export function registerTools(pi: ExtensionAPI, runtime: RuntimeState) {
   pi.registerTool({
     name: "set_screen_watch",
     label: "Set Screen Watch",
-    description: "Control how closely the sidekick auto-captures the shared screen. Separate from the transcript watch mode — you can follow a demo frame-by-frame while barely sampling the talk.",
-    promptSnippet: "Set screen watch to off, periodic, or active (frames every few seconds, fed to your vision).",
+    description: "Control how closely the sidekick shows visible screen-frame receipts. Separate from transcript pace and from the cheap title/app/URL shared-content signal.",
+    promptSnippet: "Set screen watch to off, periodic, or active (visible frames every few seconds).",
     promptGuidelines: [
-      "Set 'active' when someone is demoing or the screen is the point and you need to follow it — you'll then receive a frame every few seconds in your context. Set it back to 'periodic' or 'off' when the demo ends, so you stop pulling frames.",
+      "Focused shared-content changes already give you title, app, and URL text when available; do not use screen_watch just to learn what window or site is being shared.",
+      "Set 'active' when someone is demoing or the screen is the point and the user needs a visible timeline — they'll see a frame every few seconds, but those auto-captures are not fed to your vision. Set it back to 'periodic' or 'off' when the visual timeline is no longer useful.",
+      "Call capture_screen only when you need to inspect or summarize visual details that title/app/URL text cannot answer.",
       "This is independent of set_watch_mode; changing one doesn't change the other. It only matters while someone is sharing.",
       "Do NOT call this while no one is sharing — the axis is idle, a fresh share is always captured immediately regardless of level, and you'll be asked to re-evaluate the moment one starts. Never set it 'as a default' on connect.",
     ],
@@ -188,7 +190,7 @@ export function registerTools(pi: ExtensionAPI, runtime: RuntimeState) {
     description: "Capture the currently shared screen on the Tuple call and show it inline. Use when the shared screen matters — a demo, a diagram, an error message, a slide.",
     promptSnippet: "Capture and show what's on the shared screen right now.",
     promptGuidelines: [
-      "Call capture_screen when the visual on the shared screen is what matters (a demo, diagram, or on-screen error) — not for routine speech.",
+      "Call capture_screen when visual details on the shared screen matter (a demo state, diagram, layout, or on-screen error) and the title/app/URL signal is not enough — not for routine speech.",
     ],
     parameters: Type.Object({
       note: Type.Optional(Type.String({ description: "Optional caption for why this screen matters" })),

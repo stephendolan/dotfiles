@@ -7,6 +7,7 @@ import {
   autoMarkPulsed,
   autoOnRoster,
   autoOnSharing,
+  autoOnSharedContent,
   ARTIFACT_LABEL,
   buildAutoEvalPrompt,
   buildCallMetaBlock,
@@ -22,6 +23,7 @@ import {
   participantNames,
   screenshotDecision,
   sessionNameFor,
+  sharedContentEntries,
   truncate,
   type WatchMode,
 } from "./console-core.ts";
@@ -40,7 +42,7 @@ The person is on a live call and your transcript is their *direct* channel to yo
 - Reply in the transcript **normally** only when a batch is addressed to you (it will say so), when the person types to you directly, or when you are asked for a recap. That reply is the "chat with the agent" — treat it as a real request.
 - When the topic meaningfully shifts, call **post_summary** with a one- or two-line topic summary. These render in a separate, muted "call" style so they never bury the person's conversation with you.
 - When you verify a claim, catch an error, or learn something worth keeping, call **record_artifact** (kind: finding | fact_check | note). Artifacts render as distinct cards and collect in the /notes browser.
-- The shared screen is a **separate axis** from the transcript pace. The sidekick auto-captures it on its own; use **set_screen_watch** (off / periodic / active) to control how closely — set it to **active** when someone's demoing and you want a frame every few seconds fed to your vision, independent of how fast you're sampling the talk. You can also call **capture_screen** any time for a one-off look.
+- The shared screen is a **separate axis** from the transcript pace. Focused shared content changes arrive as cheap text context with title, app, and URL when available; use that signal first. Use **set_screen_watch** (off / periodic / active) only to control visible frame receipts for the user — set it to **active** when the user needs a visual timeline every few seconds, independent of how fast you're sampling the talk. Auto-captured frames are not fed to your vision. Call **capture_screen** only when visual details matter and title/app/URL context is not enough.
 - For a heavier, self-contained task the person asks for — deep research, fact-checking a thorny claim, drafting something — you may use the **subagent** tool to run it in the background so it doesn't block the call; report the result as a note when it lands. Do this only on request or when clearly warranted, not routinely.
 - You still write an outline when recording stops or the call ends.
 
@@ -48,7 +50,7 @@ You have **set_watch_mode** (realtime / balanced / low_noise / periodic) to trad
 
 Both dials are already set when you connect. Do **not** configure set_watch_mode or set_screen_watch on your first turn or before you have evidence (speech, a share, a request) — the auto-cadence manager will ask you to evaluate once there is something to judge.
 
-The extension runs an **auto-cadence** manager: it opens in real-time to hear the call's start, then sends you a short "[auto-cadence]" message whenever the call changes — someone joins or leaves, a screen share starts or stops, and every few minutes — asking you to judge what's happening and set **both** the transcript watch mode (\`set_watch_mode\`) and the screen watch level (\`set_screen_watch\`) to fit. They're independent: e.g. a teammate demoing → \`set_screen_watch active\` to follow it frame-by-frame, while the transcript can stay quiet. When you get one: act with tool calls and stay quiet — don't narrate the check. If a setting already fits, leave it.`;
+The extension runs an **auto-cadence** manager: it opens in real-time to hear the call's start, then sends you a short "[auto-cadence]" message whenever the call changes — someone joins or leaves, a screen share starts or stops, focused shared content changes, and every few minutes — asking you to judge what's happening and set **both** the transcript watch mode (\`set_watch_mode\`) and the screen watch level (\`set_screen_watch\`) to fit. They're independent: e.g. a teammate demoing → keep transcript quiet, rely on title/app/URL changes for semantic context, and use \`set_screen_watch active\` only if the user needs visible frame receipts. When you get one: act with tool calls and stay quiet — don't narrate the check. If a setting already fits, leave it.`;
 
 // The live-state injection appended to every LLM call via pi's `context` event.
 // That event is the only hook that fires for BOTH user prompts and
@@ -57,7 +59,7 @@ The extension runs an **auto-cadence** manager: it opens in real-time to hear th
 // per-call copy — so the override and call state are always current and never
 // bloat the session.
 export function buildContextInjection(runtime: RuntimeState, nowMs: number) {
-  const meta = buildCallMetaBlock(runtime.state, participantNames(runtime.feed), nowMs);
+  const meta = buildCallMetaBlock(runtime.state, participantNames(runtime.feed), nowMs, sharedContentEntries(runtime.feed));
   return {
     role: "custom" as const,
     customType: "tuple-call-state",
@@ -211,6 +213,7 @@ export function autoTick(pi: ExtensionAPI, runtime: RuntimeState) {
     const roster = participantNames(runtime.feed);
     setAutoState(runtime, autoOnRoster(runtime.autoState, roster, now, runtime.config.autoSettleSec * 1000).auto);
     setAutoState(runtime, autoOnSharing(runtime.autoState, runtime.feed.screenSharing, now, runtime.config.autoShareSettleSec * 1000).auto);
+    setAutoState(runtime, autoOnSharedContent(runtime.autoState, runtime.feed.sharedContentVersion, now, runtime.config.autoShareSettleSec * 1000).auto);
     const due = autoDue(
       runtime.autoState,
       now,
@@ -221,7 +224,7 @@ export function autoTick(pi: ExtensionAPI, runtime: RuntimeState) {
     );
     if (!due) return;
     setAutoState(runtime, autoMarkPulsed(runtime.autoState, now, runtime.state.batchCount));
-    const prompt = buildAutoEvalPrompt(runtime.state.mode, runtime.state.screenWatch, roster.join(", "), runtime.feed.screenSharing, due);
+    const prompt = buildAutoEvalPrompt(runtime.state.mode, runtime.state.screenWatch, roster.join(", "), runtime.feed.screenSharing, due, sharedContentEntries(runtime.feed));
     pi.sendMessage({ customType: "tuple-auto-eval", content: prompt, display: false }, { triggerTurn: true });
   } catch {
     // auto is best-effort; a hiccup must never break the call
