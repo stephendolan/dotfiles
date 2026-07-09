@@ -29,5 +29,5 @@ sync_pair() {
 MODE="deploy"
 [ "${1:-}" = "--capture" ] && MODE="capture"
 
-sync_pair "${REPO_DIR}/tuple/triggers" "${HOME}/.tuple/triggers"
-sync_pair "${REPO_DIR}/tuple/triggers-staging" "${HOME}/.tuplestaging/triggers"
+sync_pair "${REPO_DIR}/tuple/triggers/production" "${HOME}/.tuple/triggers"
+sync_pair "${REPO_DIR}/tuple/triggers/staging" "${HOME}/.tuplestaging/triggers"
