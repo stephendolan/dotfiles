@@ -2,10 +2,11 @@
 set -euo pipefail
 
 # post-call-activity: when a call ends, run a headless Claude (sonnet) that
-# reads the call's transcript once and produces both outputs — promotes durable
-# knowledge into Stephen's Obsidian knowledge base (commit), then recommends the
-# work the call put on his plate into Fortress as an orderless digest
-# (best-effort) — and records the call as processed.
+# reads the call's transcript once and produces the post-call outputs: sets the
+# call's Tuple title/summary, promotes durable knowledge into Stephen's Obsidian
+# knowledge base (commit), then recommends the work the call put on his plate
+# into Fortress as an orderless digest (best-effort) — and records the call as
+# processed.
 #
 # The `call-ended` event carries no call id (only TUPLE_TRIGGER_CALL_LENGTH), so
 # the just-ended call is resolved from the stored-transcript index: the newest
@@ -69,7 +70,7 @@ USER_PROMPT="A Tuple call just ended. Process it per your instructions, reading 
 Tuple client: staging (use the \`${TUPLE_CLI}\` CLI).
 Call id to process: ${CALL_ID}
 
-Read it with \`${TUPLE_CLI} transcription show ${CALL_ID} --with-events --format json\` (transcript plus lifecycle events, NDJSON). Read it once, then both: promote durable knowledge into the vault and commit, and recommend Stephen's work into Fortress."
+Read it with \`${TUPLE_CLI} transcription show ${CALL_ID} --with-events --format json\` (transcript plus lifecycle events, NDJSON). Read it once, then set the Tuple title and summary, promote durable knowledge into the vault and commit, and recommend Stephen's work into Fortress."
 
 # Everything heavy runs detached: the trigger runner executes triggers in series,
 # and a multi-minute Claude run would queue every other trigger behind it. Fork
