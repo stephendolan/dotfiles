@@ -1,0 +1,164 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# sidekick-pi: when Tuple transcription starts, launch Pi as a live-call sidekick.
+#
+# Joining call state and building the context prompt are delegated to
+# `tuple connect --harness pi`. On top of that, this trigger ships a small Pi
+# extension (`tuple-call-sidekick.ts`, plus its `lib/` helpers and an optional
+# `sidekick.config.json`) into a working directory, where Pi auto-loads it: the
+# extension is the Call Console — it follows the live transcript in the background
+# (via `tuple transcription show`), shows call state in one plain status block
+# below the editor, adapts its watch cadence to the call's shape, collects findings
+# in a /notes browser, and adds runtime controls for watch words and cadence.
+#
+# The transcription triggers receive no call-specific args, so the working
+# directory is created under a short /tmp/tuple-pi path, unique per
+# transcription-start (timestamp + this trigger's PID). A fresh directory each
+# time means stopping and restarting transcription in one call spawns a new
+# sidekick while older ones keep running and stay queryable. The extension
+# resolves the current call from the daemon, so the trigger itself needs no call id.
+
+# Set your preferred terminal here, or leave empty to use your default handler
+# for .command files. One of: ghostty | iterm | alacritty | terminal
+PREFERRED_TERM="${PREFERRED_TERM:-}"
+
+WORKDIR="/tmp/tuple-pi/$(date +%m%d-%H%M%S)-$$"
+LAUNCHER_FILE="${WORKDIR}/launch-pi-sidekick.command"
+
+# Ship the sidekick extension into `.pi/extensions/`, where Pi loads it
+# automatically at startup.
+EXTENSION_DIR="${WORKDIR}/.pi/extensions"
+mkdir -p "${EXTENSION_DIR}"
+
+TRIGGER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+EXTENSION_SRC="${TRIGGER_DIR}/tuple-call-sidekick.ts"
+if [ -f "${EXTENSION_SRC}" ]; then
+    cp "${EXTENSION_SRC}" "${EXTENSION_DIR}/tuple-call-sidekick.ts"
+    # Ship the pure-logic helpers the extension imports. They live in a `lib/`
+    # subdirectory so Pi does not try to auto-load them as extensions (it only
+    # loads top-level *.ts files, plus subdirs that carry their own index.ts).
+    if [ -d "${TRIGGER_DIR}/lib" ]; then
+        mkdir -p "${EXTENSION_DIR}/lib"
+        # Ship the runtime helpers, but not the *.test.ts files.
+        find "${TRIGGER_DIR}/lib" -maxdepth 1 -name '*.ts' ! -name '*.test.ts' -exec cp {} "${EXTENSION_DIR}/lib/" \;
+    fi
+    # Ship the optional runtime config next to the extension (import.meta.dirname).
+    # It is JSON, so Pi never mistakes it for an extension.
+    if [ -f "${TRIGGER_DIR}/sidekick.config.json" ]; then
+        cp "${TRIGGER_DIR}/sidekick.config.json" "${EXTENSION_DIR}/sidekick.config.json"
+    fi
+else
+    echo "sidekick-pi: extension not found at ${EXTENSION_SRC}; Pi will run without it" >&2
+fi
+
+# Configure this Pi session without touching the user's global Pi config. Pi deep-
+# merges `<cwd>/.pi/settings.json` OVER global settings, and the launcher cd's into
+# this working dir — so these settings apply to this call's sidekick only:
+#   - defaultThinkingLevel: a live-call companion doesn't need deep reasoning, so
+#     default to low effort (cheaper, faster, far less reasoning text).
+#   - hideThinkingBlock: keep the reasoning panel out of the transcript entirely,
+#     so the chat stays about the call, not the model's deliberation.
+#   - packages: the global list minus heavyweight coding plugins a meeting
+#     assistant doesn't need (their skills bloat the system prompt and startup).
+#     The list is read from the global settings at trigger time and filtered, so
+#     it stays current with whatever is installed globally. A `packages` key in
+#     project settings replaces the global list wholesale — that's the deep-merge
+#     rule this relies on. If jq or the global settings are unavailable, the key
+#     is omitted and the session keeps all global packages, as before.
+# All env-overridable; other global settings are preserved by the deep-merge.
+PI_SETTINGS_FILE="${WORKDIR}/.pi/settings.json"
+SIDEKICK_THINKING_LEVEL="${SIDEKICK_THINKING_LEVEL:-low}"
+SIDEKICK_HIDE_THINKING="${SIDEKICK_HIDE_THINKING:-true}"
+SIDEKICK_EXCLUDE_PACKAGES="${SIDEKICK_EXCLUDE_PACKAGES:-compound-engineering|pi-mcp-adapter}"
+GLOBAL_PI_SETTINGS="${HOME}/.pi/agent/settings.json"
+PACKAGES_LINE=""
+if command -v jq >/dev/null 2>&1 && [ -f "${GLOBAL_PI_SETTINGS}" ] && [ -n "${SIDEKICK_EXCLUDE_PACKAGES}" ]; then
+    FILTERED_PACKAGES="$(jq -c --arg re "${SIDEKICK_EXCLUDE_PACKAGES}" \
+        '[.packages[]? | select(test($re) | not)]' "${GLOBAL_PI_SETTINGS}" 2>/dev/null || true)"
+    if [ -n "${FILTERED_PACKAGES}" ]; then
+        PACKAGES_LINE="\"packages\": ${FILTERED_PACKAGES},"
+    fi
+fi
+cat > "${PI_SETTINGS_FILE}" <<EOF
+{
+  ${PACKAGES_LINE}
+  "defaultThinkingLevel": "${SIDEKICK_THINKING_LEVEL}",
+  "hideThinkingBlock": ${SIDEKICK_HIDE_THINKING}
+}
+EOF
+
+# The launcher runs as a login-interactive zsh so the Tuple CLI and `pi` resolve
+# from the same PATH you get in a fresh terminal.
+#
+# Which CLI to drive: this is the *production* trigger set, so it defaults to
+# `tuple` (the staging trigger set uses `tuple-staging`). The TUPLE_CLI env var
+# overrides it. The value is exported so `connect` and the bundled extension
+# (transcription show, screen capture) all hit the same daemon.
+cat > "${LAUNCHER_FILE}" <<'SCRIPT'
+#!/bin/zsh -li
+printf '\e]0;Tuple Pi Sidekick\a'
+clear
+echo 'Connecting Pi to the call...'
+echo
+
+SCRIPT_DIR="${0:A:h}"
+PID_FILE="${SCRIPT_DIR}/pi-sidekick.pid"
+
+echo $$ > "${PID_FILE}"
+cd "${SCRIPT_DIR}" || exit 1
+
+# Tell the bundled extension where its config lives (Pi gives extensions no
+# reliable module dir), and which Tuple CLI to drive.
+export SIDEKICK_PI_DIR="${SCRIPT_DIR}/.pi/extensions"
+TUPLE_CLI="${TUPLE_CLI:-tuple}"
+export TUPLE_CLI
+
+if ! command -v "${TUPLE_CLI}" >/dev/null 2>&1; then
+    echo "${TUPLE_CLI} was not found on your interactive shell PATH."
+    echo "Make sure '${TUPLE_CLI}' works in a new terminal, then run the trigger again."
+    echo
+    read '?Press return to close.'
+    exit 127
+fi
+
+# Freshen pi and its extensions before joining, so every call runs the latest.
+# Best-effort: a failed or offline update must never keep the sidekick off the
+# call. Skip with SIDEKICK_SKIP_UPDATE=1 if joining fast matters more.
+if [ "${SIDEKICK_SKIP_UPDATE:-}" != "1" ] && command -v pi >/dev/null 2>&1; then
+    echo 'Updating pi and extensions...'
+    pi update --all || echo 'pi update failed; continuing with the installed version.'
+    echo
+fi
+
+exec "${TUPLE_CLI}" connect --harness pi
+SCRIPT
+
+chmod 0755 "${LAUNCHER_FILE}"
+
+# --- launch_in_terminal: open the .command launcher in the user's terminal ---
+# Uses LaunchServices (`open`) only — no direct binary exec and no AppleScript,
+# so it triggers no macOS accessibility prompt and no stray empty windows.
+# With PREFERRED_TERM empty, the launcher opens in your default handler for
+# .command files (change it in Finder: right-click a .command > Open With >
+# your terminal > Change All). Set PREFERRED_TERM to force one for this trigger.
+# Ghostty, iTerm, and Terminal run an opened .command directly; Alacritty has no
+# document handler, so it is launched with `open -na ... --args -e`.
+launch_in_terminal() {
+    local file="$1"
+    case "${PREFERRED_TERM:-}" in
+    "") open "$file" ;;
+    ghostty) open -a "Ghostty" "$file" 2>/dev/null || open "$file" ;;
+    iterm) open -a "iTerm" "$file" 2>/dev/null || open "$file" ;;
+    terminal) open -a "Terminal" "$file" 2>/dev/null || open "$file" ;;
+    alacritty) open -na "Alacritty" --args -e "$file" 2>/dev/null || open "$file" ;;
+    *) echo "launch_in_terminal: unknown PREFERRED_TERM='${PREFERRED_TERM}'; using default handler" >&2; open "$file" ;;
+    esac
+}
+
+if [ "${SIDEKICK_PI_DRY_RUN:-}" = "1" ]; then
+    echo "sidekick-pi: dry run generated ${LAUNCHER_FILE}"
+    exit 0
+fi
+
+launch_in_terminal "${LAUNCHER_FILE}"

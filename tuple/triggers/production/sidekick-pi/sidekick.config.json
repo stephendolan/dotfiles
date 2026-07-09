@@ -1,0 +1,9 @@
+{
+  "consoleEnabled": true,
+  "cli": "tuple",
+  "watchWords": ["pi", "pie"],
+  "defaultMode": "auto",
+  "catchupMaxLines": 300,
+  "streamTimeout": "30s",
+  "exportNotes": true
+}
