@@ -192,10 +192,13 @@ The `mcp.json` file defines MCP server connections:
 
 | Server          | Purpose                       |
 | --------------- | ----------------------------- |
+| **1password**   | Secure developer environments |
 | **betterstack** | Logging and uptime monitoring |
 | **chartmogul**  | Revenue analytics             |
 | **helpscout**   | Customer support              |
 | **omnifocus**   | Task management               |
 | **ynab**        | Budget tracking               |
 
-Run `./generate-mcp.sh` to sync servers to Claude CLI and Codex CLI.
+Run `./generate-mcp.sh` to sync servers to Claude CLI and Codex CLI. The
+generator upserts these managed entries, preserves client-specific servers, and
+restores both client configs if a sync fails partway through.

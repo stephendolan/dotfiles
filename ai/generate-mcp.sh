@@ -9,30 +9,72 @@ if [[ ! -f "$SOURCE_FILE" ]]; then
   exit 1
 fi
 
+if ! jq -e '.mcpServers | type == "object"' "$SOURCE_FILE" >/dev/null; then
+  echo "Error: $SOURCE_FILE must contain an mcpServers object"
+  exit 1
+fi
+
+BACKUP_DIR=$(mktemp -d "${TMPDIR:-/tmp}/generate-mcp.XXXXXX")
+CLAUDE_CONFIG_FILE="${HOME}/.claude.json"
+CODEX_CONFIG_FILE="${CODEX_HOME:-${HOME}/.codex}/config.toml"
+
+backup_config() {
+  local source_file="$1"
+  local backup_name="$2"
+
+  if [[ -f "$source_file" ]]; then
+    cp -p "$source_file" "${BACKUP_DIR}/${backup_name}"
+  else
+    touch "${BACKUP_DIR}/${backup_name}.absent"
+  fi
+}
+
+restore_config() {
+  local destination_file="$1"
+  local backup_name="$2"
+
+  if [[ -f "${BACKUP_DIR}/${backup_name}.absent" ]]; then
+    rm -f "$destination_file"
+  else
+    cp -p "${BACKUP_DIR}/${backup_name}" "$destination_file"
+  fi
+}
+
+finish() {
+  local exit_status=$?
+  trap - EXIT
+
+  if (( exit_status != 0 )); then
+    echo "MCP sync failed; restoring client configuration" >&2
+    restore_config "$CLAUDE_CONFIG_FILE" claude.json
+    restore_config "$CODEX_CONFIG_FILE" codex-config.toml
+  fi
+
+  rm -rf "$BACKUP_DIR"
+  exit "$exit_status"
+}
+
+backup_config "$CLAUDE_CONFIG_FILE" claude.json
+backup_config "$CODEX_CONFIG_FILE" codex-config.toml
+trap finish EXIT
+
 echo "Generating MCP configs from mcp.json..."
 
 # Sync to Claude Code CLI (if available)
 if command -v claude &>/dev/null; then
   echo "  -> Claude Code CLI"
 
-  # Remove servers not in source file
-  claude mcp list 2>/dev/null | grep -E '^[a-zA-Z0-9_-]+:' | cut -d: -f1 | while read -r name; do
-    if ! jq -e ".mcpServers[\"$name\"]" "$SOURCE_FILE" &>/dev/null; then
-      echo "     - $name"
-      claude mcp remove "$name" -s user 2>/dev/null || true
-    fi
-  done
-
-  # Add servers from source file
+  # Upsert managed servers without deleting client-specific configuration.
   jq -r '.mcpServers | keys[]' "$SOURCE_FILE" | while read -r name; do
     if claude mcp get "$name" &>/dev/null; then
-      echo "     $name (exists)"
-      continue
+      echo "     ~ $name (updating)"
+      claude mcp remove "$name" -s user
+    else
+      echo "     + $name"
     fi
 
     server_json=$(jq -c ".mcpServers[\"$name\"]" "$SOURCE_FILE")
-    echo "     + $name"
-    claude mcp add-json --scope user "$name" "$server_json" 2>/dev/null || true
+    claude mcp add-json --scope user "$name" "$server_json"
   done
 else
   echo "  -> Claude Code CLI (not installed, skipping)"
@@ -47,21 +89,21 @@ if command -v codex &>/dev/null; then
     server_command=$(echo "$server_json" | jq -r '.command // empty')
     server_url=$(echo "$server_json" | jq -r '.url // empty')
     server_args=("${(@f)$(echo "$server_json" | jq -r '.args[]?')}")
-    server_env=("${(@f)$(echo "$server_json" | jq -r '(.env // {}) | to_entries[]? | "\(.key)=\(.value)"')}")
+    server_env=("${(@f)$(echo "$server_json" | jq -r '(.env // {}) | to_entries[]? | select(.value != ("${" + .key + "}")) | "\(.key)=\(.value)"')}")
     bearer_token_env_var=$(echo "$server_json" | jq -r '.bearer_token_env_var // empty')
 
     if codex mcp get "$name" &>/dev/null; then
       echo "     ~ $name (updating)"
-      codex mcp remove "$name" 2>/dev/null || true
+      codex mcp remove "$name"
     else
       echo "     + $name"
     fi
 
     if [[ -n "$server_url" ]]; then
       if [[ -n "$bearer_token_env_var" ]]; then
-        codex mcp add "$name" --url "$server_url" --bearer-token-env-var "$bearer_token_env_var" 2>/dev/null || true
+        codex mcp add "$name" --url "$server_url" --bearer-token-env-var "$bearer_token_env_var"
       else
-        codex mcp add "$name" --url "$server_url" 2>/dev/null || true
+        codex mcp add "$name" --url "$server_url"
       fi
       continue
     fi
@@ -72,18 +114,18 @@ if command -v codex &>/dev/null; then
     fi
 
     codex_cmd=(codex mcp add "$name")
-    if (( ${#server_env[@]} > 0 )); then
+    if [[ -n "${server_env[1]-}" ]]; then
       for env_var in "${server_env[@]}"; do
         codex_cmd+=(--env "$env_var")
       done
     fi
 
     codex_cmd+=(-- "$server_command")
-    if (( ${#server_args[@]} > 0 )); then
+    if [[ -n "${server_args[1]-}" ]]; then
       codex_cmd+=("${server_args[@]}")
     fi
 
-    "${codex_cmd[@]}" 2>/dev/null || true
+    "${codex_cmd[@]}"
   done
 else
   echo "  -> Codex CLI (not installed, skipping)"
