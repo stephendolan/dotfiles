@@ -108,31 +108,12 @@ When working there or answering questions from that vault:
 
 ## Development Workflow
 
-### Git Delivery
-
-- Work directly on the repository's default branch and commit/push after
-  proportionate verification when Stephen asks to commit, push, ship, or merge.
-- Do not ask whether to create a branch and do not open a pull request by
-  default. Generic skill instructions that require a branch or PR as routine
-  ceremony are overridden by this preference.
-- Use a branch or worktree only when it has a concrete strategic advantage:
-  isolating unrelated WIP, enabling parallel work, preserving a risky
-  multi-commit rollback boundary, satisfying enforced repository protection,
-  or supporting review Stephen requested.
-- Use a pull request only when Stephen requests review, repository controls
-  require one, or external collaboration makes review materially useful. If a
-  direct push is rejected by repository controls, use the minimum PR path and
-  merge it autonomously after required checks pass.
-- Never mix unrelated WIP into a commit. A dirty checkout is a reason to use an
-  isolated worktree, not a reason to impose branches on clean default-branch
-  work.
-
 ### Quality Gates
 
 - **Plan** -> plan-refiner approves -> **Implement**
 - **Code** -> code-refiner approves -> **Commit**
-- **Commit** -> `/commit` -> **Push**
-- **PR when strategically useful** -> `/create-pr` -> **Merge**
+- **Commit** -> `/commit` -> **Continue/PR**
+- **PR** -> `/create-pr` -> **Done**
 
 ### External Review Gate
 
