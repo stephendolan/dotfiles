@@ -261,41 +261,37 @@ Feature request: $ARGUMENTS
 
 ## Phase 7: Deliver
 
-**Goal**: Get the code committed, PR opened, and (if authorized) merged.
+**Goal**: Get the code committed and pushed to the default branch.
 
 This phase is mandatory for full Ship invocations. A verified local diff is not
 a delivered Ship run.
 
 1. Run `git status` — clean up any leftover plan files, temp files, or unintended changes.
 2. Create an explicit reviewed file allowlist for the commit. Stage only files on that allowlist. Verify `git diff --cached --name-only` exactly matches the allowlist before committing. If unrelated dirty files exist, leave them unstaged and name them in the final summary; if the intended files cannot be separated cleanly, stop.
-3. Full-suite gate: run typecheck + tests + any project-declared prod-build from the project instructions. Rebase onto the base branch first (`git fetch origin <base> && git rebase origin/<base>`) so you're testing against current trunk.
+3. Fetch the remote default branch and integrate any upstream changes without discarding local work. Then run the full-suite gate: typecheck + tests + any project-declared prod-build from the project instructions.
    - Use the project verification matrix when one exists. Do not invent broad
      gates just because a repository has unrelated workflows.
    - If CI path filters clearly exclude this diff and project instructions do
      not require a manual run, rely on the relevant local/project gate instead
      of dispatching unrelated CI.
-4. **Flake sentinel.** If a test that was green in Phase 6 now fails after rebase: don't retry blindly. Re-run just the failing test file in isolation twice. Two passes in isolation = flake (test-ordering, shared DB state); note in the PR body and continue. One persistent failure = real regression pulled in by the rebase; identify the likely commit via `git log --oneline <base-sha>..origin/<base>` and escalate.
+4. **Flake sentinel.** If a test that was green in Phase 6 now fails after syncing: don't retry blindly. Re-run just the failing test file in isolation twice. Two passes in isolation = flake (test-ordering, shared DB state); note it in the final handoff and continue. One persistent failure = real regression pulled in by the sync; identify the likely commit via `git log --oneline <base-sha>..origin/<base>` and escalate.
 5. Use the `commit` skill to create the commit. Use the runtime's native invocation (`/commit`, `$commit`, or loaded skill), pass enough context that it can write a why-focused message without asking questions, and explicitly instruct it to commit staged changes only without staging additional files.
-6. Use the `create-pr` skill to open the PR. Use the runtime's native invocation (`/create-pr`, `$create-pr`, or loaded skill) and pass the full problem statement and plan context so the skill does not need to ask the user for clarification. If the input was a GitHub issue #, include `Closes #N` in the PR body.
-7. **CI handling** — branch on whether the repo has CI:
-   - `.github/workflows/` exists with non-Dependabot workflows → monitor via `gh pr checks` until all checks complete. Code failure → diagnose, fix, re-commit, re-push. Infra/flake failure → note in summary and move on.
+6. Push the verified commit directly to the remote default branch. A Ship invocation authorizes this delivery. Use a branch or pull request only when isolation, parallel work, risky rollback, enforced repository controls, or explicitly requested review provides a concrete advantage. If repository controls reject the direct push, use the `create-pr` skill to open the minimum required PR and merge it autonomously after required checks pass.
+7. **CI handling** — branch on whether the repo has CI and whether a PR was required:
+   - Direct push with relevant workflows → monitor the resulting default-branch run until checks complete. Code failure → diagnose, fix, re-commit, re-push. Infra/flake failure → note in summary and move on.
+   - PR required by repository controls → monitor via `gh pr checks` and merge when required checks pass.
    - No CI workflows → the local gate IS the merge gate. Green locally = ready to merge. Don't wait.
-8. Check for auto-review bot comments (`gh pr view --comments`). Address code suggestions; ignore assignment/label bots and style nits that conflict with project conventions.
-9. **Merge** — if the delivery target is `merge` or `production`, or if a
-   merge-on-green policy applies (for example invoked from a pipeline, or
-   declared by the repo's project instructions), squash-merge via
-   `gh pr merge <pr> --squash --delete-branch`. Otherwise leave the PR open for
-   human review.
-10. **Deploy/release** — if the delivery target is `production`, run the
+8. If a PR was required, check auto-review bot comments (`gh pr view --comments`). Address code suggestions; ignore assignment/label bots and style nits that conflict with project conventions, then merge and delete the branch.
+9. **Deploy/release** — if the delivery target is `production`, run the
    project-declared release/deploy path and verify the deployed/released SHA.
    If the project has a deploy-check skill, invoke it now while context is warm.
-11. **Live side effects** — do not mix unrelated external cleanup, backfills, or
+10. **Live side effects** — do not mix unrelated external cleanup, backfills, or
    production data repair into the code-shipping path unless the user explicitly
    asked for it or the deploy would be unsafe without it. If the live mutation
    path is blocked or independent, finish the code delivery and produce a
    bounded handoff prompt/action for the cleanup.
 
-> PR submitted.
+> Changes delivered.
 
 ---
 
