@@ -3,6 +3,7 @@ name: examine-architecture
 description: Audit codebase, assess technical debt, analyze architecture, find structural problems. Use when evaluating code health, planning refactors, or need architectural review. Covers brittleness, coupling, complexity.
 argument-hint: Area to focus on (optional)
 context: fork
+background: false
 ---
 
 # Architecture Examination

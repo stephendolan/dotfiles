@@ -3,6 +3,7 @@ name: address-pr-review
 description: Analyze unresolved PR review comments and recommend whether to fix, skip, or optionally address each. Use when a PR has review comments and you need a verdict on how to respond.
 argument-hint: PR number or URL
 context: fork
+background: false
 ---
 
 # Address PR Review

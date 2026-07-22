@@ -3,6 +3,7 @@ name: ship
 description: Runtime-neutral autonomous end-to-end feature development without user involvement. Plans, validates with specialist agents, defends against skeptic, implements, refines, delivers, and compounds learnings. Use when building a feature hands-free, implementing from a ticket, or wanting fully autonomous development in Claude, Codex, or another agent runtime.
 argument-hint: Feature description, ticket URL, Linear issue ID, or GitHub issue # (e.g. `#128`)
 context: fork
+background: false
 ---
 
 # Autonomous Ship Workflow
