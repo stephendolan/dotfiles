@@ -2,6 +2,7 @@
 name: review-dependabot
 description: Merge Dependabot PRs, update dependencies, handle dependency updates. Use when Dependabot PRs are pending, need to review dependency bumps, or update packages safely.
 context: fork
+background: false
 ---
 
 # Review Dependabot
