@@ -1,5 +1,8 @@
 {
   "mcpServers": {
+    "1password": {
+      "command": "1password-mcp"
+    },
     "betterstack": {
       "command": "npx",
       "args": [
@@ -21,8 +24,12 @@
       "command": "helpscout",
       "args": ["mcp"]
     },
-    "omnifocus": {
-      "command": "of",
+    "tuple": {
+      "command": "/usr/local/bin/tuple",
+      "args": ["mcp"]
+    },
+    "tuple-staging": {
+      "command": "/usr/local/bin/tuple-staging",
       "args": ["mcp"]
     },
     "ynab": {

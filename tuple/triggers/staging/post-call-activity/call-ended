@@ -1,29 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# post-call-activity: when a call ends, run a headless Claude (sonnet) that
-# reads the call's transcript once and produces the post-call outputs: sets the
-# call's Tuple title/summary, promotes durable knowledge into Stephen's Obsidian
-# knowledge base (commit), then recommends the work the call put on his plate
-# into Fortress as an orderless digest (best-effort) — and records the call as
-# processed.
-#
-# The `call-ended` event carries no call id (only TUPLE_TRIGGER_CALL_LENGTH), so
-# the just-ended call is resolved from the stored-transcript index: the newest
-# call in `tuple-staging transcription list` that this trigger has not already
-# processed. call-ended fires ~1-2s before the transcript finishes flushing to
-# the store, so resolution polls briefly until the fresh call appears. A call
-# with no transcription never appears, so the poll simply times out and the
-# trigger no-ops. Parsing stays dependency-free: POSIX grep on the call-id UUID
-# shape, no jq.
+# post-call-activity: on call-ended, fork a detached worker that resolves the
+# just-ended call(s) from the stored-transcript index and runs one headless
+# Claude per unprocessed call. See README.md for the design; instructions.md
+# is the agent's system prompt.
 
 LOG=/tmp/tuple-trigger-debug.log
-{
-    printf '\n=== %s call-ended fired (post-call-activity) ===\n' "$(date -u +%FT%TZ)"
-    printf 'cwd=%s pid=%s call_length=%s\n' "$(pwd)" "$$" "${TUPLE_TRIGGER_CALL_LENGTH:-?}"
-} >> "$LOG" 2>&1
-trap 'printf "post-call-activity: exit status=%s on line %s\n" "$?" "$LINENO" >> "$LOG"' EXIT
 exec >>"$LOG" 2>&1
+printf '\n=== %s call-ended fired (post-call-activity) ===\n' "$(date -u +%FT%TZ)"
+printf 'pid=%s call_length=%s\n' "$$" "${TUPLE_TRIGGER_CALL_LENGTH:-?}"
 
 export PATH="$HOME/.local/bin:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:${PATH:-}"
 
@@ -33,52 +19,70 @@ VAULT="$HOME/Obsidian/Notes"
 INSTRUCTIONS="${TRIGGER_DIR}/instructions.md"
 STATE_DIR="$HOME/.tuplestaging/post-call-activity"
 PROCESSED_FILE="${STATE_DIR}/processed-calls.txt"
+LOCK="${STATE_DIR}/.vault-lock"
 
 mkdir -p "${STATE_DIR}"
 touch "${PROCESSED_FILE}"
 
 UUID_RE='[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
 
-# The newest stored call id (the call-ended that just fired is the most recent
-# call once its transcript flushes). Empty if the store has nothing yet.
-newest_call_id() {
-    "${TUPLE_CLI}" transcription list --limit 1 --format json 2>/dev/null \
-        | grep -oiE "\"call_id\": *\"${UUID_RE}\"" | grep -oiE "${UUID_RE}" | head -1
+# Recent stored call ids not yet processed, oldest first. `call-ended` carries
+# no call id, so the just-ended call is resolved from the stored-transcript
+# index; checking the newest 5 (not just 1) lets a firing also catch calls an
+# earlier firing missed (near-simultaneous endings, failed runs). Parsing stays
+# dependency-free: POSIX grep on the call-id UUID shape, no jq.
+unprocessed_calls() {
+    "${TUPLE_CLI}" transcription list --limit 5 --format json 2>/dev/null \
+        | grep -oiE "\"call_id\": *\"${UUID_RE}\"" \
+        | grep -oiE "${UUID_RE}" \
+        | tail -r \
+        | while read -r cid; do
+              grep -qxF "${cid}" "${PROCESSED_FILE}" || printf '%s\n' "${cid}"
+          done
 }
 
-# Poll until a not-yet-processed call surfaces (transcript flush lags call-ended
-# by a second or two), capped so a transcription-less call ends the run cleanly.
-CALL_ID=""
-tries=0
-while [ "${tries}" -lt 12 ]; do
-    cid="$(newest_call_id || true)"
-    if [ -n "${cid}" ] && ! grep -qxF "${cid}" "${PROCESSED_FILE}"; then
-        CALL_ID="${cid}"
-        break
+# Run one headless Claude for one call; mark it processed only on success so a
+# failed run is retried by the next firing.
+process_call() {
+    cid="$1"
+    prompt="A Tuple call just ended. Process call ${cid} per your instructions.
+Tuple client: staging — use the \`${TUPLE_CLI}\` CLI for all Tuple reads and writes."
+    # Prompt via stdin: --allowedTools is variadic and would swallow a trailing
+    # positional prompt argument.
+    if printf '%s' "${prompt}" | claude \
+        --model sonnet \
+        --print \
+        --append-system-prompt-file "${INSTRUCTIONS}" \
+        --allowedTools "Read,Write,Edit,Glob,Grep,Bash(git status:*),Bash(git diff:*),Bash(git log:*),Bash(git add:*),Bash(git commit:*),Bash(obsidian:*),Bash(/Applications/Obsidian.app/Contents/MacOS/obsidian:*),Bash(pgrep:*),Bash(${TUPLE_CLI}:*),mcp__claude_ai_Fortress_-_Claude_Cowork__propose_standalone_action,mcp__claude_ai_Fortress_-_Claude_Cowork__propose_project,mcp__claude_ai_Fortress_-_Claude_Cowork__propose_someday,mcp__claude_ai_Fortress_-_Claude_Cowork__search,mcp__claude_ai_Fortress_-_Claude_Cowork__list_projects"
+    then
+        printf '%s\n' "${cid}" >> "${PROCESSED_FILE}"
+        echo "post-call-activity: processed call ${cid:0:8}"
+    else
+        echo "post-call-activity: claude exited non-zero for ${cid:0:8} — left unprocessed for retry" >&2
     fi
-    tries=$((tries + 1))
-    sleep 5
-done
+}
 
-if [ -z "${CALL_ID}" ]; then
-    echo "post-call-activity: no new call surfaced within poll window — nothing to do"
-    exit 0
-fi
-
-USER_PROMPT="A Tuple call just ended. Process it per your instructions, reading the call through the ${TUPLE_CLI} CLI.
-
-Tuple client: staging (use the \`${TUPLE_CLI}\` CLI).
-Call id to process: ${CALL_ID}
-
-Read it with \`${TUPLE_CLI} transcription show ${CALL_ID} --with-events --format json\` (transcript plus lifecycle events, NDJSON). Read it once, then set the Tuple title and summary, promote durable knowledge into the vault and commit, and recommend Stephen's work into Fortress."
-
-# Everything heavy runs detached: the trigger runner executes triggers in series,
-# and a multi-minute Claude run would queue every other trigger behind it. Fork
-# the worker, disown it, return to the runner immediately.
+# Everything runs detached: the trigger runner executes triggers in series, and
+# both the transcript-flush poll and the multi-minute Claude runs would queue
+# every other trigger behind them. Fork the worker and return immediately.
 (
+    # Transcript flush lags call-ended by ~1-2s; poll until an unprocessed call
+    # surfaces. A call with no transcription never appears, so the poll times
+    # out and the worker no-ops.
+    tries=0
+    while [ -z "$(unprocessed_calls)" ]; do
+        tries=$((tries + 1))
+        if [ "${tries}" -ge 12 ]; then
+            echo "post-call-activity: no new call surfaced within poll window — nothing to do"
+            exit 0
+        fi
+        sleep 5
+    done
+
     # Serialize vault access: two calls completing near-simultaneously must not
-    # edit and commit concurrently. mkdir is atomic; stale locks (>30m) are stolen.
-    LOCK="${STATE_DIR}/.vault-lock"
+    # edit and commit concurrently. mkdir is atomic; stale locks (>30m) are
+    # stolen. A worker that gives up here simply leaves its calls for the next
+    # firing's catch-up.
     waited=0
     until mkdir "${LOCK}" 2>/dev/null; do
         if [ -f "${LOCK}/ts" ] && [ "$(( $(date +%s) - $(cat "${LOCK}/ts") ))" -gt 1800 ]; then
@@ -93,25 +97,19 @@ Read it with \`${TUPLE_CLI} transcription show ${CALL_ID} --with-events --format
         sleep 10; waited=$((waited + 10))
     done
     date +%s > "${LOCK}/ts"
-    trap 'rm -rf "${LOCK}"; printf "post-call-activity: worker exit status=%s\n" "$?" >> "$LOG"' EXIT
+    printf '%s\n' "$$" > "${LOCK}/owner"
+    # Only the lock's owner removes it, so a worker whose stale lock was stolen
+    # cannot delete its successor's lock on exit.
+    trap 'st=$?; [ "$(cat "${LOCK}/owner" 2>/dev/null)" = "$$" ] && rm -rf "${LOCK}"; printf "post-call-activity: worker exit status=%s\n" "${st}"' EXIT
 
     cd "${VAULT}"
-    # Prompt via stdin: --allowedTools is variadic and would swallow a trailing
-    # positional prompt argument.
-    if printf '%s' "${USER_PROMPT}" | claude \
-        --model sonnet \
-        --print \
-        --append-system-prompt-file "${INSTRUCTIONS}" \
-        --allowedTools "Read,Write,Edit,Glob,Grep,Bash(git status:*),Bash(git diff:*),Bash(git log:*),Bash(git add:*),Bash(git commit:*),Bash(obsidian:*),Bash(/Applications/Obsidian.app/Contents/MacOS/obsidian:*),Bash(pgrep:*),Bash(tuple-staging:*),mcp__claude_ai_Fortress_-_Claude_Cowork__recommend_item,mcp__claude_ai_Fortress_-_Claude_Cowork__search,mcp__claude_ai_Fortress_-_Claude_Cowork__list_projects"
-    then
-        printf '%s\n' "${CALL_ID}" >> "${PROCESSED_FILE}"
-        echo "post-call-activity: processed call ${CALL_ID:0:8}"
-    else
-        echo "post-call-activity: claude exited non-zero — leaving call unprocessed for retry" >&2
-        exit 1
-    fi
-) >> "$LOG" 2>&1 < /dev/null &
+    # Re-resolve under the lock: a near-simultaneous firing may have processed
+    # our call while we waited, and marking-processed happens post-run.
+    for cid in $(unprocessed_calls); do
+        process_call "${cid}"
+    done
+) < /dev/null &
 WORKER_PID=$!
 disown 2>/dev/null || true
 
-echo "post-call-activity: detached worker (pid ${WORKER_PID}) for call ${CALL_ID:0:8}; returning to trigger runner"
+echo "post-call-activity: detached worker (pid ${WORKER_PID}); returning to trigger runner"

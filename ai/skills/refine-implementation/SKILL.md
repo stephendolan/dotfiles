@@ -1,119 +1,27 @@
 ---
 name: refine-implementation
-description: Review my code, check for issues, clean up implementation, refine before commit. Use when implementation is done and you want fresh-eyes review, code quality check, or to catch issues before committing.
+description: Fresh-eyes refinement of a completed implementation.
+disable-model-invocation: true
 ---
 
 # Refine Implementation
 
-Fresh-eyes multi-pass review before committing. You cannot objectively assess code you just wrote — specialized agents review for different concerns.
+Refine the current diff before delivery. Preserve the intended behavior and
+leave unrelated work untouched.
 
-## Invocation modes
+1. Reconstruct intent from the conversation, repository instructions, status,
+   diff, branch commits, and PR context. Finish when every changed file is
+   accounted for and unrelated dirty files are identified.
+2. Review the diff proportionally for correctness, error propagation, state and
+   lifecycle mistakes, missing edge coverage, convention drift, dead code, and
+   accidental complexity. Use a fresh-context reviewer when risk or uncertainty
+   warrants independence. Verify every candidate finding in the code; discard
+   speculative or taste-only feedback.
+3. Fix concrete, high-confidence issues within scope. Run the focused tests,
+   type checks, linters, or builds that exercise the changed behavior.
+4. Re-read the final diff. Finish when no concrete issue remains, or report the
+   exact unresolved blocker and evidence.
 
-This skill has two modes. Which one you're in changes how you handle "should we iterate more?" steps and how you format the output.
-
-- **Interactive (default):** user is watching. Use `AskUserQuestion` for decisions, show diffs, offer to revert. Up to 3 passes.
-- **Autonomous** (invoked from a pipeline, `/ship`, or any sub-agent context with no interactive user): no `AskUserQuestion`, no multi-pass loop. One refinement pass. Return a one-line report when no changes are made — save the full `<code_refinement>` structured output for runs that actually changed the code.
-
-Detect autonomous mode when any of:
-- The invoker was an Agent tool call (you were spawned, not paged)
-- The prompt says "do not ask the user any questions"
-- You're running in the background (check whether stdin is interactive)
-
-When in doubt, default to interactive.
-
-## Process
-
-### 1. Gather Context
-
-**Implementation context** (run in parallel):
-
-- `git diff` (or `git diff --cached` if staged) to see changes
-- `git status` to understand scope
-- `git log --oneline main..HEAD` to see commit history on this branch
-- `gh pr view --json title,body` to get PR description (if exists)
-- Read any relevant CLAUDE.md files in the changed directories
-
-**Intent reconstruction** (if no conversation context):
-
-If this is a fresh conversation on an existing branch, spawn a `code-explorer` agent:
-
-> Analyze this branch to understand what was intentionally built. Review the PR description/title, commit messages, and actual code changes. Summarize: What features/capabilities were intentionally implemented? What problem was being solved?
-
-Pass this context summary to all review agents.
-
-### 2. Run /code-review for Correctness (first pass only)
-
-Run the built-in `/code-review` command to report correctness bugs before the broader cleanup and refinement agents. Treat its findings as review input; do not expect it to modify code. Skip this step on subsequent passes.
-
-### 3. Select and Launch Review Agents
-
-Choose agents from the table below based on the nature of the changes. Launch selected agents in parallel. All agents use the `code-refiner` subagent type.
-
-#### Required Agents
-
-These agents run on every refinement pass:
-
-| Agent             | Focus                                   | Behavior                                                                                                                                                                                                                                                                    |
-| ----------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Dead Code**     | Find and remove unused code             | Delete unreferenced functions, variables, imports, and files. Remove commented-out code. If something is unused, delete it completely—no `_unused` prefixes or keeping "just in case".                                                                                      |
-| **Code Elegance** | Improve maintainability and readability | Extract functions where naming would clarify intent. Reduce nesting depth. Improve variable/method names. Make code more beautiful and self-documenting. Remove unnecessary complexity without over-abstracting—three similar lines is better than a premature abstraction. |
-| **Conventions**   | Match existing codebase patterns        | Check consistency with project style. Follow established patterns for similar code. Ensure new code looks like it belongs.                                                                                                                                                  |
-| **Adherence**     | CLAUDE.md compliance                    | Check adherence to CLAUDE.md instructions. Verify skills/agents that should have been used were used. Flag deviations from documented patterns.                                                                                                                             |
-
-#### Optional Agents
-
-Select these based on what the changes involve:
-
-| Agent             | When to Use                                                               | Focus                                                                                                                                                                                                                                          |
-| ----------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Architecture**  | New domain models, significant new functionality, architectural additions | Identify anti-patterns (anemic domain model, god objects, feature envy). Suggest patterns that fit (strategy, decorator, repository). Review domain modeling and layer boundaries. **Escalate rather than fix**—frame as "Consider whether..." |
-| **Test Coverage** | New functionality, bug fixes, refactors touching business logic           | Verify tests exist for new code paths. Check edge cases are covered. Identify untested branches. Flag missing test files for new classes.                                                                                                      |
-| **Documentation** | New public APIs, changed CLI interfaces, new configuration options        | Check README/CHANGELOG updates needed. Verify inline documentation for public interfaces. Ensure CLAUDE.md reflects new patterns or commands.                                                                                                  |
-| **Prompt Review** | Changes to Claude skills, CLAUDE.md files, agent prompts                  | Apply the `writing-claude-prompts` skill. Check for clarity, specificity, and actionability. Review instruction structure and examples.                                                                                                        |
-
-### 4. Review Agent Reports
-
-After agents complete:
-
-1. Review what each agent changed and their reasoning
-2. For any major deletions or reverts, verify the reasoning is sound
-3. **If reasoning seems wrong or missing context, resume the agent** to discuss before accepting
-4. Reject or revert changes that undo intentional design decisions without strong justification
-
-### 5. Handle Escalations
-
-If any agent reported escalations:
-
-1. Present each escalation to the user with the agent's reasoning
-2. **Use AskUserQuestion**: "Was this intentionally requested, or should we reconsider?"
-3. For confirmed removals, make the change
-4. For intentional features, note them to avoid re-flagging in subsequent passes
-
-### 6. Reconcile Changes
-
-After reviewing and discussing with agents as needed:
-
-1. Keep non-conflicting improvements
-2. For conflicts, choose the better approach
-3. Revert any changes that were rejected after discussion
-4. Show the user what changed
-
-### 7. External Second Opinion (Optional)
-
-Run `/codex:adversarial-review` after local reconciliation when the change is risky enough to justify one more pass.
-
-Good triggers: auth, billing, migrations, public APIs, broad refactors, or when local agents disagree.
-
-Incorporate valid findings, then do another local pass only if the external review changed the branch materially.
-
-### 8. Check for Another Pass
-
-**Interactive mode only — skip in autonomous mode.**
-
-**Use AskUserQuestion** to ask about next steps (3 passes maximum — diminishing returns):
-
-- **Another pass** → Return to step 3 (skip `/code-review` on subsequent passes)
-- **Review changes** → Show `git diff` and wait for feedback. Allow reverting specific changes: `git checkout HEAD -- path/to/file`
-- **Ready to commit** → Launch `committer` agent
-
-Autonomous mode exits after this single pass (see Invocation modes).
+Lead the result with the outcome. Summarize material improvements and
+verification; when no change was warranted, say that no concrete issue was
+found.

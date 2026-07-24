@@ -136,7 +136,6 @@
       "Bash(zsh:*)",
       "Read(/tmp/**)",
       "Edit(/tmp/**)",
-      "Skill(frontend-design)",
       "WebFetch(domain:agileweboperations.com)",
       "WebFetch(domain:anthropic.com)",
       "WebFetch(domain:api.slack.com)",
@@ -186,7 +185,6 @@
       "mcp__chartmogul__*",
       "mcp__claude_ai_*",
       "mcp__helpscout__*",
-      "mcp__omnifocus__*",
       "mcp__plugin_compound-engineering_context7__*",
       "mcp__ynab__*"
     ],
