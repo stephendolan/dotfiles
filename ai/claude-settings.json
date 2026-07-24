@@ -135,7 +135,7 @@
       "Bash(zoxide:*)",
       "Bash(zsh:*)",
       "Read(/tmp/**)",
-      "Write(/tmp/**)",
+      "Edit(/tmp/**)",
       "WebFetch(domain:agileweboperations.com)",
       "WebFetch(domain:anthropic.com)",
       "WebFetch(domain:api.slack.com)",
