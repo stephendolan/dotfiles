@@ -1,204 +1,73 @@
-# AI Coding Agent Configuration
+# AI Agent Configuration
 
-Custom agents, skills, and workflows for Claude Code, Codex, and other agent
-runtimes.
+Stephen's shared Claude Code and Codex configuration: a small set of personal
+skills, runtime-neutral agent roles, hooks, and MCP server definitions.
 
-## Install as a Plugin
+## Install
 
-This repository serves as a Claude Code plugin marketplace. To install:
-
-```bash
-# Add the marketplace
+```text
 /plugin marketplace add stephendolan/dotfiles
-
-# Install the plugin
 /plugin install stephendolan@dotfiles
 ```
 
-In Claude, skills become available as `/stephendolan:commit`,
-`/stephendolan:create-pr`, etc. In Codex, use the installed skills directly
-and generate native subagent roles from the canonical markdown definitions.
+Claude exposes plugin skills under `/stephendolan:<name>`. Codex uses the
+installed skills and generated native roles.
 
-### Local Development
+For local Claude development:
 
 ```bash
-# Test locally without installing
 claude --plugin-dir ./ai
+```
 
-# Pick up changes during development
-/reload-plugins
+Reload Claude plugins after edits with `/reload-plugins`. Regenerate Codex
+roles after editing `agents/*.md`:
 
-# Regenerate Codex native roles from canonical agent markdown
+```bash
 ./ai/scripts/generate-codex-agents.py
 ```
 
-### Plugin Structure
+## Layout
 
-The `ai/` directory is the plugin root:
-
-```
+```text
 ai/
-  .claude-plugin/
-    plugin.json          Plugin manifest
-  agents/                Subagent definitions
-  scripts/               Runtime adapter generators
-  skills/                Workflow skills and domain expertise
-  hooks/                 Event handlers
-  AGENTS.md              Shared instructions
-  mcp.json               MCP server definitions
-  claude-settings.json   Default settings
-  statusline.sh          Custom statusline
+├── .claude-plugin/plugin.json
+├── agents/                 # Canonical runtime-neutral roles
+├── skills/                 # Personal workflows and domain knowledge
+├── scripts/                # Runtime adapters
+├── hooks/                  # Event handlers
+├── AGENTS.md               # Shared operating preferences
+├── claude-settings.json
+└── mcp.json
 ```
 
-> For the author's personal dotfiles setup, DotBot symlinks this directory to `~/.claude/`. Run `./install` from the repo root.
+## Skills
 
----
+User-invoked skills spend no model context until Stephen calls them:
 
-## Architecture
+| Skill | Purpose |
+| --- | --- |
+| `refine-implementation` | Fresh-eyes implementation refinement |
+| `thermonuclear-review` | Strict structural maintainability review |
+| `improve-codebase-architecture` | Deep-module architecture exploration |
+| `grill-me` | Decision-tree interrogation of a plan |
+| `mom-test` | Customer-discovery question and evidence review |
+| `drama-triangle` | Communication and agency analysis |
 
-Workflows orchestrate multi-step processes by spawning agents, which may load
-domain skills for expertise. Claude reads `agents/*.md` directly. Codex uses
-generated native roles under `~/.codex/agents/stephendolan/`; regenerate them
-with `./ai/scripts/generate-codex-agents.py` after editing agent markdown.
+Model-invoked skills route natural-language requests into local tools or data:
 
-```mermaid
-flowchart LR
-    subgraph Workflows
-        cm["/commit"]
-        cpr["/create-pr"]
-        sh["/ship"]
-        ri["/refine-implementation"]
-        ea["/examine-architecture"]
-        ica["/improve-codebase-architecture"]
-        apr["/address-pr-review"]
-        rd["/review-dependabot"]
-        int["/interview"]
-        gm["/grill-me"]
-    end
-
-    subgraph Agents
-        ce["code-explorer"]
-        ca["code-architect"]
-        cr["code-reviewer"]
-        cf["code-refiner"]
-        ar["architecture-reviewer"]
-        pr["plan-refiner"]
-        pcr["pr-comment-reviewer"]
-        dr["design-refiner"]
-        docr["documentation-refiner"]
-        sk["skeptic"]
-    end
-
-    subgraph Domain Skills
-        fdd["frontend-design"]
-        wcs["writing-claude-skills"]
-        wcp["writing-claude-prompts"]
-        wdoc["writing-documentation"]
-        mt["mom-test"]
-    end
-
-    sh --> ce & ca & cr & sk
-    ri --> cf
-    ea --> ar & pr
-    ica --> ar & pr
-    apr --> pcr
-    rd --> cr
-
-    dr -.-> fdd
-
-    classDef workflow fill:#4a5568,stroke:#2d3748,color:#fff
-    classDef agent fill:#3182ce,stroke:#2c5282,color:#fff
-    classDef skill fill:#38a169,stroke:#276749,color:#fff
-
-    class cm,cpr,sh,ri,ea,ica,apr,rd,int,gm workflow
-    class ce,ca,cr,cf,ar,pr,pcr,dr,docr,sk agent
-    class fdd,wcs,wcp,wdoc,mt skill
-```
-
-**Legend**: Workflows (gray) spawn Agents (blue) which load Domain Skills (green)
-
----
-
-## Workflows
-
-| Workflow                          | Purpose                                            |
-| --------------------------------- | -------------------------------------------------- |
-| `/commit`                         | Commit with conventional message (why > what)      |
-| `/create-pr`                      | Create PR with concise description                 |
-| `/ship`                           | Autonomous end-to-end feature development          |
-| `/refine-implementation`          | Multi-pass quality review before committing        |
-| `/examine-architecture`           | Evaluate codebase for structural problems          |
-| `/improve-codebase-architecture`  | Find deepening opportunities informed by ADRs      |
-| `/address-pr-review`              | Resolve unresolved PR review comments              |
-| `/review-dependabot`              | Analyze and merge Dependabot PRs with safety check |
-| `/interview`                      | Interview user about a plan before implementation  |
-| `/grill-me`                       | Relentless decision-tree interrogation of a plan   |
-
-### Execution Flow Examples
-
-```
-/ship "Add user authentication"
-  Discovery -> Exploration (code-explorer) -> Architecture (code-architect)
-  -> Implementation -> Review (code-reviewer) -> Summary
-
-/refine-implementation
-  code-refiner: simplicity -> configuration compliance -> conventions
-  -> Reconcile changes, iterate if needed
-
-/examine-architecture
-  architecture-reviewer (parallel, one per surface)
-  -> Consolidate findings -> plan-refiner validates fixes
-```
-
----
+| Skill | Trigger |
+| --- | --- |
+| `writing` | Email, messages, Linear, support replies, and other human-facing prose |
+| `notes-knowledge-base` | Stephen's Obsidian knowledge base and Tuple-call synthesis |
+| `say` | Requested spoken output through ElevenLabs |
 
 ## Agents
 
-| Agent                     | Purpose                                            |
-| ------------------------- | -------------------------------------------------- |
-| **code-explorer**         | Trace execution paths, map dependencies            |
-| **code-architect**        | Design feature architectures                       |
-| **code-reviewer**         | Review for bugs, security, conventions             |
-| **code-refiner**          | Simplify complexity, improve maintainability       |
-| **architecture-reviewer** | Evaluate brittleness, complexity, coupling         |
-| **plan-refiner**          | Validate plans, suggest simpler approaches         |
-| **pr-comment-reviewer**   | Evaluate PR comments for actionability             |
-| **design-refiner**        | Iteratively refine frontend designs                |
-| **documentation-refiner** | Maintain Markdown files and developer docs         |
-| **skeptic**               | Challenge conclusions before they reach the user   |
-
----
-
-## Domain Skills
-
-Domain skills provide expertise activated automatically by context.
-
-| Skill                      | Trigger                             |
-| -------------------------- | ----------------------------------- |
-| **frontend-design**        | Building web interfaces             |
-| **writing-documentation**  | Updating docs                       |
-| **writing-claude-skills**  | Creating Claude Code skills         |
-| **writing-claude-prompts** | Writing prompts for Claude          |
-| **mom-test**               | Customer-discovery interview design |
-| **drama-triangle**         | Communication and conflict analysis |
-| **task-management**        | GTD workflow with OmniFocus         |
-| **notes-knowledge-base**   | Maintain Stephen's Obsidian notes knowledge base |
-
----
+Claude reads `agents/*.md` directly. Codex uses generated TOML roles under
+`~/.codex/agents/stephendolan/`. Keep the markdown definitions canonical and
+regenerate runtime copies instead of maintaining both by hand.
 
 ## MCP Servers
 
-The `mcp.json` file defines MCP server connections:
-
-| Server          | Purpose                       |
-| --------------- | ----------------------------- |
-| **1password**   | Secure developer environments |
-| **betterstack** | Logging and uptime monitoring |
-| **chartmogul**  | Revenue analytics             |
-| **helpscout**   | Customer support              |
-| **omnifocus**   | Task management               |
-| **ynab**        | Budget tracking               |
-
-Run `./generate-mcp.sh` to sync servers to Claude CLI and Codex CLI. The
-generator upserts these managed entries, preserves client-specific servers, and
-restores both client configs if a sync fails partway through.
+`mcp.json` defines personal server connections. Run `./generate-mcp.sh` to sync
+managed entries to Claude and Codex while preserving client-specific servers.
