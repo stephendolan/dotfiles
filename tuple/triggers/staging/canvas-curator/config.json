@@ -1,0 +1,7 @@
+{
+  "name": "Call Canvas Curator",
+  "description": "Opens a live collaborative tldraw room and launches one Codex curator while staging transcription is active.",
+  "category": "Sidekick",
+  "platforms": ["macos"],
+  "language": "bash"
+}

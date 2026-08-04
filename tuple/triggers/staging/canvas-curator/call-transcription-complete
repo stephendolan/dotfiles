@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CALL_ID="${TUPLE_TRIGGER_CALL_ID:-}"
+RECORDING_ID="${TUPLE_TRIGGER_RECORDING_ID:-}"
+UUID_RE='^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+
+if [[ ! "${CALL_ID}" =~ ${UUID_RE} || ! "${RECORDING_ID}" =~ ${UUID_RE} ]]; then
+  echo "canvas-curator: completion event missing valid call/recording IDs" >&2
+  exit 2
+fi
+
+CANVAS_ROOT="${CALL_CANVAS_ROOT:-${HOME}/Documents/Tuple Call Canvases}"
+CALL_DIR="${CANVAS_ROOT}/${CALL_ID}"
+mkdir -p "${CALL_DIR}"
+printf '%s\n' "$(date -u +%FT%TZ)" > "${CALL_DIR}/recording-complete-${RECORDING_ID}"
+printf '%s\n' "$(date -u +%FT%TZ)" > "/tmp/tuple-call-canvas-complete-${RECORDING_ID}"
+rm -f "${CANVAS_ROOT}/.active-recordings/${RECORDING_ID}"
+
+# The start trigger submits ngrok as a launchd job and records its label, so
+# teardown goes through launchctl rather than a PID. Only stop a tunnel this
+# trigger set started, and only once no recording is still using it.
+NGROK_LABEL_FILE="${CANVAS_ROOT}/ngrok.launchd"
+if [[ -f "${NGROK_LABEL_FILE}" ]] && ! compgen -G "${CANVAS_ROOT}/.active-recordings/*" >/dev/null; then
+  NGROK_LABEL="$(cat "${NGROK_LABEL_FILE}")"
+  if [[ "${NGROK_LABEL}" == com.stephen.tuple-canvas.* ]]; then
+    /bin/launchctl remove "${NGROK_LABEL}" 2>/dev/null || true
+  fi
+  rm -f "${NGROK_LABEL_FILE}"
+fi
+echo "canvas-curator: marked recording ${RECORDING_ID:0:8} complete"
