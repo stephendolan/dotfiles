@@ -1,0 +1,5 @@
+{
+  "onboardingShown": true,
+  "skills": ["~/.dotfiles/ai/skills/*"],
+  "npmCommand": ["mise", "exec", "node@lts", "--", "npm"]
+}

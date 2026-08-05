@@ -26,6 +26,10 @@ alias c='claude --allow-dangerously-skip-permissions'
 alias cw='c --worktree'
 alias cc='c --continue'
 
+# PRIME AGENT
+alias pa='prime-agent'
+alias pac='pa --continue'
+
 # SHORTCUTS
 alias s='scry'
 alias dc='docker-compose'

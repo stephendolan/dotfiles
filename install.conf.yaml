@@ -3,6 +3,7 @@
     - "~/.config"
     - "~/.zsh"
     - "~/.claude"
+    - "~/.prime/agent"
 
 - defaults:
     link:
@@ -87,6 +88,10 @@
 
     # AI tools configuration (Amp)
     ~/.config/AGENTS.md: ai/AGENTS.md
+
+    # AI tools configuration (Prime Agent)
+    ~/.prime/agent/AGENTS.md: ai/AGENTS.md
+    ~/.prime/agent/settings.json: ai/prime-agent-settings.json
 
 - shell:
     - [git config core.hooksPath .githooks, Configuring git hooks]
