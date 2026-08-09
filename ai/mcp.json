@@ -4,10 +4,8 @@
       "command": "1password-mcp"
     },
     "betterstack": {
-      "command": "npx",
+      "command": "/Users/stephen/.local/share/mise/shims/mcp-remote",
       "args": [
-        "-y",
-        "mcp-remote",
         "https://mcp.betterstack.com",
         "--header",
         "Authorization: Bearer ${BETTERSTACK_API_TOKEN}"
