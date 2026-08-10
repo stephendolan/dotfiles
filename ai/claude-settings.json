@@ -187,7 +187,6 @@
       "WebSearch",
       "mcp__betterstack__*",
       "mcp__chartmogul__*",
-      "mcp__claude_ai_*",
       "mcp__helpscout__*",
       "mcp__omnifocus__*",
       "mcp__plugin_compound-engineering_context7__*",
@@ -216,7 +215,7 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "model": "opus[1m]",
+  "model": "opus",
   "enableAllProjectMcpServers": true,
   "hooks": {
     "PreToolUse": [
