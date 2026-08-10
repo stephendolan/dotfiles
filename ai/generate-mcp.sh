@@ -17,6 +17,7 @@ fi
 BACKUP_DIR=$(mktemp -d "${TMPDIR:-/tmp}/generate-mcp.XXXXXX")
 CLAUDE_CONFIG_FILE="${HOME}/.claude.json"
 CODEX_CONFIG_FILE="${CODEX_HOME:-${HOME}/.codex}/config.toml"
+DESKTOP_CONFIG_FILE="${HOME}/Library/Application Support/Claude/claude_desktop_config.json"
 
 backup_config() {
   local source_file="$1"
@@ -48,6 +49,7 @@ finish() {
     echo "MCP sync failed; restoring client configuration" >&2
     restore_config "$CLAUDE_CONFIG_FILE" claude.json
     restore_config "$CODEX_CONFIG_FILE" codex-config.toml
+    restore_config "$DESKTOP_CONFIG_FILE" claude-desktop-config.json
   fi
 
   rm -rf "$BACKUP_DIR"
@@ -56,6 +58,7 @@ finish() {
 
 backup_config "$CLAUDE_CONFIG_FILE" claude.json
 backup_config "$CODEX_CONFIG_FILE" codex-config.toml
+backup_config "$DESKTOP_CONFIG_FILE" claude-desktop-config.json
 trap finish EXIT
 
 echo "Generating MCP configs from mcp.json..."
@@ -129,6 +132,32 @@ if command -v codex &>/dev/null; then
   done
 else
   echo "  -> Codex CLI (not installed, skipping)"
+fi
+
+# Sync to Claude Desktop (if present)
+if [[ -f "$DESKTOP_CONFIG_FILE" ]]; then
+  if pgrep -x Claude &>/dev/null; then
+    echo "  -> Claude Desktop (running, skipping)"
+    echo "     ! Quit Claude Desktop first; it rewrites this file on exit."
+  else
+    echo "  -> Claude Desktop"
+
+    jq -r '.mcpServers | keys[]' "$SOURCE_FILE" | while read -r name; do
+      if jq -e --arg name "$name" '.mcpServers | has($name)' "$DESKTOP_CONFIG_FILE" &>/dev/null; then
+        echo "     ~ $name (updating)"
+      else
+        echo "     + $name"
+      fi
+    done
+
+    desktop_tmp="${BACKUP_DIR}/desktop.json"
+    jq --argjson servers "$(jq -c '.mcpServers' "$SOURCE_FILE")" \
+      '.mcpServers = ((.mcpServers // {}) + $servers)' \
+      "$DESKTOP_CONFIG_FILE" >"$desktop_tmp"
+    mv "$desktop_tmp" "$DESKTOP_CONFIG_FILE"
+  fi
+else
+  echo "  -> Claude Desktop (not installed, skipping)"
 fi
 
 echo ""
