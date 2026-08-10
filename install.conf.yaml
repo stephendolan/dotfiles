@@ -91,7 +91,6 @@
 
     # AI tools configuration (Prime Agent)
     ~/.prime/agent/AGENTS.md: ai/AGENTS.md
-    ~/.prime/agent/settings.json: ai/prime-agent-settings.json
 
 - shell:
     - [git config core.hooksPath .githooks, Configuring git hooks]
