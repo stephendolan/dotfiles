@@ -188,7 +188,6 @@
       "mcp__betterstack__*",
       "mcp__chartmogul__*",
       "mcp__helpscout__*",
-      "mcp__plugin_compound-engineering_context7__*",
       "mcp__ynab__*"
     ],
     "deny": [
@@ -317,7 +316,6 @@
     "clangd-lsp@claude-plugins-official": true,
     "ruby-lsp@claude-plugins-official": true,
     "codex@openai-codex": true,
-    "compound-engineering@every-marketplace": true,
     "mattpocock-skills@mattpocock": true
   },
   "extraKnownMarketplaces": {
