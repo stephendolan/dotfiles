@@ -11,7 +11,9 @@ skills, runtime-neutral agent roles, hooks, and MCP server definitions.
 ```
 
 Claude exposes plugin skills under `/stephendolan:<name>`. Codex uses the
-installed skills and generated native roles.
+installed skills and generated native roles. Amp loads the same skills from
+Stephen's personal skills repository, including in orbs. Pushing this
+repository's `main` branch publishes the committed `ai/skills` subtree to Amp.
 
 For local Claude development:
 
@@ -24,6 +26,12 @@ roles after editing `agents/*.md`:
 
 ```bash
 ./ai/scripts/generate-codex-agents.py
+```
+
+To publish the current commit to Amp without pushing the dotfiles repository:
+
+```bash
+./ai/scripts/sync-amp-skills.sh
 ```
 
 ## Layout
