@@ -43,7 +43,8 @@ Avoid temporal references: "vs previous", "used to be X", "now uses Y", "the new
 
 Stephen's personal knowledge base lives at `/Users/stephen/Obsidian/Notes`.
 Read its `AGENTS.md` before working there; it is the single operating contract.
-Use `notes-knowledge-base` when available to route queries and maintenance.
+For personal knowledge-base work, use the private `notes-knowledge-base` skill
+when it is installed.
 
 ## Development Workflow
 

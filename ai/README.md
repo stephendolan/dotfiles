@@ -1,7 +1,11 @@
 # AI Agent Configuration
 
-Stephen's shared Claude Code and Codex configuration: a small set of personal
-skills, runtime-neutral agent roles, hooks, and MCP server definitions.
+Stephen's shared Claude Code, Codex, and Cursor configuration: a small set of
+personal skills, runtime-neutral agent roles, hooks, and MCP server definitions.
+Each client has its native manifest: `.claude-plugin/plugin.json`,
+`.codex-plugin/plugin.json`, and `.cursor-plugin/plugin.json`. They package the
+portable skills and, where supported, canonical agents; runtime-specific MCP
+setup remains managed by the adapters below.
 
 ## Install
 
@@ -41,6 +45,8 @@ To publish the current commit to Amp without pushing the dotfiles repository:
 ```text
 ai/
 ├── .claude-plugin/plugin.json
+├── .codex-plugin/plugin.json
+├── .cursor-plugin/plugin.json
 ├── AGENT-RUNTIME.md        # Cross-runtime role interpretation
 ├── agents/                 # Canonical runtime-neutral roles
 ├── skills/                 # Personal workflows and domain knowledge
@@ -69,8 +75,8 @@ Model-invoked skills route natural-language requests into local tools or data:
 | Skill | Trigger |
 | --- | --- |
 | `writing` | Email, messages, Linear, support replies, and other human-facing prose |
-| `notes-knowledge-base` | Stephen's Obsidian knowledge base and Tuple-call synthesis |
-| `say` | Requested spoken output through ElevenLabs |
+
+Personal knowledge-base routing belongs to the private-skills package.
 
 ## Agents
 

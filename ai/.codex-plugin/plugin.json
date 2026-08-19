@@ -1,0 +1,28 @@
+{
+  "name": "stephendolan",
+  "version": "2.10.0",
+  "description": "Personal skills for development workflows, review, architecture analysis, and domain expertise.",
+  "author": {
+    "name": "Stephen Dolan",
+    "url": "https://github.com/stephendolan"
+  },
+  "homepage": "https://github.com/stephendolan/dotfiles/tree/main/ai",
+  "repository": "https://github.com/stephendolan/dotfiles",
+  "license": "UNLICENSED",
+  "keywords": ["personal", "workflows", "skills", "codex"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Stephen Dolan",
+    "shortDescription": "Personal development and operations skills.",
+    "longDescription": "A small collection of personal skills for development workflows, review, architecture analysis, writing, and domain-specific operations.",
+    "developerName": "Stephen Dolan",
+    "category": "Productivity",
+    "capabilities": ["Skills"],
+    "websiteURL": "https://github.com/stephendolan/dotfiles/tree/main/ai",
+    "defaultPrompt": [
+      "Refine this implementation.",
+      "Review this plan skeptically.",
+      "Help me draft a clear update."
+    ]
+  }
+}
