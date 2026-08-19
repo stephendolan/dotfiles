@@ -85,6 +85,10 @@
     ~/.codex/skills/:
       glob: true
       path: ai/skills/*
+    ~/.cursor/skills/:
+      glob: true
+      path: ai/skills/*
+    ~/.cursor/agents/comment-sicko.md: ai/agents/comment-sicko.md
 
     # AI tools configuration (Amp)
     ~/.config/AGENTS.md: ai/AGENTS.md

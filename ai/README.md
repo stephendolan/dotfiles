@@ -10,10 +10,12 @@ skills, runtime-neutral agent roles, hooks, and MCP server definitions.
 /plugin install stephendolan@dotfiles
 ```
 
-Claude exposes plugin skills under `/stephendolan:<name>`. Codex uses the
-installed skills and generated native roles. Amp loads the same skills from
-Stephen's personal skills repository, including in orbs. Pushing this
-repository's `main` branch publishes the committed `ai/skills` subtree to Amp.
+Claude exposes plugin skills under `/stephendolan:<name>`. Codex and Cursor load
+the same `ai/skills` directories through DotBot-managed user-level links. Codex
+uses generated native roles; Cursor links Comment Sicko's canonical role directly.
+Amp loads the same skills from Stephen's personal skills repository, including
+in orbs. Pushing this repository's `main` branch publishes the committed
+`ai/skills` subtree to Amp.
 
 For local Claude development:
 
@@ -39,6 +41,7 @@ To publish the current commit to Amp without pushing the dotfiles repository:
 ```text
 ai/
 ├── .claude-plugin/plugin.json
+├── AGENT-RUNTIME.md        # Cross-runtime role interpretation
 ├── agents/                 # Canonical runtime-neutral roles
 ├── skills/                 # Personal workflows and domain knowledge
 ├── scripts/                # Runtime adapters
@@ -54,8 +57,8 @@ User-invoked skills spend no model context until Stephen calls them:
 
 | Skill | Purpose |
 | --- | --- |
-| `refine-implementation` | Fresh-eyes implementation refinement |
-| `thermonuclear-review` | Strict structural maintainability review |
+| `refine-implementation` | Context-routed correctness, structural, blast-radius, and comment refinement |
+| `no-comments` | Comment Sicko cleanup and structural constraint encoding |
 | `improve-codebase-architecture` | Deep-module architecture exploration |
 | `grill-me` | Decision-tree interrogation of a plan |
 | `mom-test` | Customer-discovery question and evidence review |
@@ -72,8 +75,9 @@ Model-invoked skills route natural-language requests into local tools or data:
 ## Agents
 
 Claude reads `agents/*.md` directly. Codex uses generated TOML roles under
-`~/.codex/agents/stephendolan/`. Keep the markdown definitions canonical and
-regenerate runtime copies instead of maintaining both by hand.
+`~/.codex/agents/stephendolan/`. Cursor reads Comment Sicko through
+`~/.cursor/agents/comment-sicko.md`. Keep the markdown definitions canonical and
+regenerate Codex runtime copies instead of maintaining parallel role bodies.
 
 ## MCP Servers
 

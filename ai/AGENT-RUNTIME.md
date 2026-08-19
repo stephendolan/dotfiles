@@ -1,8 +1,8 @@
 # Agent Runtime Contract
 
-The markdown files in this directory are the canonical agent definitions.
-Claude Code reads their frontmatter directly. Other agent runtimes should treat
-the frontmatter as routing metadata and the markdown body as the role contract.
+The markdown files in `agents/` are the canonical agent definitions. Claude
+Code reads their frontmatter directly. Other agent runtimes should treat the
+frontmatter as routing metadata and the markdown body as the role contract.
 
 ## Frontmatter Interpretation
 

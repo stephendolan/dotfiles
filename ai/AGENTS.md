@@ -15,7 +15,7 @@ agent a bounded question or file ownership; serialize edits to the same file.
 ### Runtime Portability
 
 Custom agents live in `agents/*.md` as runtime-neutral role contracts with
-Claude-compatible frontmatter. Read `agents/RUNTIME.md` when adapting them to
+Claude-compatible frontmatter. Read `AGENT-RUNTIME.md` when adapting them to
 non-Claude runtimes.
 
 - Keep the markdown files canonical. Generate runtime-specific copies instead
@@ -26,7 +26,7 @@ non-Claude runtimes.
 - Treat `model` as a capability hint and `tools` as tool-intent metadata when a
   runtime does not support Claude's exact fields.
 - In Codex, use generated native roles when exposed; otherwise load
-  `agents/RUNTIME.md` plus the requested agent markdown and pass them to a
+  `AGENT-RUNTIME.md` plus the requested agent markdown and pass them to a
   `default` subagent.
 - Spawn only when the user explicitly asks for subagents, delegation, or
   parallel agent work. Otherwise, apply the role in the main thread.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "No Comments"
+  short_description: "Comment Sicko cleanup and structural fixes"
+  default_prompt: "Use $no-comments to remove weak comments and fix the code that needed them."
