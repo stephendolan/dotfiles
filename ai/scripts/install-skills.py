@@ -40,10 +40,10 @@ def load_skillset() -> tuple[list[str], list[dict[str, object]]]:
 
 def command_for(agents: list[str], entry: dict[str, object]) -> list[str]:
     command = ["npx", "--yes", "skills", "add", str(entry["source"]), "--global", "--yes"]
-    for skill in entry.get("skills", ["*"]):
-        command.extend(["--skill", str(skill)])
-    for agent in agents:
-        command.extend(["--agent", agent])
+    command.append("--skill")
+    command.extend(str(skill) for skill in entry.get("skills", ["*"]))
+    command.append("--agent")
+    command.extend(agents)
     return command
 
 

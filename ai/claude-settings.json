@@ -309,14 +309,11 @@
     "command": "~/.dotfiles/ai/statusline.sh"
   },
   "enabledPlugins": {
-    "personal@private-skills": true,
     "ralph-loop@claude-plugins-official": false,
-    "stephendolan@dotfiles": true,
     "swift-lsp@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true,
     "ruby-lsp@claude-plugins-official": true,
-    "codex@openai-codex": true,
-    "mattpocock-skills@mattpocock": true
+    "codex@openai-codex": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {

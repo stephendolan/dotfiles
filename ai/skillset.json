@@ -12,6 +12,17 @@
       "skills": ["grill-me"]
     },
     {
+      "source": "emilkowalski/skills",
+      "skills": ["emil-design-eng", "improve-animations"]
+    },
+    {
+      "source": "planetscale/database-skills",
+      "skills": ["postgres"]
+    },
+    {
+      "source": "stephendolan/tuple-operations-skills"
+    },
+    {
       "source": "github/gh-stack",
       "skills": ["gh-stack"]
     },
