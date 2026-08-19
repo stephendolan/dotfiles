@@ -70,9 +70,11 @@ User-invoked skills spend no model context until Stephen calls them:
 | `refine-implementation` | Context-routed correctness, structural, blast-radius, and comment refinement |
 | `no-comments` | Comment Sicko cleanup and structural constraint encoding |
 | `improve-codebase-architecture` | Deep-module architecture exploration |
-| `grill-me` | Decision-tree interrogation of a plan |
 | `mom-test` | Customer-discovery question and evidence review |
 | `drama-triangle` | Communication and agency analysis |
+
+Third-party skills are installed directly from their upstream repository with
+`npx skills add`, rather than copied into this personal bundle.
 
 Model-invoked skills route natural-language requests into local tools or data:
 
