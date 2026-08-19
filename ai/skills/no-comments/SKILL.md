@@ -1,7 +1,6 @@
 ---
 name: no-comments
 description: Run Comment Sicko over a scoped diff, adjudicate its deletions, fix accepted structural findings, and offer enforceable replacements for comment-only constraints.
-disable-model-invocation: true
 ---
 
 # No comments

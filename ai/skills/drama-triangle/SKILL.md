@@ -1,7 +1,6 @@
 ---
 name: drama-triangle
 description: Drama Triangle analysis and empowered reframing of communication.
-disable-model-invocation: true
 ---
 
 # Drama Triangle

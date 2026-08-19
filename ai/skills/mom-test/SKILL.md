@@ -1,7 +1,6 @@
 ---
 name: mom-test
 description: Mom Test review of customer-discovery questions or evidence.
-disable-model-invocation: true
 ---
 
 # The Mom Test

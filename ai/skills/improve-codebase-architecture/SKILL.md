@@ -1,7 +1,6 @@
 ---
 name: improve-codebase-architecture
 description: Find and develop evidence-backed opportunities to deepen a codebase.
-disable-model-invocation: true
 ---
 
 # Improve Codebase Architecture

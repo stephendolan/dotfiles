@@ -1,7 +1,6 @@
 ---
 name: refine-implementation
 description: Fresh-eyes refinement that routes a completed diff through only the applicable review lenses.
-disable-model-invocation: true
 ---
 
 # Refine Implementation

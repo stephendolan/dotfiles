@@ -1,8 +1,6 @@
 ---
 name: grill-me
 description: Relentless interrogation of a plan until its decisions are explicit.
-argument-hint: Plan file or description
-disable-model-invocation: true
 ---
 
 # Grill Me
