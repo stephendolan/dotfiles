@@ -10,6 +10,14 @@
     {
       "source": "mattpocock/skills",
       "skills": ["grill-me"]
+    },
+    {
+      "source": "github/gh-stack",
+      "skills": ["gh-stack"]
+    },
+    {
+      "source": "shadcn/improve",
+      "skills": ["improve"]
     }
   ]
 }
