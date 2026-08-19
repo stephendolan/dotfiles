@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -27,8 +28,15 @@ def load_skillset() -> tuple[list[str], list[dict[str, object]]]:
         raise ValueError("skillset sources must be an array")
 
     for entry in sources:
-        if not isinstance(entry, dict) or not isinstance(entry.get("source"), str):
-            raise ValueError("every skill source needs a string source")
+        if not isinstance(entry, dict):
+            raise ValueError("every skill source must be an object")
+        installer = entry.get("installer", "skills.sh")
+        if installer == "skills.sh" and not isinstance(entry.get("source"), str):
+            raise ValueError("skills.sh sources need a string source")
+        if installer == "uidotsh" and not isinstance(entry.get("token_env"), str):
+            raise ValueError("ui.sh sources need a token_env")
+        if installer not in {"skills.sh", "uidotsh"}:
+            raise ValueError(f"unsupported skill installer: {installer}")
         skills = entry.get("skills")
         if skills is not None and (
             not isinstance(skills, list) or not all(isinstance(skill, str) for skill in skills)
@@ -39,6 +47,19 @@ def load_skillset() -> tuple[list[str], list[dict[str, object]]]:
 
 
 def command_for(agents: list[str], entry: dict[str, object]) -> list[str]:
+    if entry.get("installer") == "uidotsh":
+        token = os.environ[str(entry["token_env"])]
+        return [
+            "npx",
+            "--yes",
+            "@uidotsh/install",
+            f"--token={token}",
+            "--scope=global",
+            "--all-agents",
+            "--force",
+            *(str(skill) for skill in entry["skills"]),
+        ]
+
     command = ["npx", "--yes", "skills", "add", str(entry["source"]), "--global", "--yes"]
     command.append("--skill")
     command.extend(str(skill) for skill in entry.get("skills", ["*"]))
@@ -63,8 +84,14 @@ def main() -> int:
         return 1
 
     for entry in sources:
+        if entry.get("installer") == "uidotsh" and not os.environ.get(str(entry["token_env"])):
+            print(f"skipping ui.sh skills: {entry['token_env']} is not set")
+            continue
         command = command_for(agents, entry)
-        print("+", " ".join(command))
+        display_command = command.copy()
+        if entry.get("installer") == "uidotsh":
+            display_command[3] = "--token=<redacted>"
+        print("+", " ".join(display_command))
         if not args.dry_run:
             subprocess.run(command, check=True)
 

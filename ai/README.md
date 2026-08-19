@@ -11,7 +11,9 @@ setup remains managed by the adapters below.
 `plugins/stephendolan` is a compatibility symlink for marketplace loaders that
 require plugin roots beneath `plugins/`; `ai/` remains the canonical source.
 For local setup, `skillset.json` is the declarative cross-agent allowlist and
-`scripts/install-skills.py` installs it through skills.sh.
+`scripts/install-skills.py` installs it through skills.sh, plus any declared
+token-gated upstream installer. A missing optional token prints a concise skip
+and does not interrupt the remaining setup.
 
 ## Install
 

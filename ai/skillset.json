@@ -2,6 +2,11 @@
   "agents": ["codex", "claude-code", "cursor"],
   "sources": [
     {
+      "installer": "uidotsh",
+      "token_env": "UIDOTSH_TOKEN",
+      "skills": ["design", "canonicalize-tailwind", "componentize"]
+    },
+    {
       "source": "stephendolan/dotfiles"
     },
     {
