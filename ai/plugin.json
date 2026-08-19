@@ -1,7 +1,7 @@
 {
   "name": "stephendolan",
   "description": "Personal skills and agents for development workflows, code review, architecture analysis, and domain expertise.",
-  "version": "2.10.1",
+  "version": "2.10.2",
   "skills": "./skills/",
   "agents": "./agents/"
 }

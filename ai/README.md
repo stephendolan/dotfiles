@@ -8,6 +8,9 @@ Each client has its native manifest: `.claude-plugin/plugin.json`,
 portable skills and, where supported, canonical agents; runtime-specific MCP
 setup remains managed by the adapters below.
 
+`plugins/stephendolan` is a compatibility symlink for marketplace loaders that
+require plugin roots beneath `plugins/`; `ai/` remains the canonical source.
+
 ## Install
 
 ```text

@@ -8,7 +8,7 @@
       "name": "stephendolan",
       "source": {
         "source": "local",
-        "path": "./ai"
+        "path": "./plugins/stephendolan"
       },
       "policy": {
         "installation": "AVAILABLE",
