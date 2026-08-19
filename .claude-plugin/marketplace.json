@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Personal Claude Code agents and skills",
-    "version": "2.10.0"
+    "version": "2.10.1"
   },
   "plugins": [
     {
       "name": "stephendolan",
       "description": "Personal agents and skills for development workflows, code review, architecture analysis, and domain expertise.",
-      "version": "2.10.0",
+      "version": "2.10.1",
       "author": {
         "name": "Stephen Dolan",
         "url": "https://github.com/stephendolan"

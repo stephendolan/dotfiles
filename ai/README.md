@@ -3,7 +3,8 @@
 Stephen's shared Claude Code, Codex, and Cursor configuration: a small set of
 personal skills, runtime-neutral agent roles, hooks, and MCP server definitions.
 Each client has its native manifest: `.claude-plugin/plugin.json`,
-`.codex-plugin/plugin.json`, and `.cursor-plugin/plugin.json`. They package the
+`.codex-plugin/plugin.json`, and `.cursor-plugin/plugin.json`. The root
+`plugin.json` preserves Cursor marketplace discovery compatibility. They package the
 portable skills and, where supported, canonical agents; runtime-specific MCP
 setup remains managed by the adapters below.
 
