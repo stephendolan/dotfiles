@@ -78,16 +78,8 @@
       if: "[ -f $HOME/.bun/bin/ynab ]"
 
     # AI tools configuration (Claude Code)
-    # Agents and skills are installed via the stephendolan@dotfiles plugin
     ~/.claude/CLAUDE.md: ai/AGENTS.md
     ~/.claude/settings.json: ai/claude-settings.json
-    # AI tools configuration (Codex)
-    ~/.codex/skills/:
-      glob: true
-      path: ai/skills/*
-    ~/.cursor/skills/:
-      glob: true
-      path: ai/skills/*
     ~/.cursor/agents/comment-sicko.md: ai/agents/comment-sicko.md
 
     # AI tools configuration (Amp)
@@ -108,6 +100,8 @@
       stdout: true
       if: "[ `uname` = Linux ]"
     - [./scripts/brew-setup.sh, Setting up Homebrew and packages]
+    - command: python3 ./ai/scripts/install-skills.py
+      description: Installing declared agent skills
     - [./ai/generate-mcp.sh, Generating MCP configs]
     - [./scripts/claude-code-setup.sh, Setting up Claude Code]
     - [./scripts/shell-setup.sh, Setting up default shell]

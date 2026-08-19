@@ -1,0 +1,15 @@
+{
+  "agents": ["codex", "claude-code", "cursor"],
+  "sources": [
+    {
+      "source": "stephendolan/dotfiles"
+    },
+    {
+      "source": "stephendolan/private-skills"
+    },
+    {
+      "source": "mattpocock/skills",
+      "skills": ["grill-me"]
+    }
+  ]
+}
