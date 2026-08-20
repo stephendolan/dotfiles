@@ -20,15 +20,21 @@ interrupt the remaining setup.
 
 ## Install
 
-```text
-/plugin marketplace add stephendolan/dotfiles
-/plugin install stephendolan@dotfiles
-```
-
 Plugin users access the personal skills under their runtime's plugin namespace.
 Local setup installs only the non-plugin skills declared in `skillset.json`
 through skills.sh. Codex uses generated native roles; Cursor links Comment
 Sicko's canonical role directly.
+
+- Claude Code: `scripts/claude-code-setup.sh` adds the marketplace and installs
+  `stephendolan@dotfiles`.
+- Codex: `scripts/codex-plugin-setup.sh` does the same and is run by `./install`.
+- Cursor: install `stephendolan` at **user scope** from Customize → Plugins.
+  This is the supported account-synced route for Cursor and Cloud Agents; Cursor
+  does not provide a non-interactive plugin-install command. The repository's
+  `plugin.json` and `.cursor-plugin/plugin.json` supply the package metadata.
+
+Do not install `stephendolan/dotfiles` through skills.sh or link `ai/skills`
+into an agent skills directory: either route creates an unnamespaced second copy.
 Amp loads the same skills from Stephen's personal skills repository, including
 in orbs. Pushing this repository's `main` branch publishes the committed
 `ai/skills` subtree to Amp.

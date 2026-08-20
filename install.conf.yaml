@@ -102,6 +102,7 @@
     - [./scripts/brew-setup.sh, Setting up Homebrew and packages]
     - command: python3 ./ai/scripts/install-skills.py
       description: Installing declared agent skills
+    - [./scripts/codex-plugin-setup.sh, Setting up Codex plugins]
     - [./ai/generate-mcp.sh, Generating MCP configs]
     - [./scripts/claude-code-setup.sh, Setting up Claude Code]
     - [./scripts/shell-setup.sh, Setting up default shell]
