@@ -7,9 +7,6 @@
       "skills": ["design", "canonicalize-tailwind", "componentize"]
     },
     {
-      "source": "stephendolan/dotfiles"
-    },
-    {
       "source": "stephendolan/private-skills"
     },
     {

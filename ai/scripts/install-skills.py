@@ -14,6 +14,7 @@ from pathlib import Path
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 SKILLSET_PATH = REPOSITORY_ROOT / "ai" / "skillset.json"
+MARKETPLACE_SOURCES = {"stephendolan/dotfiles"}
 
 
 def load_skillset() -> tuple[list[str], list[dict[str, object]]]:
@@ -33,6 +34,10 @@ def load_skillset() -> tuple[list[str], list[dict[str, object]]]:
         installer = entry.get("installer", "skills.sh")
         if installer == "skills.sh" and not isinstance(entry.get("source"), str):
             raise ValueError("skills.sh sources need a string source")
+        if entry.get("source") in MARKETPLACE_SOURCES:
+            raise ValueError(
+                f"{entry['source']} is installed through its marketplace plugin, not skills.sh"
+            )
         if installer == "uidotsh" and not isinstance(entry.get("token_env"), str):
             raise ValueError("ui.sh sources need a token_env")
         if installer not in {"skills.sh", "uidotsh"}:

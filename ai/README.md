@@ -10,10 +10,13 @@ setup remains managed by the adapters below.
 
 `plugins/stephendolan` is a compatibility symlink for marketplace loaders that
 require plugin roots beneath `plugins/`; `ai/` remains the canonical source.
-For local setup, `skillset.json` is the declarative cross-agent allowlist and
-`scripts/install-skills.py` installs it through skills.sh, plus any declared
-token-gated upstream installer. A missing optional token prints a concise skip
-and does not interrupt the remaining setup.
+For local setup, `skillset.json` declares non-plugin skills for installation
+through skills.sh, plus any declared token-gated upstream installer. The
+personal `stephendolan` bundle remains installed through its marketplace plugin;
+it is deliberately excluded from skills.sh so Codex sees only its namespaced
+plugin skills rather than duplicate copies in shared paths such as
+`~/.agents/skills`. A missing optional token prints a concise skip and does not
+interrupt the remaining setup.
 
 ## Install
 
@@ -22,9 +25,10 @@ and does not interrupt the remaining setup.
 /plugin install stephendolan@dotfiles
 ```
 
-Plugin users can access skills under their runtime's plugin namespace. Local
-setup installs the skills declared in `skillset.json` through skills.sh. Codex
-uses generated native roles; Cursor links Comment Sicko's canonical role directly.
+Plugin users access the personal skills under their runtime's plugin namespace.
+Local setup installs only the non-plugin skills declared in `skillset.json`
+through skills.sh. Codex uses generated native roles; Cursor links Comment
+Sicko's canonical role directly.
 Amp loads the same skills from Stephen's personal skills repository, including
 in orbs. Pushing this repository's `main` branch publishes the committed
 `ai/skills` subtree to Amp.
@@ -77,8 +81,11 @@ Personal skills available across Stephen's agents:
 | `mom-test` | Customer-discovery question and evidence review |
 | `drama-triangle` | Communication and agency analysis |
 
-`skillset.json` may omit `skills` to install every skill from a personal source,
-or name selected third-party skills to keep the shared set intentionally small.
+`skillset.json` may omit `skills` to install every non-plugin source, or name
+selected third-party skills to keep the shared set intentionally small. Do not
+add the personal `stephendolan/dotfiles` bundle here: its marketplace plugin is
+the canonical installation path, and the installer rejects it to prevent
+unnamespaced duplicates.
 
 Model-invoked skills route natural-language requests into local tools or data:
 
