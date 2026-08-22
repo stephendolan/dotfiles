@@ -7,11 +7,18 @@
       "skills": ["design", "canonicalize-tailwind", "componentize"]
     },
     {
-      "source": "stephendolan/private-skills"
+      "source": "stephendolan/private-skills",
+      "skills": [
+        "book-family-stay",
+        "cooking",
+        "notes-knowledge-base",
+        "order-daycare-lunch",
+        "troubleshoot-home-network"
+      ]
     },
     {
       "source": "mattpocock/skills",
-      "skills": ["grill-me"]
+      "skills": ["grill-me", "writing-for-agents"]
     },
     {
       "source": "emilkowalski/skills",
@@ -31,6 +38,10 @@
     {
       "source": "shadcn/improve",
       "skills": ["improve"]
+    },
+    {
+      "source": "EveryInc/compound-engineering-plugin",
+      "skills": ["ce-code-review"]
     }
   ]
 }
