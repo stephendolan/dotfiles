@@ -35,9 +35,8 @@ Sicko's canonical role directly.
 
 Do not install `stephendolan/dotfiles` through skills.sh or link `ai/skills`
 into an agent skills directory: either route creates an unnamespaced second copy.
-Amp loads the same skills from Stephen's personal skills repository, including
-in orbs. Pushing this repository's `main` branch publishes the committed
-`ai/skills` subtree to Amp.
+Amp loads the same skills from Stephen's generated Personal Plugin, including
+in orbs.
 
 For local Claude development:
 
@@ -52,11 +51,17 @@ roles after editing `agents/*.md`:
 ./ai/scripts/generate-codex-agents.py
 ```
 
-To publish the current commit to Amp without pushing the dotfiles repository:
+To update the Amp Personal Plugin snapshot:
 
 ```bash
-./ai/scripts/sync-amp-skills.sh
+amp clone user-plugins ~/.cache/amp/repositories/ampcode.com-user-plugins
+python3 ai/scripts/sync_amp_plugin.py ~/.cache/amp/repositories/ampcode.com-user-plugins
+python3 ai/scripts/sync_amp_plugin.py --check ~/.cache/amp/repositories/ampcode.com-user-plugins
 ```
+
+The generator discovers every directory under `ai/skills`, copies complete
+packages, and writes the matching Amp registrations. Review and publish the
+dotfiles and User Plugins repositories separately.
 
 ## Layout
 
@@ -98,6 +103,13 @@ Model-invoked skills route natural-language requests into local tools or data:
 | Skill | Trigger |
 | --- | --- |
 | `writing` | Email, messages, Linear, support replies, and other human-facing prose |
+| `writing-for-agents` | Skills, agent rules, and other documents consumed by agents |
+
+`writing-for-agents` is vendored from Matt Pocock's MIT-licensed upstream
+package because it must be available through the personal plugin on every
+runtime. Its package records the pinned revision and license. Other third-party
+and private sources in `skillset.json` remain independently installed rather
+than copied into the personal bundle.
 
 Personal knowledge-base routing belongs to the private-skills package.
 

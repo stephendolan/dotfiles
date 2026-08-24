@@ -1,4 +1,5 @@
 .claude/
+__pycache__/
 
 # Tuple trigger runtime artifacts (live dirs symlink into this repo)
 tuple/**/triggers.log*
