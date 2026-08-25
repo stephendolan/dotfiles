@@ -74,3 +74,5 @@ __pycache__/
 
 # Tree-sitter symbol indexes
 .treesitter/
+
+**/.claude/.cc-writes/
