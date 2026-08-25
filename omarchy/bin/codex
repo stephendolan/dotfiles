@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Launch mise's active, already-installed Codex version directly. Even
+# `mise exec` can perform environment discovery, which is unnecessary work in
+# latency-sensitive app-server clients such as BB.
+mise_data_dir="${MISE_DATA_DIR:-${XDG_DATA_HOME:-${HOME}/.local/share}/mise}"
+codex_bin="${mise_data_dir}/installs/codex/latest/bin/codex"
+
+if [[ ! -x "$codex_bin" ]]; then
+  echo "Codex is not installed at ${codex_bin}; run mup or omarchy update." >&2
+  exit 127
+fi
+
+exec "$codex_bin" "$@"

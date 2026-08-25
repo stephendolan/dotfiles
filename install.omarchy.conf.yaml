@@ -1,0 +1,101 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- link:
+    # Portable AI guidance. Claude settings are merged separately so local
+    # Omarchy integrations and machine-specific hooks survive.
+    ~/.claude/CLAUDE.md:
+      path: ai/AGENTS.md
+      force: true
+    ~/.cursor/agents/comment-sicko.md:
+      path: ai/agents/comment-sicko.md
+      force: true
+    ~/.config/AGENTS.md:
+      path: ai/AGENTS.md
+      force: true
+    ~/.prime/agent/AGENTS.md:
+      path: ai/AGENTS.md
+      force: true
+
+    # AI launchers must never perform updates in their startup path. The
+    # daily mise timer below keeps all mise-managed tools current instead.
+    ~/.local/bin/codex:
+      path: omarchy/bin/codex
+      force: true
+    ~/.config/systemd/user/mise-upgrade-all.service:
+      path: omarchy/systemd/user/mise-upgrade-all.service
+      force: true
+    ~/.config/systemd/user/mise-upgrade-all.timer:
+      path: omarchy/systemd/user/mise-upgrade-all.timer
+      force: true
+
+    # Omarchy user overrides. Package-owned files under /usr/share/omarchy
+    # remain untouched and continue to update with Omarchy.
+    ~/.config/hypr/bindings.lua:
+      path: omarchy/hypr/bindings.lua
+      force: true
+    ~/.config/hypr/input.lua:
+      path: omarchy/hypr/input.lua
+      force: true
+    ~/.config/hypr/monitors.lua:
+      path: omarchy/hypr/monitors.lua
+      force: true
+    ~/.config/omarchy/shell.json:
+      path: omarchy/omarchy/shell.json
+      force: true
+    ~/.config/omarchy/defaults/agent:
+      path: omarchy/omarchy/defaults/agent
+      force: true
+
+    # User-owned Omarchy shell plugins. Link files individually so local
+    # backups and runtime files in the plugin directories are not deleted.
+    ~/.config/omarchy/plugins/stephen.agents/Agent.qml:
+      path: omarchy/omarchy/plugins/stephen.agents/Agent.qml
+      force: true
+    ~/.config/omarchy/plugins/stephen.agents/Main.qml:
+      path: omarchy/omarchy/plugins/stephen.agents/Main.qml
+      force: true
+    ~/.config/omarchy/plugins/stephen.agents/Panel.qml:
+      path: omarchy/omarchy/plugins/stephen.agents/Panel.qml
+      force: true
+    ~/.config/omarchy/plugins/stephen.agents/README.md:
+      path: omarchy/omarchy/plugins/stephen.agents/README.md
+      force: true
+    ~/.config/omarchy/plugins/stephen.agents/manifest.json:
+      path: omarchy/omarchy/plugins/stephen.agents/manifest.json
+      force: true
+    ~/.config/omarchy/plugins/stephen.agents/assets/claude.svg:
+      path: omarchy/omarchy/plugins/stephen.agents/assets/claude.svg
+      force: true
+    ~/.config/omarchy/plugins/stephen.agents/assets/codex-light.svg:
+      path: omarchy/omarchy/plugins/stephen.agents/assets/codex-light.svg
+      force: true
+    ~/.config/omarchy/plugins/stephen.agents/assets/codex.svg:
+      path: omarchy/omarchy/plugins/stephen.agents/assets/codex.svg
+      force: true
+    ~/.config/omarchy/plugins/stephen.agents/assets/fireworks.svg:
+      path: omarchy/omarchy/plugins/stephen.agents/assets/fireworks.svg
+      force: true
+    ~/.config/omarchy/plugins/stephen.tuple/Panel.qml:
+      path: omarchy/omarchy/plugins/stephen.tuple/Panel.qml
+      force: true
+    ~/.config/omarchy/plugins/stephen.tuple/Status.py:
+      path: omarchy/omarchy/plugins/stephen.tuple/Status.py
+      force: true
+    ~/.config/omarchy/plugins/stephen.tuple/manifest.json:
+      path: omarchy/omarchy/plugins/stephen.tuple/manifest.json
+      force: true
+
+- shell:
+    - [./scripts/omarchy-mise-tools-setup.sh, Configuring global mise tools]
+    - [./scripts/omarchy-systemd-setup.sh, Enabling Omarchy user timers]
+    - [./scripts/claude-settings-setup.sh, Merging Claude Code settings]
+    - command: MISE_QUIET=1 mise exec node -- python3 ./ai/scripts/install-skills.py
+      description: Installing declared agent skills
+    - [./scripts/codex-plugin-setup.sh, Setting up Codex plugins]
+    - [./ai/scripts/generate-codex-agents.py, Generating Codex agent roles]
+    - [./ai/generate-mcp.sh, Generating MCP configs]
+    - [./scripts/claude-code-setup.sh, Setting up Claude Code]
+    - [./scripts/claude-settings-setup.sh, Restoring Claude marketplace auto-updates]

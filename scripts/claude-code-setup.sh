@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export MISE_QUIET=1
+
 echo "Setting up Claude Code..."
 
 if command -v claude &> /dev/null; then
@@ -13,27 +15,38 @@ fi
 
 # Install plugins from marketplaces
 MARKETPLACES=(
-    "stephendolan/dotfiles"
-    "stephendolan/private-family-skills"
+    "dotfiles|stephendolan/dotfiles"
+    "private-skills|stephendolan/private-family-skills"
 )
 
 PLUGINS=(
     "stephendolan@dotfiles"
-    "family@private-family-skills"
+    "personal@private-skills"
 )
 
-for marketplace in "${MARKETPLACES[@]}"; do
-    if ! claude plugin marketplace list 2>/dev/null | grep -q "$marketplace"; then
-        echo "Adding marketplace: $marketplace"
-        claude plugin marketplace add "$marketplace" 2>/dev/null || true
+for marketplace_entry in "${MARKETPLACES[@]}"; do
+    marketplace_name="${marketplace_entry%%|*}"
+    marketplace_source="${marketplace_entry#*|}"
+    if ! claude plugin marketplace list --json | jq -e --arg name "$marketplace_name" \
+        'any(.[]; .name == $name)' >/dev/null; then
+        echo "Adding marketplace: $marketplace_source"
+        claude plugin marketplace add "$marketplace_source"
+    else
+        echo "Refreshing marketplace: $marketplace_name"
+        claude plugin marketplace update "$marketplace_name"
     fi
 done
 
-PLUGINS_FILE="$HOME/.claude/plugins/installed_plugins.json"
 for plugin in "${PLUGINS[@]}"; do
-    if ! grep -q "\"$plugin\"" "$PLUGINS_FILE" 2>/dev/null; then
+    if ! claude plugin list --json | jq -e --arg id "$plugin" \
+        'any(.[]; .id == $id)' >/dev/null; then
         echo "Installing plugin: $plugin"
-        claude plugin install "$plugin" 2>/dev/null || true
+        claude plugin install "$plugin"
+        claude plugin list --json | jq -e --arg id "$plugin" \
+            'any(.[]; .id == $id)' >/dev/null || {
+            echo "Plugin installation did not register: $plugin" >&2
+            exit 1
+        }
     fi
 done
 

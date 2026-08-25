@@ -1,0 +1,10 @@
+[Unit]
+Description=Update all mise-managed tools
+Documentation=https://mise.jdx.dev/cli/upgrade.html
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Environment=MISE_MINIMUM_RELEASE_AGE=0
+ExecStart=/usr/bin/mise upgrade --yes --quiet --no-prune

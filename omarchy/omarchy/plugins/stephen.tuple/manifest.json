@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "stephen.tuple",
+  "name": "Tuple",
+  "version": "1.0.0",
+  "author": "Stephen",
+  "license": "MIT",
+  "description": "Tuple contacts, rooms, presence, and in-call controls in the Omarchy bar.",
+  "kinds": ["bar-widget"],
+  "activation": "on-demand",
+  "entryPoints": { "barWidget": "Panel.qml" },
+  "barWidget": {
+    "displayName": "Tuple",
+    "description": "Browse contacts and rooms, start or join calls, and control mute and sharing.",
+    "category": "Communication",
+    "aliases": ["tuple", "pairing", "calls"],
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": { "refreshIntervalSec": 15, "environment": "Staging" },
+    "schema": [
+      {
+        "key": "refreshIntervalSec",
+        "type": "integer",
+        "label": "Refresh interval (seconds)",
+        "min": 5,
+        "max": 300,
+        "step": 5,
+        "defaultValue": 15
+      },
+      {
+        "key": "environment",
+        "type": "enum",
+        "label": "Tuple environment",
+        "options": ["Production", "Staging"],
+        "defaultValue": "Staging",
+        "description": "Choose which Tuple account and client this panel controls."
+      }
+    ]
+  }
+}

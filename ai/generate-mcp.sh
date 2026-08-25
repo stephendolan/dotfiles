@@ -1,7 +1,9 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="${0:a:h}"
+export MISE_QUIET=1
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_FILE="${SCRIPT_DIR}/mcp.json"
 
 if [[ ! -f "$SOURCE_FILE" ]]; then
@@ -41,6 +43,15 @@ restore_config() {
   fi
 }
 
+command_available() {
+  local executable="$1"
+  if [[ "$executable" == */* ]]; then
+    [[ -x "$executable" ]]
+  else
+    command -v "$executable" >/dev/null 2>&1
+  fi
+}
+
 finish() {
   local exit_status=$?
   trap - EXIT
@@ -69,6 +80,15 @@ if command -v claude &>/dev/null; then
 
   # Upsert managed servers without deleting client-specific configuration.
   jq -r '.mcpServers | keys[]' "$SOURCE_FILE" | while read -r name; do
+    server_command=$(jq -r ".mcpServers[\"$name\"].command // empty" "$SOURCE_FILE")
+    if [[ -n "$server_command" ]] && ! command_available "$server_command"; then
+      if claude mcp get "$name" &>/dev/null; then
+        claude mcp remove "$name" -s user
+      fi
+      echo "     - $name (command unavailable, skipped)"
+      continue
+    fi
+
     if claude mcp get "$name" &>/dev/null; then
       echo "     ~ $name (updating)"
       claude mcp remove "$name" -s user
@@ -91,9 +111,17 @@ if command -v codex &>/dev/null; then
     server_json=$(jq -c ".mcpServers[\"$name\"]" "$SOURCE_FILE")
     server_command=$(echo "$server_json" | jq -r '.command // empty')
     server_url=$(echo "$server_json" | jq -r '.url // empty')
-    server_args=("${(@f)$(echo "$server_json" | jq -r '.args[]?')}")
-    server_env=("${(@f)$(echo "$server_json" | jq -r '(.env // {}) | to_entries[]? | select(.value != ("${" + .key + "}")) | "\(.key)=\(.value)"')}")
+    mapfile -t server_args < <(echo "$server_json" | jq -r '.args[]?')
+    mapfile -t server_env < <(echo "$server_json" | jq -r '(.env // {}) | to_entries[]? | select(.value != ("${" + .key + "}")) | "\(.key)=\(.value)"')
     bearer_token_env_var=$(echo "$server_json" | jq -r '.bearer_token_env_var // empty')
+
+    if [[ -n "$server_command" ]] && ! command_available "$server_command"; then
+      if codex mcp get "$name" &>/dev/null; then
+        codex mcp remove "$name"
+      fi
+      echo "     - $name (command unavailable, skipped)"
+      continue
+    fi
 
     if codex mcp get "$name" &>/dev/null; then
       echo "     ~ $name (updating)"
@@ -117,14 +145,14 @@ if command -v codex &>/dev/null; then
     fi
 
     codex_cmd=(codex mcp add "$name")
-    if [[ -n "${server_env[1]-}" ]]; then
+    if (( ${#server_env[@]} > 0 )); then
       for env_var in "${server_env[@]}"; do
         codex_cmd+=(--env "$env_var")
       done
     fi
 
     codex_cmd+=(-- "$server_command")
-    if [[ -n "${server_args[1]-}" ]]; then
+    if (( ${#server_args[@]} > 0 )); then
       codex_cmd+=("${server_args[@]}")
     fi
 

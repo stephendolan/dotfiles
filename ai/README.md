@@ -26,8 +26,10 @@ through skills.sh. Codex uses generated native roles; Cursor links Comment
 Sicko's canonical role directly.
 
 - Claude Code: `scripts/claude-code-setup.sh` adds the marketplace and installs
-  `stephendolan@dotfiles`.
+  `stephendolan@dotfiles`. The declared marketplace has `autoUpdate` enabled,
+  so Claude refreshes its marketplace and installed plugin at startup.
 - Codex: `scripts/codex-plugin-setup.sh` does the same and is run by `./install`.
+  Codex automatically refreshes configured Git marketplaces at startup.
 - Cursor: install `stephendolan` at **user scope** from Customize → Plugins.
   This is the supported account-synced route for Cursor and Cloud Agents; Cursor
   does not provide a non-interactive plugin-install command. The repository's
