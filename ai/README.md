@@ -76,7 +76,7 @@ ai/
 ├── scripts/                # Runtime adapters
 ├── hooks/                  # Event handlers
 ├── AGENTS.md               # Shared operating preferences
-├── claude-settings.json
+├── claude-settings.json    # Tracked settings seed, merged into ~/.claude/settings.json
 └── mcp.json
 ```
 

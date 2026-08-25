@@ -37,4 +37,7 @@ for plugin in "${PLUGINS[@]}"; do
     fi
 done
 
+# Fold tracked settings into the live (Claude Code-owned) settings file
+python3 "$(dirname "$0")/../ai/scripts/merge-claude-settings.py"
+
 echo "Claude Code setup complete!"

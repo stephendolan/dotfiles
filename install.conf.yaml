@@ -79,7 +79,6 @@
 
     # AI tools configuration (Claude Code)
     ~/.claude/CLAUDE.md: ai/AGENTS.md
-    ~/.claude/settings.json: ai/claude-settings.json
     ~/.cursor/agents/comment-sicko.md: ai/agents/comment-sicko.md
 
     # AI tools configuration (Amp)
