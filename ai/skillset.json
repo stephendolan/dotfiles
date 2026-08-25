@@ -29,6 +29,10 @@
       "skills": ["emil-design-eng", "improve-animations"]
     },
     {
+      "source": "pbakaus/impeccable",
+      "skills": ["impeccable"]
+    },
+    {
       "source": "planetscale/database-skills",
       "skills": ["postgres"]
     },
