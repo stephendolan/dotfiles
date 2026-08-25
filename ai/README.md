@@ -98,6 +98,11 @@ add the personal `stephendolan/dotfiles` bundle here: its marketplace plugin is
 the canonical installation path, and the installer rejects it to prevent
 unnamespaced duplicates.
 
+ui.sh skills install under a `ui-` prefix via the installer's `[skill]:[name]`
+syntax. Claude Code ships its own built-in `/design` command for Claude Design
+(claude.ai/design), so an unprefixed ui.sh `design` skill would contend with it
+for the same name.
+
 Model-invoked skills route natural-language requests into local tools or data:
 
 | Skill | Trigger |

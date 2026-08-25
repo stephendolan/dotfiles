@@ -4,7 +4,11 @@
     {
       "installer": "uidotsh",
       "token_env": "UIDOTSH_TOKEN",
-      "skills": ["design", "canonicalize-tailwind", "componentize"]
+      "skills": [
+        "design:ui-design",
+        "canonicalize-tailwind:ui-canonicalize-tailwind",
+        "componentize:ui-componentize"
+      ]
     },
     {
       "source": "stephendolan/private-skills",
