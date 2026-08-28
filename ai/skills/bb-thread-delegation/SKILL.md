@@ -41,7 +41,9 @@ Attribute a blocker only to a child you observed fail.
 ## Finish
 
 Use `bb thread tell <id>` when requirements change or a blocker needs
-clarifying. Leave every child terminal and archived.
+clarifying. When a child reports that provisioning failed before execution,
+record the blocker, archive it, and repair the parent-side prerequisite before
+starting another child for that work. Leave every child terminal and archived.
 
 The run is settled when each child is terminal, each outcome is recorded as the
 child reported it, and your summary contradicts none of them. If you stopped a
