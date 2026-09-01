@@ -1,0 +1,18 @@
+{
+  "name": "dotfiles",
+  "owner": {
+    "name": "Stephen Dolan"
+  },
+  "metadata": {
+    "description": "Personal agent plugins and skills",
+    "version": "2.12.1"
+  },
+  "plugins": [
+    {
+      "name": "stephendolan",
+      "source": "ai",
+      "description": "Personal skills and agents for development workflows, code review, architecture analysis, and domain expertise.",
+      "version": "2.12.1"
+    }
+  ]
+}

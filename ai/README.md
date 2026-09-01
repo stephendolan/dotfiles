@@ -3,10 +3,11 @@
 Stephen's shared Claude Code, Codex, and Cursor configuration: a small set of
 personal skills, runtime-neutral agent roles, hooks, and MCP server definitions.
 Each client has its native manifest: `.claude-plugin/plugin.json`,
-`.codex-plugin/plugin.json`, and `.cursor-plugin/plugin.json`. The root
-`plugin.json` preserves Cursor marketplace discovery compatibility. They package the
-portable skills and, where supported, canonical agents; runtime-specific MCP
-setup remains managed by the adapters below.
+`.codex-plugin/plugin.json`, and `.cursor-plugin/plugin.json`. The plugin-root
+`plugin.json` preserves Agent Plugins compatibility, while the repository-root
+`.cursor-plugin/marketplace.json` exposes `ai/` to Cursor marketplace imports.
+They package the portable skills and, where supported, canonical agents;
+runtime-specific MCP setup remains managed by the adapters below.
 
 `plugins/stephendolan` is a compatibility symlink for marketplace loaders that
 require plugin roots beneath `plugins/`; `ai/` remains the canonical source.
