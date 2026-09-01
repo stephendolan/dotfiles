@@ -93,6 +93,7 @@ Personal skills available across Stephen's agents:
 | `improve-codebase-architecture` | Deep-module architecture exploration |
 | `mom-test` | Customer-discovery question and evidence review |
 | `drama-triangle` | Communication and agency analysis |
+| `design-with-taste` | Distinctive visual exploration, autonomous direction selection, and critique |
 
 `skillset.json` may omit `skills` to install every non-plugin source, or name
 selected third-party skills to keep the shared set intentionally small. Do not

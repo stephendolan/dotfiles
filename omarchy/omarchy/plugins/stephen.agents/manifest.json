@@ -6,9 +6,7 @@
   "author": "Omarchy",
   "license": "MIT",
   "description": "Claude Code, Codex, and Fireworks usage, limits, and pace in a native Omarchy bar panel.",
-  "kinds": [
-    "bar-widget"
-  ],
+  "kinds": ["bar-widget"],
   "activation": "on-demand",
   "entryPoints": {
     "barWidget": "Panel.qml"
@@ -17,10 +15,7 @@
     "displayName": "My Agents",
     "description": "One bar icon and one panel: rate-limit meters with pace, today, the last week, and the all-time model breakdown for every subscription.",
     "category": "AI",
-    "aliases": [
-      "agents",
-      "model-usage"
-    ],
+    "aliases": ["agents", "model-usage"],
     "allowMultiple": false,
     "defaults": {
       "providers": {
@@ -54,10 +49,7 @@
         "key": "syncMode",
         "type": "enum",
         "label": "Synced aggregation",
-        "options": [
-          "Off",
-          "On"
-        ],
+        "options": ["Off", "On"],
         "defaultValue": "Off",
         "description": "When On, write this machine's local usage snapshot and merge snapshots from other machines."
       },

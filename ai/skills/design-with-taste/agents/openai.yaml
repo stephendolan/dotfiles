@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design with Taste"
+  short_description: "Explore and select distinctive visual directions"
+  default_prompt: "Use $design-with-taste to choose and build a distinctive visual direction for this interface."
