@@ -14,13 +14,19 @@ code.
 - **Boundary discipline.** Parse and validate at external boundaries. Keep
   framework wiring mechanical, domain logic typed, and internal code free of
   redundant defensive checks.
-- **Domain and type model.** Replace synchronized booleans, loose option bags,
-  casts, nullable fallbacks, repeated shape assumptions, and scattered branches
-  with the smallest structure that makes the invariant explicit and illegal
-  states unrepresentable.
-- **Lifecycle and orchestration.** Check ordering, ownership, retries,
-  idempotency, partial updates, teardown, and concurrency. Separate independent
-  state before serializing genuinely shared state.
+- **Domain and type model.** Verify domain nouns such as `user`, `person`, or
+  `participant` against actual association and runtime variants before using
+  them in business rules. Parallel collections or flags passed together across
+  layers signal a missing cohesive domain or presentation object. Replace
+  synchronized booleans, loose option bags, casts, nullable fallbacks, repeated
+  shape assumptions, and scattered branches with the smallest structure that
+  makes the invariant explicit.
+- **Lifecycle and reachability.** Trace condition and authorization branches
+  from actual entry inputs. Trace custom rescue, retry, discard, and fallback
+  handlers back to uncaught raise sites; if destructive transitions or cascades
+  can precede them, prove their prerequisites survive. Check ordering,
+  ownership, idempotency, partial updates, teardown, and concurrency. Separate
+  independent state before serializing genuinely shared state.
 - **Healthy decomposition.** Treat a change that pushes a file from below 1,000
   lines to above 1,000 as a strong smell unless cohesion clearly justifies it.
 
