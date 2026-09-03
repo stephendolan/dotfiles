@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+cd "$REPO_ROOT"
+export PATH="$HOME/.local/bin:$PATH"
+
+for command in git node npm python3; do
+    command -v "$command" >/dev/null 2>&1 || {
+        echo "Required orb command is unavailable: $command" >&2
+        exit 1
+    }
+done
+
+BIOME_VERSION="$(python3 -c 'import json; print(json.load(open("biome.json"))["\u0024schema"].split("/")[-2])')"
+node_major="$(node -p 'process.versions.node.split(".")[0]')"
+if (( node_major < 22 )); then
+    echo "Node.js 22 or newer is required to run the TypeScript tests" >&2
+    exit 1
+fi
+
+echo "==> Initializing Git submodules"
+time git submodule update --init --recursive
+
+if command -v shellcheck >/dev/null 2>&1; then
+    echo "==> ShellCheck is already installed"
+else
+    echo "==> Refreshing apt metadata"
+    time sudo apt-get update
+    echo "==> Installing ShellCheck"
+    time sudo apt-get install -y shellcheck
+fi
+
+biome_version=""
+if command -v biome >/dev/null 2>&1; then
+    biome_version="$(biome --version 2>/dev/null || true)"
+    biome_version="${biome_version##* }"
+fi
+
+if [[ "$biome_version" == "$BIOME_VERSION" ]]; then
+    echo "==> Biome $BIOME_VERSION is already installed"
+else
+    echo "==> Installing Biome $BIOME_VERSION"
+    time npm install --global --prefix "$HOME/.local" "@biomejs/biome@$BIOME_VERSION"
+fi
+
+echo "==> Orb setup complete"

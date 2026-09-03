@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Orb resume complete; this repository has no services to reconnect"
