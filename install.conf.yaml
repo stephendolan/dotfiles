@@ -76,6 +76,15 @@
     ~/.local/bin/ynab:
       path: ~/.bun/bin/ynab
       if: "[ -f $HOME/.bun/bin/ynab ]"
+    ~/.local/bin/codex-profile:
+      path: ai/bin/codex-profile
+      force: true
+    ~/.local/bin/codex-personal:
+      path: ai/bin/codex-personal
+      force: true
+    ~/.local/bin/codex-work:
+      path: ai/bin/codex-work
+      force: true
 
     # AI tools configuration (Claude Code)
     ~/.claude/CLAUDE.md: ai/AGENTS.md

@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+active_path="$HOME/.codex"
+personal_path="$HOME/.codex-personal"
+work_path="$HOME/.codex-work"
+
+current_profile() {
+  local target
+  target=$(readlink "$active_path" 2>/dev/null || true)
+  case "$target" in
+    "$personal_path") printf '%s\n' personal ;;
+    "$work_path") printf '%s\n' work ;;
+    *) printf '%s\n' unknown ;;
+  esac
+}
+
+select_profile() {
+  local profile="$1" target temporary
+  case "$profile" in
+    personal) target="$personal_path" ;;
+    work) target="$work_path" ;;
+    *) echo "Usage: codex-profile [status|toggle|personal|work]" >&2; exit 2 ;;
+  esac
+
+  [[ -d $target ]] || { echo "Codex profile is missing: $target" >&2; exit 1; }
+  if [[ -e $active_path && ! -L $active_path ]]; then
+    echo "Refusing to replace non-symlink Codex home: $active_path" >&2
+    exit 1
+  fi
+
+  temporary="$HOME/.codex.switch.$$"
+  trap 'rm -f "$temporary"' EXIT
+  ln -s "$target" "$temporary"
+  case $(uname -s) in
+    Darwin) mv -fh "$temporary" "$active_path" ;;
+    *) mv -Tf "$temporary" "$active_path" ;;
+  esac
+  trap - EXIT
+  printf '%s\n' "$profile"
+}
+
+case "${1:-status}" in
+  status) current_profile ;;
+  toggle)
+    if [[ $(current_profile) == personal ]]; then
+      select_profile work
+    else
+      select_profile personal
+    fi
+    ;;
+  personal | work) select_profile "$1" ;;
+  *) echo "Usage: codex-profile [status|toggle|personal|work]" >&2; exit 2 ;;
+esac

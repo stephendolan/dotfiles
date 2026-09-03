@@ -24,6 +24,15 @@
     ~/.local/bin/codex:
       path: omarchy/bin/codex
       force: true
+    ~/.local/bin/codex-profile:
+      path: ai/bin/codex-profile
+      force: true
+    ~/.local/bin/codex-personal:
+      path: ai/bin/codex-personal
+      force: true
+    ~/.local/bin/codex-work:
+      path: ai/bin/codex-work
+      force: true
     ~/.config/systemd/user/mise-upgrade-all.service:
       path: omarchy/systemd/user/mise-upgrade-all.service
       force: true

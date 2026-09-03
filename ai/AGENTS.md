@@ -31,6 +31,22 @@ non-Claude runtimes.
 - Spawn only when the user explicitly asks for subagents, delegation, or
   parallel agent work. Otherwise, apply the role in the main thread.
 
+## Codex Account Profiles
+
+Codex uses independent ChatGPT-authenticated homes at `~/.codex-personal` and
+`~/.codex-work`; `~/.codex` is the persistent default symlink. Treat profile
+changes and authentication as explicit-user operations.
+
+- Inspect the default with `codex-profile status`.
+- Set it with `codex-profile personal` or `codex-profile work`; use
+  `codex-profile toggle` only when either destination is acceptable.
+- Launch one process without changing the default with `codex-personal` or
+  `codex-work`.
+- Authenticate a profile explicitly with `codex-personal login --device-auth`
+  or `codex-work login --device-auth`.
+- A default change applies to new Codex and BB processes. Restart an existing
+  process when the user wants it to inherit the selected profile.
+
 ## Documentation Standards
 
 **Write timeless documentation.** Describe what IS, not what WAS.
