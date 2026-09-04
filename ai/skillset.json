@@ -25,6 +25,10 @@
       "skills": ["grill-me"]
     },
     {
+      "source": "humanlayer/skills",
+      "skills": ["show-me"]
+    },
+    {
       "source": "emilkowalski/skills",
       "skills": ["emil-design-eng", "improve-animations"]
     },

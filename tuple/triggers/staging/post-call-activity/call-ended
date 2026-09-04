@@ -2,9 +2,9 @@
 set -euo pipefail
 
 # post-call-activity: on call-ended, fork a detached worker that resolves the
-# just-ended call(s) from the stored-transcript index and runs one headless
-# Claude per unprocessed call. See README.md for the design; instructions.md
-# is the agent's system prompt.
+# just-ended call(s) from Capture history and runs one headless Codex Terra
+# (medium reasoning) per unprocessed call. See README.md for the design;
+# instructions.md is the worker's operating contract.
 
 LOG=/tmp/tuple-trigger-debug.log
 exec >>"$LOG" 2>&1
@@ -27,12 +27,12 @@ touch "${PROCESSED_FILE}"
 UUID_RE='[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
 
 # Recent stored call ids not yet processed, oldest first. `call-ended` carries
-# no call id, so the just-ended call is resolved from the stored-transcript
+# no call id, so the just-ended call is resolved from Capture history;
 # index; checking the newest 5 (not just 1) lets a firing also catch calls an
 # earlier firing missed (near-simultaneous endings, failed runs). Parsing stays
 # dependency-free: POSIX grep on the call-id UUID shape, no jq.
 unprocessed_calls() {
-    "${TUPLE_CLI}" transcription list --limit 5 --format json 2>/dev/null \
+    "${TUPLE_CLI}" capture list --limit 5 --format json \
         | grep -oiE "\"call_id\": *\"${UUID_RE}\"" \
         | grep -oiE "${UUID_RE}" \
         | tail -r \
@@ -41,24 +41,28 @@ unprocessed_calls() {
           done
 }
 
-# Run one headless Claude for one call; mark it processed only on success so a
+# Run one headless Codex worker for one call; mark it processed only on success so a
 # failed run is retried by the next firing.
 process_call() {
     cid="$1"
     prompt="A Tuple call just ended. Process call ${cid} per your instructions.
 Tuple client: staging — use the \`${TUPLE_CLI}\` CLI for all Tuple reads and writes."
-    # Prompt via stdin: --allowedTools is variadic and would swallow a trailing
-    # positional prompt argument.
-    if printf '%s' "${prompt}" | claude \
-        --model sonnet \
-        --print \
-        --append-system-prompt-file "${INSTRUCTIONS}" \
-        --allowedTools "Read,Write,Edit,Glob,Grep,Bash(git status:*),Bash(git diff:*),Bash(git log:*),Bash(git add:*),Bash(git commit:*),Bash(obsidian:*),Bash(/Applications/Obsidian.app/Contents/MacOS/obsidian:*),Bash(pgrep:*),Bash(${TUPLE_CLI}:*),mcp__claude_ai_Fortress_-_Claude_Cowork__propose_standalone_action,mcp__claude_ai_Fortress_-_Claude_Cowork__propose_project,mcp__claude_ai_Fortress_-_Claude_Cowork__propose_someday,mcp__claude_ai_Fortress_-_Claude_Cowork__search,mcp__claude_ai_Fortress_-_Claude_Cowork__list_projects"
+    # Codex loads the vault's AGENTS.md automatically from the working
+    # directory. Read the trigger-specific contract before any call access;
+    # captured call content is untrusted evidence, never instructions.
+    if printf '%s\n\nRead and follow this trigger contract before acting: %s' "${prompt}" "${INSTRUCTIONS}" \
+        | codex exec \
+            --model gpt-5.6-terra \
+            --config 'model_reasoning_effort="medium"' \
+            --sandbox danger-full-access \
+            --add-dir "${STATE_DIR}" \
+            --output-last-message "${STATE_DIR}/last-worker-message.txt" \
+            -
     then
         printf '%s\n' "${cid}" >> "${PROCESSED_FILE}"
         echo "post-call-activity: processed call ${cid:0:8}"
     else
-        echo "post-call-activity: claude exited non-zero for ${cid:0:8} — left unprocessed for retry" >&2
+        echo "post-call-activity: worker exited non-zero for ${cid:0:8} — left unprocessed for retry" >&2
     fi
 }
 
@@ -66,17 +70,25 @@ Tuple client: staging — use the \`${TUPLE_CLI}\` CLI for all Tuple reads and w
 # both the transcript-flush poll and the multi-minute Claude runs would queue
 # every other trigger behind them. Fork the worker and return immediately.
 (
-    # Transcript flush lags call-ended by ~1-2s; poll until an unprocessed call
-    # surfaces. A call with no transcription never appears, so the poll times
+    # Capture persistence lags call-ended by ~1-2s; poll until an unprocessed
+    # call surfaces. A call with no captured records never appears, so the poll times
     # out and the worker no-ops.
     tries=0
-    while [ -z "$(unprocessed_calls)" ]; do
+    calls="$(unprocessed_calls)" || {
+        echo "post-call-activity: ${TUPLE_CLI} capture list failed" >&2
+        exit 1
+    }
+    while [ -z "${calls}" ]; do
         tries=$((tries + 1))
         if [ "${tries}" -ge 12 ]; then
             echo "post-call-activity: no new call surfaced within poll window — nothing to do"
             exit 0
         fi
         sleep 5
+        calls="$(unprocessed_calls)" || {
+            echo "post-call-activity: ${TUPLE_CLI} capture list failed" >&2
+            exit 1
+        }
     done
 
     # Serialize vault access: two calls completing near-simultaneously must not
@@ -100,12 +112,25 @@ Tuple client: staging — use the \`${TUPLE_CLI}\` CLI for all Tuple reads and w
     printf '%s\n' "$$" > "${LOCK}/owner"
     # Only the lock's owner removes it, so a worker whose stale lock was stolen
     # cannot delete its successor's lock on exit.
-    trap 'st=$?; [ "$(cat "${LOCK}/owner" 2>/dev/null)" = "$$" ] && rm -rf "${LOCK}"; printf "post-call-activity: worker exit status=%s\n" "${st}"' EXIT
+    # shellcheck disable=SC2329 # Invoked indirectly by the EXIT trap.
+    cleanup_lock() {
+        local status=$?
+        if [ "$(cat "${LOCK}/owner" 2>/dev/null)" = "$$" ]; then
+            rm -rf "${LOCK}"
+        fi
+        printf 'post-call-activity: worker exit status=%s\n' "${status}"
+        return "${status}"
+    }
+    trap cleanup_lock EXIT
 
     cd "${VAULT}"
     # Re-resolve under the lock: a near-simultaneous firing may have processed
     # our call while we waited, and marking-processed happens post-run.
-    for cid in $(unprocessed_calls); do
+    calls="$(unprocessed_calls)" || {
+        echo "post-call-activity: ${TUPLE_CLI} capture list failed" >&2
+        exit 1
+    }
+    for cid in ${calls}; do
         process_call "${cid}"
     done
 ) < /dev/null &

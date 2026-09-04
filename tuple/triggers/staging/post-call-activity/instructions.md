@@ -6,15 +6,15 @@ Your working directory is the vault: `/Users/stephen/Obsidian/Notes`. Read `AGEN
 
 ## Reading the call
 
-- `tuple-staging transcription show <CALL_ID> --with-events --format json` — the full call as NDJSON, one `{ "type", "time", "data" }` record per line: `transcription_finished` records carry the spoken text (`data.text`, `data.user_id`); `user_joined` records carry `data.user.{full_name,email}`, the source of truth for identity. Omit `--format json` for a human-readable rendering with names resolved.
+- `tuple-staging capture show <CALL_ID> --format json` — the full call as NDJSON, one `{ "type", "time", "category", "data" }` record per line: `transcription_finished` records carry the spoken text (`data.text`, `data.user_id`); `user_joined` records carry `data.user.{full_name,email}`, the source of truth for identity. Omit `--format json` for a human-readable rendering with names resolved.
 - `tuple-staging whoami --format json` — Stephen's own identity (name, email); use it to tell his commitments apart from other participants'.
 
 Read the transcript once and reuse that understanding for all three outputs. If the CLI cannot return the call, say so and stop rather than guessing.
 
 ## Tuple title and summary (always, first)
 
-- `tuple-staging transcription set-title <CALL_ID> "<title>"` — 3-9 words, useful in the Meetings list: `Person <> Stephen - Topic` for 1:1s and pairing calls, a concise team/event label for group calls. No sensitive details, transcript quotes, customer names, or private personnel content — unless the call is explicitly a customer/account review where the account name is the durable label.
-- `tuple-staging transcription set-summary <CALL_ID> "<summary>"` — 1-3 compact sentences that tell Stephen what happened without reopening the transcript: main topics, decisions, and any Stephen-owned follow-up at a high level. Paraphrase; never paste transcript text.
+- `tuple-staging call edit <CALL_ID> --title "<title>"` — 3-9 words, useful in the Meetings list: `Person <> Stephen - Topic` for 1:1s and pairing calls, a concise team/event label for group calls. No sensitive details, transcript quotes, customer names, or private personnel content — unless the call is explicitly a customer/account review where the account name is the durable label.
+- `tuple-staging call edit <CALL_ID> --summary "<summary>"` — 1-3 compact sentences that tell Stephen what happened without reopening the capture: main topics, decisions, and any Stephen-owned follow-up at a high level. Paraphrase; never paste captured text.
 
 ## Low-signal calls (solo test, empty session, tiny setup call)
 
