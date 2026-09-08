@@ -140,7 +140,7 @@
     "private-skills": {
       "source": {
         "source": "github",
-        "repo": "stephendolan/private-skills",
+        "repo": "stephendolan/private-family-skills",
         "skipLfs": true
       },
       "autoUpdate": true
