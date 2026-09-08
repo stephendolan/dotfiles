@@ -30,6 +30,10 @@ and unrelated work.
    - **Comments:** a direct request, suppression, workaround explanation, or
      comment carrying an unenforced constraint. Read and execute
      [`no-comments`](../no-comments/SKILL.md).
+   - **Tests:** added, changed, or retained tests in the implementation scope.
+     Read and execute the installed
+     `principle-test-behavior-not-implementation` skill. Rewrite or
+     remove tests that do not prove an observable contract.
    - **Independent review:** high-stakes behavior or a material uncertainty the
      local review cannot resolve. Use one fresh-context reviewer over the same
      scope and adjudicate its findings.

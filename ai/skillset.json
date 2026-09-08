@@ -1,14 +1,22 @@
 {
   "agents": ["codex", "claude-code", "cursor"],
+  "marketplaces": [
+    {
+      "name": "dotfiles",
+      "source": "stephendolan/dotfiles",
+      "plugins": ["stephendolan"],
+      "agents": ["codex", "claude-code"]
+    },
+    {
+      "name": "private-skills",
+      "source": "stephendolan/private-family-skills",
+      "plugins": ["personal"],
+      "agents": ["claude-code"]
+    }
+  ],
   "sources": [
     {
-      "installer": "uidotsh",
-      "token_env": "UIDOTSH_TOKEN",
-      "skills": [
-        "design:ui-design",
-        "canonicalize-tailwind:ui-canonicalize-tailwind",
-        "componentize:ui-componentize"
-      ]
+      "installer": "interfacecraft"
     },
     {
       "source": "stephendolan/private-skills",
@@ -54,6 +62,10 @@
     {
       "source": "EveryInc/compound-engineering-plugin",
       "skills": ["ce-code-review"]
+    },
+    {
+      "source": "https://github.com/cursor/plugins/tree/main/pstack",
+      "skills": ["principle-test-behavior-not-implementation"]
     }
   ]
 }

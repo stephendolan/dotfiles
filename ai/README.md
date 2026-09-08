@@ -11,26 +11,23 @@ runtime-specific MCP setup remains managed by the adapters below.
 
 `plugins/stephendolan` is a compatibility symlink for marketplace loaders that
 require plugin roots beneath `plugins/`; `ai/` remains the canonical source.
-For local setup, `skillset.json` declares non-plugin skills for installation
-through skills.sh, plus any declared token-gated upstream installer. The
-personal `stephendolan` bundle remains installed through its marketplace plugin;
-it is deliberately excluded from skills.sh so Codex sees only its namespaced
-plugin skills rather than duplicate copies in shared paths such as
-`~/.agents/skills`. A missing optional token prints a concise skip and does not
-interrupt the remaining setup.
+`skillset.json` is the installation manifest. It declares standalone skills,
+upstream installers such as Interface Craft, and marketplace plugins. The
+personal `stephendolan` bundle is installed through its marketplace plugin so
+Codex sees only its namespaced plugin skills rather than duplicate copies in
+shared paths such as `~/.agents/skills`.
 
 ## Install
 
-Plugin users access the personal skills under their runtime's plugin namespace.
-Local setup installs only the non-plugin skills declared in `skillset.json`
-through skills.sh. Codex uses generated native roles; Cursor links Comment
-Sicko's canonical role directly.
+Run `./install`. Both macOS and Omarchy use `ai/scripts/install-skills.py` to
+converge every supported runtime on `skillset.json`: standalone skills first,
+then declared marketplaces and plugins. Codex uses generated native roles;
+Cursor links Comment Sicko's canonical role directly.
 
-- Claude Code: `scripts/claude-code-setup.sh` adds the marketplace and installs
-  `stephendolan@dotfiles`. The declared marketplace has `autoUpdate` enabled,
-  so Claude refreshes its marketplace and installed plugin at startup.
-- Codex: `scripts/codex-plugin-setup.sh` does the same and is run by `./install`.
-  Codex automatically refreshes configured Git marketplaces at startup.
+- Claude Code and Codex: the shared installer adds or refreshes each applicable
+  marketplace and installs its declared plugins. Claude's tracked marketplace
+  configuration keeps auto-update enabled; Codex refreshes Git marketplaces at
+  startup.
 - Cursor: install `stephendolan` at **user scope** from Customize → Plugins.
   This is the supported account-synced route for Cursor and Cloud Agents; Cursor
   does not provide a non-interactive plugin-install command. The repository's
@@ -96,16 +93,14 @@ Personal skills available across Stephen's agents:
 | `drama-triangle` | Communication and agency analysis |
 | `design-with-taste` | Distinctive visual exploration, autonomous direction selection, and critique |
 
-`skillset.json` may omit `skills` to install every non-plugin source, or name
-selected third-party skills to keep the shared set intentionally small. Do not
-add the personal `stephendolan/dotfiles` bundle here: its marketplace plugin is
-the canonical installation path, and the installer rejects it to prevent
-unnamespaced duplicates.
+Each `skillset.json` source may omit `skills` to install every skill or name an
+allowlist. Marketplace entries declare their source, plugins, and applicable
+agents. Keep the personal `stephendolan/dotfiles` bundle in `marketplaces`, not
+`sources`, so its skills remain namespaced.
 
-ui.sh skills install under a `ui-` prefix via the installer's `[skill]:[name]`
-syntax. Claude Code ships its own built-in `/design` command for Claude Design
-(claude.ai/design), so an unprefixed ui.sh `design` skill would contend with it
-for the same name.
+Interface Craft uses its maintained installer, `curl -sL
+interfacecraft.dev/api/install-skills | bash`, which installs its bundled
+animation, tuning, and design-critique skills across supported agents.
 
 Model-invoked skills route natural-language requests into local tools or data:
 

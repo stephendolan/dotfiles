@@ -47,6 +47,17 @@ changes and authentication as explicit-user operations.
 - A default change applies to new Codex and BB processes. Restart an existing
   process when the user wants it to inherit the selected profile.
 
+## Codex Plugins
+
+Before adding, removing, or propagating an agent skill or marketplace plugin,
+read `ai/skillset.json`; it is the cross-machine installation manifest for
+standalone skills and the personal marketplace. Run
+`python3 ai/scripts/install-skills.py` to converge the current machine. Treat
+`~/.agents/.skill-lock.json` and `$CODEX_HOME/config.toml` as generated
+installation state, not declarations to copy between machines. The implicit
+`~/.agents/plugins/marketplace.json` is only for machine-local personal plugins;
+declare portable Git marketplaces in `ai/skillset.json`.
+
 ## Documentation Standards
 
 **Write timeless documentation.** Describe what IS, not what WAS.

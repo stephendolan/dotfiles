@@ -101,10 +101,9 @@
     - [./scripts/omarchy-mise-tools-setup.sh, Configuring global mise tools]
     - [./scripts/omarchy-systemd-setup.sh, Enabling Omarchy user timers]
     - [./scripts/claude-settings-setup.sh, Merging Claude Code settings]
+    - [./scripts/claude-code-setup.sh, Setting up Claude Code]
     - command: MISE_QUIET=1 mise exec node -- python3 ./ai/scripts/install-skills.py
-      description: Installing declared agent skills
-    - [./scripts/codex-plugin-setup.sh, Setting up Codex plugins]
+      description: Installing declared agent skills and plugins
     - [./ai/scripts/generate-codex-agents.py, Generating Codex agent roles]
     - [./ai/generate-mcp.sh, Generating MCP configs]
-    - [./scripts/claude-code-setup.sh, Setting up Claude Code]
     - [./scripts/claude-settings-setup.sh, Restoring Claude marketplace auto-updates]
