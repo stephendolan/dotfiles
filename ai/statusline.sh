@@ -44,13 +44,19 @@ fi
 
 # Claude.ai rate limits (new in Claude Code v2.1.80)
 rate_limits=""
-rate_5h=$(echo "$input" | jq -r '(.rate_limits[0].used_percentage // .rate_limits.primary.used_percentage) // empty | floor')
-rate_7d=$(echo "$input" | jq -r '(.rate_limits[1].used_percentage // .rate_limits.secondary.used_percentage) // empty | floor')
+rate_5h=$(echo "$input" | jq -r '(.rate_limits | if type == "array" then .[0].used_percentage else .primary.used_percentage end) // empty | floor')
+rate_7d=$(echo "$input" | jq -r '(.rate_limits | if type == "array" then .[1].used_percentage else .secondary.used_percentage end) // empty | floor')
+spend_used=$(echo "$input" | jq -r '(.rate_limits | if type == "object" then .spend_limit.used_usd else null end) // empty')
+spend_limit=$(echo "$input" | jq -r '(.rate_limits | if type == "object" then .spend_limit.limit_usd else null end) // empty')
 
-if [ -n "$rate_5h" ] || [ -n "$rate_7d" ]; then
+if [ -n "$rate_5h" ] || [ -n "$rate_7d" ] || { [ -n "$spend_used" ] && [ -n "$spend_limit" ]; }; then
   rate_parts=()
   [ -n "$rate_5h" ] && rate_parts+=("5h:${rate_5h}%")
   [ -n "$rate_7d" ] && rate_parts+=("7d:${rate_7d}%")
+  if [ -n "$spend_used" ] && [ -n "$spend_limit" ]; then
+    printf -v spend 'spend:$%.2f/$%.2f' "$spend_used" "$spend_limit"
+    rate_parts+=("$spend")
+  fi
   rate_limits=$(printf " \\033[2m—\\033[0m \\033[1;35m%s\\033[0m" "${rate_parts[*]}")
 fi
 
