@@ -17,13 +17,6 @@ ruby = { version = "3.4", auto_update = "1h" }
 go = { version = "1.22", auto_update = "1h" }
 crystal = { version = "1.16", auto_update = "1h" }
 rust = { version = "stable", auto_update = "1h" }
-bundler = { version = "latest", auto_update = "1h" }
-solargraph = { version = "latest", auto_update = "1h" }
-solargraph-standardrb = { version = "latest", auto_update = "1h" }
-rails = { version = "latest", auto_update = "1h" }
-neovim = { version = "latest", auto_update = "1h" }
-pry = { version = "latest", auto_update = "1h" }
-rubocop = { version = "latest", auto_update = "1h" }
 
 [bootstrap.services.mise-tool-update]
 builtin = "tool-update"
