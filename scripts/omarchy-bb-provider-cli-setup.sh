@@ -13,16 +13,14 @@ remove_omarchy_mise_wrapper() {
   fi
 }
 
-remove_omarchy_mise_wrapper codex
 remove_omarchy_mise_wrapper pi
 
 # Keep old installs available to running processes while removing them from
-# mise's active tool set. New processes resolve BB's npm-managed binaries.
-mise unuse -g --no-prune codex >/dev/null 2>&1 || true
+# mise's active tool set. New processes resolve BB's npm-managed binary.
 mise unuse -g --no-prune pi >/dev/null 2>&1 || true
 
-# mise's `node@latest` has a version-specific global npm prefix. Reinstall the
-# provider CLIs after a Node upgrade so BB never points at a retired prefix.
+# mise's `node@latest` has a version-specific global npm prefix. Reinstall Pi
+# after a Node upgrade so BB never points at a retired prefix. Codex is a mise
+# tool (see omarchy-mise-tools-setup.sh) and needs no reinstall.
 mise exec node@latest -- npm install --global --no-fund --no-audit \
-  @openai/codex@latest \
   @earendil-works/pi-coding-agent@latest >/dev/null

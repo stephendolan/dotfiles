@@ -10,6 +10,6 @@ Environment=MISE_MINIMUM_RELEASE_AGE=0
 ExecStart=/usr/bin/mise upgrade --yes --quiet --no-prune
 
 # A Node upgrade moves mise's version-specific global npm prefix, leaving BB's
-# npm-managed Codex and Pi behind in the retired prefix. Reinstall them into the
-# new prefix so BB keeps resolving both CLIs.
+# npm-managed Pi behind in the retired prefix. Reinstall it into the new prefix
+# so BB keeps resolving the CLI.
 ExecStartPost=%h/.dotfiles/scripts/omarchy-bb-provider-cli-setup.sh
