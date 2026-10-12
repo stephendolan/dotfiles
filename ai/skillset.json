@@ -6,12 +6,6 @@
       "source": "stephendolan/dotfiles",
       "plugins": ["stephendolan"],
       "agents": ["codex", "claude-code"]
-    },
-    {
-      "name": "private-skills",
-      "source": "stephendolan/private-family-skills",
-      "plugins": ["personal"],
-      "agents": ["claude-code"]
     }
   ],
   "sources": [
@@ -25,7 +19,8 @@
         "cooking",
         "notes-knowledge-base",
         "order-daycare-lunch",
-        "troubleshoot-home-network"
+        "troubleshoot-home-network",
+        "writing-great-skills"
       ]
     },
     {

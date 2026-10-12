@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Sync the skills declared in ai/skillset.json into bb user skills.
+"""Sync the skill sources declared in ai/skillset.json into bb user skills.
 
 Run this on the bb server host. bb injects user skills into every provider
 thread on every connected machine, so one sync replaces per-machine installs for
 bb threads. Repositories are fetched with git, so private repositories work
 wherever git can authenticate to GitHub, such as after `gh auth setup-git`.
+
+Marketplace plugins stay per-machine installs: they also carry agents, and
+syncing their skills would list each one twice in bb.
 
 Each synced skill carries a .bb-skill-sync.json marker. A run rewrites only
 changed skills, never replaces a skill it did not create, and removes a marked
@@ -98,22 +101,6 @@ def parse_repository(source: str) -> tuple[str, str | None, str | None]:
     raise ValueError(f"unsupported source {source!r}; use owner/repo or a GitHub tree URL")
 
 
-def plugin_skill_roots(checkout: Path, plugins: list[str]) -> list[Path]:
-    catalog = json.loads((checkout / ".claude-plugin" / "marketplace.json").read_text())
-    entries = {entry["name"]: entry for entry in catalog.get("plugins", [])}
-    roots = []
-    for plugin in plugins:
-        entry = entries.get(plugin)
-        if entry is None or not isinstance(entry.get("source"), str):
-            raise ValueError(f"marketplace has no local plugin named {plugin!r}")
-        plugin_root = (checkout / entry["source"]).resolve()
-        manifest = plugin_root / ".claude-plugin" / "plugin.json"
-        declared = json.loads(manifest.read_text()).get("skills") if manifest.exists() else None
-        paths = declared if isinstance(declared, list) else [declared or "skills"]
-        roots.extend(plugin_root / path for path in paths)
-    return roots
-
-
 def run_installer(cache: Path, name: str) -> tuple[Path, str]:
     url = INSTALLER_URLS.get(name)
     if url is None:
@@ -158,18 +145,6 @@ def collect_sources(manifest: dict[str, object], cache: Path) -> list[Source]:
                 source.skills = discover_skills(checkout / path if path else checkout)
             except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as error:
                 source.error = getattr(error, "stderr", None) or str(error)
-        sources.append(source)
-
-    for entry in manifest.get("marketplaces", []):
-        source = Source(label=f"marketplace:{entry['name']}", requested=None)
-        try:
-            slug, ref, _ = parse_repository(str(entry["source"]))
-            checkout, source.revision = fetch_repository(cache, slug, ref)
-            for root in plugin_skill_roots(checkout, list(entry["plugins"])):
-                for name, path in discover_skills(root).items():
-                    source.skills.setdefault(name, path)
-        except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as error:
-            source.error = getattr(error, "stderr", None) or str(error)
         sources.append(source)
     return sources
 
