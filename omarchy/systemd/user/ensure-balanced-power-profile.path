@@ -1,0 +1,9 @@
+[Unit]
+Description=Keep the laptop power profile balanced
+
+[Path]
+PathChanged=/var/lib/power-profiles-daemon/state.ini
+Unit=ensure-balanced-power-profile.service
+
+[Install]
+WantedBy=default.target

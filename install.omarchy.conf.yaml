@@ -39,6 +39,12 @@
     ~/.config/systemd/user/mise-upgrade-all.timer:
       path: omarchy/systemd/user/mise-upgrade-all.timer
       force: true
+    ~/.config/systemd/user/ensure-balanced-power-profile.service:
+      path: omarchy/systemd/user/ensure-balanced-power-profile.service
+      force: true
+    ~/.config/systemd/user/ensure-balanced-power-profile.path:
+      path: omarchy/systemd/user/ensure-balanced-power-profile.path
+      force: true
     ~/.config/systemd/user/browseros-neo.service:
       path: omarchy/systemd/user/browseros-neo.service
       force: true
