@@ -31,7 +31,7 @@ Panel {
 
   property var contacts: []
   property var rooms: []
-  property var call: ({ active: false, muted: false, sharing: false })
+  property var call: ({ active: false, muted: false, sharing: false, participants: [] })
   property bool authenticated: false
   property bool daemon: false
   property bool refreshing: false
@@ -39,6 +39,7 @@ Panel {
   property string actionText: ""
   property string section: "contacts"
   property string query: ""
+  property var selectedRoom: null
 
   component ActionButton: Rectangle {
     id: actionButton
@@ -188,6 +189,10 @@ Panel {
     run(clientCommand(["ui"]), "Opening Tuple UI…")
   }
 
+  function toggleMute() {
+    run(clientCommand([call.muted ? "unmute" : "mute"]), "")
+  }
+
   function refresh() {
     if (!status.running) {
       refreshing = true
@@ -201,7 +206,18 @@ Panel {
   }
 
   function joinRoom(room) {
+    selectedRoom = room
     run(clientCommand(["join", room.url]), "Joining " + room.name + "…")
+  }
+
+  function callLocation() {
+    if (selectedRoom) return selectedRoom.name
+    return call.participants && call.participants.length > 0 ? "Audio call" : "Your personal room"
+  }
+
+  function participantSummary() {
+    if (!call.participants || call.participants.length === 0) return "Just you"
+    return "With " + call.participants.map(function(person) { return person.name }).join(", ")
   }
 
   function presenceColor(presence) {
@@ -241,7 +257,17 @@ Panel {
           var data = JSON.parse(text)
           root.contacts = data.contacts || []
           root.rooms = data.rooms || []
-          root.call = data.call || ({ active: false, muted: false, sharing: false })
+          var nextCall = data.call || ({ active: false, muted: false, sharing: false })
+          // Linux reports mute/share changes to the command's stdout, not the
+          // daemon log Status.py polls. Preserve those confirmed local values
+          // while the same call remains active.
+          root.call = ({
+            active: nextCall.active === true,
+            muted: nextCall.active && root.call.active ? root.call.muted : nextCall.muted === true,
+            sharing: nextCall.active && root.call.active ? root.call.sharing : nextCall.sharing === true,
+            participants: nextCall.participants || []
+          })
+          if (!nextCall.active && !action.running) root.selectedRoom = null
           root.authenticated = data.authenticated === true
           root.daemon = data.daemon === true
           root.errorText = ""
@@ -256,15 +282,31 @@ Panel {
   Process {
     id: action
     running: false
-    stdout: StdioCollector { waitForEnd: true }
+    stdout: StdioCollector { id: actionOutput; waitForEnd: true }
     stderr: StdioCollector {
       waitForEnd: true
       onStreamFinished: if (text.trim() !== "") root.errorText = text.trim()
     }
     onExited: function(exitCode) {
-      if (exitCode === 0) root.actionText = "Done"
-      else if (root.errorText === "") root.errorText = "Tuple command failed"
-      refreshDelay.restart()
+      var output = actionOutput.text.trim()
+      var changedMute = output === "muted" || output === "already muted"
+        || output === "unmuted" || output === "already unmuted"
+      if (exitCode !== 0) {
+        if (root.errorText === "") root.errorText = "Tuple command failed"
+      } else if (output.indexOf("can't ") === 0 || output.indexOf("error:") === 0) {
+        root.errorText = output
+      } else {
+        if (output === "muted" || output === "already muted")
+          root.call = ({ active: root.call.active, muted: true, sharing: root.call.sharing, participants: root.call.participants || [] })
+        else if (output === "unmuted" || output === "already unmuted")
+          root.call = ({ active: root.call.active, muted: false, sharing: root.call.sharing, participants: root.call.participants || [] })
+        else if (output.indexOf("screen share initiated") >= 0 || output.indexOf("already sharing") >= 0)
+          root.call = ({ active: root.call.active, muted: root.call.muted, sharing: true, participants: root.call.participants || [] })
+        else if (output === "success")
+          root.call = ({ active: root.call.active, muted: root.call.muted, sharing: false, participants: root.call.participants || [] })
+        root.actionText = ""
+      }
+      if (!changedMute) refreshDelay.restart()
     }
   }
 
@@ -276,8 +318,8 @@ Panel {
     function close(): void { root.close() }
     function toggle(): void { root.toggle() }
     function refresh(): string { root.refresh(); return "ok" }
-    function mute(): string { root.run(root.clientCommand(["mute"]), "Muting…"); return "ok" }
-    function unmute(): string { root.run(root.clientCommand(["unmute"]), "Unmuting…"); return "ok" }
+    function mute(): string { root.run(root.clientCommand(["mute"]), ""); return "ok" }
+    function unmute(): string { root.run(root.clientCommand(["unmute"]), ""); return "ok" }
     function end(): string { root.run(root.clientCommand(["end"]), "Ending call…"); return "ok" }
   }
 
@@ -292,7 +334,7 @@ Panel {
     tooltipText: root.call.active ? "Tuple · In call" : "Tuple · Ready"
     onPressed: function(buttonCode) {
       if (buttonCode === Qt.RightButton && root.call.active)
-        root.run(root.clientCommand([root.call.muted ? "unmute" : "mute"]), root.call.muted ? "Unmuting…" : "Muting…")
+        root.toggleMute()
       else if (buttonCode === Qt.MiddleButton) root.callPicker()
       else root.toggle()
     }
@@ -305,26 +347,22 @@ Panel {
     bar: root.bar
     open: root.opened
     contentWidth: panel.fittedContentWidth(Style.space(420))
-    contentHeight: panel.fittedContentHeight(content.implicitHeight, Style.space(620))
+    contentHeight: panel.fittedContentHeight(panelContent.implicitHeight, Style.space(620))
 
-    Flickable {
-      id: scroller
+    ColumnLayout {
+      id: panelContent
       anchors.fill: parent
-      contentWidth: width
-      contentHeight: content.implicitHeight
-      clip: true
-      boundsBehavior: Flickable.StopAtBounds
-      ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+      spacing: Style.space(12)
 
       Column {
-        id: content
-        width: scroller.width
+        id: stickyContent
+        Layout.fillWidth: true
         spacing: Style.space(12)
 
         PanelHero {
           width: parent.width
           title: "Tuple · " + root.environmentLabel
-          meta: root.call.active ? "In a call" : (root.onlineCount + " available · " + (root.daemon ? "ready" : "offline"))
+          meta: root.call.active ? root.callLocation() + " · " + root.participantSummary() : (root.onlineCount + " available · " + (root.daemon ? "ready" : "offline"))
           foreground: root.foreground
           fontFamily: root.fontFamily
           iconComponent: Component {
@@ -371,7 +409,7 @@ Panel {
               icon: root.call.muted ? "󰍭" : "󰍬"
               label: root.call.muted ? "Unmute microphone" : "Mute microphone"
               active: !root.call.muted
-              onClicked: root.run(root.clientCommand([root.call.muted ? "unmute" : "mute"]), root.call.muted ? "Unmuting…" : "Muting…")
+              onClicked: root.toggleMute()
             }
             IconButton {
               visible: root.call.active
@@ -445,6 +483,23 @@ Panel {
           onTextChanged: root.query = text
           font.family: root.fontFamily
         }
+      }
+
+      Flickable {
+        id: resultsScroller
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        implicitHeight: resultsContent.implicitHeight
+        contentWidth: width
+        contentHeight: resultsContent.implicitHeight
+        clip: true
+        boundsBehavior: Flickable.StopAtBounds
+        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+
+        Column {
+          id: resultsContent
+          width: resultsScroller.width
+          spacing: Style.space(4)
 
         Column {
           visible: root.section === "contacts"
@@ -508,11 +563,14 @@ Panel {
               width: parent.width
               height: Style.space(54)
               radius: Style.cornerRadius
-              color: roomMouse.containsMouse
+              readonly property bool currentRoom: root.call.active && root.selectedRoom && root.selectedRoom.slug === modelData.slug
+              color: currentRoom
+                ? root.alpha(root.accent, 0.13)
+                : roomMouse.containsMouse
                 ? Style.hoverFillFor(root.foreground, root.accent)
                 : root.alpha(root.foreground, 0.025)
               border.width: 1
-              border.color: root.alpha(root.foreground, roomMouse.containsMouse ? 0.14 : 0.07)
+              border.color: currentRoom ? root.alpha(root.accent, 0.62) : root.alpha(root.foreground, roomMouse.containsMouse ? 0.14 : 0.07)
 
               MouseArea {
                 id: roomMouse
@@ -540,17 +598,34 @@ Panel {
                   Layout.fillWidth: true
                   spacing: 0
                   Text { text: modelData.name; color: root.foreground; font.family: root.fontFamily; font.pixelSize: Style.font.body; font.bold: true; elide: Text.ElideRight; Layout.fillWidth: true }
-                  Text { text: modelData.kind === "team" ? "Team room" : "Personal room"; color: root.dim; font.family: root.fontFamily; font.pixelSize: Style.font.bodySmall }
+                  Text {
+                    text: currentRoom ? root.participantSummary() : (modelData.kind === "team" ? "Team room" : "Personal room")
+                    color: currentRoom ? root.accent : root.dim
+                    font.family: root.fontFamily
+                    font.pixelSize: Style.font.bodySmall
+                  }
                 }
-                JoinButton { onClicked: root.joinRoom(modelData) }
+                Text {
+                  visible: currentRoom
+                  text: "Here"
+                  color: root.accent
+                  font.family: root.fontFamily
+                  font.pixelSize: Style.font.bodySmall
+                  font.bold: true
+                  Layout.preferredWidth: Style.space(72)
+                  horizontalAlignment: Text.AlignHCenter
+                }
+                JoinButton { visible: !currentRoom; onClicked: root.joinRoom(modelData) }
               }
             }
           }
         }
+        }
+      }
 
         Text {
           visible: !root.authenticated
-          width: parent.width
+          Layout.fillWidth: true
           text: "Tuple " + root.environmentLabel.toLowerCase() + " is not authenticated. Run " + root.client + " login in a terminal."
           color: root.urgent
           font.family: root.fontFamily
@@ -559,4 +634,3 @@ Panel {
       }
     }
   }
-}

@@ -60,8 +60,10 @@ def rooms():
     return sorted(result, key=lambda room: (room["kind"] != "team", room["name"].lower()))
 
 
-def call_state():
-    state = {"active": False, "muted": False, "sharing": False}
+def call_state(contact_list):
+    state = {"active": False, "muted": False, "sharing": False, "participants": []}
+    known = {contact["id"]: contact["name"] for contact in contact_list}
+    participants = {}
     try:
         lines = LOG.read_text(errors="replace").splitlines()[-1500:]
     except OSError:
@@ -70,17 +72,22 @@ def call_state():
         low = line.lower()
         if any(event in low for event in ("peer joined call:", "answering call with", "adding user to call", "cli: new", "cli: join ", "call connected")):
             state["active"] = True
+            match = re.search(r"received incoming call: ([0-9a-f-]+)", low)
+            if match:
+                state["id"] = match.group(1)
         if any(event in low for event in ("call is no longer valid:", "call was torn down remotely", "cli: end")):
-            state = {"active": False, "muted": False, "sharing": False}
-        if "cli: mute" in low:
-            state["muted"] = True
-        elif "cli: unmute" in low:
-            state["muted"] = False
-        elif "cli: share" in low:
-            state["sharing"] = True
-        elif "cli: unshare" in low:
-            state["sharing"] = False
+            state = {"active": False, "muted": False, "sharing": False, "participants": []}
+            participants = {}
+        peer = re.search(r"Peer\((\d+),([^\)]+)\)", line)
+        if state["active"] and peer:
+            user_id, email = peer.groups()
+            participants[user_id] = {"id": user_id, "name": known.get(user_id, email.split("@")[0]), "email": email}
+        removed = re.search(r"peer (\d+) removed", low)
+        if removed:
+            participants.pop(removed.group(1), None)
+    state["participants"] = sorted(participants.values(), key=lambda person: person["name"].lower()) if state["active"] else []
     return state
 
 
-print(json.dumps({"authenticated": TOKEN.exists(), "daemon": subprocess.run(["pgrep", "-x", CLIENT.name], capture_output=True).returncode == 0, "contacts": contacts(), "rooms": rooms(), "call": call_state()}, separators=(",", ":")))
+contact_list = contacts()
+print(json.dumps({"authenticated": TOKEN.exists(), "daemon": subprocess.run(["pgrep", "-x", CLIENT.name], capture_output=True).returncode == 0, "contacts": contact_list, "rooms": rooms(), "call": call_state(contact_list)}, separators=(",", ":")))
