@@ -73,43 +73,18 @@
       path: omarchy/omarchy/defaults/agent
       force: true
 
-    # User-owned Omarchy shell plugins. Link files individually so local
-    # backups and runtime files in the plugin directories are not deleted.
-    ~/.config/omarchy/plugins/stephen.agents/Agent.qml:
-      path: omarchy/omarchy/plugins/stephen.agents/Agent.qml
+    # Omarchy rejects symlinks inside plugin folders. Hard-link tracked files
+    # recursively so the live plugins remain ordinary files without adding a
+    # separate sync step or deleting local backups and runtime files.
+    ~/.config/omarchy/plugins/stephen.agents/:
+      path: omarchy/omarchy/plugins/stephen.agents/**
+      type: hardlink
+      glob: true
       force: true
-    ~/.config/omarchy/plugins/stephen.agents/Main.qml:
-      path: omarchy/omarchy/plugins/stephen.agents/Main.qml
-      force: true
-    ~/.config/omarchy/plugins/stephen.agents/Panel.qml:
-      path: omarchy/omarchy/plugins/stephen.agents/Panel.qml
-      force: true
-    ~/.config/omarchy/plugins/stephen.agents/README.md:
-      path: omarchy/omarchy/plugins/stephen.agents/README.md
-      force: true
-    ~/.config/omarchy/plugins/stephen.agents/manifest.json:
-      path: omarchy/omarchy/plugins/stephen.agents/manifest.json
-      force: true
-    ~/.config/omarchy/plugins/stephen.agents/assets/claude.svg:
-      path: omarchy/omarchy/plugins/stephen.agents/assets/claude.svg
-      force: true
-    ~/.config/omarchy/plugins/stephen.agents/assets/codex-light.svg:
-      path: omarchy/omarchy/plugins/stephen.agents/assets/codex-light.svg
-      force: true
-    ~/.config/omarchy/plugins/stephen.agents/assets/codex.svg:
-      path: omarchy/omarchy/plugins/stephen.agents/assets/codex.svg
-      force: true
-    ~/.config/omarchy/plugins/stephen.agents/assets/fireworks.svg:
-      path: omarchy/omarchy/plugins/stephen.agents/assets/fireworks.svg
-      force: true
-    ~/.config/omarchy/plugins/stephen.tuple/Panel.qml:
-      path: omarchy/omarchy/plugins/stephen.tuple/Panel.qml
-      force: true
-    ~/.config/omarchy/plugins/stephen.tuple/Status.py:
-      path: omarchy/omarchy/plugins/stephen.tuple/Status.py
-      force: true
-    ~/.config/omarchy/plugins/stephen.tuple/manifest.json:
-      path: omarchy/omarchy/plugins/stephen.tuple/manifest.json
+    ~/.config/omarchy/plugins/stephen.tuple/:
+      path: omarchy/omarchy/plugins/stephen.tuple/**
+      type: hardlink
+      glob: true
       force: true
 
 - shell:
