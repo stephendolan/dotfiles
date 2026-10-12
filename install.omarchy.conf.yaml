@@ -39,6 +39,15 @@
     ~/.config/systemd/user/mise-upgrade-all.timer:
       path: omarchy/systemd/user/mise-upgrade-all.timer
       force: true
+    ~/.config/systemd/user/browseros-neo.service:
+      path: omarchy/systemd/user/browseros-neo.service
+      force: true
+    ~/.config/systemd/user/browseros-neo-update.service:
+      path: omarchy/systemd/user/browseros-neo-update.service
+      force: true
+    ~/.config/systemd/user/browseros-neo-update.timer:
+      path: omarchy/systemd/user/browseros-neo-update.timer
+      force: true
 
     # Omarchy user overrides. Package-owned files under /usr/share/omarchy
     # remain untouched and continue to update with Omarchy.

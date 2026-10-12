@@ -1,0 +1,16 @@
+[Unit]
+Description=BrowserOS neo browser for agents
+PartOf=graphical-session.target
+After=graphical-session.target
+ConditionPathExists=%h/Applications/browseros-neo.AppImage
+StartLimitIntervalSec=300
+StartLimitBurst=10
+
+[Service]
+# hypr/bindings.lua sends this window class to the hidden special:neo workspace.
+ExecStart=%h/Applications/browseros-neo.AppImage --class=browseros-neo
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target

@@ -8,3 +8,5 @@ fi
 
 systemctl --user daemon-reload
 systemctl --user enable --now mise-upgrade-all.timer
+systemctl --user enable --now browseros-neo.service
+systemctl --user enable --now browseros-neo-update.timer

@@ -1,0 +1,7 @@
+[Unit]
+Description=Update the BrowserOS neo AppImage
+Documentation=https://github.com/browseros-ai/BrowserOS/releases
+
+[Service]
+Type=oneshot
+ExecStart=%h/.dotfiles/scripts/browseros-neo-update.sh

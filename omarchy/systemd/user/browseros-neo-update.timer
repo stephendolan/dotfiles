@@ -1,0 +1,11 @@
+[Unit]
+Description=Update the BrowserOS neo AppImage daily
+
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=30m
+Persistent=true
+Unit=browseros-neo-update.service
+
+[Install]
+WantedBy=timers.target

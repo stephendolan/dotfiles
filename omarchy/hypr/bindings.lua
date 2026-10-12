@@ -35,3 +35,7 @@ o.bind("SUPER + D", "Toggle dictation", "voxtype record toggle")
 -- Open the Music TUI instead of the default Spotify web app.
 hl.unbind("SUPER + SHIFT + M")
 o.bind("SUPER + SHIFT + M", "Music TUI", { tui = "cliamp", focus = true })
+
+-- Keep BrowserOS neo (browseros-neo.service) on a hidden workspace for agents.
+o.window("^browseros-neo$", { workspace = "special:neo silent" })
+o.bind("SUPER + N", "Toggle BrowserOS neo", hl.dsp.workspace.toggle_special("neo"))
