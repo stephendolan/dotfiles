@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+"$HOME/.dotfiles/scripts/omarchy-bb-provider-cli-setup.sh"
