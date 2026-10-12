@@ -31,21 +31,23 @@ non-Claude runtimes.
 - Spawn only when the user explicitly asks for subagents, delegation, or
   parallel agent work. Otherwise, apply the role in the main thread.
 
-## Codex Account Profiles
+## Codex Home
 
-Codex uses independent ChatGPT-authenticated homes at `~/.codex-personal` and
-`~/.codex-work`; `~/.codex` is the persistent default symlink. Treat profile
-changes and authentication as explicit-user operations.
+Codex uses one real home at `~/.codex`, authenticated to a single ChatGPT
+account. `~/.codex-personal` and `~/.codex-work` are compatibility symlinks to
+it, so older paths and scripts still resolve. Treat authentication as an
+explicit-user operation.
 
-- Inspect the default with `codex-profile status`.
-- Set it with `codex-profile personal` or `codex-profile work`; use
-  `codex-profile toggle` only when either destination is acceptable.
-- Launch one process without changing the default with `codex-personal` or
-  `codex-work`.
-- Authenticate a profile explicitly with `codex-personal login --device-auth`
-  or `codex-work login --device-auth`.
-- A default change applies to new Codex and BB processes. Restart an existing
-  process when the user wants it to inherit the selected profile.
+- Inspect the home with `codex-profile status`. It reports `unified` plus the
+  compatibility symlinks.
+- Do not repoint `~/.codex`. BB resolves Codex rollouts through it, so a home
+  that moves under a live session loses thread resume, rename, and archive.
+  `codex-profile personal`, `work`, and `toggle` refuse for that reason.
+- Run a one-off process against a different home with an explicit
+  `CODEX_HOME=/path/to/other-home codex ...`. Never point that at `~/.codex`.
+- Authenticate with `codex login --device-auth`.
+- `codex-personal` and `codex-work` are compatibility shims that both launch
+  against `~/.codex`.
 
 ## Codex Plugins
 

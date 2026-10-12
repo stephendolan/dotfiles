@@ -1,55 +1,50 @@
 #!/usr/bin/env bash
 
+# Codex uses one real home at ~/.codex. This command reports it and refuses to
+# repoint it: BB resolves Codex rollouts through ~/.codex, so a home that moves
+# out from under a live session loses thread resume, rename, and archive.
+
 set -euo pipefail
 
 active_path="$HOME/.codex"
-personal_path="$HOME/.codex-personal"
-work_path="$HOME/.codex-work"
+compat_paths=("$HOME/.codex-personal" "$HOME/.codex-work")
 
-current_profile() {
-  local target
-  target=$(readlink "$active_path" 2>/dev/null || true)
-  case "$target" in
-    "$personal_path") printf '%s\n' personal ;;
-    "$work_path") printf '%s\n' work ;;
-    *) printf '%s\n' unknown ;;
-  esac
+report_status() {
+  if [[ -L $active_path ]]; then
+    echo "unstable: $active_path is a symlink to $(readlink -f "$active_path")" >&2
+    echo "Restore a single real home before running Codex." >&2
+    return 1
+  fi
+  [[ -d $active_path ]] || { echo "missing: $active_path" >&2; return 1; }
+
+  printf 'unified\n'
+  printf 'home: %s\n' "$active_path"
+  for path in "${compat_paths[@]}"; do
+    if [[ -L $path ]]; then
+      printf 'compat: %s -> %s\n' "$path" "$(readlink -f "$path")"
+    elif [[ -e $path ]]; then
+      printf 'compat: %s (independent home, not unified)\n' "$path"
+    fi
+  done
 }
 
-select_profile() {
-  local profile="$1" target temporary
-  case "$profile" in
-    personal) target="$personal_path" ;;
-    work) target="$work_path" ;;
-    *) echo "Usage: codex-profile [status|toggle|personal|work]" >&2; exit 2 ;;
-  esac
+refuse_switch() {
+  cat >&2 <<'MESSAGE'
+Codex profile switching is disabled. ~/.codex is one real home shared by every
+Codex and BB process, and repointing it breaks BB rollout lookup for threads
+that were already created.
 
-  [[ -d $target ]] || { echo "Codex profile is missing: $target" >&2; exit 1; }
-  if [[ -e $active_path && ! -L $active_path ]]; then
-    echo "Refusing to replace non-symlink Codex home: $active_path" >&2
-    exit 1
-  fi
+Run a single process against a separate home instead:
+  CODEX_HOME=/path/to/other-home codex ...
 
-  temporary="$HOME/.codex.switch.$$"
-  trap 'rm -f "$temporary"' EXIT
-  ln -s "$target" "$temporary"
-  case $(uname -s) in
-    Darwin) mv -fh "$temporary" "$active_path" ;;
-    *) mv -Tf "$temporary" "$active_path" ;;
-  esac
-  trap - EXIT
-  printf '%s\n' "$profile"
+Authenticate the unified home with:
+  codex login --device-auth
+MESSAGE
+  exit 3
 }
 
 case "${1:-status}" in
-  status) current_profile ;;
-  toggle)
-    if [[ $(current_profile) == personal ]]; then
-      select_profile work
-    else
-      select_profile personal
-    fi
-    ;;
-  personal | work) select_profile "$1" ;;
-  *) echo "Usage: codex-profile [status|toggle|personal|work]" >&2; exit 2 ;;
+  status) report_status ;;
+  personal | work | toggle) refuse_switch ;;
+  *) echo "Usage: codex-profile [status]" >&2; exit 2 ;;
 esac

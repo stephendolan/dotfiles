@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-exec env CODEX_HOME="$HOME/.codex-work" codex "$@"
+# Compatibility shim: personal and work Codex homes are merged into ~/.codex.
+exec env CODEX_HOME="$HOME/.codex" codex "$@"
