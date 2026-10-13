@@ -22,4 +22,7 @@ MISE_MINIMUM_RELEASE_AGE=0 mise use -g \
   --tool-option auto_update=1h pnpm@latest \
   --tool-option auto_update=1h yarn@latest
 
+# Caddy fronts BrowserOS neo for tailnet clients; see omarchy/caddy.
+MISE_MINIMUM_RELEASE_AGE=0 mise use -g --tool-option auto_update=1h caddy@latest
+
 "$(dirname "$0")/mise-auto-update-setup.sh"

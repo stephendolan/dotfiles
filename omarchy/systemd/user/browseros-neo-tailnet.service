@@ -1,0 +1,15 @@
+[Unit]
+Description=Share the BrowserOS neo MCP server with my tailnet devices
+After=browseros-neo.service
+StartLimitIntervalSec=300
+StartLimitBurst=10
+
+[Service]
+ExecStartPre=/usr/bin/tailscale serve --bg --https=9443 http://127.0.0.1:9015
+ExecStart=/usr/bin/mise exec caddy -- caddy run --adapter caddyfile --config %h/.dotfiles/omarchy/caddy/browseros-neo.Caddyfile
+ExecStopPost=/usr/bin/tailscale serve --https=9443 off
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

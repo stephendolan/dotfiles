@@ -1,0 +1,24 @@
+# BrowserOS neo answers MCP requests only for loopback Host names, so this
+# proxy sits between Tailscale Serve and neo. Tailscale Serve sets
+# Tailscale-User-Login for devices that belong to a person and omits it for
+# tagged devices, so requests from anyone else's devices are refused.
+{
+	admin off
+	auto_https off
+	persist_config off
+}
+
+http://:9015 {
+	bind 127.0.0.1
+
+	@other_people {
+		header Tailscale-User-Login *
+		not header Tailscale-User-Login dolan.stephen1@gmail.com
+	}
+	respond @other_people 403
+
+	reverse_proxy 127.0.0.1:9010 {
+		header_up Host {upstream_hostport}
+		flush_interval -1
+	}
+}
