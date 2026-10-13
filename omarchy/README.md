@@ -13,11 +13,9 @@ Tracked:
 - A launch-only Codex wrapper that never blocks app-server startup on updates
 - A daily user timer for all mise-managed tools (the automated equivalent of
   Omarchy's `mup` alias)
-- A global mise declaration for Node, Claude, Codex, GitHub CLI, pnpm, and
-  yarn so their shims work consistently in agent and BB workspaces and survive
-  Node upgrades
-- A post-update ownership hook that leaves Pi to BB's npm-based provider
-  updater
+- A global mise declaration for Node, Claude, Codex, Pi, GitHub CLI, pnpm,
+  and yarn so their shims work consistently in agent and BB workspaces and
+  survive Node upgrades
 
 Not tracked:
 

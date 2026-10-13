@@ -33,9 +33,6 @@
     ~/.local/bin/codex-work:
       path: ai/bin/codex-work
       force: true
-    ~/.config/omarchy/hooks/post-update.d/keep-bb-provider-cli-ownership.hook:
-      path: omarchy/omarchy/hooks/post-update.d/keep-bb-provider-cli-ownership.hook
-      force: true
     ~/.config/systemd/user/mise-upgrade-all.service:
       path: omarchy/systemd/user/mise-upgrade-all.service
       force: true
@@ -92,7 +89,6 @@
 
 - shell:
     - [./scripts/omarchy-mise-tools-setup.sh, Configuring global mise tools]
-    - [./scripts/omarchy-bb-provider-cli-setup.sh, Reserving Pi updates for BB]
     - [./scripts/omarchy-systemd-setup.sh, Enabling Omarchy user timers]
     - [./scripts/claude-settings-setup.sh, Merging Claude Code settings]
     - [./scripts/claude-code-setup.sh, Setting up Claude Code]

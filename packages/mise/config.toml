@@ -10,6 +10,7 @@ trusted_config_paths = ["~"]                                  # Trust all config
 node = { version = "lts", auto_update = "1h" }
 # Node CLIs as mise tools, not npm -g or corepack, so node upgrades cannot strand them
 "aqua:openai/codex" = { version = "latest", auto_update = "1h" }
+"aqua:earendil-works/pi" = { version = "latest", auto_update = "1h" }
 pnpm = { version = "latest", auto_update = "1h" }
 yarn = { version = "latest", auto_update = "1h" }
 python = { version = "3.13", auto_update = "1h" }
