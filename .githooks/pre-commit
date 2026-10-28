@@ -4,10 +4,10 @@
 STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
 [ -z "$STAGED" ] && exit 0
 
-if command -v biome &> /dev/null; then
+if command -v biome &> /dev/null && [ "$(biome --version)" = "Version: 2.4.8" ]; then
   biome check --write --no-errors-on-unmatched $STAGED
 elif command -v npx &> /dev/null; then
-  npx @biomejs/biome check --write --no-errors-on-unmatched $STAGED
+  npx --yes @biomejs/biome@2.4.8 check --write --no-errors-on-unmatched $STAGED
 else
   echo "Warning: Biome not found, skipping lint"
   exit 0
