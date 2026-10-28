@@ -10,9 +10,6 @@
   ],
   "sources": [
     {
-      "installer": "interfacecraft"
-    },
-    {
       "source": "stephendolan/private-skills",
       "skills": [
         "book-family-stay",
@@ -30,14 +27,6 @@
     {
       "source": "humanlayer/skills",
       "skills": ["show-me"]
-    },
-    {
-      "source": "emilkowalski/skills",
-      "skills": ["emil-design-eng"]
-    },
-    {
-      "source": "pbakaus/impeccable",
-      "skills": ["impeccable"]
     },
     {
       "source": "planetscale/database-skills",

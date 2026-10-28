@@ -11,7 +11,9 @@ syncing their skills would list each one twice in bb.
 
 Each synced skill carries a .bb-skill-sync.json marker. A run rewrites only
 changed skills, never replaces a skill it did not create, and removes a marked
-skill only when the manifest no longer declares it and its source was fetched.
+skill when the manifest no longer declares it, unless that source failed to fetch.
+Skills owned by other managers, including aiforui, retain their own markers and
+are left untouched.
 """
 
 from __future__ import annotations
@@ -24,8 +26,6 @@ import re
 import shutil
 import subprocess
 import sys
-import tempfile
-import urllib.request
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
@@ -33,7 +33,6 @@ from pathlib import Path
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_MANIFEST = REPOSITORY_ROOT / "ai" / "skillset.json"
 MARKER = ".bb-skill-sync.json"
-INSTALLER_URLS = {"interfacecraft": "https://interfacecraft.dev/api/install-skills"}
 GITHUB_TREE_URL = re.compile(
     r"^https://github\.com/(?P<slug>[^/]+/[^/]+?)(?:\.git)?(?:/tree/(?P<ref>[^/]+)(?:/(?P<path>.+))?)?/?$"
 )
@@ -101,50 +100,19 @@ def parse_repository(source: str) -> tuple[str, str | None, str | None]:
     raise ValueError(f"unsupported source {source!r}; use owner/repo or a GitHub tree URL")
 
 
-def run_installer(cache: Path, name: str) -> tuple[Path, str]:
-    url = INSTALLER_URLS.get(name)
-    if url is None:
-        raise ValueError(f"unsupported skill installer: {name}")
-    with urllib.request.urlopen(url, timeout=60) as response:
-        script = response.read()
-    digest = hashlib.sha256(script).hexdigest()
-    output = cache / "installers" / name
-    if (output / ".script-sha256").exists() and (output / ".script-sha256").read_text() == digest:
-        return output / "skills", digest[:7]
-
-    with tempfile.TemporaryDirectory() as home:
-        env = {**os.environ, "HOME": home}
-        subprocess.run(["bash"], input=script, env=env, check=True, capture_output=True)
-        shutil.rmtree(output, ignore_errors=True)
-        (output / "skills").mkdir(parents=True)
-        for skills_dir in (Path(home) / ".agents" / "skills", Path(home) / ".claude" / "skills"):
-            for skill in sorted(skills_dir.glob("*/SKILL.md")) if skills_dir.is_dir() else []:
-                target = output / "skills" / skill.parent.name
-                if not target.exists():
-                    shutil.copytree(skill.parent, target, symlinks=False)
-    (output / ".script-sha256").write_text(digest)
-    return output / "skills", digest[:7]
-
-
 def collect_sources(manifest: dict[str, object], cache: Path) -> list[Source]:
     sources: list[Source] = []
     for entry in manifest.get("sources", []):
-        requested = entry.get("skills")
-        if "installer" in entry:
-            source = Source(label=f"installer:{entry['installer']}", requested=requested)
-            try:
-                root, source.revision = run_installer(cache, str(entry["installer"]))
-                source.skills = discover_skills(root)
-            except (OSError, ValueError, subprocess.CalledProcessError) as error:
-                source.error = str(error)
-        else:
-            source = Source(label=str(entry["source"]), requested=requested)
-            try:
-                slug, ref, path = parse_repository(str(entry["source"]))
-                checkout, source.revision = fetch_repository(cache, slug, ref)
-                source.skills = discover_skills(checkout / path if path else checkout)
-            except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as error:
-                source.error = getattr(error, "stderr", None) or str(error)
+        source = Source(label=str(entry.get("source", "unknown")), requested=entry.get("skills"))
+        try:
+            installer = entry.get("installer", "skills.sh")
+            if installer != "skills.sh":
+                raise ValueError(f"unsupported skill installer: {installer}")
+            slug, ref, path = parse_repository(str(entry["source"]))
+            checkout, source.revision = fetch_repository(cache, slug, ref)
+            source.skills = discover_skills(checkout / path if path else checkout)
+        except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as error:
+            source.error = getattr(error, "stderr", None) or str(error)
         sources.append(source)
     return sources
 

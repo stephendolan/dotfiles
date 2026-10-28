@@ -5,14 +5,14 @@
   },
   "metadata": {
     "description": "Personal agent plugins and skills",
-    "version": "2.12.1"
+    "version": "2.12.2"
   },
   "plugins": [
     {
       "name": "stephendolan",
       "source": "ai",
       "description": "Personal skills and agents for development workflows, code review, architecture analysis, and domain expertise.",
-      "version": "2.12.1"
+      "version": "2.12.2"
     }
   ]
 }
