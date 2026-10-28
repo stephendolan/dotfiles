@@ -14,7 +14,6 @@ from pathlib import Path
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 SKILLSET_PATH = REPOSITORY_ROOT / "ai" / "skillset.json"
 MARKETPLACE_SOURCES = {"stephendolan/dotfiles"}
-INTERFACECRAFT_INSTALL_URL = "https://interfacecraft.dev/api/install-skills"
 
 
 def load_skillset() -> tuple[list[str], list[dict[str, object]], list[dict[str, object]]]:
@@ -51,16 +50,14 @@ def load_skillset() -> tuple[list[str], list[dict[str, object]], list[dict[str, 
         if not isinstance(entry, dict):
             raise ValueError("every skill source must be an object")
         installer = entry.get("installer", "skills.sh")
-        if installer == "skills.sh" and not isinstance(entry.get("source"), str):
+        if installer != "skills.sh":
+            raise ValueError(f"unsupported skill installer: {installer}")
+        if not isinstance(entry.get("source"), str):
             raise ValueError("skills.sh sources need a string source")
         if entry.get("source") in MARKETPLACE_SOURCES:
             raise ValueError(
                 f"{entry['source']} is installed through its marketplace plugin, not skills.sh"
             )
-        if installer == "interfacecraft" and "skills" in entry:
-            raise ValueError("interfacecraft installs its bundled skills as a set")
-        if installer not in {"skills.sh", "interfacecraft"}:
-            raise ValueError(f"unsupported skill installer: {installer}")
         skills = entry.get("skills")
         if skills is not None and (
             not isinstance(skills, list) or not all(isinstance(skill, str) for skill in skills)
@@ -71,9 +68,6 @@ def load_skillset() -> tuple[list[str], list[dict[str, object]], list[dict[str, 
 
 
 def command_for(agents: list[str], entry: dict[str, object]) -> list[str]:
-    if entry.get("installer") == "interfacecraft":
-        return ["curl", "-sL", INTERFACECRAFT_INSTALL_URL]
-
     command = ["npx", "--yes", "skills", "add", str(entry["source"]), "--global", "--yes"]
     command.append("--skill")
     command.extend(str(skill) for skill in entry.get("skills", ["*"]))
@@ -163,27 +157,12 @@ def main() -> int:
         print(f"invalid {SKILLSET_PATH}: {error}", file=sys.stderr)
         return 1
 
-    installers = {str(entry.get("installer", "skills.sh")) for entry in sources}
-    if not args.dry_run and "skills.sh" in installers and shutil.which("npx") is None:
+    if not args.dry_run and sources and shutil.which("npx") is None:
         print("npx is required to install declared skills", file=sys.stderr)
         return 1
-    if not args.dry_run and "interfacecraft" in installers:
-        missing_commands = [
-            command for command in ("curl", "bash") if shutil.which(command) is None
-        ]
-        if missing_commands:
-            print(f"interfacecraft requires: {', '.join(missing_commands)}", file=sys.stderr)
-            return 1
 
     for entry in sources:
         command = command_for(agents, entry)
-        if entry.get("installer") == "interfacecraft":
-            print("+", " ".join(command), "| bash")
-            if not args.dry_run:
-                installer = subprocess.run(command, check=True, stdout=subprocess.PIPE)
-                subprocess.run(["bash"], check=True, input=installer.stdout)
-            continue
-
         print("+", " ".join(command))
         if not args.dry_run:
             subprocess.run(command, check=True)

@@ -11,8 +11,8 @@ runtime-specific MCP setup remains managed by the adapters below.
 
 `plugins/stephendolan` is a compatibility symlink for marketplace loaders that
 require plugin roots beneath `plugins/`; `ai/` remains the canonical source.
-`skillset.json` is the installation manifest. It declares standalone skills,
-upstream installers such as Interface Craft, and marketplace plugins. The
+`skillset.json` is the installation manifest. It declares standalone skills
+and marketplace plugins. The
 personal `stephendolan` bundle is installed through its marketplace plugin so
 Codex sees only its namespaced plugin skills rather than duplicate copies in
 shared paths such as `~/.agents/skills`.
@@ -91,16 +91,30 @@ Personal skills available across Stephen's agents:
 | `improve-codebase-architecture` | Deep-module architecture exploration |
 | `mom-test` | Customer-discovery question and evidence review |
 | `drama-triangle` | Communication and agency analysis |
-| `design-with-taste` | Distinctive visual exploration, autonomous direction selection, and critique |
 
 Each `skillset.json` source may omit `skills` to install every skill or name an
 allowlist. Marketplace entries declare their source, plugins, and applicable
 agents. Keep the personal `stephendolan/dotfiles` bundle in `marketplaces`, not
 `sources`, so its skills remain namespaced.
 
-Interface Craft uses its maintained installer, `curl -sL
-interfacecraft.dev/api/install-skills | bash`, which installs its bundled
-animation, tuning, and design-critique skills across supported agents.
+### UI guidance in BB
+
+The purchased aiforui `emil-*` skills are the UI guidance for BB work. Start
+with `emil-ask-emil` when the right skill is unclear. Keep project product laws,
+existing design tokens, and framework constraints in force.
+
+BB user skills on the Devbox server hold the canonical purchased trees. BB
+supplies them to every provider and connected machine; these skills are not
+part of the dotfiles plugin or standalone installation manifest. Keep their
+licensed content outside Git and provider-native skill folders to avoid
+competing copies.
+
+The Devbox updater at `~/.local/libexec/aiforui-refresh.py` installs into private
+staging, verifies the bundle, and publishes only its owned BB user trees. The
+BB script automation runs it daily at 05:17 America/New_York. The credential
+stays in `~/.config/aiforui/token`, with file mode `600` and directory mode
+`700`. Check BB automation runs for failures and the updater's private
+`~/.local/state/aiforui/last-success.json` for the last successful bundle.
 
 Model-invoked skills route natural-language requests into local tools or data:
 

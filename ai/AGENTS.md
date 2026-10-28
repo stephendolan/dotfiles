@@ -68,6 +68,12 @@ Avoid temporal references: "vs previous", "used to be X", "now uses Y", "the new
 
 **Test**: If unclear in 6 months, remove it. Exception: CHANGELOG.md documents changes over time.
 
+## UI Guidance
+
+For UI work in BB, use the purchased aiforui `emil-*` skills. Start with
+`emil-ask-emil` when the route is unclear. Project product laws, existing tokens,
+and framework constraints still apply.
+
 ## Personal Knowledge Base
 
 Stephen's personal knowledge base lives at `/Users/stephen/Obsidian/Notes`.
