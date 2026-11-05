@@ -14,6 +14,7 @@ from pathlib import Path
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 SKILLSET_PATH = REPOSITORY_ROOT / "ai" / "skillset.json"
 MARKETPLACE_SOURCES = {"stephendolan/dotfiles"}
+CLAUDE_SETTINGS_PATH = Path.home() / ".claude" / "settings.json"
 
 
 def load_skillset() -> tuple[list[str], list[dict[str, object]], list[dict[str, object]]]:
@@ -123,7 +124,11 @@ def install_claude_marketplace(entry: dict[str, object], dry_run: bool) -> None:
         return
 
     listing = output_json(["claude", "plugin", "marketplace", "list", "--json"])
-    configured = any(marketplace.get("name") == name for marketplace in listing)
+    # Claude refuses `marketplace add` for a name already declared in
+    # extraKnownMarketplaces with a different source shape, so treat those as configured.
+    configured = name in declared_claude_marketplaces() or any(
+        marketplace.get("name") == name for marketplace in listing
+    )
     if configured:
         subprocess.run(["claude", "plugin", "marketplace", "update", name], check=True)
     else:
@@ -135,6 +140,13 @@ def install_claude_marketplace(entry: dict[str, object], dry_run: bool) -> None:
         plugin_id = f"{plugin}@{name}"
         if plugin_id not in installed:
             subprocess.run(["claude", "plugin", "install", plugin_id], check=True)
+
+
+def declared_claude_marketplaces() -> set[str]:
+    if not CLAUDE_SETTINGS_PATH.exists():
+        return set()
+    settings = json.loads(CLAUDE_SETTINGS_PATH.read_text())
+    return set(settings.get("extraKnownMarketplaces", {}))
 
 
 def install_marketplaces(marketplaces: list[dict[str, object]], dry_run: bool) -> None:
