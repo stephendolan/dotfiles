@@ -108,12 +108,12 @@
       stdout: true
       if: "[ `uname` = Linux ]"
     - [./scripts/brew-setup.sh, Setting up Homebrew and packages]
+    - [./scripts/mise-setup.sh, Setting up mise tools and versions]
     - [./scripts/claude-code-setup.sh, Setting up Claude Code]
-    - command: python3 ./ai/scripts/install-skills.py
+    - command: mise exec -- python3 ./ai/scripts/install-skills.py
       description: Installing declared agent skills and plugins
     - [./ai/generate-mcp.sh, Generating MCP configs]
     - [./scripts/shell-setup.sh, Setting up default shell]
     - command: duti -s com.mitchellh.ghostty .command all
       description: Setting Ghostty as default terminal for .command files
       if: "[ `uname` = Darwin ] && command -v duti >/dev/null 2>&1"
-    - [./scripts/mise-setup.sh, Setting up mise tools and versions]
