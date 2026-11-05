@@ -79,7 +79,7 @@ fi
 # LOAD LOCAL SETTINGS
 [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
 
-# Vite+ bin (https://viteplus.dev)
-. "$HOME/.vite-plus/env"
-export PATH="/Users/stephen/.config/herd-lite/bin:$PATH"
-export PHP_INI_SCAN_DIR="/Users/stephen/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+if [[ -d "$HOME/.config/herd-lite/bin" ]]; then
+  export PATH="$HOME/.config/herd-lite/bin:$PATH"
+  export PHP_INI_SCAN_DIR="$HOME/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+fi
